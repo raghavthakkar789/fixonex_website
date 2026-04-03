@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+# Update sitemap URL when the production domain is final.
+
+User-agent: *
+Allow: /
+
+# Sitemap: https://www.your-domain.com/sitemap.xml
