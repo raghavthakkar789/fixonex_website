@@ -6,6 +6,12 @@ export type ProductCategorySlug =
   | "tile-cleaners"
   | "tile-spacers";
 
+export interface ProductColorOption {
+  name: string;
+  /** CSS colour value (e.g. hex) shown beside the name */
+  swatch: string;
+}
+
 export interface ProductSku {
   /** Primary product name / code shown as heading */
   name: string;
@@ -32,8 +38,8 @@ export interface ProductCategory {
   heroImageAlt: string;
   /** Detailed catalogue lines (SKUs) for this category */
   skus?: ProductSku[];
-  /** Named colour options (e.g. epoxy grout range) */
-  colorOptions?: string[];
+  /** Named colour options (e.g. epoxy grout range), with optional swatch for UI */
+  colorOptions?: ProductColorOption[];
   /** Optional tagline under colour list */
   colorTagline?: string;
 }

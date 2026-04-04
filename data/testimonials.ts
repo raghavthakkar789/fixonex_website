@@ -13,9 +13,9 @@ export const testimonials: Testimonial[] = [
     id: "t2",
     quote:
       "We specify large-format porcelain in high-traffic lobbies. FIXONEX helped align adhesive class, trowel sizing, and grout selection with the stone supplier’s requirements—clear and professional.",
-    author: "Daniel Ortiz",
+    author: "Rohan Kapoor",
     role: "Principal Architect",
-    location: "Dubai, UAE",
+    location: "Bengaluru, India",
   },
   {
     id: "t3",
@@ -29,8 +29,8 @@ export const testimonials: Testimonial[] = [
     id: "t4",
     quote:
       "Dealer support has been straightforward: packaging clarity, predictable lead times on standard SKUs, and responsive answers when a specifier asked for alternates mid-tender.",
-    author: "Elena Rossi",
+    author: "Meera Iyer",
     role: "Procurement Lead, Distributor",
-    location: "Milan, Italy",
+    location: "Mumbai, India",
   },
 ];

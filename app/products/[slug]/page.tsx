@@ -111,12 +111,17 @@ export default async function ProductDetailPage({ params }: Props) {
                   <p className="mt-2 text-sm italic text-muted-foreground">{p.colorTagline}</p>
                 ) : null}
                 <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {p.colorOptions.map((c) => (
+                  {p.colorOptions.map(({ name, swatch }) => (
                     <li
-                      key={c}
-                      className="rounded-sm border border-border bg-muted px-3 py-2 text-sm font-medium text-foreground"
+                      key={name}
+                      className="flex min-w-0 items-center gap-3 rounded-sm border border-border bg-muted px-3 py-2 text-sm font-medium text-foreground"
                     >
-                      {c}
+                      <span
+                        className="h-6 w-6 shrink-0 rounded-sm border border-border/90 shadow-sm ring-1 ring-black/5 dark:ring-white/10"
+                        style={{ backgroundColor: swatch }}
+                        aria-hidden
+                      />
+                      <span className="min-w-0">{name}</span>
                     </li>
                   ))}
                 </ul>
