@@ -4,6 +4,9 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+/** Set by GitHub Actions for project pages (`/repo-name`). Empty for local dev or `*.github.io` user sites. */
+const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   /** Prefer this repo when another lockfile exists higher in the directory tree (e.g. user home). */
@@ -13,6 +16,11 @@ const nextConfig: NextConfig = {
    * (see Next devtools segment explorer). Pages still work; build is unchanged.
    */
   devIndicators: false,
+  /** Static export for GitHub Pages (no Node server). */
+  output: "export",
+  trailingSlash: true,
+  images: { unoptimized: true },
+  ...(basePath ? { basePath, assetPrefix: basePath } : {}),
 };
 
 export default nextConfig;
