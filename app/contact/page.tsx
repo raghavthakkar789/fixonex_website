@@ -3,16 +3,17 @@ import Link from "next/link";
 import { PageBanner } from "@/components/sections/PageBanner";
 import { PageSection } from "@/components/layout/PageSection";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { SocialLinksGrid } from "@/components/sections/SocialLinksGrid";
+import { socialLinks } from "@/data/social";
 import { companyInfo } from "@/data/company";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
-const linkClass =
-  "font-medium text-primary underline-offset-2 transition-colors hover:text-primary-hover hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2";
+import { proseInlineLinkClass } from "@/lib/ui-constants";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Contact FIXONEX for product inquiries, technical data, and dealer information.",
+  title: "Contact",
+  description:
+    "Contact FIXONEX — enquiry form, phone, email, WhatsApp. Quick replies in plain language.",
 };
 
 export default function ContactPage() {
@@ -21,26 +22,27 @@ export default function ContactPage() {
   return (
     <>
       <PageBanner
-        title="Contact us"
-        subtitle="Send a structured inquiry or reach us directly. Technical questions are routed to the right representative."
+        title="Contact"
+        subtitle="Send the form, call, email, or WhatsApp — we answer with clear next steps."
       />
       <PageSection>
         <div className="grid min-w-0 gap-10 lg:grid-cols-[minmax(0,1fr)_min(100%,22rem)] lg:items-start lg:gap-12">
           <div className="min-w-0">
             <ContactForm />
           </div>
-          <div className="min-w-0 space-y-6">
+          <aside className="min-w-0 space-y-6 lg:pt-1">
             <Card>
               <CardContent className="space-y-5 p-6 text-sm text-muted-foreground">
+                <p className="font-heading text-sm font-semibold text-foreground">Direct</p>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Phone</p>
-                  <a href={`tel:${companyInfo.phone.replace(/\s/g, "")}`} className={linkClass}>
+                  <a href={`tel:${companyInfo.phone.replace(/\s/g, "")}`} className={proseInlineLinkClass}>
                     {companyInfo.phone}
                   </a>
                 </div>
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Email</p>
-                  <a href={`mailto:${companyInfo.email}`} className={linkClass}>
+                  <a href={`mailto:${companyInfo.email}`} className={proseInlineLinkClass}>
                     {companyInfo.email}
                   </a>
                 </div>
@@ -50,14 +52,25 @@ export default function ContactPage() {
                 </div>
                 <Button asChild variant="outline" className="w-full">
                   <a href={wa} target="_blank" rel="noopener noreferrer">
-                    Message on WhatsApp
+                    WhatsApp
                   </a>
                 </Button>
-                <Button asChild variant="ghost" className="w-full">
-                  <Link href="/connect">All social &amp; direct links</Link>
-                </Button>
+                <p className="text-xs leading-relaxed">
+                  Registered office &amp; map:{" "}
+                  <Link href="/about#office" className={proseInlineLinkClass}>
+                    About
+                  </Link>
+                  .
+                </p>
               </CardContent>
             </Card>
+          </aside>
+        </div>
+
+        <div className="mt-16 border-t border-border pt-10">
+          <p className="font-heading text-xs font-semibold uppercase tracking-widest text-muted-foreground">Social</p>
+          <div className="mt-4">
+            <SocialLinksGrid links={socialLinks} />
           </div>
         </div>
       </PageSection>

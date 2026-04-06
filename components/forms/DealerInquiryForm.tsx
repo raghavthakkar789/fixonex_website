@@ -5,8 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
-import { CheckCircle2, AlertCircle } from "lucide-react";
 
 const initial = {
   businessName: "",
@@ -26,38 +26,20 @@ export function DealerInquiryForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErrorMessage("");
-    if (
-      !form.businessName.trim() ||
-      !form.contactPerson.trim() ||
-      !form.phone.trim() ||
-      !form.email.trim()
-    ) {
-      setErrorMessage("Please complete business name, contact person, phone, and email.");
+    if (!form.businessName.trim() || !form.contactPerson.trim() || !form.phone.trim() || !form.email.trim()) {
+      setErrorMessage("Please fill in business name, contact, phone, and email.");
       return;
     }
     setStatus("submitting");
-    /* TODO: Route to partner onboarding workflow — server-side only. */
     const res = await mockSubmitForm({ form: "dealer", ...form });
     setStatus(res.ok ? "success" : "error");
     if (res.ok) setForm(initial);
-    else setErrorMessage("Unable to submit. Please email partnerships directly.");
+    else setErrorMessage("Something went wrong. Please try again or contact us directly.");
   }
 
   if (status === "success") {
     return (
-      <div
-        className="flex flex-col items-center gap-3 rounded-sm border border-border bg-muted p-8 text-center"
-        role="status"
-      >
-        <CheckCircle2 className="h-10 w-10 text-primary" aria-hidden />
-        <p className="font-heading text-lg font-semibold text-foreground">Inquiry logged</p>
-        <p className="text-sm text-muted-foreground max-w-md">
-          Our channel team will review your profile and respond with next steps for territory and logistics alignment.
-        </p>
-        <Button type="button" variant="outline" onClick={() => setStatus("idle")}>
-          Submit another inquiry
-        </Button>
-      </div>
+      <FormSuccessPanel resetLabel="Submit another inquiry" onReset={() => setStatus("idle")} />
     );
   }
 
@@ -136,12 +118,7 @@ export function DealerInquiryForm() {
           placeholder="Territories served, warehouse capacity, and relevant contractor segments."
         />
       </div>
-      {errorMessage && (
-        <div className="flex items-center gap-2 text-sm text-primary" role="alert">
-          <AlertCircle className="h-4 w-4 shrink-0" aria-hidden />
-          {errorMessage}
-        </div>
-      )}
+      {errorMessage ? <FormErrorAlert message={errorMessage} /> : null}
       <Button type="submit" disabled={status === "submitting"} size="lg">
         {status === "submitting" ? "Sending…" : "Submit partnership inquiry"}
       </Button>

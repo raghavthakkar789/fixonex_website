@@ -28,25 +28,25 @@ const options: Record<
   { value: string; label: string; description: string }[]
 > = {
   environment: [
-    { value: "indoor", label: "Interior", description: "Climate-controlled or typical indoor exposure." },
-    { value: "outdoor", label: "Exterior", description: "Facades, patios, or other outdoor assemblies." },
+    { value: "indoor", label: "Inside the building", description: "Rooms, corridors, typical interior conditions." },
+    { value: "outdoor", label: "Outside / façade", description: "Patios, elevations, or anywhere sun and rain hit." },
   ],
   moisture: [
-    { value: "dry", label: "Dry areas", description: "Living spaces, offices, dry retail zones." },
-    { value: "wet", label: "Wet areas", description: "Bathrooms, kitchens, back-of-house wash zones." },
-    { value: "immersed", label: "Immersed / pools", description: "Tanks, pools, or prolonged water contact." },
+    { value: "dry", label: "Stays mostly dry", description: "Bedrooms, offices, dry shops—no regular soaking." },
+    { value: "wet", label: "Often wet or splashed", description: "Bathrooms, kitchens, service areas with water." },
+    { value: "immersed", label: "Pools or always under water", description: "Swimming pools, tanks, long-term immersion." },
   ],
   tileSize: [
-    { value: "small", label: "Small modular", description: "Mosaics and modules under ~300 mm." },
-    { value: "medium", label: "Standard format", description: "Typical wall and floor modules." },
-    { value: "large", label: "Large-format", description: "Panels where flatness and trowel transfer are critical." },
-    { value: "heavy", label: "Heavy units / stone", description: "Thick stone, large panels, or high dead load." },
+    { value: "small", label: "Small tiles", description: "Mosaics and small modules—usually under about 300 mm." },
+    { value: "medium", label: "Everyday sizes", description: "Common wall and floor formats most homes use." },
+    { value: "large", label: "Large slabs / panels", description: "Big formats that need very flat backgrounds." },
+    { value: "heavy", label: "Heavy stone or thick units", description: "Dense stone, thick pieces, or high dead weight." },
   ],
   material: [
-    { value: "ceramic-porcelain", label: "Ceramic / porcelain", description: "Glazed or unglazed factory tile." },
-    { value: "natural-stone", label: "Natural stone / marble", description: "Marble, granite, limestone, and similar." },
-    { value: "glass-block", label: "Glass block", description: "Mortared glass block partitions or features." },
-    { value: "mixed", label: "Mixed site", description: "Multiple materials across one project." },
+    { value: "ceramic-porcelain", label: "Ceramic or vitrified tile", description: "Factory-made tile or porcelain." },
+    { value: "natural-stone", label: "Natural stone", description: "Marble, granite, limestone, or similar." },
+    { value: "glass-block", label: "Glass block", description: "Glass block walls or feature panels." },
+    { value: "mixed", label: "More than one material", description: "Different finishes on the same project." },
   ],
 };
 
@@ -122,15 +122,15 @@ export function RecommendationWizard() {
               disabled={stepIndex === 0}
               onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
             >
-              Back
+              Previous
             </Button>
             {stepIndex < steps.length - 1 ? (
               <Button type="button" onClick={() => setStepIndex((i) => i + 1)}>
-                Continue
+                Next
               </Button>
             ) : (
               <Button type="button" variant="ghost" onClick={() => setStepIndex(0)}>
-                Start over
+                Start again
               </Button>
             )}
           </div>
@@ -139,7 +139,7 @@ export function RecommendationWizard() {
 
       <Card className="min-w-0 border-primary/30 bg-muted/50 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
         <CardHeader className="px-5 pt-6 sm:px-6">
-          <CardTitle className="text-lg">Guidance snapshot</CardTitle>
+          <CardTitle className="text-lg">Your starting point</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 px-5 pb-6 text-sm sm:px-6">
           <div>
@@ -148,7 +148,7 @@ export function RecommendationWizard() {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              Related FIXONEX lines
+              Where to look first
             </p>
             <ul className="mt-2 space-y-2">
               {result.productSlugs.map((slug) => {
@@ -168,11 +168,11 @@ export function RecommendationWizard() {
             </ul>
           </div>
           <p className="border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
-            Orientation only—confirm with structural, waterproofing, and manufacturer data for your site before
-            specification.
+            This is a first steer only. Waterproofing, structure, and your tile or stone supplier still lead when they
+            apply.
           </p>
           <Button asChild className="w-full">
-            <Link href="/book-consultation">Request product guidance</Link>
+            <Link href="/contact">Contact us</Link>
           </Button>
         </CardContent>
       </Card>

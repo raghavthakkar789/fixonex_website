@@ -23,18 +23,18 @@ export function ProductGridWithFilter({ products }: { products: ProductCategory[
     <div>
       <div className="mb-8 max-w-md">
         <label htmlFor="product-filter" className="sr-only">
-          Filter products
+          Search FIXONEX products
         </label>
         <Input
           id="product-filter"
-          placeholder="Filter by name or keyword…"
+          placeholder="Search by name or keyword"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
       {filtered.length === 0 ? (
         <p className="rounded-sm border border-dashed border-border bg-muted px-4 py-8 text-center text-sm text-muted-foreground">
-          No categories match that filter. Clear the field to see all products.
+          No match — clear the search to see all products.
         </p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

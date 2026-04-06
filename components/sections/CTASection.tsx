@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 interface CTASectionProps {
   title: string;
   description: string;
+  /** Optional second line (e.g. promotional tagline) under the description */
+  accentLine?: string;
   primaryHref: string;
   primaryLabel: string;
   secondaryHref?: string;
@@ -16,6 +18,7 @@ interface CTASectionProps {
 export function CTASection({
   title,
   description,
+  accentLine,
   primaryHref,
   primaryLabel,
   secondaryHref,
@@ -42,6 +45,16 @@ export function CTASection({
         >
           {description}
         </p>
+        {accentLine ? (
+          <p
+            className={cn(
+              "mx-auto mt-4 max-w-xl text-sm font-medium leading-relaxed",
+              isDark ? "text-white/70" : "text-muted-foreground",
+            )}
+          >
+            {accentLine}
+          </p>
+        ) : null}
         <div className="mt-10 flex w-full max-w-md flex-col items-stretch justify-center gap-3 sm:mx-auto sm:max-w-none sm:flex-row sm:items-center">
           <Button asChild size="lg" className="w-full sm:w-auto sm:min-w-[11rem]">
             <Link href={primaryHref}>{primaryLabel}</Link>

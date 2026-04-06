@@ -3,12 +3,13 @@
  */
 export const BRAND = {
   name: "FIXONEX",
-  /** Logo line: “simply strong” */
   logoMotto: "Simply strong.",
   /** Primary customer-facing tagline */
   tagline: "Strong bond begins here.",
+  /** Companion line in Hindi — use sparingly alongside English */
+  taglineHi: "Mazboot jod. Bharosemand result.",
   description:
-    "FIXONEX supplies professional tile adhesives (EN 12004 / IS 15477:2019 grades), block joining mortar, PU FIXO-999 two-component adhesive, stain-free epoxy grout, tile cleaners, and precision spacers—based in Ahmedabad, Gujarat, and available through dealers and direct product support.",
+    "FIXONEX: Premium tile and stone solutions, trusted for reliability, expertise, and enduring quality.",
 } as const;
 
 /** Reference palette (mirrors tailwind.config.ts) for non-Tailwind contexts */

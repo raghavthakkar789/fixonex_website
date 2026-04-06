@@ -7,7 +7,7 @@ import type { FaqItem } from "@/types";
 import { cn } from "@/lib/utils";
 
 const filters: { id: "all" | FaqItem["category"]; label: string }[] = [
-  { id: "all", label: "All" },
+  { id: "all", label: "All topics" },
   { id: "products", label: "Products" },
   { id: "surfaces", label: "Surfaces" },
   { id: "consultation", label: "Consultation" },

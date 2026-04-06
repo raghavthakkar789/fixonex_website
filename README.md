@@ -7,7 +7,7 @@ Production-oriented marketing site for **FIXONEX** (Ahmedabad): tile adhesives, 
 - Present the FIXONEX brand with an industrial, premium, and trustworthy visual language.
 - Showcase product categories and deep-linked detail pages driven by structured data.
 - Collect inquiries, consultation requests, and dealer partnership leads through validated frontend forms (mock submission until a backend is connected).
-- Guide visitors with an interactive **Get Help** recommendation flow, FAQs, and how-to content modules ready for video embeds.
+- Guide visitors with an on-page **product guidance** wizard, a Support hub with article-style how-tos and FAQs, and a sticky **Get Help** shortcut to contact.
 
 ## Tech stack
 
@@ -51,29 +51,24 @@ Canonical Tailwind extensions live in `tailwind.config.ts`; marketing constants 
 
 ```
 app/                    # App Router routes + layouts
-  layout.tsx            # Root layout: fonts, Navbar, Footer, scroll control
+  layout.tsx            # Root layout: fonts, Navbar, Footer, ScrollToTop, StickyGetHelp
   globals.css           # Tailwind layers + base body styles
   icon.svg              # App icon / favicon
   page.tsx              # Home
   about/
   products/
     [slug]/             # Static product detail pages
-  company-info/
+  support/              # Guides, steps, FAQs
+  partner/              # Dealer / distributor inquiry
   contact/
-  book-consultation/
-  connect/              # Social / direct links
-  get-help/             # Recommendation wizard
-  how-to-use/
-  services/
-  projects/
-  testimonials/
-  faq/
-  dealer-inquiry/
+  # Legacy URLs (thin pages → client redirect to the targets above):
+  company-info/ book-consultation/ connect/ get-help/ how-to-use/ services/
+  projects/ testimonials/ faq/ dealer-inquiry/
 components/
-  layout/               # Navbar, Footer, ScrollToTop, PageSection (shared page width & vertical rhythm)
+  layout/               # Navbar, Footer, ScrollToTop, StickyGetHelp, PageSection
   sections/             # Hero, banners, CTAs, cards
   ui/                   # Button, Input, Card, Accordion, etc.
-  forms/                # Contact, consultation, dealer forms
+  forms/                # Contact and dealer forms (shared feedback UI)
   get-help/             # RecommendationWizard
   faq/                  # FaqAccordion, FaqWithFilters (topic tabs + uses `faqsByCategory`)
   products/             # Product grid + filter
@@ -88,21 +83,14 @@ styles/                 # Reserved for additional stylesheets (global tokens liv
 
 | Route | Description |
 | --- | --- |
-| `/` | Home: hero, positioning, categories, why us, stats, CTAs, testimonial & FAQ previews |
-| `/products` | All categories with text filter |
+| `/` | Home: hero, story, products, trust, proof, FAQ preview, guidance, help, stats, CTA |
+| `/products` | Categories, filters, on-page guidance wizard (`#product-guidance`), link to Support |
 | `/products/[slug]` | Detail pages for each category (SSG) |
-| `/about` | Brand story and portfolio coverage |
-| `/company-info` | Address, contacts, map embed (edit `data/company.ts`) |
-| `/contact` | Inquiry form + summary + WhatsApp |
-| `/book-consultation` | Product guidance request form (no on-site services) |
-| `/connect` | Social grid (edit `data/social.ts`) |
-| `/get-help` | Multi-step recommendation tool |
-| `/how-to-use` | Video-ready cards, steps, safety, per-category notes |
-| `/services` | Placeholder (“Services to be added”); linked under **More** / Resources only |
-| `/projects` | Gallery grid with placeholders |
-| `/testimonials` | Full testimonial list |
-| `/faq` | Accordion FAQ |
-| `/dealer-inquiry` | Partnership form |
+| `/about` | Brand story, company details, office & map (see `data/company.ts`) |
+| `/support` | Article-style how-tos, on-site steps, safety notes, full FAQ |
+| `/contact` | Inquiry form + direct contact + WhatsApp + social |
+| `/partner` | Why partner + dealer/distributor form |
+| Legacy routes (`/faq`, `/get-help`, `/company-info`, `/book-consultation`, `/dealer-inquiry`, `/how-to-use`, `/services`, `/projects`, `/testimonials`, `/connect`) | Thin pages that **redirect in the browser** to the destinations above (static export–friendly). |
 
 ## Editable content areas
 
@@ -115,14 +103,14 @@ styles/                 # Reserved for additional stylesheets (global tokens liv
 | Testimonials | `data/testimonials.ts` |
 | Projects / gallery | `data/projects.ts` |
 | Help wizard rules | `data/help-recommendations.ts` |
-| How-to videos / steps / safety | `data/how-to-use.ts` |
+| How-to articles / steps / safety | `data/how-to-use.ts` (consumed by `data/support-guides.ts`) |
 | Navigation labels | `data/navigation.ts` |
 | Brand strings / palette reference | `lib/brand.ts` |
 | Default SEO base URL | `app/layout.tsx` → `metadataBase` |
 
 ## Forms
 
-- **Contact**, **consultation**, and **dealer** forms are client components with field validation and success states.
+- **Contact** and **dealer** forms are client components with field validation and success states (consultation flows use the contact page).
 - Submissions call `mockSubmitForm` in `lib/form-submit.ts`, which simulates latency and always succeeds unless you change it for testing.
 - **Integration path:** replace the mock with a **Server Action** or **Route Handler** (`app/api/...`) that reads server-only environment variables (email API keys, CRM webhooks). Never expose secrets in client bundles.
 - See `.env.local.example` for optional variable names.

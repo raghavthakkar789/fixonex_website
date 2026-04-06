@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { StickyGetHelp } from "@/components/layout/StickyGetHelp";
 import { BRAND } from "@/lib/brand";
 
 const poppins = Poppins({
@@ -23,12 +24,12 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fixonex.com"),
   title: {
-    default: `${BRAND.name} | Tile Adhesives & Installation Systems`,
+    default: `${BRAND.name} | Strong finishes that last`,
     template: `%s | ${BRAND.name}`,
   },
   description: BRAND.description,
   openGraph: {
-    title: `${BRAND.name} | Tile Adhesives & Installation Systems`,
+    title: `${BRAND.name} | Strong finishes that last`,
     description: BRAND.description,
     type: "website",
     locale: "en_IN",
@@ -52,6 +53,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <ScrollToTop />
+        <StickyGetHelp />
       </body>
     </html>
   );
