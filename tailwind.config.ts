@@ -9,7 +9,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        /** ~1240px with padding — premium industrial content width */
+        content: "1280px",
+      },
       colors: {
+        /** Primary page canvas (beige) */
+        canvas: "#C1B2A4",
+        /** Secondary headings / industrial labels — NOT for body copy */
+        subhead: "#2B2B2B",
         background: "#FFFFFF",
         foreground: "#111111",
         muted: {
@@ -35,8 +43,13 @@ const config: Config = {
         body: ["var(--font-roboto)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        card: "0 1px 3px rgba(17, 17, 17, 0.06)",
-        "card-hover": "0 8px 24px rgba(17, 17, 17, 0.08)",
+        /** Crisp edge + controlled depth — structured, not generic float */
+        card: "0 1px 0 0 rgba(17, 17, 17, 0.07), 0 3px 12px rgba(17, 17, 17, 0.05)",
+        "card-hover": "0 1px 0 0 rgba(17, 17, 17, 0.08), 0 10px 28px rgba(17, 17, 17, 0.09)",
+        nav: "0 1px 0 0 rgba(17, 17, 17, 0.09)",
+      },
+      transitionTimingFunction: {
+        industrial: "cubic-bezier(0.25, 0.1, 0.25, 1)",
       },
       keyframes: {
         "accordion-down": {
@@ -47,15 +60,10 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "fade-in": {
-          from: { opacity: "0", transform: "translateY(8px)" },
-          to: { opacity: "1", transform: "translateY(0)" },
-        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.5s ease-out forwards",
       },
     },
   },

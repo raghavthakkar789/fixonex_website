@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { cta, formStackClass, formTitleClass, selectControlClass } from "@/lib/ui-constants";
+import { cn } from "@/lib/utils";
 
 const inquiryTypes = [
   { value: "sales", label: "Sales enquiry" },
@@ -44,20 +46,20 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <FormSuccessPanel resetLabel="Send another message" onReset={() => setStatus("idle")} />
+      <FormSuccessPanel resetLabel={cta.sendAnother} onReset={() => setStatus("idle")} />
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate>
-      <p className="font-heading text-sm font-semibold text-foreground">Send us a message</p>
+    <form onSubmit={onSubmit} className={formStackClass} noValidate>
+      <p className={cn(formTitleClass)}>{cta.talkTeam}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="contact-inquiry-type">What is this regarding?</Label>
+        <Label htmlFor="contact-inquiry-type">What can we help with?</Label>
         <select
           id="contact-inquiry-type"
           name="inquiryType"
-          className="flex h-11 w-full rounded-sm border border-border bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          className={selectControlClass}
           value={form.inquiryType}
           onChange={(e) => setForm((f) => ({ ...f, inquiryType: e.target.value }))}
           required
@@ -71,7 +73,7 @@ export function ContactForm() {
         </select>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="contact-name">Full name</Label>
           <Input
@@ -124,8 +126,8 @@ export function ContactForm() {
 
       {errorMessage ? <FormErrorAlert message={errorMessage} /> : null}
 
-      <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto">
-        {status === "submitting" ? "Sending…" : "Send message"}
+      <Button type="submit" disabled={status === "submitting"} size="lg" className="w-full sm:w-auto">
+        {status === "submitting" ? cta.sending : cta.submitEnquiry}
       </Button>
     </form>
   );

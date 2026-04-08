@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { cta, formStackClass, formTitleClass } from "@/lib/ui-constants";
+import { cn } from "@/lib/utils";
 
 const initial = {
   businessName: "",
@@ -38,14 +40,14 @@ export function DealerInquiryForm() {
   }
 
   if (status === "success") {
-    return (
-      <FormSuccessPanel resetLabel="Submit another inquiry" onReset={() => setStatus("idle")} />
-    );
+    return <FormSuccessPanel resetLabel={cta.dealerAnother} onReset={() => setStatus("idle")} />;
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate>
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className={formStackClass} noValidate>
+      <p className={cn(formTitleClass)}>Partnership enquiry</p>
+
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="dealer-business">Business name</Label>
           <Input
@@ -66,7 +68,7 @@ export function DealerInquiryForm() {
           />
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="dealer-phone">Phone</Label>
           <Input
@@ -88,7 +90,7 @@ export function DealerInquiryForm() {
           />
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="dealer-location">City / state</Label>
           <Input
@@ -119,8 +121,8 @@ export function DealerInquiryForm() {
         />
       </div>
       {errorMessage ? <FormErrorAlert message={errorMessage} /> : null}
-      <Button type="submit" disabled={status === "submitting"} size="lg">
-        {status === "submitting" ? "Sending…" : "Submit partnership inquiry"}
+      <Button type="submit" disabled={status === "submitting"} size="lg" className="w-full sm:w-auto">
+        {status === "submitting" ? cta.sending : cta.submitPartnership}
       </Button>
     </form>
   );

@@ -12,6 +12,7 @@ import type {
 import { productCategories } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { asideMicroHeadingClass, cta } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
 
 const steps = [
@@ -89,9 +90,9 @@ export function RecommendationWizard() {
 
   return (
     <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_min(100%,380px)] lg:items-start lg:gap-10">
-      <Card className="min-w-0 overflow-hidden">
+      <Card variant="elevated" className="min-w-0 overflow-hidden">
         <CardHeader className="space-y-1 px-5 pb-2 pt-6 sm:px-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="text-xs font-semibold uppercase tracking-widest text-subhead">
             Step {stepIndex + 1} of {steps.length}
           </p>
           <CardTitle className="text-lg sm:text-xl">{current.title}</CardTitle>
@@ -137,9 +138,9 @@ export function RecommendationWizard() {
         </CardContent>
       </Card>
 
-      <Card className="min-w-0 border-primary/30 bg-muted/50 lg:sticky lg:top-24 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
+      <Card variant="quiet" className="min-w-0 bg-background lg:sticky lg:top-24 lg:max-h-[calc(100dvh-8rem)] lg:overflow-y-auto">
         <CardHeader className="px-5 pt-6 sm:px-6">
-          <CardTitle className="text-lg">Your starting point</CardTitle>
+          <CardTitle className="text-lg">Suggested starting point</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 px-5 pb-6 text-sm sm:px-6">
           <div>
@@ -147,9 +148,7 @@ export function RecommendationWizard() {
             <p className="mt-2 leading-relaxed text-muted-foreground">{result.rationale}</p>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              Where to look first
-            </p>
+            <p className={asideMicroHeadingClass}>Pages to open first</p>
             <ul className="mt-2 space-y-2">
               {result.productSlugs.map((slug) => {
                 const p = productBySlug(slug);
@@ -158,7 +157,7 @@ export function RecommendationWizard() {
                   <li key={slug}>
                     <Link
                       href={`/products/${slug}`}
-                      className="font-medium text-primary underline-offset-2 hover:text-primary-hover hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                      className="font-semibold text-foreground underline underline-offset-2 hover:text-subhead focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
                       {p.title}
                     </Link>
@@ -168,11 +167,11 @@ export function RecommendationWizard() {
             </ul>
           </div>
           <p className="border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
-            This is a first steer only. Waterproofing, structure, and your tile or stone supplier still lead when they
-            apply.
+            This is a first suggestion only. Waterproofing, structure, and your tile or stone supplier still rule when
+            they say something different.
           </p>
-          <Button asChild className="w-full">
-            <Link href="/contact">Contact us</Link>
+          <Button asChild className="w-full" size="default">
+            <Link href="/contact">{cta.contact}</Link>
           </Button>
         </CardContent>
       </Card>

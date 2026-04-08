@@ -25,7 +25,7 @@ export interface HowToGuideEntry {
 export const howToGuides: HowToGuideEntry[] = [
   {
     id: "v1",
-    title: "Mixing adhesive for a smooth, strong bed",
+    title: "Mixing FIXONEX adhesive for a strong, even bed",
     description:
       "How to achieve a homogeneous mix, manage open time on warm days, and avoid over-retempering on site.",
     category: "adhesives",
@@ -423,7 +423,7 @@ export const howToGuides: HowToGuideEntry[] = [
     id: "v12",
     title: "PU systems: metering, temperature, and honest open time",
     description:
-      "Two-part chemistry demands proportion discipline — especially on verticals, joints, and details where rework is costly.",
+      "Two-part FIXONEX PU needs exact metering — especially on walls and detail lines where rework hurts.",
     category: "adhesives",
     sections: [
       {

@@ -4,7 +4,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t1",
     quote:
-      "Across three retail rollouts, FIXONEX adhesives and jointing systems kept our mock-up rooms, pilot stores, and national deployment visually consistent. Their technical notes reduced back-and-forth during the programme.",
+      "Across three retail programmes, FIXONEX adhesives and joint materials kept our pilot stores and rollouts looking consistent. Their notes cut down the guessing during approvals.",
     author: "Priya Nair",
     role: "Project Director, Retail Fit-Out",
     location: "Pune, India",
@@ -12,7 +12,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t2",
     quote:
-      "We specify large-format porcelain in high-traffic lobbies. FIXONEX helped align adhesive class, trowel sizing, and grout selection with the stone supplier’s requirements—clear and professional.",
+      "We live with large-format porcelain in busy lobbies. FIXONEX helped us line up adhesive class, trowel depth, and grout with what the stone supplier asked for — calm and clear.",
     author: "Rohan Kapoor",
     role: "Principal Architect",
     location: "Bengaluru, India",
@@ -20,7 +20,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t3",
     quote:
-      "Our maintenance team needed cleaners that would not attack the epoxy grout in commercial kitchens. FIXONEX provided a maintenance matrix we could hand to night crews without guesswork.",
+      "Our night crews needed cleaners that would not wreck epoxy grout in commercial kitchens. FIXONEX gave a simple maintenance sheet we could pin on the wall.",
     author: "Harpreet Singh",
     role: "Facilities Manager",
     location: "Delhi NCR, India",
@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t4",
     quote:
-      "Dealer support has been straightforward: packaging clarity, predictable lead times on standard SKUs, and responsive answers when a specifier asked for alternates mid-tender.",
+      "As a dealer, FIXONEX has been easy to work with — clear packs, steady availability on common SKUs, and quick answers when a tender changed mid-way.",
     author: "Meera Iyer",
     role: "Procurement Lead, Distributor",
     location: "Mumbai, India",

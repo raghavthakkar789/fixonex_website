@@ -8,6 +8,8 @@ import { supportGuides } from "@/data/support-guides";
 import { getProductBySlug } from "@/data/products";
 import { ExpandableBulletList } from "@/components/content/ExpandableBulletList";
 import { ExpandableSection } from "@/components/content/ExpandableSection";
+import { asideMicroHeadingClass, cta, panelMutedClass, panelSurfaceClass, proseInlineLinkClass } from "@/lib/ui-constants";
+import { cn } from "@/lib/utils";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -32,10 +34,10 @@ export default async function SupportGuideArticlePage({ params }: Props) {
 
   return (
     <>
-      <PageBanner title={guide.title} subtitle={guide.excerpt} />
-      <PageSection size="narrow">
-        <nav className="mb-10 text-sm text-muted-foreground" aria-label="Breadcrumb">
-          <Link href="/support#guides" className="font-medium text-primary underline-offset-2 hover:underline">
+      <PageBanner importance="compact" title={guide.title} subtitle={guide.excerpt} />
+      <PageSection size="narrow" spacing="default">
+        <nav className="mb-6 text-sm text-muted-foreground sm:mb-10" aria-label="Breadcrumb">
+          <Link href="/support#guides" className={proseInlineLinkClass}>
             Support
           </Link>
           <span className="mx-2 text-border" aria-hidden>
@@ -44,22 +46,24 @@ export default async function SupportGuideArticlePage({ params }: Props) {
           <span className="text-foreground">Guide</span>
         </nav>
 
-        <p className="text-xs font-semibold uppercase tracking-wide text-primary">{guide.category}</p>
+        <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-subhead sm:text-xs">{guide.category}</p>
 
-        <article className="mt-8 max-w-none">
-          {guide.sections.map((sec, index) => (
-            <ExpandableSection
-              key={sec.heading}
-              heading={sec.heading}
-              paragraphs={sec.paragraphs}
-              previewCount={2}
-              className={index === 0 ? "mt-0" : "mt-10"}
-            />
-          ))}
+        <article className="mt-6 max-w-none sm:mt-8">
+          <div className={panelSurfaceClass}>
+            {guide.sections.map((sec, index) => (
+              <ExpandableSection
+                key={sec.heading}
+                heading={sec.heading}
+                paragraphs={sec.paragraphs}
+                previewCount={2}
+                className={index === 0 ? "mt-0" : "mt-8 sm:mt-10"}
+              />
+            ))}
+          </div>
 
           {guide.takeaways?.length ? (
-            <div className="mt-12 border-t border-border pt-10">
-              <h2 className="font-heading text-lg font-semibold text-foreground">Takeaways</h2>
+            <div className={cn("mt-8 sm:mt-12", panelMutedClass)}>
+              <h2 className="font-heading text-base font-bold tracking-tight text-foreground sm:text-lg">Takeaways</h2>
               <ExpandableBulletList
                 items={guide.takeaways}
                 previewCount={2}
@@ -69,8 +73,8 @@ export default async function SupportGuideArticlePage({ params }: Props) {
           ) : null}
 
           {guide.relatedProductSlugs.length > 0 ? (
-            <div className="mt-12 border-t border-border pt-10">
-              <h2 className="font-heading text-lg font-semibold text-foreground">Related ranges</h2>
+            <div className="mt-8 sm:mt-10">
+              <h2 className={asideMicroHeadingClass}>Related ranges</h2>
               <ul className="mt-4 flex flex-wrap gap-2">
                 {guide.relatedProductSlugs.map((slug) => {
                   const p = getProductBySlug(slug);
@@ -78,7 +82,7 @@ export default async function SupportGuideArticlePage({ params }: Props) {
                     <li key={slug}>
                       <Link
                         href={`/products/${slug}`}
-                        className="inline-flex min-h-9 items-center rounded-sm border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+                        className="inline-flex min-h-9 items-center rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-foreground hover:bg-muted"
                       >
                         {p?.title ?? slug}
                       </Link>
@@ -89,15 +93,15 @@ export default async function SupportGuideArticlePage({ params }: Props) {
             </div>
           ) : null}
 
-          <div className="mt-14 flex flex-col gap-3 border-t border-border pt-10 sm:flex-row sm:flex-wrap">
-            <Button asChild variant="outline">
-              <Link href="/support#guides">All how-to guides</Link>
+          <div className="mt-10 flex flex-col gap-2.5 border-t border-border/70 pt-7 sm:mt-14 sm:flex-row sm:flex-wrap sm:gap-3 sm:border-border/80 sm:pt-9">
+            <Button asChild variant="outline" size="default">
+              <Link href="/support#guides">{cta.allGuides}</Link>
             </Button>
-            <Button asChild variant="outline">
-              <Link href="/support#faq">FAQ</Link>
+            <Button asChild variant="outline" size="default">
+              <Link href="/support#faq">{cta.faq}</Link>
             </Button>
-            <Button asChild className="sm:ml-auto">
-              <Link href="/contact">Contact</Link>
+            <Button asChild className="sm:ml-auto" size="default">
+              <Link href="/contact">{cta.contact}</Link>
             </Button>
           </div>
         </article>

@@ -23,3 +23,15 @@ export const COLORS = {
   primary: "#D32F2F",
   primaryHover: "#B71C1C",
 } as const;
+
+/*
+"#FFFFFF",
+"#111111",
+"#2B2B2B",
+"#6B6B6B",
+"#F5F5F5",
+"#E0E0E0",
+"#D32F2F",
+"#B71C1C",
+"#C1B2A4",
+*/

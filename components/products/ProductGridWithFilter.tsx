@@ -21,7 +21,7 @@ export function ProductGridWithFilter({ products }: { products: ProductCategory[
 
   return (
     <div>
-      <div className="mb-8 max-w-md">
+      <div className="mb-6 max-w-md sm:mb-7">
         <label htmlFor="product-filter" className="sr-only">
           Search FIXONEX products
         </label>
@@ -33,11 +33,11 @@ export function ProductGridWithFilter({ products }: { products: ProductCategory[
         />
       </div>
       {filtered.length === 0 ? (
-        <p className="rounded-sm border border-dashed border-border bg-muted px-4 py-8 text-center text-sm text-muted-foreground">
+        <p className="rounded-md border border-dashed border-border bg-muted px-4 py-8 text-center text-sm text-muted-foreground">
           No match — clear the search to see all products.
         </p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {filtered.map((p) => (
             <ProductCard key={p.slug} product={p} />
           ))}

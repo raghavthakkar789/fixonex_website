@@ -2,9 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { FaqAccordion } from "@/components/faq/FaqAccordion";
+import { Button } from "@/components/ui/button";
 import { faqs, faqsByCategory } from "@/data/faqs";
 import type { FaqItem } from "@/types";
 import { cn } from "@/lib/utils";
+
+const FAQ_INITIAL = 6;
+const FAQ_LOAD_MORE = 5;
 
 const filters: { id: "all" | FaqItem["category"]; label: string }[] = [
   { id: "all", label: "All topics" },
@@ -16,11 +20,21 @@ const filters: { id: "all" | FaqItem["category"]; label: string }[] = [
 
 export function FaqWithFilters() {
   const [category, setCategory] = useState<(typeof filters)[number]["id"]>("all");
+  const [faqVisible, setFaqVisible] = useState(FAQ_INITIAL);
 
   const items = useMemo(
     () => (category === "all" ? faqs : faqsByCategory(category)),
     [category],
   );
+
+  const visibleItems = useMemo(() => items.slice(0, faqVisible), [items, faqVisible]);
+  const canLoadMoreFaq = faqVisible < items.length;
+  const expandedBeyondInitialFaq = faqVisible > FAQ_INITIAL;
+
+  const selectCategory = (id: (typeof filters)[number]["id"]) => {
+    setCategory(id);
+    setFaqVisible(FAQ_INITIAL);
+  };
 
   return (
     <div>
@@ -43,7 +57,7 @@ export function FaqWithFilters() {
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-border bg-background text-foreground hover:border-primary/50 hover:text-primary",
               )}
-              onClick={() => setCategory(f.id)}
+              onClick={() => selectCategory(f.id)}
             >
               {f.label}
             </button>
@@ -56,7 +70,35 @@ export function FaqWithFilters() {
           specifics.
         </p>
       ) : (
-        <FaqAccordion key={category} items={items} />
+        <>
+          <FaqAccordion key={category} items={visibleItems} />
+          {canLoadMoreFaq || expandedBeyondInitialFaq ? (
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              {canLoadMoreFaq ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  className="min-w-[10rem]"
+                  onClick={() => setFaqVisible((v) => Math.min(v + FAQ_LOAD_MORE, items.length))}
+                >
+                  Load more
+                </Button>
+              ) : null}
+              {expandedBeyondInitialFaq ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="lg"
+                  className="min-w-[10rem] text-muted-foreground hover:text-foreground"
+                  onClick={() => setFaqVisible(FAQ_INITIAL)}
+                >
+                  Show less
+                </Button>
+              ) : null}
+            </div>
+          ) : null}
+        </>
       )}
     </div>
   );

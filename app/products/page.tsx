@@ -7,42 +7,49 @@ import { ProductGridWithFilter } from "@/components/products/ProductGridWithFilt
 import { ProductGuidanceSection } from "@/components/products/ProductGuidanceSection";
 import { productCategories } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import { cta, panelSurfaceClass, sectionBand } from "@/lib/ui-constants";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "FIXONEX product hub — all ranges, filters, on-page guidance, and links to Support guides and FAQs.",
+    "FIXONEX product hub — all ranges, simple filters, on-page guidance, and links to Support.",
 };
 
 export default function ProductsPage() {
   return (
     <>
       <PageBanner
-        title="Products"
-        subtitle="The full FIXONEX catalogue — filter by name, open any range for usage detail, or use guidance below when you want a narrowed list first."
+        importance="compact"
+        title="FIXONEX products"
+        subtitle="Every range in one place. Search by name, open a page for context, or use guidance below when you are not sure where to start."
       />
-      <PageSection>
+      <PageSection spacing="default" className="bg-muted">
         <SectionHeading
           eyebrow="Catalogue"
-          title="Every range in one grid"
-          description="Each product page spells out where it belongs, exposure limits, and why crews reach for it — so you can defend the choice on site or in a tender."
-          className="mb-10 max-w-2xl"
+          title="Pick a range — we explain the job it is for"
+          description="Each FIXONEX product page spells out where it belongs, what problem it solves, and what to watch on site."
+          importance="primary"
+          className="mb-8 max-w-2xl sm:mb-9"
         />
-        <ProductGridWithFilter products={productCategories} />
+        <div className={panelSurfaceClass}>
+          <ProductGridWithFilter products={productCategories} />
+        </div>
       </PageSection>
 
-      <ProductGuidanceSection />
+      <ProductGuidanceSection visualWeight="featured" />
 
-      <section className="border-t border-border bg-muted/40 py-14 sm:py-16 lg:py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className={cn("border-t border-border bg-canvas", sectionBand.tight)}>
+        <div className="mx-auto max-w-content px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            eyebrow="Deep help"
-            title="Mixing, grout, safety, FAQs"
-            description="When you need procedure-level notes or a searchable FAQ — Support keeps everything in one place, linked from product pages too."
-            className="mb-6 max-w-2xl"
+            eyebrow="More help"
+            title="Mixing, grout, safety, questions"
+            description="Step-by-step articles and a searchable FAQ live on FIXONEX Support — linked from product pages when useful."
+            importance="quiet"
+            className="mb-5 max-w-lg sm:mb-6"
           />
-          <Button asChild variant="outline">
-            <Link href="/support">Open Support</Link>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/support">{cta.goSupport}</Link>
           </Button>
         </div>
       </section>

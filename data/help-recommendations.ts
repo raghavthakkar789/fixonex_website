@@ -24,7 +24,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "pu-products"],
     headline: "Natural stone in wet conditions",
     rationale:
-      "Use FIX grades rated for stone and exposure, epoxy grout where stain resistance and cleaning intensity demand it, and PU systems at engineered movement interfaces. Confirm with the stone supplier.",
+      "Pick a FIXONEX adhesive rated for stone and wet use, add epoxy grout where cleaning will be harsh, and use PU only where the drawing calls for it. Check every step with the stone supplier.",
   },
   {
     id: "stone-dry",
@@ -48,7 +48,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "tile-spacers"],
     headline: "Exterior standard tiling",
     rationale:
-      "Exterior-rated FIX adhesive classes, jointing matched to traffic and cleaning, and spacers for thermal movement discipline.",
+      "Use a FIXONEX adhesive graded for exterior work, jointing that suits sun and rain, and spacers so movement stays tidy.",
   },
   {
     id: "immersed",
@@ -64,7 +64,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "pu-products"],
     headline: "Heavy tile in wet environments",
     rationale:
-      "Full bedding and high-performance FIX grades, epoxy grout for demanding wet cleaning, and PU at movement interfaces as designed.",
+      "C2TE / C2TES-class adhesives for heavy stone, epoxy grout where cleaning is tough, and PU only on engineered movement details.",
   },
   {
     id: "wet-standard",
@@ -72,7 +72,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "tile-cleaners"],
     headline: "Wet-area ceramic and porcelain",
     rationale:
-      "Polymer-modified FIX adhesives, epoxy grout where the finish schedule requires it, and FIXONEX tile cleaners for compatible maintenance.",
+      "Polymer-modified FIXONEX adhesive for bond in splash zones, epoxy grout when the finish schedule demands it, and tile cleaners that suit the joint later on.",
   },
   {
     id: "large-interior",
@@ -80,7 +80,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "tile-spacers", "epoxy-grout"],
     headline: "Large-format interior walls and floors",
     rationale:
-      "Substrate flatness, correct trowel and back-buttering, spacers for joint control, and grout selection matched to joint width and traffic.",
+      "Flat backgrounds matter, pick the right FIXONEX adhesive and trowel, use spacers for joint width, and match grout to joint size and traffic.",
   },
   {
     id: "heavy-panels",
@@ -96,7 +96,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "pu-products"],
     headline: "Mixed-material sites need a short technical review",
     rationale:
-      "Consolidate FIX adhesives, epoxy grout, PU interfaces, and cleaning agents into one submittal with our team.",
+      "Send FIXONEX a short note — we help you line up adhesive, grout, PU interfaces, and cleaning into one clear package.",
   },
   {
     id: "default-ceramic",
@@ -104,7 +104,7 @@ export const helpRecommendationRules: HelpRecommendationRule[] = [
     productSlugs: ["tile-adhesives", "epoxy-grout", "tile-spacers"],
     headline: "Baseline ceramic and porcelain workflow",
     rationale:
-      "A FIX adhesive matched to exposure, epoxy grout when the project demands stain-free performance, spacers for joint geometry, and block mortar when AAC or cellular block is on the same job.",
+      "Start with a FIXONEX adhesive matched to exposure, add epoxy grout when stains would be a problem, use spacers for neat joints, and grab block mortar if AAC walls are on the same job.",
   },
 ];
 

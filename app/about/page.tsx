@@ -14,7 +14,9 @@ import { Button } from "@/components/ui/button";
 
 import { BRAND } from "@/lib/brand";
 
-import { proseInlineLinkClass } from "@/lib/ui-constants";
+import { cn } from "@/lib/utils";
+
+import { asideMicroHeadingClass, cta, panelMutedClass, proseInlineLinkClass } from "@/lib/ui-constants";
 
 import { companyInfo } from "@/data/company";
 
@@ -25,578 +27,339 @@ import { Check, Factory, Shield, Wrench } from "lucide-react";
 import { ExpandableParagraphs } from "@/components/content/ExpandableParagraphs";
 
 export const metadata: Metadata = {
-
   title: "About FIXONEX",
 
   description:
-
-    "About FIXONEX — brand story, why teams trust us, what we supply, vision and mission, leadership, and registered company details.",
-
+    "About FIXONEX — brand story, why teams standardise on the range, what we supply, vision and mission, leadership, and registered company details.",
 };
 
-
-
 export default function AboutPage() {
-
   const addr = companyInfo.registeredAddress;
 
-
-
   return (
-
     <>
-
       <PageBanner
-
+        importance="compact"
         title="About FIXONEX"
-
-        subtitle="Brand, substance, and the paperwork — who we are, why crews and specifiers stay with us, and where to verify the company."
-
+        subtitle="Who we are, what we supply, why teams continue to specify FIXONEX, and where to verify the legal entity."
       />
 
-
-
-      <PageSection>
-
+      {/* Company introduction — highest narrative weight */}
+      <PageSection spacing="spacious">
         <SectionHeading
-
           eyebrow="Brand"
-
-          title="Finish that lasts as good as day one"
-
-          description="Construction chemicals built around supply-chain discipline — from batch repeatability to how we answer when a tender changes mid-stream."
-
+          title="Installations that age as well as the design promised"
+          description="FIXONEX builds construction chemical lines around disciplined supply — predictable batches, clear documentation, and answers when a tender or site condition changes."
+          importance="primary"
           className="mb-8 max-w-3xl"
-
         />
 
         <ExpandableParagraphs
-
           className="max-w-3xl"
-
           previewCount={1}
-
           firstParagraphClassName="text-foreground"
-
           paragraphs={[
-
-            `${BRAND.name} was built on a simple idea: the installation should age as well as the design promises.`,
-
-            "We have watched projects fail from the wrong bag in the right room — not from bad intent, but from unclear guidance. That gap is where we put our weight.",
-
-            "Contractors, dealers, architects, and owners get straight answers on exposure, stone risk, and which line earns its place on the delivery note.",
-
+            `${BRAND.name} was founded on one idea: the finished tile work should look and perform years later, not only on opening day.`,
+            "We have seen failures from the wrong line in the right room — usually from unclear guidance, not bad intent. FIXONEX invests in making exposure, stone risk, and product choice easier to defend.",
+            "Contractors, dealers, architects, and owners receive direct answers on which FIXONEX product belongs on the delivery note for a given exposure.",
           ]}
-
         />
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border bg-muted/25">
-
-        <SectionHeading
-
-          eyebrow="Trust"
-
-          title="Why teams standardise on FIXONEX"
-
-          description="What you gain when the material is explainable to the foreman and defensible in a submittal."
-
-          className="mb-10 max-w-2xl"
-
-        />
-
-        <div className="grid gap-6 md:grid-cols-2">
-
-          {[
-
-            {
-
-              icon: Factory,
-
-              title: "Reliable from bag to bag",
-
-              body: "Consistent material means fewer surprises on site and better finishing results.",
-
-            },
-
-            {
-
-              icon: Shield,
-
-              title: "Right product, before problems start",
-
-              body: "We help you avoid wrong choices early — saving time, cost, and rework.",
-
-            },
-
-            {
-
-              icon: Wrench,
-
-              title: "Made for real site conditions",
-
-              body: "Heat, dust, time pressure — our products are designed for actual working environments.",
-
-            },
-
-            {
-
-              icon: Check,
-
-              title: "Simple to understand, easy to use",
-
-              body: "Clear guidance that works for both professionals and first-time users.",
-
-            },
-
-          ].map((item) => (
-
-            <Card key={item.title}>
-
-              <CardContent className="flex gap-4 p-6">
-
-                <item.icon className="h-10 w-10 shrink-0 text-primary" aria-hidden />
-
-                <div>
-
-                  <h3 className="font-heading text-lg font-semibold text-foreground">{item.title}</h3>
-
-                  <p className="mt-2 text-sm text-muted-foreground">{item.body}</p>
-
-                </div>
-
-              </CardContent>
-
-            </Card>
-
-          ))}
-
-        </div>
-
-      </PageSection>
-
-
-
-      <PageSection className="border-t border-border bg-background">
-
+      {/* What we do — structural context before trust deep-dive */}
+      <PageSection spacing="default" className="border-t border-border bg-muted">
         <div id="what-we-do" className="scroll-mt-24">
-
           <SectionHeading
-
             eyebrow="Operations"
-
-            title="What we supply and support"
-
-            description="Fixing systems sold through dealers, backed by documentation and plain-language help."
-
-            className="mb-8 max-w-2xl"
-
+            title="What FIXONEX supplies and supports"
+            description="Fixing systems sold through dealers, backed by technical documents and plain-language help."
+            importance="secondary"
+            className="mb-7 max-w-2xl"
           />
 
           <div className="max-w-3xl space-y-4 text-base leading-relaxed text-muted-foreground">
-
             <p className="text-foreground">
-
-              Tile adhesives, block joining mortar, PU systems, epoxy grout, cleaners, and spacers — ranges with declared
-
-              performance when the job is serious.
-
+              Tile adhesives, block joining mortar, PU FIXO-999, epoxy grout, tile cleaner, and spacers — each FIXONEX line
+              carries declared performance for jobs where guessing is not acceptable.
             </p>
 
             <ul className="list-inside list-disc space-y-2">
-
               <li>Channel support for distributors and project dealers</li>
 
-              <li>Support centre for on-site questions · Contact for tender or partnership conversations</li>
+              <li>Support articles for site questions · Contact for tenders or partnerships</li>
 
-              <li>Growth programmes under Partner</li>
-
+              <li>Growth programmes outlined on Partner</li>
             </ul>
 
-            <Button asChild variant="outline" className="mt-4">
-
-              <Link href="/products">View the product hub</Link>
-
+            <Button asChild variant="outline" size="default" className="mt-4">
+              <Link href="/products">{cta.browseCatalogue}</Link>
             </Button>
-
           </div>
-
         </div>
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border bg-muted/30">
-
+      {/* Why FIXONEX — co-primary trust */}
+      <PageSection spacing="spacious" className="border-t border-border bg-background">
         <SectionHeading
+          eyebrow="Trust"
+          title="Why teams standardise on FIXONEX"
+          description="What you gain when the material is explainable on site and supportable in a submittal."
+          importance="primary"
+          className="mb-10 max-w-2xl"
+        />
 
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+          {[
+            {
+              icon: Factory,
+              title: "Predictable from bag to bag",
+              body: "Consistent FIXONEX batches reduce on-site surprises and help finishing crews stay on rhythm.",
+            },
+
+            {
+              icon: Shield,
+              title: "The right line before failure appears",
+              body: "We focus on exposure and compatibility early so rework, delays, and arguments shrink.",
+            },
+
+            {
+              icon: Wrench,
+              title: "Engineered for working sites",
+              body: "Heat, dust, and schedule pressure are normal inputs — FIXONEX products are chosen with those realities in view.",
+            },
+
+            {
+              icon: Check,
+              title: "Documentation and language you can share",
+              body: "Data sheets and guidance that specifiers, dealers, and foreman can read without translation layers.",
+            },
+          ].map((item) => (
+            <Card key={item.title} variant="quiet" className="bg-background">
+              <CardContent className="flex gap-3 p-5 sm:gap-4 sm:p-6">
+                <item.icon className="h-10 w-10 shrink-0 text-subhead" aria-hidden />
+
+                <div>
+                  <h3 className="font-heading text-lg font-semibold text-foreground">{item.title}</h3>
+
+                  <p className="mt-2 text-sm text-muted-foreground">{item.body}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </PageSection>
+
+      <PageSection spacing="relaxed" className="border-t border-border bg-canvas">
+        <SectionHeading
           eyebrow="Positioning"
-
-          title="FIXONEX Adhesive — market narrative"
-
-          description="Formal positioning for readers who need the longer company story after the practical summary above."
-
-          className="mb-8 max-w-3xl"
-
+          title="FIXONEX in the market"
+          description="A concise company narrative for readers who need context after the practical summary above."
+          importance="quiet"
+          className="mb-7 max-w-3xl"
         />
 
         <ExpandableParagraphs
-
           className="max-w-3xl"
-
           previewCount={1}
-
           paragraphs={[
-
-            "FIXONEX Adhesive is a forward-thinking construction chemical brand specializing in high-performance tile adhesives and epoxy solutions for modern construction and interior applications. With more than a decade of experience in the tiles and ceramic industry, the brand is built on deep market knowledge, technical expertise, and a commitment to quality.",
-
-            "Our products are developed using advanced formulations to deliver superior bonding strength, durability, and reliability across various tile and surface applications. FIXONEX focuses on providing solutions that simplify installation while ensuring long-term performance and structural integrity.",
-
-            "Driven by innovation, quality control, and customer trust, FIXONEX aims to support architects, builders, contractors, and tile installers with dependable products that enhance both functionality and aesthetics. Our mission is to become a trusted partner in tile installation solutions, contributing to stronger and more durable spaces across the construction industry.",
-
+            "FIXONEX Adhesive is a construction chemicals brand focused on tile adhesives, epoxy jointing, and related fixing products for contemporary building and interior work. Drawing on more than a decade around tiles and ceramics, FIXONEX combines technical grounding with field feedback.",
+            "Formulations target dependable bonding, service life, and honest labelling — so architects, contractors, and installers can match SKU to substrate, format, and exposure.",
+            "The aim is straightforward: equip professionals with dependable FIXONEX products and guidance that keep installations serviceable and visually sound across years of use.",
           ]}
-
         />
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border bg-muted/20">
-
+      <PageSection spacing="compact" className="border-t border-border bg-background">
         <SectionHeading
-
           eyebrow="Direction"
-
           title="Vision and mission"
-
-          description="Two lines you can share with a specifier or partner when they ask where the brand is headed."
-
-          className="mb-8 max-w-2xl"
-
+          description="Two statements you can forward to a partner or specifier when they ask where FIXONEX is headed."
+          importance="quiet"
+          className="mb-6 max-w-2xl"
         />
 
-        <div className="grid gap-8 md:grid-cols-2">
-
-          <Card>
-
-            <CardHeader>
-
-              <CardTitle className="text-lg">Vision</CardTitle>
-
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
+          <Card variant="quiet" className="border-border bg-background">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Vision</CardTitle>
             </CardHeader>
 
             <CardContent className="text-sm leading-relaxed text-muted-foreground">
-
               <p>
-
-                To establish FIXONEX as a trusted and innovative brand in tile installation solutions by delivering
-
-                high-performance tile adhesives and construction chemicals that ensure superior bonding strength,
-
-                durability, and long-lasting results.
-
+                To be the FIXONEX name professionals associate with dependable tile installation systems — adhesives and
+                joint solutions that hold under real exposure and stay understandable on site and on paper.
               </p>
-
             </CardContent>
-
           </Card>
 
-          <Card>
-
-            <CardHeader>
-
-              <CardTitle className="text-lg">Mission</CardTitle>
-
+          <Card variant="quiet" className="border-border bg-background">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Mission</CardTitle>
             </CardHeader>
 
             <CardContent className="text-sm leading-relaxed text-muted-foreground">
-
               <p>
-
-                With over a decade of experience in the ceramic industry, FIXONEX aims to provide reliable tile
-
-                adhesive and epoxy solutions that enhance tile strength, durability, and aesthetics. We are committed to
-
-                consistent quality, innovation, and supporting architects, contractors, and dealers with dependable
-
-                installation solutions.
-
+                With longstanding exposure to ceramics and construction sites, FIXONEX supplies tile adhesive, epoxy, and
+                companion lines that protect tile performance and appearance. We combine controlled manufacturing,
+                steady innovation, and dealer support so architects, contractors, and distributors receive installation
+                materials they can specify with confidence.
               </p>
-
             </CardContent>
-
           </Card>
-
         </div>
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border bg-background">
-
+      <PageSection spacing="compact" className="border-t border-border bg-background">
         <SectionHeading
-
           title={FOUNDERS_PLACEHOLDER.heading}
-
-          description="Leadership profiles ship here when names and roles are final."
-
-          className="mb-6 max-w-2xl"
-
+          description="Leadership profiles will appear here once names, roles, and imagery are final."
+          importance="quiet"
+          className="mb-5 max-w-2xl"
         />
 
-        <div className="max-w-3xl rounded-sm border border-dashed border-border bg-muted/40 p-8 text-sm leading-relaxed text-muted-foreground">
-
+        <div className={cn("max-w-3xl text-sm leading-relaxed text-muted-foreground", panelMutedClass)}>
           <p>{FOUNDERS_PLACEHOLDER.intro}</p>
 
           {FOUNDERS_PLACEHOLDER.people.length > 0 ? (
-
             <ul className="mt-6 space-y-4">
-
               {FOUNDERS_PLACEHOLDER.people.map((person) => (
-
                 <li key={person.name}>
-
                   <p className="font-heading font-semibold text-foreground">{person.name}</p>
 
-                  <p className="text-primary">{person.role}</p>
+                  <p className="text-subhead font-medium">{person.role}</p>
 
                   {person.note ? <p className="mt-1">{person.note}</p> : null}
-
                 </li>
-
               ))}
-
             </ul>
-
           ) : (
-
             <p className="mt-4 text-xs italic text-muted-foreground">
-
-              Profile cards can be added in code when names and roles are final.
-
+              Profile cards can be added when FIXONEX leadership details are ready to publish.
             </p>
-
           )}
-
         </div>
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border bg-muted/40">
-
+      <PageSection spacing="compact" className="border-t border-border bg-muted">
         <div id="office" className="scroll-mt-24">
-
           <SectionHeading
-
             eyebrow="Registered"
-
             title="Company information"
-
-            description="Address for paperwork, direct contacts, map, and compliance note — when you need to verify the legal entity."
-
-            className="mb-10 max-w-2xl"
-
+            description="Address, contacts, map, and compliance note for paperwork."
+            importance="quiet"
+            className="mb-7 max-w-2xl"
           />
 
-          <div className="grid min-w-0 gap-8 lg:grid-cols-2">
-
-            <Card className="min-w-0">
-
-              <CardHeader>
-
-                <CardTitle>Registered address</CardTitle>
-
+          <div className="grid min-w-0 gap-4 sm:gap-6 lg:grid-cols-2">
+            <Card variant="quiet" className="min-w-0 bg-background">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Registered address</CardTitle>
               </CardHeader>
 
               <CardContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
-
                 <p className="font-heading font-semibold text-foreground">{companyInfo.legalName}</p>
 
                 <p>
-
                   {addr.line1}
-
                   <br />
-
                   {addr.city}, {addr.state} {addr.postalCode}
-
                   <br />
-
                   {addr.country}
-
                 </p>
 
                 <Button variant="outline" asChild className="mt-2 w-full sm:w-auto">
-
                   <a href={companyInfo.mapsLink} target="_blank" rel="noopener noreferrer">
-
                     Open in Google Maps
-
                   </a>
-
                 </Button>
-
               </CardContent>
-
             </Card>
 
-
-
-            <Card className="min-w-0">
-
-              <CardHeader>
-
-                <CardTitle>Direct contact</CardTitle>
-
+            <Card variant="quiet" className="min-w-0 bg-background">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Direct contact</CardTitle>
               </CardHeader>
 
               <CardContent className="space-y-4 text-sm text-muted-foreground">
-
                 <div>
-
-                  <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Phone</p>
+                  <p className={asideMicroHeadingClass}>Phone</p>
 
                   <a href={`tel:${companyInfo.phone.replace(/\s/g, "")}`} className={proseInlineLinkClass}>
-
                     {companyInfo.phone}
-
                   </a>
-
                 </div>
 
                 <div>
-
-                  <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Email</p>
+                  <p className={asideMicroHeadingClass}>Email</p>
 
                   <a href={`mailto:${companyInfo.email}`} className={proseInlineLinkClass}>
-
                     {companyInfo.email}
-
                   </a>
-
                 </div>
 
                 <div>
-
-                  <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Support</p>
+                  <p className={asideMicroHeadingClass}>Support</p>
 
                   <a href={`mailto:${companyInfo.supportEmail}`} className={proseInlineLinkClass}>
-
                     {companyInfo.supportEmail}
-
                   </a>
-
                 </div>
 
                 <div>
-
-                  <p className="text-xs font-semibold uppercase tracking-wide text-foreground">Hours</p>
+                  <p className={asideMicroHeadingClass}>Hours</p>
 
                   <p className="leading-relaxed">{companyInfo.businessHours}</p>
-
                 </div>
 
-                <Button asChild className="w-full sm:w-auto">
-
-                  <Link href="/contact">Contact</Link>
-
+                <Button asChild className="w-full sm:w-auto" size="default">
+                  <Link href="/contact">{cta.contact}</Link>
                 </Button>
-
               </CardContent>
-
             </Card>
-
           </div>
 
-
-
-          <div className="mt-10 min-w-0">
-
-            <Card>
-
-              <CardHeader>
-
-                <CardTitle>Location map</CardTitle>
-
+          <div className="mt-8 min-w-0">
+            <Card variant="quiet" className="bg-background">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base">Location map</CardTitle>
               </CardHeader>
 
               <CardContent>
-
-                <div className="aspect-video w-full min-h-[200px] overflow-hidden rounded-sm border border-border bg-muted">
-
+                <div className="aspect-video w-full min-h-[200px] overflow-hidden rounded-md border border-border bg-muted">
                   <iframe
-
                     title="FIXONEX location map"
-
                     src={companyInfo.mapsEmbedUrl}
-
                     className="h-full w-full min-h-[200px]"
-
                     loading="lazy"
-
                     referrerPolicy="no-referrer-when-downgrade"
-
                     allowFullScreen
-
                   />
-
                 </div>
 
                 <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-
                   If the map does not load, use &ldquo;Open in Google Maps&rdquo; above.
-
                 </p>
-
               </CardContent>
-
             </Card>
-
           </div>
 
-
-
-          <div className="mt-10 rounded-sm border border-border bg-background p-6 text-sm leading-relaxed text-muted-foreground">
-
-            <p className="font-heading font-semibold text-foreground">Compliance note</p>
+          <div className={cn("mt-8 text-sm leading-relaxed text-muted-foreground", panelMutedClass)}>
+            <p className={asideMicroHeadingClass}>Compliance note</p>
 
             <p className="mt-2">{companyInfo.certificationsNote}</p>
-
           </div>
-
         </div>
-
       </PageSection>
 
-
-
-      <PageSection className="border-t border-border pt-12">
-
-        <p className="max-w-3xl border-l-4 border-primary pl-4 text-base font-medium text-foreground">
-
+      <PageSection spacing="compact" className="border-t border-border">
+        <p className="max-w-2xl border-l-4 border-foreground pl-4 text-sm font-medium text-foreground sm:text-base">
           Saath chalne wala partner.
 
-          <span className="mt-2 block text-sm font-normal text-muted-foreground">
-
-            A partner that stays till the finish holds true.
-
+          <span className="mt-1.5 block text-xs font-normal leading-relaxed text-muted-foreground sm:text-sm">
+            A FIXONEX partner stays with you until the finish reads right.
           </span>
-
         </p>
-
       </PageSection>
-
     </>
-
   );
-
 }
-
