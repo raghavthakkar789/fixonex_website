@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageBanner } from "@/components/sections/PageBanner";
 import { PageSection } from "@/components/layout/PageSection";
+import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { Button } from "@/components/ui/button";
 import { supportGuides } from "@/data/support-guides";
 import { getProductBySlug } from "@/data/products";
@@ -34,8 +35,21 @@ export default async function SupportGuideArticlePage({ params }: Props) {
 
   return (
     <>
-      <PageBanner importance="compact" title={guide.title} subtitle={guide.excerpt} />
-      <PageSection size="narrow" spacing="default">
+      <PageBanner
+        importance="compact"
+        title={guide.title}
+        subtitle={guide.excerpt}
+        media={
+          <MediaPlaceholder
+            tone="editorial"
+            aspect="landscape"
+            label={guide.category}
+            sublabel="Guide lead image — optional."
+            decorative
+          />
+        }
+      />
+      <PageSection size="narrow" spacing="default" className="border-0 bg-gradient-to-b from-background to-muted/20">
         <nav className="mb-6 text-sm text-muted-foreground sm:mb-10" aria-label="Breadcrumb">
           <Link href="/support#guides" className={proseInlineLinkClass}>
             Support
@@ -49,6 +63,14 @@ export default async function SupportGuideArticlePage({ params }: Props) {
         <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-subhead sm:text-xs">{guide.category}</p>
 
         <article className="mt-6 max-w-none sm:mt-8">
+          <MediaPlaceholder
+            tone="editorial"
+            aspect="ultraWide"
+            className="mb-8 sm:mb-10"
+            label="Article visual"
+            sublabel="Step or detail photography for this guide."
+            decorative
+          />
           <div className={panelSurfaceClass}>
             {guide.sections.map((sec, index) => (
               <ExpandableSection
@@ -98,7 +120,7 @@ export default async function SupportGuideArticlePage({ params }: Props) {
               <Link href="/support#guides">{cta.allGuides}</Link>
             </Button>
             <Button asChild variant="outline" size="default">
-              <Link href="/support#faq">{cta.faq}</Link>
+              <Link href="/support/#faq">{cta.faq}</Link>
             </Button>
             <Button asChild className="sm:ml-auto" size="default">
               <Link href="/contact">{cta.contact}</Link>

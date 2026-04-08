@@ -3,142 +3,129 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { mainNav } from "@/data/navigation";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
-import { Button } from "@/components/ui/button";
-import { cta } from "@/lib/ui-constants";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
-function normalizePath(path: string) {
-  const p = path.replace(/\/$/, "");
-  return p === "" ? "/" : p;
-}
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/about", label: "About FIXONEX" },
+  { href: "/why-fixonex", label: "Why FIXONEX" },
+  { href: "/support", label: "Support" },
+  { href: "/contact", label: "Contact" },
+  { href: "/partner", label: "Partner with FIXONEX" },
+] as const;
 
-function NavLink({ href, label }: { href: string; label: string }) {
-  const pathname = usePathname();
-  const path = normalizePath(pathname);
-  const target = normalizePath(href);
-  const active =
-    target === "/"
-      ? path === "/"
-      : path === target || path.startsWith(`${target}/`);
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "border-b-2 border-transparent pb-0.5 font-heading text-sm font-semibold tracking-tight transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        active ? "border-primary text-primary" : "text-foreground hover:text-primary",
-      )}
-    >
-      {label}
-    </Link>
-  );
-}
+const isActivePath = (pathname: string, href: string) =>
+  href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
 export function Navbar() {
-  const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
-  const path = normalizePath(pathname);
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = "";
     };
   }, [open]);
 
-  function linkActive(href: string) {
-    const target = normalizePath(href);
-    return target === "/"
-      ? path === "/"
-      : path === target || path.startsWith(`${target}/`);
-  }
+  useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background shadow-nav">
-      <div className="mx-auto flex h-14 max-w-content items-center justify-between gap-3 px-4 sm:h-[3.75rem] sm:gap-4 sm:px-6 lg:px-8">
-        <Link
-          href="/"
-          className="flex min-h-11 min-w-0 shrink-0 flex-col justify-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          aria-label={`${BRAND.name}, home`}
-        >
-          <span className="font-heading text-lg font-bold leading-tight tracking-tight text-foreground">{BRAND.name}</span>
-          <span className="text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground sm:text-xs">
-            {BRAND.logoMotto}
-          </span>
+    <motion.header
+      className={cn(
+        "sticky top-0 z-50 h-[72px] border-b border-border bg-white transition-shadow duration-300",
+        scrolled ? "shadow-nav" : "shadow-none",
+      )}
+      initial={reduced ? false : { y: -20, opacity: 0 }}
+      animate={reduced ? undefined : { y: 0, opacity: 1 }}
+      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      <div className="site-container relative flex h-full items-center justify-between gap-4">
+        <Link href="/" className="flex flex-col leading-none" aria-label={`${BRAND.name} home`}>
+          <span className="font-display text-[22px] font-bold tracking-[-0.02em] text-black">{BRAND.name}</span>
+          <span className="mt-0.5 text-[11px] font-medium tracking-wide text-warm">{BRAND.logoMotto}</span>
         </Link>
 
-        <nav className="hidden flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex xl:gap-x-5" aria-label="Primary">
-          <NavLink href="/" label="Home" />
-          {mainNav.map((item) => (
-            <NavLink key={item.href} href={item.href} label={item.label} />
-          ))}
-        </nav>
-
-        <div className="hidden items-center gap-2 lg:flex">
-          <Button asChild variant="outline" size="default">
-            <Link href="/products#product-guidance">{cta.helpChoose}</Link>
-          </Button>
-          <Button asChild size="default">
-            <Link href="/contact">{cta.contactShort}</Link>
-          </Button>
-        </div>
-
-        <button
-          type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-6 w-6" aria-hidden /> : <Menu className="h-6 w-6" aria-hidden />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="max-h-[min(70vh,calc(100dvh-4rem))] overflow-y-auto border-t border-border bg-background lg:hidden">
-          <div className="mx-auto flex max-w-content flex-col gap-0.5 px-4 py-4 sm:px-6">
-            <Link
-              href="/"
-              className={cn(
-                "min-h-11 rounded-md px-3 py-2.5 text-sm font-medium font-heading hover:bg-muted",
-                linkActive("/") ? "text-primary" : "text-foreground",
-              )}
-              onClick={() => setOpen(false)}
-            >
-              Home
-            </Link>
-            {mainNav.map((item) => (
+        <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 lg:flex">
+          {navItems.map((item) => {
+            const active = isActivePath(pathname, item.href);
+            return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "min-h-11 rounded-md px-3 py-2.5 text-sm font-medium font-heading hover:bg-muted",
-                  linkActive(item.href) ? "text-primary" : "text-foreground",
+                  "relative py-1 text-[15px] font-medium text-black transition-colors duration-200",
+                  !active && "hover:text-primary",
                 )}
-                onClick={() => setOpen(false)}
               >
                 {item.label}
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-0.5 rounded-sm bg-primary transition-all duration-200",
+                    active ? "w-full" : "w-0 hover:w-full",
+                  )}
+                  aria-hidden
+                />
               </Link>
-            ))}
-            <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4">
-              <Button asChild variant="outline" className="w-full">
-                <Link href="/products#product-guidance" onClick={() => setOpen(false)}>
-                  {cta.helpChoose}
-                </Link>
-              </Button>
-              <Button asChild className="w-full">
-                <Link href="/contact" onClick={() => setOpen(false)}>
-                  {cta.contactShort}
-                </Link>
-              </Button>
+            );
+          })}
+        </nav>
+
+        <button
+          type="button"
+          suppressHydrationWarning
+          onClick={() => setOpen((v) => !v)}
+          className="inline-flex h-11 w-11 items-center justify-center lg:hidden"
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {open ? (
+          <motion.nav
+            key="mobile-nav"
+            initial={reduced ? false : { height: 0, opacity: 0 }}
+            animate={reduced ? undefined : { height: "auto", opacity: 1 }}
+            exit={reduced ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.28 }}
+            className="overflow-hidden border-t border-border bg-white lg:hidden"
+          >
+            <div className="site-container flex flex-col py-2">
+              {navItems.map((item) => {
+                const active = isActivePath(pathname, item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "border-b border-border py-4 text-[17px] font-medium text-black transition-colors duration-200 last:border-b-0",
+                      active ? "text-primary" : "hover:text-primary",
+                    )}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
-          </div>
-        </div>
-      )}
-    </header>
+          </motion.nav>
+        ) : null}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -169,6 +169,48 @@ export const faqs: FaqItem[] = [
     answer:
       "Not reliably — chemistry differs. Cementitious haze and epoxy film need products matched to the residue and to the tile or stone sensitivity. Use the FIXONEX cleaner line as labelled, test discreetly on polished stone, and follow dwell times. When unsure, Contact with photos and product names.",
   },
+  {
+    id: "25",
+    category: "surfaces",
+    question: "Can I install tile over anhydrite or gypsum-based screeds?",
+    answer:
+      "Only with correct surface preparation and a verified compatible primer or barrier system per the screed producer and adhesive manufacturer — alkaline gypsum can interfere with cement chemistry if treated casually. Obtain written pairing guidance and test areas before full production.",
+  },
+  {
+    id: "26",
+    category: "products",
+    question: "What is ‘slump’ and why does the bag care about it?",
+    answer:
+      "Slump describes how the wet mortar flows or holds shape after mixing. Too stiff a mix may not wet the tile back fully; too loose a mix slumps under weight and loses ridge height. Stay inside the water band on the sheet — slump is how crews discover they ignored the band.",
+  },
+  {
+    id: "27",
+    category: "support",
+    question: "Does FIXONEX ship samples for colour or texture approval?",
+    answer:
+      "For material approval workflows we can advise on how to obtain retention samples through authorized channels. Availability depends on SKU and region — note your project name and required quantity when you Contact.",
+  },
+  {
+    id: "28",
+    category: "consultation",
+    question: "Can you help compare FIXONEX to another brand named in our tender?",
+    answer:
+      "We provide declared performance and limitations for FIXONEX lines so your engineer or specifier can judge equivalence. We do not sign blanket “or equal” sheets without understanding substrate, exposure, and tile schedule — send drawings context for a serious comparison.",
+  },
+  {
+    id: "29",
+    category: "surfaces",
+    question: "How do I fix a low spot in a concrete slab before tiling?",
+    answer:
+      "Use repair mortar or self-levelling compounds rated for the thickness you need, applied per the producer; feather edges without creating sharp hollows. Let repairs cure before priming and tiling. Grinding high spots sometimes pairs with filling lows — agree flatness tolerance with the tile size in mind.",
+  },
+  {
+    id: "30",
+    category: "products",
+    question: "Why did my adhesive set faster in summer than the label suggested?",
+    answer:
+      "Substrate temperature, direct sun, wind, and very dry air accelerate surface set. The lab sheet lists reference conditions; site reality moves open time. Reduce batch size, shade materials, and condition backgrounds — do not add water to buy time past what the system allows.",
+  },
 ];
 
 export function faqsByCategory(category: FaqItem["category"]): FaqItem[] {

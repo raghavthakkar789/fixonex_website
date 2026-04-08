@@ -7,19 +7,30 @@ export const proseInlineLinkClass =
  * Inner pages should prefer `<PageSection spacing="…" />` where possible.
  */
 export const sectionBand = {
-  stripe: "py-5 sm:py-6",
-  tight: "py-9 sm:py-11 lg:py-12",
-  /** Matches `PageSection` default spacing */
-  main: "py-12 sm:py-16 lg:py-20",
-  /** Softer main band for dense home sequences */
-  mainSoft: "py-11 sm:py-14 lg:py-16",
-  /** Between main and tight — guidance strips, secondary blocks */
-  relaxed: "py-11 sm:py-14 lg:py-16",
+  stripe: "py-6 sm:py-8",
+  /** Dense interior bands inside a larger composed section */
+  tight: "py-12 sm:py-14 lg:py-16",
+  /** Primary marketing bands — generous vertical rhythm */
+  main: "py-12 sm:py-16 md:py-[4.25rem] lg:py-24",
+  /** Softer main — long narratives, connected sequences */
+  mainSoft: "py-12 sm:py-16 lg:py-20",
+  relaxed: "py-12 sm:py-16 lg:py-20",
   /** Hero / lead sections */
-  hero: "py-12 sm:py-16 lg:py-[4.5rem]",
+  hero: "py-12 sm:py-14 md:py-[4.5rem] lg:py-28",
   /** Secondary content band (e.g. home channels) */
-  follow: "py-10 sm:py-14 lg:py-16",
+  follow: "py-12 sm:py-16 lg:py-22",
 } as const;
+
+/** Soft horizontal rule — connects sub-parts without a hard section break */
+export const sectionSublDividerClass =
+  "mx-auto h-px max-w-[min(100%,42rem)] bg-gradient-to-r from-transparent via-border/55 to-transparent";
+
+/** Vertical breathing room between chapters inside one composed zone */
+export const sectionChapterGapClass = "mt-12 sm:mt-16 md:mt-20 lg:mt-24";
+
+/** Magazine-style inset — lighter edge, softer lift (pairs with gradients / long reads) */
+export const panelEditorialClass =
+  "rounded-2xl border border-border/45 bg-background/90 px-5 py-7 shadow-[0_1px_0_rgba(17,17,17,0.05),0_20px_50px_-24px_rgba(17,17,17,0.1)] sm:px-7 sm:py-8 md:px-8 md:py-9 lg:px-10 lg:py-10";
 
 /** White inset surface on canvas / muted (shell + shadow aligned with `Card`) */
 export const panelSurfaceClass =

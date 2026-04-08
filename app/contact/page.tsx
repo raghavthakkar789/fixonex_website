@@ -1,95 +1,201 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { PageBanner } from "@/components/sections/PageBanner";
-import { PageSection } from "@/components/layout/PageSection";
-import { ContactForm } from "@/components/forms/ContactForm";
-import { SocialLinksGrid } from "@/components/sections/SocialLinksGrid";
-import { socialLinks } from "@/data/social";
-import { companyInfo } from "@/data/company";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  asideMicroHeadingClass,
-  cta,
-  panelSurfaceClass,
-  proseInlineLinkClass,
-} from "@/lib/ui-constants";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Contact FIXONEX — form, phone, email, WhatsApp. Straight answers on products and projects.",
+import { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Phone, Youtube } from "lucide-react";
+import { PageBanner } from "@/components/ui/PageBanner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+
+type ContactFormValues = {
+  fullName: string;
+  phone: string;
+  email: string;
+  inquiryType: string;
+  message: string;
 };
 
+const inquiryOptions = ["Product Information", "Technical Guidance", "Dealer Inquiry", "General"] as const;
+
 export default function ContactPage() {
-  const wa = `https://wa.me/${companyInfo.whatsappNumber}`;
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const reduced = useReducedMotion();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormValues>({
+    defaultValues: {
+      inquiryType: inquiryOptions[0] ?? "General",
+    },
+  });
+
+  const onSubmit = async () => {
+    setSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    setSubmitting(false);
+    setSubmitted(true);
+    reset();
+  };
 
   return (
     <>
       <PageBanner
-        importance="compact"
-        title="Contact FIXONEX"
-        subtitle="Use the form, call, email, or WhatsApp — a few details are enough for us to help."
+        label="Contact"
+        title="Contact & Consultation"
+        subtitle="We're here to help you get it right."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
-      <PageSection spacing="spacious" className="bg-canvas">
-        <p className="mb-6 max-w-xl text-sm leading-relaxed text-muted-foreground sm:mb-8">
-          Share your project type, city, and what you need — we reply with clear next steps. For dealer programmes, use{" "}
-          <Link href="/partner" className={proseInlineLinkClass}>
-            Partner
-          </Link>
-          .
-        </p>
 
-        <div className="grid min-w-0 gap-7 sm:gap-8 lg:grid-cols-[minmax(0,1.45fr)_minmax(260px,24rem)] lg:items-start lg:gap-12">
-          <div className="min-w-0">
-            <div className={panelSurfaceClass}>
-              <ContactForm />
-            </div>
+      <section className="section-pad bg-white">
+        <div className="site-container mx-auto max-w-[680px] text-center">
+          <p className="text-base leading-[1.75] text-dark">
+            Whether you need product advice, want to place an order, or have a technical question — our team is ready to help.
+          </p>
+        </div>
+      </section>
+
+      <section className="section-pad bg-white">
+        <div className="site-container grid gap-12 lg:grid-cols-12">
+          <div className="rounded-xl border border-border bg-white p-8 shadow-sm lg:col-span-7 md:p-10">
+            <h2 className="font-display text-2xl font-semibold text-black sr-only">Contact form</h2>
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <motion.div
+                  key="thanks"
+                  initial={reduced ? false : { opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center py-10 text-center"
+                >
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent-rose text-primary">
+                    <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden />
+                  </span>
+                  <p className="mt-6 text-lg font-semibold text-black">Thank you! We&apos;ll be in touch within 24 hours.</p>
+                  <Button type="button" variant="ghost" className="mt-6" onClick={() => setSubmitted(false)}>
+                    Send another message
+                  </Button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  exit={reduced ? undefined : { opacity: 0 }}
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="space-y-5"
+                >
+                  <div>
+                    <Label htmlFor="fullName">Full Name</Label>
+                    <Input id="fullName" {...register("fullName", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.fullName} />
+                    {errors.fullName ? <p className="mt-1 text-sm text-primary">{errors.fullName.message}</p> : null}
+                  </div>
+                  <div>
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="+91 …"
+                      {...register("phone", { required: "Required" })}
+                      className="mt-1.5"
+                      aria-invalid={!!errors.phone}
+                    />
+                    {errors.phone ? <p className="mt-1 text-sm text-primary">{errors.phone.message}</p> : null}
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" {...register("email")} className="mt-1.5" />
+                  </div>
+                  <div>
+                    <Label htmlFor="inquiryType">Inquiry Type</Label>
+                    <select
+                      id="inquiryType"
+                      {...register("inquiryType", { required: true })}
+                      className="mt-1.5 flex h-12 w-full rounded-md border border-border bg-white px-3 text-[15px] outline-none focus-visible:ring-2 focus-visible:ring-warm"
+                    >
+                      {inquiryOptions.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea id="message" rows={4} {...register("message", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.message} />
+                    {errors.message ? <p className="mt-1 text-sm text-primary">{errors.message.message}</p> : null}
+                  </div>
+                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" aria-hidden />
+                        Sending…
+                      </>
+                    ) : (
+                      "Send Message"
+                    )}
+                  </Button>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </div>
-          <aside className="min-w-0 lg:pt-0">
-            <Card variant="quiet">
-              <CardContent className="space-y-4 p-5 text-sm text-muted-foreground sm:space-y-5 sm:p-6">
-                <p className={asideMicroHeadingClass}>Direct contact</p>
-                <div>
-                  <p className={asideMicroHeadingClass}>Phone</p>
-                  <a href={`tel:${companyInfo.phone.replace(/\s/g, "")}`} className={proseInlineLinkClass}>
-                    {companyInfo.phone}
-                  </a>
-                </div>
-                <div>
-                  <p className={asideMicroHeadingClass}>Email</p>
-                  <a href={`mailto:${companyInfo.email}`} className={proseInlineLinkClass}>
-                    {companyInfo.email}
-                  </a>
-                </div>
-                <div>
-                  <p className={asideMicroHeadingClass}>Hours</p>
-                  <p className="leading-relaxed">{companyInfo.businessHours}</p>
-                </div>
-                <Button asChild variant="outline" className="w-full">
-                  <a href={wa} target="_blank" rel="noopener noreferrer">
-                    {cta.whatsApp}
-                  </a>
-                </Button>
-                <p className="text-xs leading-relaxed">
-                  Registered office &amp; map:{" "}
-                  <Link href="/about#office" className={proseInlineLinkClass}>
-                    About FIXONEX
-                  </Link>
-                  .
-                </p>
-              </CardContent>
-            </Card>
+
+          <aside className="lg:col-span-5">
+            <p className="label-caps text-warm">Reach Us Directly</p>
+            <ul className="mt-6 space-y-5 text-dark">
+              <li className="flex gap-3">
+                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+                <a href="tel:+917383838632" className="font-medium hover:text-primary">
+                  +91 7383838632
+                </a>
+              </li>
+              <li className="flex gap-3">
+                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+                <a href="mailto:info@fixonex.com" className="font-medium hover:text-primary">
+                  info@fixonex.com
+                </a>
+              </li>
+              <li className="flex gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
+                <span>SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat</span>
+              </li>
+            </ul>
+            <Button asChild size="lg" className="mt-8 w-full bg-[#25D366] text-white hover:bg-[#1ebe5b]">
+              <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="h-5 w-5" aria-hidden />
+                Chat on WhatsApp
+              </Link>
+            </Button>
           </aside>
         </div>
+      </section>
 
-        <div className="mt-10 border-t border-border pt-7 sm:mt-12 sm:pt-8">
-          <p className={asideMicroHeadingClass}>Social</p>
-          <div className="mt-3">
-            <SocialLinksGrid links={socialLinks} />
+      <section className="section-pad bg-light">
+        <div className="site-container">
+          <p className="text-center text-sm font-medium text-mid">Connect with us</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            {[
+              { href: "https://wa.me/917383838632", icon: MessageCircle, label: "WhatsApp" },
+              { href: "#", icon: Instagram, label: "Instagram" },
+              { href: "#", icon: Linkedin, label: "LinkedIn" },
+              { href: "#", icon: Youtube, label: "YouTube" },
+            ].map(({ href, icon: Icon, label }) => (
+              <Link
+                key={label}
+                href={href}
+                aria-label={label}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-border bg-white text-dark transition-colors hover:border-warm hover:text-primary"
+              >
+                <Icon className="h-5 w-5" />
+              </Link>
+            ))}
           </div>
         </div>
-      </PageSection>
+      </section>
     </>
   );
 }

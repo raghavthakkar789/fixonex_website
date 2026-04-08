@@ -1,73 +1,83 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      maxWidth: {
-        /** ~1240px with padding — premium industrial content width */
-        content: "1280px",
-      },
       colors: {
-        /** Primary page canvas (beige) */
-        canvas: "#C1B2A4",
-        /** Secondary headings / industrial labels — NOT for body copy */
-        subhead: "#2B2B2B",
-        background: "#FFFFFF",
-        foreground: "#111111",
-        muted: {
-          DEFAULT: "#F5F5F5",
-          foreground: "#6B6B6B",
-        },
+        white: "#FFFFFF",
+        black: "#111111",
+        dark: "#2B2B2B",
+        mid: "#6B6B6B",
+        light: "#F5F5F5",
         border: "#E0E0E0",
-        card: {
-          DEFAULT: "#FFFFFF",
-          foreground: "#111111",
-        },
-        primary: {
-          DEFAULT: "#D32F2F",
-          foreground: "#FFFFFF",
-          hover: "#B71C1C",
-        },
-        surface: {
-          dark: "#2B2B2B",
-        },
+        primary: "#D32F2F",
+        "primary-dark": "#B71C1C",
+        warm: "#C1B2A4",
+        "warm-dark": "#A89585",
+        "warm-dim": "rgba(193,178,164,0.12)",
+        "accent-rose": "#FFEBEE",
+        brand: "#111111",
+        surface: "#F5F5F5",
+        red: "#D32F2F",
+        "red-dk": "#B71C1C",
       },
       fontFamily: {
-        heading: ["var(--font-poppins)", "system-ui", "sans-serif"],
-        body: ["var(--font-roboto)", "system-ui", "sans-serif"],
+        display: ["var(--font-playfair)", "Georgia", "serif"],
+        body: ["var(--font-inter)", "system-ui", "sans-serif"],
+      },
+      fontSize: {
+        hero: ["clamp(2.5rem,6vw,4rem)", { lineHeight: "1.08", fontWeight: "700" }],
+        display: ["clamp(2rem,4vw,2.75rem)", { lineHeight: "1.12", fontWeight: "600" }],
+      },
+      borderRadius: {
+        xs: "4px",
+        sm: "8px",
+        md: "12px",
+        lg: "20px",
+        xl: "32px",
+        pill: "9999px",
       },
       boxShadow: {
-        /** Crisp edge + controlled depth — structured, not generic float */
-        card: "0 1px 0 0 rgba(17, 17, 17, 0.07), 0 3px 12px rgba(17, 17, 17, 0.05)",
-        "card-hover": "0 1px 0 0 rgba(17, 17, 17, 0.08), 0 10px 28px rgba(17, 17, 17, 0.09)",
-        nav: "0 1px 0 0 rgba(17, 17, 17, 0.09)",
+        xs: "0 1px 3px rgba(0,0,0,0.05)",
+        sm: "0 2px 8px rgba(0,0,0,0.06)",
+        md: "0 4px 20px rgba(0,0,0,0.08)",
+        lg: "0 12px 40px rgba(0,0,0,0.12)",
+        xl: "0 24px 64px rgba(0,0,0,0.16)",
+        nav: "0 2px 20px rgba(0,0,0,0.08)",
+        warm: "0 8px 32px rgba(193,178,164,0.30)",
+        red: "0 4px 24px rgba(211,47,47,0.35)",
+      },
+      spacing: {
+        18: "4.5rem",
+        22: "5.5rem",
+        26: "6.5rem",
+        30: "7.5rem",
+        34: "8.5rem",
+      },
+      maxWidth: {
+        container: "1280px",
       },
       transitionTimingFunction: {
-        industrial: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+        spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        "help-pulse": {
+          "0%": { transform: "scale(1)", opacity: "0.5" },
+          "100%": { transform: "scale(1.35)", opacity: "0" },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        ticker: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "help-pulse": "help-pulse 3s ease-out infinite",
+        ticker: "ticker 20s linear infinite",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
 
 export default config;

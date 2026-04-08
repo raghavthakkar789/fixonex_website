@@ -1,56 +1,116 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import { PageBanner } from "@/components/sections/PageBanner";
-import { PageSection } from "@/components/layout/PageSection";
-import { SectionHeading } from "@/components/sections/SectionHeading";
-import { ProductGridWithFilter } from "@/components/products/ProductGridWithFilter";
-import { ProductGuidanceSection } from "@/components/products/ProductGuidanceSection";
-import { productCategories } from "@/data/products";
-import { Button } from "@/components/ui/button";
-import { cta, panelSurfaceClass, sectionBand } from "@/lib/ui-constants";
-import { cn } from "@/lib/utils";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Products",
-  description:
-    "FIXONEX product hub — all ranges, simple filters, on-page guidance, and links to Support.",
-};
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { PageBanner } from "@/components/ui/PageBanner";
+import { ProductCard } from "@/components/ui/ProductCard";
+import { products } from "@/lib/data/products";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+
+const guidanceRows: [string, string][] = [
+  ["Interior Ceramic Wall", "FIX 111 (C1T)"],
+  ["Large Vitrified Floor", "FIX 333 (C2TE)"],
+  ["Exterior Facade", "FIX 444 or 555"],
+  ["Swimming Pool", "FIX 555 (C2TES2)"],
+  ["Metal / Plywood Substrate", "PU FIXO-999"],
+  ["AAC Block Joints", "Block Joining Mortar"],
+];
 
 export default function ProductsPage() {
+  const reduced = useReducedMotion();
+
   return (
     <>
       <PageBanner
-        importance="compact"
-        title="FIXONEX products"
-        subtitle="Every range in one place. Search by name, open a page for context, or use guidance below when you are not sure where to start."
+        label="Products"
+        title="Our Products"
+        subtitle="Engineered adhesion for every surface and application."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />
-      <PageSection spacing="default" className="bg-muted">
-        <SectionHeading
-          eyebrow="Catalogue"
-          title="Pick a range — we explain the job it is for"
-          description="Each FIXONEX product page spells out where it belongs, what problem it solves, and what to watch on site."
-          importance="primary"
-          className="mb-8 max-w-2xl sm:mb-9"
-        />
-        <div className={panelSurfaceClass}>
-          <ProductGridWithFilter products={productCategories} />
+
+      <section className="section-pad bg-white">
+        <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
+          <motion.div
+            initial={reduced ? false : { opacity: 0, x: -24 }}
+            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            <p className="text-base leading-[1.75] text-dark">
+              FIXONEX offers a complete system of tile installation solutions — from basic ceramic tile fixing to high-performance exterior applications and designer epoxy finishes.
+            </p>
+          </motion.div>
+          <motion.ol
+            className="space-y-4"
+            initial={reduced ? false : { opacity: 0, x: 24 }}
+            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            {["cho_tile", "cho_match", "cho_grout"].map((key, i98) => {
+              const lines = [
+                ["Choose your tile type", "Match substrate, format, and exposure before selecting grade."],
+                ["Match the adhesive grade", "Step from C1T through C2TES2 — or PU for specialty bonds."],
+                ["Finish with epoxy grout", "20+ colours for durable, stain-resistant joints."],
+              ];
+              const [t, d] = lines[i98] ?? ["", ""];
+              return (
+                <li key={key} className="flex gap-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm font-display text-lg font-semibold text-dark">
+                    {i98 + 1}
+                  </span>
+                  <div>
+                    <p className="font-semibold text-black">{t}</p>
+                    <p className="mt-1 text-sm text-mid">{d}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </motion.ol>
         </div>
-      </PageSection>
+      </section>
 
-      <ProductGuidanceSection visualWeight="featured" />
+      <section className="section-pad bg-light">
+        <div className="site-container">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product, index) => (
+              <ProductCard
+                key={product.slug}
+                name={product.name}
+                slug={product.slug}
+                badge={product.badge}
+                standard={product.standard}
+                applicationShort={product.applicationShort}
+                sizesLine={product.sizesLine}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <section className={cn("border-t border-border bg-canvas", sectionBand.tight)}>
-        <div className="mx-auto max-w-content px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="More help"
-            title="Mixing, grout, safety, questions"
-            description="Step-by-step articles and a searchable FAQ live on FIXONEX Support — linked from product pages when useful."
-            importance="quiet"
-            className="mb-5 max-w-lg sm:mb-6"
-          />
-          <Button asChild variant="outline" size="sm">
-            <Link href="/support">{cta.goSupport}</Link>
-          </Button>
+      <section className="section-pad bg-dark">
+        <div className="site-container">
+          <h2 className="font-display text-display font-semibold text-white">Which adhesive is right for me?</h2>
+          <p className="mt-3 max-w-2xl text-mid">Quick surface-to-product mapping — confirm with your TDS and specifier for final selection.</p>
+          <div className="mt-10 overflow-hidden rounded-md border border-white/10">
+            {guidanceRows.map(([surface, prod], i98) => (
+              <div
+                key={surface}
+                className={`grid gap-2 border-b border-white/10 px-4 py-4 text-sm sm:grid-cols-2 sm:items-center sm:gap-8 md:px-6 ${
+                  i98 % 2 === 0 ? "bg-black/20" : "bg-white/5"
+                }`}
+              >
+                <div className="border-l-4 border-warm pl-4 font-medium text-white">{surface}</div>
+                <div className="pl-4 text-mid sm:border-l sm:border-white/10 sm:pl-6">{prod}</div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 text-center text-sm text-mid">
+            Need a documented recommendation?{" "}
+            <Link href="/contact" className="font-semibold text-warm underline-offset-2 hover:underline">
+              Contact our experts
+            </Link>
+            .
+          </p>
         </div>
       </section>
     </>

@@ -1,0 +1,89 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/lib/useReducedMotion";
+import { useMouseParallax } from "@/lib/useMouseParallax";
+type Crumb = { label: string; href?: string };
+
+type PageBannerProps = {
+  label: string;
+  title: string;
+  subtitle: string;
+  breadcrumbs?: Crumb[];
+};
+
+export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBannerProps) {
+  const reduced = useReducedMotion();
+  const { shift, onMove, onLeave } = useMouseParallax(3);
+
+  return (
+    <section
+      className="relative flex min-h-[200px] overflow-hidden bg-dark text-white md:min-h-[280px]"
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+    >
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+              -12deg,
+              #C1B2A4 0px,
+              #C1B2A4 1px,
+              transparent 1px,
+              transparent 12px
+            ),
+            repeating-linear-gradient(
+              78deg,
+              #C1B2A4 0px,
+              #C1B2A4 1px,
+              transparent 1px,
+              transparent 16px
+            )`,
+          transform: reduced ? undefined : `translate(${shift.x}px, ${shift.y}px)`,
+        }}
+        aria-hidden
+      />
+      <div className="site-container relative flex flex-1 flex-col justify-center py-12 md:py-16">
+        {breadcrumbs.length > 0 ? (
+          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-sm text-mid">
+            {breadcrumbs.map((crumb, index) => (
+              <span key={`${crumb.label}-${index}`} className="inline-flex items-center gap-2">
+                {crumb.href ? (
+                  <Link href={crumb.href} className="text-mid hover:text-white">
+                    {crumb.label}
+                  </Link>
+                ) : (
+                  <span className="text-warm">{crumb.label}</span>
+                )}
+                {index < breadcrumbs.length - 1 ? <span className="text-warm">›</span> : null}
+              </span>
+            ))}
+          </nav>
+        ) : null}
+        <div className="flex gap-5">
+          <span className="w-1 shrink-0 rounded-sm bg-primary" aria-hidden />
+          <div className="min-w-0">
+            <p className="label-caps text-warm">{label}</p>
+            <motion.h1
+              className="mt-3 max-w-3xl font-display text-hero font-bold text-white"
+              initial={reduced ? false : { x: -40, opacity: 0 }}
+              animate={reduced ? undefined : { x: 0, opacity: 1 }}
+              transition={{ duration: 0.45 }}
+            >
+              {title}
+            </motion.h1>
+            <motion.p
+              className="mt-4 max-w-2xl text-base text-mid"
+              initial={reduced ? false : { opacity: 0 }}
+              animate={reduced ? undefined : { opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              {subtitle}
+            </motion.p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

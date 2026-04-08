@@ -1,35 +1,32 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { ScrollToTop } from "@/components/layout/ScrollToTop";
-import { StickyGetHelp } from "@/components/layout/StickyGetHelp";
+import { AppFrame } from "@/components/layout/AppFrame";
 import { BRAND } from "@/lib/brand";
 
-const poppins = Poppins({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+  weight: ["400", "600", "700"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
-const roboto = Roboto({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-roboto",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fixonex.com"),
   title: {
-    default: `${BRAND.name} | Strong finishes that last`,
+    default: `${BRAND.name} | ${BRAND.tagline}`,
     template: `%s | ${BRAND.name}`,
   },
   description: BRAND.description,
   openGraph: {
-    title: `${BRAND.name} | Strong finishes that last`,
+    title: `${BRAND.name} | ${BRAND.tagline}`,
     description: BRAND.description,
     type: "website",
     locale: "en_IN",
@@ -42,18 +39,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${roboto.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body>
         <a href="#main-content" className="skip-to-main">
           Skip to main content
         </a>
-        <Navbar />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
-        <ScrollToTop />
-        <StickyGetHelp />
+        <AppFrame>{children}</AppFrame>
       </body>
     </html>
   );

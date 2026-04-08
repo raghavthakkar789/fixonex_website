@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { ProductCategory } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { cta } from "@/lib/ui-constants";
 
 interface ProductCardProps {
@@ -13,16 +14,15 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Card className="group flex h-full min-w-0 flex-col overflow-hidden">
-      <CardHeader className="space-y-2.5 p-5 sm:p-6">
-        <div className="aspect-[16/10] w-full overflow-hidden rounded-md border border-border bg-muted">
-          <div
-            className="flex h-full w-full items-center justify-center px-3 text-center text-[0.6875rem] font-bold uppercase leading-snug tracking-wider text-muted-foreground"
-            role="img"
-            aria-label={product.heroImageAlt}
-          >
-            {product.title}
-          </div>
-        </div>
+      <CardHeader className="space-y-2.5 p-4 sm:p-5 md:p-6">
+        <MediaPlaceholder
+          tone="editorial"
+          aspect="card"
+          className="w-full"
+          label={product.title}
+          sublabel="Category visual — swap for range photography."
+          decorative
+        />
         <CardTitle className="text-lg text-foreground sm:text-xl">{product.title}</CardTitle>
         {bestFor ? (
           <p className="text-[0.625rem] font-bold uppercase leading-snug tracking-[0.12em] text-subhead">
@@ -33,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
           </p>
         ) : null}
       </CardHeader>
-      <CardContent className="mt-auto flex flex-1 flex-col p-5 pt-0 sm:p-6 sm:pt-0">
+      <CardContent className="mt-auto flex flex-1 flex-col p-4 pt-0 sm:p-5 sm:pt-0 md:p-6">
         <p className="text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>
         <Link
           href={`/products/${product.slug}`}

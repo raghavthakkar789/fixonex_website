@@ -3,31 +3,35 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold font-heading tracking-tight transition-[background-color,border-color,box-shadow,color,opacity] duration-150 ease-industrial focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:translate-y-px",
+  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-pill font-display font-semibold transition-all duration-300 ease-[var(--ease-default)] disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-sm shadow-black/10 ring-1 ring-inset ring-white/15 hover:bg-primary-hover",
-        outline:
-          "border-2 border-foreground bg-transparent text-foreground hover:bg-muted hover:text-foreground",
-        ghost: "text-foreground underline-offset-4 hover:bg-muted hover:underline",
-        link: "font-semibold text-primary underline-offset-4 hover:underline",
-        dark: "bg-subhead text-white shadow-sm shadow-black/15 ring-1 ring-inset ring-white/10 hover:opacity-[0.93]",
+        default: "bg-red text-white hover:bg-red-dk hover:shadow-red",
+        primary: "bg-red text-white hover:bg-red-dk hover:shadow-red",
+        secondary: "bg-brand text-white hover:bg-dark",
+        outline: "border-2 border-warm bg-transparent text-warm hover:bg-warm hover:text-brand",
+        outlineNeutral: "border-2 border-black bg-white text-black hover:bg-light",
+        ghost: "group bg-transparent text-red hover:text-red-dk",
+        link: "group bg-transparent px-0 text-red hover:text-red-dk",
+        dark: "bg-brand text-white hover:bg-dark",
+        warm: "bg-warm text-brand hover:bg-[#b5a596]",
       },
       size: {
-        default: "h-10 px-5 py-2 sm:h-11 sm:px-6",
-        sm: "h-9 px-4 text-xs",
-        lg: "h-11 px-7 text-[0.9375rem] sm:h-12 sm:px-8 sm:text-base",
-        icon: "h-10 w-10",
+        default: "px-7 py-3.5 text-[15px]",
+        sm: "px-5 py-2.5 text-sm",
+        md: "px-7 py-3.5 text-[15px]",
+        lg: "px-9 py-[18px] text-base",
+        icon: "h-11 w-11 p-0",
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: "primary",
+      size: "md",
     },
   },
 );
@@ -44,13 +48,21 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+    if (asChild) {
+      const Comp = Slot;
+      return <Comp className={cn(buttonVariants({ variant, size, className }))} {...props} />;
+    }
+
+    const isGhost = variant === "ghost";
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <motion.span whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} className="inline-flex">
+        <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+          {props.children}
+          {isGhost && (
+            <span className="absolute bottom-1 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" aria-hidden />
+          )}
+        </button>
+      </motion.span>
     );
   },
 );

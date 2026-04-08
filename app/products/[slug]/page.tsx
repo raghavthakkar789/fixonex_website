@@ -1,256 +1,156 @@
-import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageBanner } from "@/components/sections/PageBanner";
-import { PageSection } from "@/components/layout/PageSection";
+import { Check } from "lucide-react";
+import { products, getCatalogProduct } from "@/lib/data/products";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getProductBySlug, getAllProductSlugs, productCategories } from "@/data/products";
-import { guidesForProductSlug } from "@/data/support-guides";
-import { ExpandableBulletList } from "@/components/content/ExpandableBulletList";
-import { ExpandableAnswer } from "@/components/content/ExpandableAnswer";
-import { asideMicroHeadingClass, cta, panelMutedClass, proseInlineLinkClass } from "@/lib/ui-constants";
-import { cn } from "@/lib/utils";
+import { PageBanner } from "@/components/ui/PageBanner";
+import { ProductCard } from "@/components/ui/ProductCard";
+import { CTADark } from "@/components/ui/CTADark";
 
-type Props = { params: Promise<{ slug: string }> };
-
-export async function generateStaticParams() {
-  return getAllProductSlugs().map((slug) => ({ slug }));
+export function generateStaticParams() {
+  return products.map((product) => ({ slug: product.slug }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = getProductBySlug(slug);
-  if (!p) return { title: "Product" };
-  return {
-    title: p.title,
-    description: p.shortDescription,
-  };
-}
+  const product = getCatalogProduct(slug);
+  if (!product) notFound();
 
-export default async function ProductDetailPage({ params }: Props) {
-  const { slug } = await params;
-  const p = getProductBySlug(slug);
-  if (!p) notFound();
-
-  const relatedGuides = guidesForProductSlug(slug);
-  const hasLineDetails = (p.skus?.length ?? 0) > 0 || (p.colorOptions?.length ?? 0) > 0;
+  const related = products.filter((p) => product.relatedSlugs.includes(p.slug));
 
   return (
     <>
-      <PageBanner importance="compact" title={p.title} subtitle={p.shortDescription} />
-      <PageSection spacing="default">
-        <article className="min-w-0">
-          <div className="grid min-w-0 gap-10 lg:grid-cols-2 lg:items-start lg:gap-14">
-            <div className="min-w-0 space-y-6 sm:space-y-8">
-              <div>
-                <h2 className={asideMicroHeadingClass}>What this range is for</h2>
-                <ExpandableAnswer
-                  text={p.description}
-                  maxChars={220}
-                  className="mt-2"
-                  textClassName="text-base text-foreground"
-                />
-              </div>
+      <PageBanner
+        label={product.badge}
+        title={product.name}
+        subtitle={product.applicationShort}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
+      />
 
-              <div className="rounded-md border border-foreground bg-muted p-5 shadow-card sm:p-7">
-                <h2 className="font-heading text-base font-bold tracking-tight text-foreground lg:text-lg">Where it belongs</h2>
-                <ExpandableBulletList
-                  items={p.idealUseCases}
-                  previewCount={3}
-                  listClassName="mt-3 list-inside list-disc space-y-1.5"
-                />
-                <p className="mt-3 text-sm text-muted-foreground">{p.indoorOutdoor}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{p.dryWetSuitability}</p>
-                <p className="mt-4 text-sm font-semibold text-foreground">Pack sizes: {p.sizesApplication}</p>
-              </div>
-
-              <div className="rounded-md border border-border border-l-4 border-l-foreground bg-background p-5 shadow-card sm:p-7">
-                <h2 className="font-heading text-base font-bold tracking-tight text-foreground lg:text-lg">
-                  Why specify this line
-                </h2>
-                <ExpandableBulletList
-                  items={p.benefits}
-                  previewCount={3}
-                  listClassName="mt-3 list-inside list-disc space-y-1.5"
-                />
-              </div>
-
-              <div className="rounded-md border border-border bg-muted p-5 sm:p-6">
-                <h2 className={asideMicroHeadingClass}>Simple site reminders</h2>
-                <ExpandableBulletList
-                  items={p.usageNotes}
-                  previewCount={3}
-                  listClassName="mt-2 list-inside list-disc space-y-1.5"
-                />
-              </div>
-            </div>
-
-            <aside className="min-w-0 space-y-6 lg:sticky lg:top-24">
-              <div
-                className="flex min-h-[220px] items-center justify-center rounded-md border border-border bg-muted p-6 text-center text-sm text-muted-foreground sm:min-h-[260px] lg:min-h-[300px]"
-                role="img"
-                aria-label={p.heroImageAlt}
-              >
-                Product image coming soon · {p.title}
-              </div>
-
-              <Card variant="quiet" className="bg-background">
-                <CardHeader>
-                  <CardTitle className="text-lg">Specify or buy this range</CardTitle>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Send a short note with exposure and finish, or use the range finder if you are still comparing.
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <Button asChild className="w-full" size="default">
-                    <Link href="/contact">{cta.contact}</Link>
-                  </Button>
-                  <Button asChild variant="outline" className="w-full" size="default">
-                    <Link href="/products#product-guidance">{cta.rangeFinder}</Link>
-                  </Button>
-                  <Button asChild variant="ghost" className="w-full" size="default">
-                    <Link href="/support">{cta.brandSupport}</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            </aside>
+      <section className="section-pad bg-white">
+        <div className="site-container grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border lg:col-span-5">
+            <Image src={product.image} alt={product.name} fill className="object-cover" sizes="(max-width:1024px) 100vw, 40vw" priority />
           </div>
+          <div className="lg:col-span-7">
+            <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">What it is</h2>
+            <p className="mt-4 text-base leading-[1.75] text-dark">{product.whatItIs}</p>
+            <p className="mt-4 text-sm text-mid">
+              <span className="font-semibold text-black">Standard: </span>
+              {product.standard}
+            </p>
+          </div>
+        </div>
+      </section>
 
-          {hasLineDetails ? (
-            <div className="mt-12 space-y-5 border-t border-border pt-10 sm:mt-14 sm:space-y-6 sm:pt-12">
-              <div className="space-y-1">
-                <h2 className="font-heading text-base font-semibold text-foreground">SKU and colour detail</h2>
-                <p className="max-w-2xl text-xs text-muted-foreground">
-                  Declared SKUs and colour names — specification layer behind the overview.
-                </p>
-              </div>
-              {p.skus?.map((sku) => (
-                <Card key={sku.name + (sku.variant ?? "")} variant="quiet" className="bg-background">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-semibold text-foreground">{sku.name}</CardTitle>
-                    {sku.variant ? <p className="text-sm font-semibold text-subhead">{sku.variant}</p> : null}
-                  </CardHeader>
-                  <CardContent className="space-y-3 text-sm text-muted-foreground">
-                    {sku.standards ? (
-                      <p>
-                        <span className="font-semibold text-foreground">Declared performance: </span>
-                        {sku.standards}
-                      </p>
-                    ) : null}
-                    {sku.application ? (
-                      <p>
-                        <span className="font-semibold text-foreground">Where it applies: </span>
-                        {sku.application}
-                      </p>
-                    ) : null}
-                    {sku.size ? (
-                      <p>
-                        <span className="font-semibold text-foreground">Pack size: </span>
-                        {sku.size}
-                      </p>
-                    ) : null}
-                    {sku.extras?.length ? (
-                      <div className="border-t border-border pt-3">
-                        <ExpandableBulletList
-                          items={sku.extras}
-                          previewCount={2}
-                          listClassName="list-inside list-disc space-y-1.5"
-                        />
-                      </div>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              ))}
-              {p.colorOptions?.length ? (
-                <div>
-                  <h3 className="font-heading text-base font-semibold text-foreground">Colours</h3>
-                  {p.colorTagline ? (
-                    <p className="mt-2 text-sm italic text-muted-foreground">{p.colorTagline}</p>
-                  ) : null}
-                  <ul className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {p.colorOptions.map(({ name, swatch }) => (
-                      <li
-                        key={name}
-                        className="flex min-w-0 items-center gap-3 rounded-md border border-border bg-muted px-3 py-2 text-sm font-medium text-foreground"
-                      >
-                        <span
-                          className="h-6 w-6 shrink-0 rounded-sm border border-border shadow-sm"
-                          style={{ backgroundColor: swatch }}
-                          aria-hidden
-                        />
-                        <span className="min-w-0">{name}</span>
-                      </li>
-                    ))}
-                  </ul>
+      <section className="section-pad bg-light">
+        <div className="site-container">
+          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Where to Use</h2>
+          <ul className="mt-8 space-y-4">
+            {product.whereToUse.map((item) => (
+              <li key={item} className="flex gap-3 text-dark">
+                <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-warm/30 text-warm">
+                  <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
+                </span>
+                <span className="text-base leading-[1.75]">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="section-pad bg-white">
+        <div className="site-container">
+          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Why Use This</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {product.whyBenefits.map((b) => (
+              <article key={b.title} className="rounded-md border border-border p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-rose text-primary">
+                  <b.icon className="h-6 w-6" aria-hidden />
                 </div>
-              ) : null}
-            </div>
-          ) : null}
+                <h3 className="mt-4 font-body text-xl font-semibold text-black">{b.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mid">{b.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          {relatedGuides.length > 0 ? (
-            <div className={cn("mt-10 sm:mt-12", panelMutedClass)}>
-              <h2 className="font-heading text-base font-bold tracking-tight text-foreground">Help for this range</h2>
-              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                Deeper notes sit on Support — these guides are picked for this range:
-              </p>
-              <ul className="mt-3 space-y-2">
-                {relatedGuides.map((g) => (
-                  <li key={g.id}>
-                    <Link href={`/support/guides/${g.id}`} className={cn("text-sm", proseInlineLinkClass)}>
-                      {g.title}
-                    </Link>
-                    <span className="text-muted-foreground"> — {g.category}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button asChild variant="link" className="mt-2 h-auto px-0 text-sm">
-                <Link href="/support">{cta.guidesOnSupport}</Link>
-              </Button>
-            </div>
-          ) : null}
+      <section className="section-pad bg-white">
+        <div className="site-container">
+          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Usage on Site</h2>
+          <ol className="mt-8 space-y-6">
+            {product.usageSteps.map((step, i98) => (
+              <li key={i98} className="flex gap-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">
+                  {i98 + 1}
+                </span>
+                <p className="pt-1 text-base leading-[1.75] text-dark">{step}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-          <div className="mt-10 border-t border-border pt-8 sm:mt-12">
-            <h2 className="font-heading text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-muted-foreground sm:text-xs">
-              Other ranges
-            </h2>
-            <p className="mt-1.5 max-w-2xl text-xs text-muted-foreground">
-              If this line is almost right, another FIXONEX page is usually the next quick read.
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {productCategories
-                .filter((x) => x.slug !== p.slug)
-                .map((x) => (
-                  <li key={x.slug}>
-                    <Link
-                      href={`/products/${x.slug}`}
-                      className="inline-flex min-h-9 items-center rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:border-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    >
-                      {x.title}
-                    </Link>
-                  </li>
-                ))}
-            </ul>
+      <section className="section-pad bg-light">
+        <div className="site-container">
+          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Variants &amp; Sizes</h2>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {product.variants.map((v) => (
+              <span key={v} className="rounded-pill border border-border bg-white px-4 py-2 text-sm font-medium text-dark">
+                {v}
+              </span>
+            ))}
           </div>
 
-          <div className={cn("mt-10 sm:mt-12", panelMutedClass)}>
-            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Still comparing? Try the range finder on Products or send FIXONEX a short note — we reply in plain language.
-            </p>
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Button asChild size="default" className="w-full sm:w-auto">
-                <Link href="/products#product-guidance">{cta.rangeFinder}</Link>
-              </Button>
-              <Button asChild variant="outline" size="default" className="w-full sm:w-auto">
-                <Link href="/contact">{cta.contact}</Link>
-              </Button>
-              <Button asChild variant="ghost" size="default" className="w-full sm:w-auto sm:ml-auto">
-                <Link href="/support">{cta.brandSupport}</Link>
-              </Button>
+          {product.colorSwatches?.length ? (
+            <div className="mt-10">
+              <h3 className="font-body text-lg font-semibold text-black">Epoxy color range</h3>
+              <div className="mt-4 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5">
+                {product.colorSwatches.map((c) => (
+                  <div key={c.name} className="flex flex-col items-center gap-2 text-center">
+                    <span className="h-12 w-12 rounded-full border border-border shadow-sm" style={{ backgroundColor: c.hex }} title={c.name} />
+                    <span className="text-[11px] font-medium leading-tight text-mid">{c.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
+          ) : null}
+        </div>
+      </section>
+
+      <section className="section-pad bg-white">
+        <div className="site-container mx-auto max-w-[720px] rounded-md bg-warm px-8 py-10 text-dark">
+          <h2 className="font-display text-2xl font-semibold text-dark">Need Help?</h2>
+          <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
+          <Button asChild className="mt-6" variant="primary">
+            <Link href="/contact">Get guidance</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="section-pad bg-light">
+        <div className="site-container">
+          <h2 className="font-display text-2xl font-semibold text-black">Related Products</h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {related.map((p, index) => (
+              <ProductCard
+                key={p.slug}
+                name={p.name}
+                slug={p.slug}
+                badge={p.badge}
+                standard={p.standard}
+                applicationShort={p.applicationShort}
+                sizesLine={p.sizesLine}
+                index={index}
+              />
+            ))}
           </div>
-        </article>
-      </PageSection>
+        </div>
+      </section>
+
+      <CTADark headline="Get a Quote or Consultation" subtext="Share your surface, tile format, and site conditions — we will confirm the right FIXONEX system." />
     </>
   );
 }

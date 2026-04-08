@@ -1,4 +1,3 @@
-import type { NextConfig } from "next";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -7,7 +6,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 /** Set by GitHub Actions for project pages (`/repo-name`). Empty for local dev or `*.github.io` user sites. */
 const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
   /** Prefer this repo when another lockfile exists higher in the directory tree (e.g. user home). */
   outputFileTracingRoot: path.join(__dirname),

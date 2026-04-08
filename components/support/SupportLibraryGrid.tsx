@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getProductBySlug } from "@/data/products";
 import type { SupportGuide } from "@/data/support-guides";
+import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { cta, proseInlineLinkClass } from "@/lib/ui-constants";
 
 const INITIAL_COUNT = 6;
@@ -21,8 +22,16 @@ export function SupportLibraryGrid({ guides }: { guides: SupportGuide[] }) {
     <>
       <div className="grid gap-4 md:grid-cols-2 md:gap-5">
         {shown.map((g) => (
-          <Card key={g.id} id={`guide-${g.id}`} className="scroll-mt-24" variant="elevated">
-            <CardHeader className="pb-2">
+          <Card key={g.id} id={`guide-${g.id}`} className="scroll-mt-24 overflow-hidden" variant="elevated">
+            <MediaPlaceholder
+              tone="editorial"
+              aspect="card"
+              className="rounded-none border-x-0 border-t-0 shadow-none ring-0"
+              label={g.category}
+              sublabel="Article visual"
+              decorative
+            />
+            <CardHeader className="pb-2 pt-4 sm:pt-5">
               <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-subhead sm:text-xs">{g.category}</p>
               <CardTitle className="text-base sm:text-lg">
                 <Link

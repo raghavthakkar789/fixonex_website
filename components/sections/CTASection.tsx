@@ -35,7 +35,7 @@ export function CTASection({
     <section
       className={cn(
         "border-y border-border",
-        compact ? "py-10 sm:py-12" : "py-12 sm:py-16 md:py-20",
+        compact ? "py-10 sm:py-12 md:py-14 lg:py-16" : "py-12 sm:py-14 md:py-16 lg:py-[4.75rem]",
         isDark ? "bg-foreground text-white" : "bg-muted",
         className,
       )}

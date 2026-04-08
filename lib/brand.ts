@@ -5,7 +5,7 @@ export const BRAND = {
   name: "FIXONEX",
   logoMotto: "Simply strong.",
   /** Primary customer-facing tagline */
-  tagline: "Strong bond begins here.",
+  tagline: "Strong Bond Begins Here.",
   /** Companion line in Hindi — use sparingly alongside English */
   taglineHi: "Mazboot jod. Bharosemand result.",
   description:
