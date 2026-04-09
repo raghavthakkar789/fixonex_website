@@ -20,6 +20,20 @@ const nextConfig = {
   output: "export",
   trailingSlash: true,
   images: { unoptimized: true },
+  async redirects() {
+    return [
+      { source: "/products/fix-111", destination: "/products/tiles-adhesive/fix-111", permanent: true },
+      { source: "/products/fix-222", destination: "/products/tiles-adhesive/fix-222", permanent: true },
+      { source: "/products/fix-333", destination: "/products/tiles-adhesive/fix-333", permanent: true },
+      { source: "/products/fix-444", destination: "/products/tiles-adhesive/fix-444", permanent: true },
+      { source: "/products/fix-555", destination: "/products/tiles-adhesive/fix-555", permanent: true },
+      { source: "/products/fix-c1t-111", destination: "/products/tiles-adhesive/fix-111", permanent: true },
+      { source: "/products/fix-c2t-222", destination: "/products/tiles-adhesive/fix-222", permanent: true },
+      { source: "/products/fix-c2te-333", destination: "/products/tiles-adhesive/fix-333", permanent: true },
+      { source: "/products/fix-c2tes1-444", destination: "/products/tiles-adhesive/fix-444", permanent: true },
+      { source: "/products/fix-c2tes2-555", destination: "/products/tiles-adhesive/fix-555", permanent: true },
+    ];
+  },
   ...(basePath ? { basePath, assetPrefix: basePath } : {}),
 };
 

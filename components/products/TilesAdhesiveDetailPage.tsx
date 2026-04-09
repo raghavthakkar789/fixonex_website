@@ -1,71 +1,92 @@
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
-import { products, getCatalogProduct } from "@/lib/data/products";
 import { Button } from "@/components/ui/button";
 import { PageBanner } from "@/components/ui/PageBanner";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { getTileAdhesiveBySubSlug, getTileAdhesiveProducts } from "@/lib/data/products";
 
-export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
-}
+const familyTabs = [
+  { subSlug: "fix-111", label: "FIX 111" },
+  { subSlug: "fix-222", label: "FIX 222" },
+  { subSlug: "fix-333", label: "FIX 333" },
+  { subSlug: "fix-444", label: "FIX 444" },
+  { subSlug: "fix-555", label: "FIX 555" },
+] as const;
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const product = getCatalogProduct(slug);
+export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
+  const product = getTileAdhesiveBySubSlug(subSlug);
   if (!product) notFound();
-  if (product.familySlug === "tiles-adhesive" && product.subSlug) {
-    redirect(`/products/tiles-adhesive/${product.subSlug}`);
-  }
 
-  const related = products.filter((p) => product.relatedSlugs.includes(p.slug));
-  const isTileSpacer = product.id === "spacer";
-  const isPu = product.id === "pu-999";
-  const isEpoxy = product.id === "epoxy";
-  const isCleaner = product.id === "cleaner";
-  const isTallPortrait = ["fix-111", "fix-222", "fix-333", "fix-444", "fix-555", "block-mortar"].includes(product.id);
-
-  const imageHeightClass = isCleaner
-    ? "h-[420px] md:h-[500px] lg:h-[620px]"
-    : isTallPortrait
-      ? "h-[360px] md:h-[460px] lg:h-[560px]"
-      : isEpoxy
-        ? "h-[320px] md:h-[380px] lg:h-[460px]"
-        : isPu
-          ? "h-[280px] md:h-[340px] lg:h-[400px]"
-          : "h-[320px] md:h-[380px] lg:h-[460px]";
+  const related = getTileAdhesiveProducts().filter((p) => p.subSlug !== subSlug);
 
   return (
     <>
+      <div className="border-b border-border bg-white">
+        <div className="site-container overflow-x-auto py-3 text-[13px] text-mid">
+          <div className="min-w-max whitespace-nowrap">
+          <Link href="/products" className="transition-colors hover:text-black">
+            Products
+          </Link>
+          <span className="mx-2 text-warm">›</span>
+          <Link href="/products/tiles-adhesive" className="transition-colors hover:text-black">
+            Tiles Adhesive
+          </Link>
+          <span className="mx-2 text-warm">›</span>
+          <span>{product.name.replace(/[()]/g, "")}</span>
+          </div>
+        </div>
+      </div>
+
       <PageBanner
         label={product.badge}
         title={product.name}
         subtitle={product.applicationShort}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: "Tiles Adhesive", href: "/products/tiles-adhesive" },
+          { label: product.name.replace(/[()]/g, "") },
+        ]}
       />
+
+      <section className="sticky top-[72px] z-30 border-b border-border bg-white">
+        <div className="site-container overflow-x-auto">
+          <div className="flex min-w-max gap-6">
+            {familyTabs.map((tab) => {
+              const active = tab.subSlug === subSlug;
+              return (
+                <Link
+                  key={tab.subSlug}
+                  href={`/products/tiles-adhesive/${tab.subSlug}`}
+                  className={`inline-flex border-b-2 py-4 text-sm font-semibold transition-colors ${
+                    active ? "border-primary text-black" : "border-transparent text-mid hover:text-black"
+                  }`}
+                >
+                  {tab.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       <section className="section-pad bg-white">
         <div className="site-container grid gap-10 lg:grid-cols-12 lg:items-center">
-          {isTileSpacer ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border lg:col-span-5">
-              <ImageWithFallback src={product.image} alt={product.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
-            </div>
-          ) : (
-            <div className={`relative overflow-hidden rounded-md border border-border bg-[#F5F5F5] lg:col-span-5 ${imageHeightClass}`}>
-              <ImageWithFallback
-                src={product.image}
-                alt={product.name}
-                width={product.dimensions?.width ?? 2655}
-                height={product.dimensions?.height ?? 4333}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-                className="absolute inset-0 h-full w-full object-contain bg-[#F5F5F5]"
-                placeholderClassName="bg-[#F5F5F5]"
-              />
-            </div>
-          )}
+          <div className="relative h-[360px] overflow-hidden rounded-md border border-border bg-[#F5F5F5] md:h-[460px] lg:col-span-5 lg:h-[560px]">
+            <ImageWithFallback
+              src={product.image}
+              alt={product.name}
+              width={product.dimensions?.width ?? 2655}
+              height={product.dimensions?.height ?? 4333}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+              className="absolute inset-0 h-full w-full object-contain bg-[#F5F5F5]"
+              placeholderClassName="bg-[#F5F5F5]"
+            />
+          </div>
           <div className="lg:col-span-7">
             <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">What it is</h2>
             <p className="mt-4 text-base leading-[1.75] text-dark">{product.whatItIs}</p>
@@ -136,20 +157,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               </span>
             ))}
           </div>
-
-          {product.colorSwatches?.length ? (
-            <div className="mt-10">
-              <h3 className="font-body text-lg font-semibold text-black">Epoxy color range</h3>
-              <div className="mt-4 grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5">
-                {product.colorSwatches.map((c) => (
-                  <div key={c.name} className="flex flex-col items-center gap-2 text-center">
-                    <span className="h-12 w-12 rounded-full border border-border shadow-sm" style={{ backgroundColor: c.hex }} title={c.name} />
-                    <span className="text-[11px] font-medium leading-tight text-mid">{c.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
         </div>
       </section>
 
@@ -172,7 +179,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 id={p.id}
                 key={p.slug}
                 name={p.name}
-                slug={p.slug}
+                slug={`tiles-adhesive/${p.subSlug ?? p.slug}`}
                 badge={p.badge}
                 standard={p.standard}
                 applicationShort={p.applicationShort}

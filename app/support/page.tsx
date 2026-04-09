@@ -78,7 +78,7 @@ export default function SupportPage() {
             {visibleGuides.map((g, i98) => (
               <motion.article
                 key={g.id}
-                initial={reduced ? false : { opacity: 0, y: 20 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.06 }}
@@ -138,7 +138,7 @@ export default function SupportPage() {
             {timelineSteps.map((step, i98) => (
               <motion.div
                 key={step.title}
-                initial={reduced ? false : { opacity: 0, y: 16 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ delay: i98 * 0.15 }}

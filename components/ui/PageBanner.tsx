@@ -46,7 +46,8 @@ export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBan
       />
       <div className="site-container relative flex flex-1 flex-col justify-center py-12 md:py-16">
         {breadcrumbs.length > 0 ? (
-          <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-2 text-sm text-mid">
+          <nav aria-label="Breadcrumb" className="mb-4 overflow-x-auto text-sm text-mid sm:overflow-visible">
+            <div className="flex min-w-max flex-nowrap items-center gap-2 sm:min-w-0 sm:flex-wrap">
             {breadcrumbs.map((crumb, index) => (
               <span key={`${crumb.label}-${index}`} className="inline-flex items-center gap-2">
                 {crumb.href ? (
@@ -59,6 +60,7 @@ export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBan
                 {index < breadcrumbs.length - 1 ? <span className="text-warm">›</span> : null}
               </span>
             ))}
+            </div>
           </nav>
         ) : null}
         <div className="flex gap-5">

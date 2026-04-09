@@ -20,6 +20,9 @@ export type CatalogProduct = {
   variants: string[];
   colorSwatches?: ProductColorSwatch[];
   image: string;
+  dimensions?: { width: number; height: number };
+  familySlug?: string;
+  subSlug?: string;
   relatedSlugs: string[];
 };
 
@@ -77,7 +80,10 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 20 kg",
     variants: ["Grey — 20 kg"],
-    image: "https://picsum.photos/seed/fix111/800/640",
+    image: "/images/products/fix-111.png",
+    dimensions: { width: 2655, height: 4333 },
+    familySlug: "tiles-adhesive",
+    subSlug: "fix-111",
     relatedSlugs: ["fix-c2t-222", "fix-c2te-333", "epoxy-grout"],
   },
   {
@@ -110,7 +116,10 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 20 kg",
     variants: ["Grey — 20 kg"],
-    image: "https://picsum.photos/seed/fix222/800/640",
+    image: "/images/products/fix-222.png",
+    dimensions: { width: 2655, height: 4333 },
+    familySlug: "tiles-adhesive",
+    subSlug: "fix-222",
     relatedSlugs: ["fix-c1t-111", "fix-c2te-333", "epoxy-grout"],
   },
   {
@@ -143,7 +152,10 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 20 kg",
     variants: ["Grey — 20 kg", "White — 20 kg"],
-    image: "https://picsum.photos/seed/fix333/800/640",
+    image: "/images/products/fix-333.png",
+    dimensions: { width: 2655, height: 4333 },
+    familySlug: "tiles-adhesive",
+    subSlug: "fix-333",
     relatedSlugs: ["fix-c2tes1-444", "fix-c2tes2-555", "epoxy-grout"],
   },
   {
@@ -176,7 +188,10 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 20 kg",
     variants: ["Grey — 20 kg", "White — 20 kg"],
-    image: "https://picsum.photos/seed/fix444/800/640",
+    image: "/images/products/fix-444.png",
+    dimensions: { width: 2655, height: 4333 },
+    familySlug: "tiles-adhesive",
+    subSlug: "fix-444",
     relatedSlugs: ["fix-c2te-333", "fix-c2tes2-555", "pu-fixo-999"],
   },
   {
@@ -209,7 +224,10 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 20 kg",
     variants: ["Grey — 20 kg", "White — 20 kg"],
-    image: "https://picsum.photos/seed/fix555/800/640",
+    image: "/images/products/fix-555.png",
+    dimensions: { width: 2655, height: 4333 },
+    familySlug: "tiles-adhesive",
+    subSlug: "fix-555",
     relatedSlugs: ["pu-fixo-999", "epoxy-grout", "fix-c2tes1-444"],
   },
   {
@@ -242,7 +260,8 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 40 kg",
     variants: ["40 kg bag"],
-    image: "https://picsum.photos/seed/blockmortar/800/640",
+    image: "/images/products/block-mortar.png",
+    dimensions: { width: 2655, height: 4333 },
     relatedSlugs: ["fix-c2te-333", "tile-cleaner", "tile-spacer"],
   },
   {
@@ -275,7 +294,8 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Available in: 5 kg",
     variants: ["5 kg kit"],
-    image: "https://picsum.photos/seed/pu999/800/640",
+    image: "/images/products/pu-fixo-999.png",
+    dimensions: { width: 3962, height: 3611 },
     relatedSlugs: ["fix-c2tes2-555", "epoxy-grout", "tile-spacer"],
   },
   {
@@ -309,7 +329,8 @@ export const products: CatalogProduct[] = [
     sizesLine: "Available in: 5 kg / 1 kg",
     variants: ["1 kg set", "5 kg set"],
     colorSwatches: epoxyGroutColors,
-    image: "https://picsum.photos/seed/epoxygrout/800/640",
+    image: "/images/products/epoxy-grout.png",
+    dimensions: { width: 3883, height: 3817 },
     relatedSlugs: ["fix-c2tes2-555", "tile-cleaner", "fix-c2te-333"],
   },
   {
@@ -342,7 +363,8 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Pack sizes on label",
     variants: ["As labelled"],
-    image: "https://picsum.photos/seed/tileclean/800/640",
+    image: "/images/products/tile-cleaner.png",
+    dimensions: { width: 2562, height: 5273 },
     relatedSlugs: ["epoxy-grout", "tile-spacer", "fix-c1t-111"],
   },
   {
@@ -375,11 +397,19 @@ export const products: CatalogProduct[] = [
     ],
     sizesLine: "Various sizes — 2 mm to 10 mm",
     variants: ["2 mm – 10 mm — White", "2 mm – 10 mm — Yellow"],
-    image: "https://picsum.photos/seed/spacer/800/640",
+    image: "/images/products/tile-spacer.png",
     relatedSlugs: ["epoxy-grout", "fix-c2te-333", "tile-cleaner"],
   },
 ];
 
 export function getCatalogProduct(slug: string): CatalogProduct | undefined {
   return products.find((p) => p.slug === slug);
+}
+
+export function getTileAdhesiveProducts(): CatalogProduct[] {
+  return products.filter((p) => p.familySlug === "tiles-adhesive");
+}
+
+export function getTileAdhesiveBySubSlug(subSlug: string): CatalogProduct | undefined {
+  return products.find((p) => p.familySlug === "tiles-adhesive" && p.subSlug === subSlug);
 }

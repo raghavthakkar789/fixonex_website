@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -45,22 +46,27 @@ export function Navbar() {
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <motion.header
+    <header
       className={cn(
         "sticky top-0 z-50 h-[72px] border-b border-border bg-white transition-shadow duration-300",
         scrolled ? "shadow-nav" : "shadow-none",
       )}
-      initial={reduced ? false : { y: -20, opacity: 0 }}
-      animate={reduced ? undefined : { y: 0, opacity: 1 }}
-      transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
     >
-      <div className="site-container relative flex h-full items-center justify-between gap-4">
-        <Link href="/" className="flex flex-col leading-none" aria-label={`${BRAND.name} home`}>
-          <span className="font-display text-[22px] font-bold tracking-[-0.02em] text-black">{BRAND.name}</span>
-          <span className="mt-0.5 text-[11px] font-medium tracking-wide text-warm">{BRAND.logoMotto}</span>
+      <div className="site-container flex h-full items-center gap-4">
+        <Link href="/" className="flex shrink-0 items-center gap-3 leading-none" aria-label={`${BRAND.name} home`}>
+          <div className="relative h-10 w-[132px] overflow-hidden">
+            <ImageWithFallback
+              src="/images/misc/logo.png"
+              alt={`${BRAND.name} logo`}
+              fill
+              sizes="132px"
+              className="object-contain object-left"
+            />
+          </div>
+          {/* <span className="hidden text-[11px] font-medium tracking-wide text-warm sm:inline">{BRAND.logoMotto}</span> */}
         </Link>
 
-        <nav className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 lg:flex">
+        <nav className="mx-2 hidden min-w-0 flex-1 items-center justify-center gap-4 xl:gap-6 lg:flex">
           {navItems.map((item) => {
             const active = isActivePath(pathname, item.href);
             return (
@@ -68,7 +74,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative py-1 text-[15px] font-medium text-black transition-colors duration-200",
+                  "relative whitespace-nowrap py-1 text-[13px] font-medium text-black transition-colors duration-200 xl:text-[14px]",
                   !active && "hover:text-primary",
                 )}
               >
@@ -89,7 +95,7 @@ export function Navbar() {
           type="button"
           suppressHydrationWarning
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-11 w-11 items-center justify-center lg:hidden"
+          className="ml-auto inline-flex h-11 w-11 items-center justify-center lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -104,7 +110,7 @@ export function Navbar() {
             animate={reduced ? undefined : { height: "auto", opacity: 1 }}
             exit={reduced ? undefined : { height: 0, opacity: 0 }}
             transition={{ duration: 0.28 }}
-            className="overflow-hidden border-t border-border bg-white lg:hidden"
+            className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-border bg-white lg:hidden"
           >
             <div className="site-container flex flex-col py-2">
               {navItems.map((item) => {
@@ -126,6 +132,6 @@ export function Navbar() {
           </motion.nav>
         ) : null}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

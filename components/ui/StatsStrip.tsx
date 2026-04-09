@@ -21,7 +21,7 @@ export function StatsStrip({ stats, className = "" }: StatsStripProps) {
 
   return (
     <section ref={ref} className={`bg-primary py-12 text-white md:py-16 ${className}`}>
-      <div className="site-container grid gap-8 md:grid-cols-4">
+      <div className="site-container grid grid-cols-2 gap-8 md:grid-cols-4">
         {stats.map((stat, index) => (
           <div key={stat.label} className="relative text-center md:text-left">
             {index > 0 ? <span className="absolute -left-4 top-1/2 hidden h-12 w-px -translate-y-1/2 bg-white/40 md:block" aria-hidden /> : null}

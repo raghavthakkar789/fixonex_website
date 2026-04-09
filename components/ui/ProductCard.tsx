@@ -5,31 +5,62 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 export type ProductCardProps = {
+  id?: string;
   name: string;
   slug: string;
   badge: string;
   standard: string;
   applicationShort: string;
   sizesLine: string;
+  image?: string;
+  dimensions?: { width: number; height: number };
   index?: number;
 };
 
-export function ProductCard({ name, slug, badge, standard, applicationShort, sizesLine, index = 0 }: ProductCardProps) {
+export function ProductCard({ id, name, slug, badge, standard, applicationShort, sizesLine, image, dimensions, index = 0 }: ProductCardProps) {
   const reduced = useReducedMotion();
+  const isTileSpacer = id === "spacer";
 
   return (
     <motion.article
-      initial={reduced ? false : { opacity: 0, y: 28 }}
+      initial={false}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-md border border-border bg-white",
+        "group flex h-full min-h-[520px] flex-col overflow-hidden rounded-md border border-border bg-white",
         "shadow-sm transition-[transform,box-shadow,border-color] duration-[250ms] hover:-translate-y-1.5 hover:border-warm hover:shadow-warm",
       )}
     >
+      {image ? (
+        isTileSpacer ? (
+          <div className="relative h-[200px] w-full overflow-hidden bg-[#F5F5F5]">
+            <ImageWithFallback
+              src={image}
+              alt={name}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover object-center"
+              placeholderClassName="bg-[#F5F5F5]"
+            />
+          </div>
+        ) : (
+          <div className="relative h-[240px] w-full overflow-hidden bg-[#F5F5F5]">
+            <ImageWithFallback
+              src={image}
+              alt={name}
+              width={dimensions?.width ?? 2655}
+              height={dimensions?.height ?? 4333}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="absolute inset-0 h-full w-full object-contain bg-[#F5F5F5]"
+              placeholderClassName="bg-[#F5F5F5]"
+            />
+          </div>
+        )
+      ) : null}
       <div className="h-1 w-full bg-warm" aria-hidden />
       <div className="flex flex-1 flex-col p-6">
         <span className="inline-flex w-fit rounded-pill bg-warm-dim px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-dark">

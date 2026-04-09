@@ -10,14 +10,14 @@ export function StickyHelpButton() {
   const reduced = useReducedMotion();
 
   return (
-    <div className="fixed bottom-6 right-6 z-[60] md:bottom-8 md:right-8">
+    <div className="fixed bottom-4 right-4 z-[60] md:bottom-8 md:right-8">
       <div className="group relative flex items-center">
         <span
           className="pointer-events-none absolute -inset-2 rounded-full border-2 border-primary/40 opacity-0 animate-help-pulse motion-reduce:animate-none md:-inset-2.5"
           aria-hidden
         />
         <span
-          className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-black px-3 py-1.5 text-[13px] font-medium text-white opacity-0 shadow-md transition-all duration-200 translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 max-sm:hidden"
+          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-md bg-black px-3 py-1.5 text-[13px] font-medium text-white opacity-0 shadow-md transition-all duration-200 translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 lg:block"
           role="tooltip"
         >
           Get Help

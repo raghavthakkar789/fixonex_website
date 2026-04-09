@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 type BlogCardProps = {
   title: string;
@@ -15,7 +15,13 @@ export function BlogCard({ title, excerpt, category, image, readTime, href }: Bl
   return (
     <article className="group overflow-hidden rounded-xl border border-border bg-white">
       <div className="relative aspect-[3/2] overflow-hidden">
-        <Image src={image} alt={title} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-105" />
+        <ImageWithFallback
+          src={image}
+          alt={title}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover transition-transform duration-500 ease-[var(--ease-out)] group-hover:scale-105"
+        />
       </div>
       <div className="p-6">
         <span className="inline-flex rounded-pill bg-[rgba(193,178,164,0.18)] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-warm">{category}</span>

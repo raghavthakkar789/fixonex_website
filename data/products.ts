@@ -3,6 +3,7 @@ import type { ProductCategory } from "@/types";
 export const productCategories: ProductCategory[] = [
   {
     slug: "tile-adhesives",
+    familySlug: "tilesAdhesive",
     title: "Tile adhesives",
     shortDescription:
       "FIXONEX bonds tile and stone properly — from simple indoor floors to large tiles, outdoor walls, and wet areas. Pick the grade that matches the job, not guesswork.",
@@ -34,6 +35,9 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "FIX (C1T) 111",
+        familySlug: "tiles-adhesive",
+        subSlug: "fix-111",
+        dimensions: { width: 2655, height: 4333 },
         variant: "Type 1 — grey",
         standards: "EN 12004: C1T | IS 15477:2019",
         application:
@@ -42,6 +46,9 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2T) 222",
+        familySlug: "tiles-adhesive",
+        subSlug: "fix-222",
+        dimensions: { width: 2655, height: 4333 },
         variant: "Type 2 — grey",
         standards: "EN 12004: C2T | IS 15477:2019",
         application:
@@ -50,6 +57,9 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TE) 333",
+        familySlug: "tiles-adhesive",
+        subSlug: "fix-333",
+        dimensions: { width: 2655, height: 4333 },
         variant: "Type 3 — grey / white",
         standards: "EN 12004: C2TE | IS 15477:2019",
         application:
@@ -58,6 +68,9 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TES1) 444",
+        familySlug: "tiles-adhesive",
+        subSlug: "fix-444",
+        dimensions: { width: 2655, height: 4333 },
         variant: "Type 4 — grey / white",
         standards: "EN 12004: C2TES1 | IS 15477:2019",
         application:
@@ -66,6 +79,9 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TES2) 555",
+        familySlug: "tiles-adhesive",
+        subSlug: "fix-555",
+        dimensions: { width: 2655, height: 4333 },
         variant: "Type 5 — grey / white",
         standards: "EN 12004: C2TES2 | IS 15477:2019",
         application:
@@ -103,6 +119,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Block joining mortar",
+        dimensions: { width: 2655, height: 4333 },
         application: "Thin-bed joints for AAC and cellular concrete blocks, indoor and outdoor walls.",
         size: "40 kg",
         extras: [
@@ -143,6 +160,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "PU FIXO-999",
+        dimensions: { width: 3962, height: 3611 },
         variant: "Type 5 — R2TE",
         standards: "EN 12004: R2TE | IS 15477:2019",
         application:
@@ -203,6 +221,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Epoxy grout (3-part)",
+        dimensions: { width: 3883, height: 3817 },
         variant: "Stain-free system",
         application: "Floors, walls, pool areas, and busy spaces that need resilient joints.",
         size: "1 kg and 5 kg",
@@ -238,6 +257,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Tile cleaner",
+        dimensions: { width: 2562, height: 5273 },
         extras: [
           "Removes stains",
           "Kills germs",

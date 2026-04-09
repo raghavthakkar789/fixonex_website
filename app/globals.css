@@ -37,6 +37,7 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -48,6 +49,7 @@
   body {
     @apply font-body text-base font-normal leading-[1.75] text-black antialiased;
     background: var(--white);
+    overflow-x: hidden;
   }
 
   h1,

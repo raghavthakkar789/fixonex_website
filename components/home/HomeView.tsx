@@ -23,6 +23,7 @@ import { StatsStrip } from "@/components/ui/StatsStrip";
 import { CTALight } from "@/components/ui/CTALight";
 import { CTADark } from "@/components/ui/CTADark";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { homeFaqs } from "@/lib/data/home-faqs";
 import { testimonials } from "@/lib/data/testimonials";
@@ -53,35 +54,6 @@ function HeroWords({ words, className, delay = 0 }: { words: string[]; className
   );
 }
 
-function TileIllustration() {
-  const reduced = useReducedMotion();
-  return (
-    <motion.div
-      className="relative mx-auto aspect-square w-full max-w-md"
-      initial={reduced ? false : { opacity: 0, x: 60 }}
-      animate={reduced ? undefined : { opacity: 1, x: 0 }}
-      transition={{ duration: 0.55, delay: 0.3 }}
-    >
-      <motion.div
-        className="grid h-full grid-cols-4 gap-2 p-4"
-        animate={reduced ? undefined : { y: [0, -8, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      >
-        {Array.from({ length: 16 }).map((_, i98) => (
-          <div
-            key={i98}
-            className="rounded-sm"
-            style={{
-              backgroundColor: i98 % 3 === 0 ? "#C1B2A4" : i98 % 3 === 1 ? "#d9cfc5" : "#A89585",
-              opacity: 0.35 + (i98 % 5) * 0.1,
-            }}
-          />
-        ))}
-      </motion.div>
-    </motion.div>
-  );
-}
-
 function StatCell({ value, label, delay }: { value: string; label: string; delay: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
@@ -91,7 +63,7 @@ function StatCell({ value, label, delay }: { value: string; label: string; delay
   return (
     <motion.div
       ref={ref}
-      initial={reduced ? false : { opacity: 0, y: 28 }}
+      initial={false}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.45, delay }}
       className="rounded-md border border-border bg-white p-6 shadow-sm"
@@ -134,8 +106,21 @@ export function HomeView() {
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-screen bg-white pb-14">
-        <div className="site-container flex min-h-[calc(100vh-72px)] flex-col gap-12 lg:flex-row lg:items-center lg:gap-8">
+      <section className="relative min-h-screen overflow-hidden bg-white pb-14">
+        <div className="absolute inset-0">
+          <ImageWithFallback
+            src="/images/hero/hero-main.jpeg"
+            alt="FIXONEX tile installation systems hero background image"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/45" aria-hidden />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/15" aria-hidden />
+        </div>
+
+        <div className="site-container relative z-10 flex min-h-[calc(100vh-72px)] flex-col justify-center">
           <div className="flex flex-1 flex-col justify-center pt-10 lg:max-w-[55%] lg:pt-0">
             <motion.div
               initial={reduced ? false : { opacity: 0, y: 20 }}
@@ -145,11 +130,11 @@ export function HomeView() {
               Tile Installation Solutions
             </motion.div>
             <h1 className="mt-6 flex flex-col gap-0 font-display text-hero font-bold !leading-[1.08]">
-              <HeroWords words={heroLine1} className="text-black" />
-              <HeroWords words={heroLine2} className="text-primary" delay={0.2} />
+              <HeroWords words={heroLine1} className="text-white" />
+              <HeroWords words={heroLine2} className="text-warm" delay={0.2} />
             </h1>
             <motion.p
-              className="mt-6 max-w-xl text-lg text-dark"
+              className="mt-6 max-w-xl text-lg text-white/90"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -178,12 +163,9 @@ export function HomeView() {
               </Button>
             </motion.div>
           </div>
-          <div className="flex flex-1 items-center justify-center lg:max-w-[45%]">
-            <TileIllustration />
-          </div>
         </div>
 
-        <div className="mt-8 overflow-hidden bg-black py-3 text-white">
+        <div className="relative z-10 mt-8 overflow-hidden bg-black/85 py-3 text-white backdrop-blur-[1px]">
           <div className="flex w-max animate-ticker motion-reduce:animate-none">
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={t} className="mx-6 flex items-center gap-6 text-sm font-medium">
@@ -205,7 +187,7 @@ export function HomeView() {
       <section className="section-pad bg-light">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <motion.div
-            initial={reduced ? false : { opacity: 0, x: -32 }}
+            initial={false}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
@@ -231,7 +213,7 @@ export function HomeView() {
         <div className="site-container">
           <motion.h2
             className="text-center font-display text-display font-semibold text-black"
-            initial={reduced ? false : { opacity: 0, y: 30 }}
+            initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
@@ -262,7 +244,7 @@ export function HomeView() {
             ].map((item, i98) => (
               <motion.article
                 key={item.title}
-                initial={reduced ? false : { opacity: 0, y: 40 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
@@ -287,7 +269,7 @@ export function HomeView() {
       <section className="section-pad bg-light">
         <div className="site-container">
           <motion.div
-            initial={reduced ? false : { opacity: 0, y: 24 }}
+            initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             className="mx-auto max-w-2xl text-center"
@@ -318,7 +300,7 @@ export function HomeView() {
             ].map((c, i98) => (
               <motion.div
                 key={c.title}
-                initial={reduced ? false : { opacity: 0, x: 40 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.12 }}
@@ -373,7 +355,7 @@ export function HomeView() {
         <div className="site-container">
           <motion.h2
             className="text-center font-display text-display font-semibold text-black"
-            initial={reduced ? false : { opacity: 0, y: 20 }}
+            initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
@@ -387,7 +369,7 @@ export function HomeView() {
             ].map((item, i98) => (
               <motion.article
                 key={item.title}
-                initial={reduced ? false : { opacity: 0, y: 24 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
@@ -408,7 +390,7 @@ export function HomeView() {
       {/* SERVICES */}
       <section className="bg-light py-10">
         <motion.div
-          initial={reduced ? false : { opacity: 0, y: 20 }}
+          initial={false}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           className="site-container flex min-h-[120px] flex-col items-center justify-center gap-8 md:flex-row md:gap-0"
@@ -440,7 +422,7 @@ export function HomeView() {
             {Array.from({ length: 6 }).map((_, i98) => (
               <motion.div
                 key={i98}
-                initial={reduced ? false : { opacity: 0, scale: 0.96 }}
+                initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.06 }}

@@ -15,7 +15,7 @@ export function TestimonialCard({ quote, name, role, index = 0 }: TestimonialCar
 
   return (
     <motion.article
-      initial={reduced ? false : { opacity: 0, y: 24 }}
+      initial={false}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: index * 0.15 }}

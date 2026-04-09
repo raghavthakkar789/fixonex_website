@@ -22,6 +22,9 @@ export interface ProductSku {
   size?: string;
   /** Advantages, warnings, taglines — rendered as bullets */
   extras?: string[];
+  dimensions?: { width: number; height: number };
+  familySlug?: string;
+  subSlug?: string;
 }
 
 export interface ProductCategory {
@@ -42,6 +45,7 @@ export interface ProductCategory {
   colorOptions?: ProductColorOption[];
   /** Optional tagline under colour list */
   colorTagline?: string;
+  familySlug?: string;
 }
 
 export interface FaqItem {

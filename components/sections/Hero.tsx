@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { cta, sectionBand } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
@@ -44,14 +44,16 @@ export function Hero({ introBelow }: HeroProps) {
           </div>
 
           <div className="min-w-0 max-md:mx-auto max-md:w-full max-md:max-w-lg md:max-w-none">
-            <MediaPlaceholder
-              tone="editorial"
-              aspect="landscape"
-              className="w-full md:min-h-[15rem] lg:min-h-[19rem] xl:min-h-[20rem]"
-              label="Site-ready fixing systems"
-              sublabel="Large-format, wet areas, and high-traffic finishes — photography drops in here."
-              ariaLabel="FIXONEX construction-grade fixing systems — hero photography placeholder"
-            />
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border md:aspect-auto md:min-h-[15rem] lg:min-h-[19rem] xl:min-h-[20rem]">
+              <ImageWithFallback
+                src="/images/hero/hero-main.jpeg"
+                alt="FIXONEX construction-grade fixing systems"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 44vw"
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
 
