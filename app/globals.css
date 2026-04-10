@@ -48,7 +48,7 @@
 
   body {
     @apply font-body text-base font-normal leading-[1.75] text-black antialiased;
-    background: var(--white);
+    background: #111111;
     overflow-x: hidden;
   }
 
@@ -74,9 +74,69 @@
     outline-offset: 3px;
     border-radius: var(--radius-xs);
   }
+
 }
 
 @layer components {
+  .neu-dark {
+    background: #111111;
+    box-shadow: 8px 8px 16px #0a0a0a, -8px -8px 16px #1a1a1a;
+  }
+
+  .neu-dark-inset {
+    box-shadow: inset 4px 4px 8px #0a0a0a, inset -4px -4px 8px #1a1a1a;
+  }
+
+  .neu-warm {
+    background: #c1b2a4;
+    box-shadow: 6px 6px 12px #9e9184, -6px -6px 12px #ddd3c7;
+  }
+
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+  }
+
+  .glass-warm {
+    background: rgba(193, 178, 164, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(193, 178, 164, 0.3);
+    border-radius: 24px;
+  }
+
+  .spotlight-dark {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .spotlight-dark::after {
+    content: "";
+    position: absolute;
+    inset: -35%;
+    background: radial-gradient(circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(193, 178, 164, 0.04), transparent 46%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .spotlight-dark > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .shimmer-text {
+    background: linear-gradient(105deg, #c1b2a4 0%, #f0e9e2 48%, #c1b2a4 100%);
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+
   .site-container {
     width: min(100%, 1280px);
     margin-inline: auto;
@@ -106,6 +166,20 @@
     padding: 10px 14px;
     border-radius: var(--radius-sm);
   }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 220% 0%;
+  }
+}
+
+.ripple-active .ripple-dot {
+  transform: translate(-50%, -50%) scale(18);
+  opacity: 0;
 }
 
 @media (min-width: 768px) {

@@ -10,7 +10,7 @@ type StatItem = { value: string; label: string };
 type StatsStripProps = { stats: StatItem[]; className?: string };
 
 function StatValue({ value, start }: { value: string; start: boolean }) {
-  const text = useCountUp(value, start, { durationMs: 1500 });
+  const text = useCountUp(value, start, { durationMs: 2000 });
   return <span>{text}</span>;
 }
 

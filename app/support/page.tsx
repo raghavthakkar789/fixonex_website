@@ -63,7 +63,7 @@ export default function SupportPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container mx-auto max-w-[720px] text-center">
           <p className="text-base leading-[1.75] text-dark">
             Everything you need to install FIXONEX products correctly — from surface preparation to final finishing.
@@ -71,9 +71,9 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
-          <h2 className="font-display text-display font-semibold text-black">How-to Guides</h2>
+          <h2 className="font-display text-display font-semibold text-white">How-to Guides</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {visibleGuides.map((g, i98) => (
               <motion.article
@@ -82,13 +82,13 @@ export default function SupportPage() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.06 }}
-                className="flex flex-col overflow-hidden rounded-md border border-border bg-white shadow-sm"
+                className="flex flex-col overflow-hidden rounded-md border border-dark bg-dark shadow-sm"
               >
                 <div className="h-2 bg-warm" />
                 <div className="h-24 bg-gradient-to-br from-warm/50 to-warm-dark/40" />
                 <div className="flex flex-1 flex-col p-6">
                   <BookOpen className="h-6 w-6 text-primary" aria-hidden />
-                  <h3 className="mt-3 font-body text-lg font-semibold text-black">{g.title}</h3>
+                  <h3 className="mt-3 font-body text-lg font-semibold text-white">{g.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-mid">{g.excerpt}</p>
                   <Link
                     href={`/support/guides/${g.id}`}
@@ -131,9 +131,9 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-black">
         <div className="site-container">
-          <h2 className="font-display text-display font-semibold text-black">Key Steps On Site</h2>
+          <h2 className="font-display text-display font-semibold text-white">Key Steps On Site</h2>
           <div className="mt-10 flex flex-col gap-6 md:flex-row md:flex-wrap md:justify-center lg:flex-nowrap">
             {timelineSteps.map((step, i98) => (
               <motion.div
@@ -142,12 +142,12 @@ export default function SupportPage() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ delay: i98 * 0.15 }}
-                className="flex flex-1 flex-col items-center border border-border bg-light px-4 py-5 text-center md:min-w-[140px] lg:min-w-0"
+                className="flex flex-1 flex-col items-center border border-dark bg-dark px-4 py-5 text-center md:min-w-[140px] lg:min-w-0"
               >
                 <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display text-base font-bold text-white">
                   {i98 + 1}
                 </span>
-                <p className="mt-3 font-semibold text-black">{step.title}</p>
+                <p className="mt-3 font-semibold text-white">{step.title}</p>
                 <p className="mt-1 text-xs text-mid">{step.desc}</p>
               </motion.div>
             ))}
@@ -155,13 +155,13 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-accent-rose">
+      <section className="section-pad bg-dark">
         <div className="site-container">
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-8 w-8 shrink-0 text-primary" aria-hidden />
             <div>
-              <h2 className="font-display text-2xl font-semibold text-black">Safety &amp; Handling</h2>
-              <ul className="mt-4 space-y-2 text-sm text-dark">
+              <h2 className="font-display text-2xl font-semibold text-white">Safety &amp; Handling</h2>
+              <ul className="mt-4 space-y-2 text-sm text-[#E0E0E0]">
                 <li>Keep out of reach of children.</li>
                 <li>Wash hands after use.</li>
                 <li>Store in a cool, dry place away from moisture.</li>
@@ -171,9 +171,9 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section id="faq" className="scroll-mt-28 section-pad bg-white lg:scroll-mt-24">
+      <section id="faq" className="scroll-mt-28 section-pad bg-black lg:scroll-mt-24">
         <div className="site-container">
-          <h2 className="font-display text-display font-semibold text-black">FAQ</h2>
+          <h2 className="font-display text-display font-semibold text-white">FAQ</h2>
           <div className="mt-8 max-w-3xl">
             <FAQAccordion items={visibleFaqs} defaultOpen={null} />
             {canLoadMoreFaq || expandedBeyondInitialFaq ? (

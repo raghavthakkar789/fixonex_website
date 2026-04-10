@@ -8,16 +8,16 @@ type CTALightProps = {
 
 export function CTALight({ headline, subtext }: CTALightProps) {
   return (
-    <section className="bg-light py-16 text-center md:py-20">
+    <section className="bg-warm py-16 text-center md:py-20">
       <div className="site-container mx-auto max-w-[680px]">
-        <h2 className="font-display text-display font-semibold text-black">{headline}</h2>
+        <h2 className="font-display text-[clamp(2.2rem,5vw,48px)] font-semibold text-black">{headline}</h2>
         <div className="mx-auto mt-4 h-1 w-24 rounded-sm bg-warm" aria-hidden />
         <p className="mt-6 text-base text-dark">{subtext}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Button asChild variant="primary" size="lg">
+          <Button asChild size="lg" className="bg-black text-warm hover:bg-primary hover:text-white">
             <Link href="/products">Explore Products</Link>
           </Button>
-          <Button asChild size="lg" variant="outlineNeutral">
+          <Button asChild size="lg" className="bg-black text-warm hover:bg-primary hover:text-white">
             <Link href="/contact">Contact Us</Link>
           </Button>
         </div>

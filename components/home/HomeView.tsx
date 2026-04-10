@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   BookOpen,
@@ -44,7 +44,7 @@ function HeroWords({ words, className, delay = 0 }: { words: string[]; className
             className="inline-block"
             initial={reduced ? false : { y: "100%", opacity: 0 }}
             animate={reduced ? undefined : { y: 0, opacity: 1 }}
-            transition={{ duration: 0.45, delay: delay + i98 * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.7, delay: delay + i98 * 0.12, ease: [0.16, 1, 0.3, 1] }}
           >
             {word}
           </motion.span>
@@ -66,11 +66,11 @@ function StatCell({ value, label, delay }: { value: string; label: string; delay
       initial={false}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.45, delay }}
-      className="rounded-md border border-border bg-white p-6 shadow-sm"
+      className="rounded-md border border-dark bg-black p-6 shadow-sm"
     >
       <div className="border-l-4 border-warm pl-4">
-        <p className="font-display text-[clamp(28px,4vw,40px)] font-bold text-primary">{display}</p>
-        <p className="mt-2 text-sm text-mid">{label}</p>
+        <p className="font-display text-[clamp(28px,4vw,40px)] font-bold text-warm">{display}</p>
+        <p className="mt-2 text-sm text-white">{label}</p>
       </div>
     </motion.div>
   );
@@ -102,22 +102,22 @@ function GuidanceLine() {
 
 export function HomeView() {
   const reduced = useReducedMotion();
+  const [tickerPaused, setTickerPaused] = useState(false);
 
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-screen overflow-hidden bg-white pb-14">
-        <div className="absolute inset-0">
+      <section className="relative min-h-screen overflow-hidden bg-warm pb-14">
+        <div className="absolute inset-0 bg-warm" aria-hidden />
+        <div className="absolute inset-y-0 right-0 w-[58%] bg-dark" style={{ clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)" }} aria-hidden>
           <ImageWithFallback
             src="/images/hero/hero-main.jpeg"
             alt="FIXONEX tile installation systems hero background image"
             fill
             priority
-            sizes="100vw"
-            className="object-cover object-center"
+            sizes="58vw"
+            className="object-cover object-center opacity-45"
           />
-          <div className="absolute inset-0 bg-black/45" aria-hidden />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/15" aria-hidden />
         </div>
 
         <div className="site-container relative z-10 flex min-h-[calc(100vh-72px)] flex-col justify-center">
@@ -130,11 +130,11 @@ export function HomeView() {
               Tile Installation Solutions
             </motion.div>
             <h1 className="mt-6 flex flex-col gap-0 font-display text-hero font-bold !leading-[1.08]">
-              <HeroWords words={heroLine1} className="text-white" />
-              <HeroWords words={heroLine2} className="text-warm" delay={0.2} />
+              <HeroWords words={heroLine1} className="text-black" />
+              <HeroWords words={heroLine2} className="text-primary" delay={0.24} />
             </h1>
             <motion.p
-              className="mt-6 max-w-xl text-lg text-white/90"
+              className="mt-6 max-w-xl text-lg text-dark"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -142,7 +142,7 @@ export function HomeView() {
               High-performance tile adhesives and epoxy solutions engineered for modern construction.
             </motion.p>
             <motion.p
-              className="mt-4 text-base italic leading-snug text-warm"
+              className="mt-4 text-base italic leading-snug text-dark"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.7 }}
@@ -155,27 +155,27 @@ export function HomeView() {
               animate={reduced ? undefined : { opacity: 1, scale: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <Button asChild variant="primary" size="lg">
+              <Button asChild size="lg" className="bg-black text-warm hover:bg-warm hover:text-black">
                 <Link href="/products">Explore Products</Link>
               </Button>
-              <Button asChild size="lg" variant="outlineNeutral">
+              <Button asChild size="lg" className="border-2 border-black bg-transparent text-black hover:bg-black hover:text-warm">
                 <Link href="/contact">Get Consultation</Link>
               </Button>
             </motion.div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 overflow-hidden bg-black/85 py-3 text-white backdrop-blur-[1px]">
-          <div className="flex w-max animate-ticker motion-reduce:animate-none">
+        <div className="relative z-10 mt-8 overflow-hidden bg-black py-3 text-warm backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
+          <div className="flex w-max animate-ticker motion-reduce:animate-none" style={{ animationPlayState: tickerPaused ? "paused" : "running" }}>
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={t} className="mx-6 flex items-center gap-6 text-sm font-medium">
-                <span className="text-warm">·</span>
+                <span className="text-primary">·</span>
                 {t}
               </span>
             ))}
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={`${t}-dup`} className="mx-6 flex items-center gap-6 text-sm font-medium">
-                <span className="text-warm">·</span>
+                <span className="text-primary">·</span>
                 {t}
               </span>
             ))}
@@ -184,7 +184,7 @@ export function HomeView() {
       </section>
 
       {/* COMPANY INTRO */}
-      <section className="section-pad bg-light">
+      <section className="section-pad spotlight-dark bg-dark">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <motion.div
             initial={false}
@@ -192,9 +192,9 @@ export function HomeView() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
           >
-            <p className="label-caps text-warm">Who We Are</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-black">A Decade of Bonding Excellence</h2>
-            <p className="mt-5 text-base leading-[1.75] text-dark">
+            <p className="label-caps text-warm">WHO WE ARE</p>
+            <h2 className="mt-4 font-display text-display font-semibold text-white">A Decade of Bonding Excellence</h2>
+            <p className="mt-5 text-base leading-[1.75] text-[#E0E0E0]">
               FIXONEX Adhesive is a forward-thinking construction chemical brand specializing in high-performance tile adhesives and epoxy solutions. With more than a decade of experience in the
               tiles and ceramic industry, we are built on deep market knowledge, technical expertise, and a commitment to quality.
             </p>
@@ -209,7 +209,7 @@ export function HomeView() {
       </section>
 
       {/* WHY FIXONEX */}
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container">
           <motion.h2
             className="text-center font-display text-display font-semibold text-black"
@@ -249,15 +249,15 @@ export function HomeView() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
                 whileHover={reduced ? undefined : { y: -4 }}
-                className="group rounded-md border border-border bg-white pt-1 shadow-sm transition-[border-color,box-shadow] duration-200 hover:border-warm"
+                className="group rounded-md border border-black bg-black pt-1 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:border-warm hover:bg-dark"
               >
-                <div className="h-1 w-full rounded-t-md bg-warm" />
+                <div className="h-1 w-full rounded-t-md bg-primary" />
                 <div className="p-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent-rose text-primary">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
                     <item.icon className="h-5 w-5" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-body text-2xl font-semibold text-black">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-mid">{item.text}</p>
+                  <h3 className="mt-4 font-body text-2xl font-semibold text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#E0E0E0]">{item.text}</p>
                 </div>
               </motion.article>
             ))}
@@ -266,7 +266,7 @@ export function HomeView() {
       </section>
 
       {/* PRODUCT HIGHLIGHT */}
-      <section className="section-pad bg-light">
+      <section className="section-pad spotlight-dark bg-black">
         <div className="site-container">
           <motion.div
             initial={false}
@@ -274,8 +274,8 @@ export function HomeView() {
             viewport={{ once: true, margin: "-60px" }}
             className="mx-auto max-w-2xl text-center"
           >
-            <h2 className="font-display text-display font-semibold text-black">Our Product Range</h2>
-            <p className="mt-4 text-base text-dark">From interior walls to swimming pools — engineered adhesion for every surface.</p>
+            <h2 className="font-display text-display font-semibold text-white">Our Product Range</h2>
+            <p className="mt-4 text-base text-[#E0E0E0]">From interior walls to swimming pools — engineered adhesion for every surface.</p>
           </motion.div>
           <div className="mt-12 flex gap-6 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible">
             {[
@@ -305,12 +305,13 @@ export function HomeView() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.12 }}
                 whileHover={reduced ? undefined : { scale: 1.02 }}
-               className="min-w-[280px] flex-1 overflow-hidden rounded-md border border-border bg-white shadow-sm transition-shadow hover:shadow-md md:min-w-0"
+               className="min-w-[280px] flex-1 overflow-hidden rounded-md border border-dark bg-dark shadow-sm transition-[box-shadow,border-color,transform] hover:-translate-y-1 hover:border-warm hover:shadow-warm md:min-w-0"
               >
-                <div className="h-[180px] bg-gradient-to-br from-warm/40 via-warm/25 to-warm-dark/30" />
+                <div className="h-[180px] bg-gradient-to-br from-warm via-warm/80 to-warm-dark" />
+                <div className="h-1 bg-warm" />
                 <div className="p-6">
                   <c.icon className="h-8 w-8 text-primary" aria-hidden />
-                  <h3 className="mt-4 font-body text-xl font-semibold text-black">{c.title}</h3>
+                  <h3 className="mt-4 font-body text-xl font-semibold text-white">{c.title}</h3>
                   <p className="mt-2 text-sm text-mid">{c.desc}</p>
                   <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
                     View Products →
@@ -323,11 +324,11 @@ export function HomeView() {
       </section>
 
       {/* PRODUCT GUIDANCE TEASER */}
-      <section className="section-pad bg-dark text-white">
+      <section className="section-pad bg-dark text-white" style={{ backgroundImage: "linear-gradient(125deg, #C1B2A4 0%, #C1B2A4 48%, #111111 48%, #111111 100%)" }}>
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <h2 className="font-display text-display font-semibold text-white">Not Sure Which Product to Use?</h2>
-            <p className="mt-4 text-base text-mid">Tell us your surface, tile, and exposure — we recommend the right adhesive grade.</p>
+            <h2 className="font-display text-display font-semibold text-black">Not Sure Which Product to Use?</h2>
+            <p className="mt-4 max-w-xl text-base text-dark">Tell us your surface, tile, and exposure — we recommend the right adhesive grade.</p>
             <Button asChild className="mt-8" size="lg" variant="primary">
               <Link href="/contact">Get Free Guidance</Link>
             </Button>
@@ -340,8 +341,8 @@ export function HomeView() {
                 { n: "2", t: "Share tile type & size" },
                 { n: "3", t: "We recommend the right adhesive" },
               ].map((s) => (
-                <div key={s.n} className="rounded-md border border-white/15 bg-white/5 px-4 py-5 text-center">
-                  <p className="text-xs font-semibold text-warm">{s.n}</p>
+                <div key={s.n} className="rounded-md border border-white/15 bg-white/10 px-4 py-5 text-center">
+                  <p className="text-xs font-semibold text-primary">{s.n}</p>
                   <p className="mt-2 text-sm text-white">{s.t}</p>
                 </div>
               ))}
@@ -351,10 +352,10 @@ export function HomeView() {
       </section>
 
       {/* SUPPORT TEASER */}
-      <section className="section-pad bg-white">
+      <section className="section-pad spotlight-dark bg-dark">
         <div className="site-container">
           <motion.h2
-            className="text-center font-display text-display font-semibold text-black"
+            className="text-center font-display text-display font-semibold text-white"
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -373,7 +374,7 @@ export function HomeView() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
-                className="flex flex-col border-t-4 border-warm bg-white p-8 shadow-sm"
+                className="flex flex-col border-t-4 border-primary bg-warm p-8 shadow-sm"
               >
                 <item.icon className="h-8 w-8 text-primary" />
                 <h3 className="mt-4 font-body text-xl font-semibold text-black">{item.title}</h3>
@@ -388,7 +389,7 @@ export function HomeView() {
       </section>
 
       {/* SERVICES */}
-      <section className="bg-light py-10">
+      <section className="bg-primary py-10">
         <motion.div
           initial={false}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
@@ -401,10 +402,10 @@ export function HomeView() {
             { icon: Users, label: "Dealer Network" },
           ].map((item, i98) => (
             <div key={item.label} className="flex items-center gap-8 md:px-10">
-              {i98 > 0 ? <span className="hidden h-10 w-px bg-warm md:block" aria-hidden /> : null}
+              {i98 > 0 ? <span className="hidden h-10 w-px bg-white/70 md:block" aria-hidden /> : null}
               <div className="flex items-center gap-3">
-                <item.icon className="h-5 w-5 text-primary" aria-hidden />
-                <span className="font-body text-base font-bold text-black">{item.label}</span>
+                <item.icon className="h-5 w-5 text-white" aria-hidden />
+                <span className="font-body text-base font-bold text-white">{item.label}</span>
               </div>
             </div>
           ))}
@@ -412,11 +413,11 @@ export function HomeView() {
       </section>
 
       {/* PROJECTS */}
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-black">
         <div className="site-container">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-display font-semibold text-black">Where FIXONEX Performs</h2>
-            <p className="mt-4 text-base text-dark">From homes to commercial spaces — trusted adhesion on every surface.</p>
+            <h2 className="font-display text-display font-semibold text-white">Where FIXONEX Performs</h2>
+            <p className="mt-4 text-base text-[#E0E0E0]">From homes to commercial spaces — trusted adhesion on every surface.</p>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-3 auto-rows-[140px] md:grid-cols-3 md:auto-rows-[160px]">
             {Array.from({ length: 6 }).map((_, i98) => (
@@ -438,8 +439,8 @@ export function HomeView() {
                     backgroundImage: `repeating-linear-gradient(90deg, #A89585 0, #A89585 2px, transparent 2px, transparent 14px), repeating-linear-gradient(0deg, #C1B2A4 0, #C1B2A4 2px, transparent 2px, transparent 14px)`,
                   }}
                 />
-                <div className="pointer-events-none absolute inset-0 flex items-end bg-primary/0 p-4 opacity-0 transition-all duration-300 group-hover:bg-primary/60 group-hover:opacity-100">
-                  <p className="translate-y-2 text-sm font-medium text-white transition-transform duration-300 group-hover:translate-y-0">Project preview</p>
+                <div className="pointer-events-none absolute inset-0 flex items-end bg-warm/0 p-4 opacity-0 transition-all duration-300 group-hover:bg-warm/80 group-hover:opacity-100">
+                  <p className="translate-y-2 text-sm font-medium text-black transition-transform duration-300 group-hover:translate-y-0">Project preview</p>
                 </div>
                 <span className="sr-only">Placeholder project visual {i98 + 1}</span>
               </motion.div>
@@ -461,11 +462,11 @@ export function HomeView() {
       </section>
 
       {/* FAQ */}
-      <section className="section-pad bg-light">
+      <section className="section-pad spotlight-dark bg-dark">
         <div className="site-container grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="font-display text-display font-semibold text-black">Frequently Asked Questions</h2>
-            <p className="mt-4 text-sm text-mid">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
+            <h2 className="font-display text-display font-semibold text-white">Frequently Asked Questions</h2>
+            <p className="mt-4 text-sm text-[#E0E0E0]">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
           </div>
           <div className="lg:col-span-8">
             <FAQAccordion items={homeFaqs} defaultOpen={0} />

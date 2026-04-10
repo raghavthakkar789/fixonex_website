@@ -54,7 +54,7 @@ export default function ContactPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container mx-auto max-w-[680px] text-center">
           <p className="text-base leading-[1.75] text-dark">
             Whether you need product advice, want to place an order, or have a technical question — our team is ready to help.
@@ -62,9 +62,9 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-dark">
         <div className="site-container grid gap-12 lg:grid-cols-12">
-          <div className="rounded-xl border border-border bg-white p-8 shadow-sm lg:col-span-7 md:p-10">
+          <div className="rounded-xl border border-dark bg-black p-8 shadow-sm lg:col-span-7 md:p-10">
             <h2 className="font-display text-2xl font-semibold text-black sr-only">Contact form</h2>
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -91,7 +91,7 @@ export default function ContactPage() {
                 >
                   <div>
                     <Label htmlFor="fullName">Full Name</Label>
-                    <Input id="fullName" {...register("fullName", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.fullName} />
+                    <Input id="fullName" {...register("fullName", { required: "Required" })} className="mt-1.5 bg-dark text-white" aria-invalid={!!errors.fullName} />
                     {errors.fullName ? <p className="mt-1 text-sm text-primary">{errors.fullName.message}</p> : null}
                   </div>
                   <div>
@@ -101,21 +101,21 @@ export default function ContactPage() {
                       type="tel"
                       placeholder="+91 …"
                       {...register("phone", { required: "Required" })}
-                      className="mt-1.5"
+                      className="mt-1.5 bg-dark text-white"
                       aria-invalid={!!errors.phone}
                     />
                     {errors.phone ? <p className="mt-1 text-sm text-primary">{errors.phone.message}</p> : null}
                   </div>
                   <div>
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" {...register("email")} className="mt-1.5" />
+                    <Input id="email" type="email" {...register("email")} className="mt-1.5 bg-dark text-white" />
                   </div>
                   <div>
                     <Label htmlFor="inquiryType">Inquiry Type</Label>
                     <select
                       id="inquiryType"
                       {...register("inquiryType", { required: true })}
-                      className="mt-1.5 flex h-12 w-full rounded-md border border-border bg-white px-3 text-[15px] outline-none focus-visible:ring-2 focus-visible:ring-warm"
+                      className="mt-1.5 flex h-12 w-full rounded-md border border-warm/40 bg-dark px-3 text-[15px] text-white outline-none focus-visible:ring-2 focus-visible:ring-warm"
                     >
                       {inquiryOptions.map((opt) => (
                         <option key={opt} value={opt}>
@@ -126,7 +126,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" rows={4} {...register("message", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.message} />
+                    <Textarea id="message" rows={4} {...register("message", { required: "Required" })} className="mt-1.5 bg-dark text-white" aria-invalid={!!errors.message} />
                     {errors.message ? <p className="mt-1 text-sm text-primary">{errors.message.message}</p> : null}
                   </div>
                   <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
@@ -144,9 +144,9 @@ export default function ContactPage() {
             </AnimatePresence>
           </div>
 
-          <aside className="lg:col-span-5">
+          <aside className="rounded-xl border border-dark bg-black p-8 lg:col-span-5">
             <p className="label-caps text-warm">Reach Us Directly</p>
-            <ul className="mt-6 space-y-5 text-dark">
+            <ul className="mt-6 space-y-5 text-white">
               <li className="flex gap-3">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
                 <a href="tel:+917383838632" className="font-medium hover:text-primary">
@@ -174,7 +174,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-black">
         <div className="site-container">
           <p className="text-center text-sm font-medium text-mid">Connect with us</p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -188,7 +188,7 @@ export default function ContactPage() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-border bg-white text-dark transition-colors hover:border-warm hover:text-primary"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-warm/50 bg-dark text-warm transition-colors hover:border-warm hover:text-primary"
               >
                 <Icon className="h-5 w-5" />
               </Link>

@@ -64,7 +64,7 @@ export default function WhyFixonexPage() {
       />
 
       {/* Intro */}
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="label-caps text-warm">The FIXONEX Difference</p>
@@ -100,20 +100,20 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* 6 Reasons */}
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
           <p className="label-caps text-warm">6 Reasons to Choose FIXONEX</p>
-          <h2 className="mt-4 font-display text-display font-semibold text-black">
+          <h2 className="mt-4 font-display text-display font-semibold text-white">
             What Sets Us Apart
           </h2>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((item) => (
-              <article key={item.title} className="rounded-md border border-border bg-white p-8">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+              <article key={item.title} className="rounded-md border border-black bg-black p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm text-black">
                   <item.icon className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-5 font-body text-lg font-semibold text-black">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-mid">{item.text}</p>
+                <h3 className="mt-5 font-body text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#E0E0E0]">{item.text}</p>
               </article>
             ))}
           </div>
@@ -121,14 +121,14 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* Technical differentiators list */}
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-black">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="label-caps text-warm">Technical Edge</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-black">
+            <h2 className="mt-4 font-display text-display font-semibold text-white">
               Engineered for Modern Construction
             </h2>
-            <p className="mt-5 text-base leading-[1.75] text-dark">
+            <p className="mt-5 text-base leading-[1.75] text-[#E0E0E0]">
               Modern tiles are heavier, larger, and more demanding than ever. FIXONEX adhesives are
               purpose-built to handle the realities of contemporary installation — not yesterday's
               standard brick-and-mortar tiles.
@@ -137,15 +137,15 @@ export default function WhyFixonexPage() {
               {differentiators.map((point) => (
                 <li key={point} className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                  <span className="text-base leading-[1.7] text-dark">{point}</span>
+                  <span className="text-base leading-[1.7] text-white">{point}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div className="flex flex-col gap-6 lg:pt-20">
-            <div className="rounded-md border-l-4 border-primary bg-light px-6 py-6">
+            <div className="rounded-md border-l-4 border-primary bg-dark px-6 py-6">
               <Star className="h-6 w-6 text-primary" aria-hidden />
-              <p className="mt-3 font-body text-lg font-semibold text-black">
+              <p className="mt-3 font-body text-lg font-semibold text-white">
                 Trusted by Professionals
               </p>
               <p className="mt-2 text-sm leading-relaxed text-mid">
@@ -153,9 +153,9 @@ export default function WhyFixonexPage() {
                 demanding residential and commercial projects.
               </p>
             </div>
-            <div className="rounded-md border-l-4 border-warm bg-light px-6 py-6">
+            <div className="rounded-md border-l-4 border-warm bg-dark px-6 py-6">
               <FlaskConical className="h-6 w-6 text-warm" aria-hidden />
-              <p className="mt-3 font-body text-lg font-semibold text-black">
+              <p className="mt-3 font-body text-lg font-semibold text-white">
                 Continuous Innovation
               </p>
               <p className="mt-2 text-sm leading-relaxed text-mid">
@@ -177,7 +177,7 @@ export default function WhyFixonexPage() {
             before, during, and after the install.
           </p>
         </div>
-        <div className="bg-warm/10 px-6 py-16 md:px-12 md:py-20">
+        <div className="bg-warm px-6 py-16 md:px-12 md:py-20">
           <p className="label-caps text-warm">Sustainability Focus</p>
           <p className="mt-6 text-lg leading-[1.75] text-dark">
             Reducing waste starts with bonds that last. Long-life installations mean fewer
@@ -199,10 +199,10 @@ export default function WhyFixonexPage() {
             technical team.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button asChild variant="outline" className="border-warm text-warm hover:bg-warm hover:text-black">
               <Link href="/products">View Products</Link>
             </Button>
-            <Button asChild className="bg-white text-primary hover:bg-white/90">
+            <Button asChild className="bg-black text-warm hover:bg-warm hover:text-black">
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>

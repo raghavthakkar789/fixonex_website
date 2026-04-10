@@ -21,7 +21,7 @@ export default function AboutPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="font-display text-display font-semibold text-black">Built on a Decade of Expertise</h2>
@@ -37,9 +37,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
-          <h2 className="text-center font-display text-display font-semibold text-black">What FIXONEX Does</h2>
+          <h2 className="text-center font-display text-display font-semibold text-white">What FIXONEX Does</h2>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
             {[
               {
@@ -58,12 +58,12 @@ export default function AboutPage() {
                 text: "Practical guidance for architects, contractors, and dealers from specification through application.",
               },
             ].map((item) => (
-              <article key={item.title} className="rounded-md border border-border bg-white p-8">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white">
+              <article key={item.title} className="rounded-md border border-black bg-black p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm text-black">
                   <item.icon className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-4 font-body text-xl font-semibold text-black">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-mid">{item.text}</p>
+                <h3 className="mt-4 font-body text-xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-[#E0E0E0]">{item.text}</p>
               </article>
             ))}
           </div>
@@ -78,12 +78,12 @@ export default function AboutPage() {
             strength, durability, and long-lasting performance for modern architecture and interior spaces.
           </p>
         </div>
-        <div className="bg-white px-6 py-16 md:px-12 md:py-20">
+        <div className="bg-warm px-6 py-16 md:px-12 md:py-20">
           <p className="label-caps text-warm">Mission</p>
           <ul className="mt-6 space-y-4">
             {missionPoints.map((line) => (
               <li key={line} className="flex gap-3 text-base leading-[1.75] text-dark">
-                <span className="mt-2 h-2 w-2 shrink-0 rotate-45 bg-warm" aria-hidden />
+                <span className="mt-2 h-2 w-2 shrink-0 rotate-45 bg-primary" aria-hidden />
                 {line}
               </li>
             ))}
@@ -91,21 +91,21 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-dark">
         <div className="site-container">
-          <h2 className="font-display text-display font-semibold text-black">Leadership</h2>
+          <h2 className="font-display text-display font-semibold text-white">Leadership</h2>
           <p className="mt-3 max-w-2xl text-mid">Placeholder profiles — replace with imagery and approved bios when available.</p>
           <div className="mt-10 grid gap-8 md:grid-cols-2">
             {[
               { name: "Founder Name", role: "Founder & Director", initials: "F" },
               { name: "Director Name", role: "Director", initials: "D" },
             ].map((person) => (
-              <article key={person.name} className="flex items-center gap-6 rounded-md border border-border p-6">
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-warm font-display text-2xl font-semibold text-white">
+              <article key={person.name} className="flex items-center gap-6 rounded-md border border-black bg-black p-6">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-warm font-display text-2xl font-semibold text-black">
                   {person.initials}
                 </div>
                 <div>
-                  <p className="font-body text-lg font-semibold text-black">{person.name}</p>
+                  <p className="font-body text-lg font-semibold text-white">{person.name}</p>
                   <p className="mt-1 text-sm text-mid">{person.role}</p>
                 </div>
               </article>
@@ -114,12 +114,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-warm/15">
+      <section className="section-pad bg-black">
         <div className="site-container mx-auto max-w-[640px]">
-          <div className="rounded-md border-2 border-warm bg-white px-8 py-10 text-center shadow-sm">
+          <div className="rounded-md border-2 border-warm bg-black px-8 py-10 text-center shadow-sm">
             <p className="label-caps text-warm">Company information</p>
-            <p className="mt-4 font-display text-xl font-semibold text-black">SWASTIK ENTERPRISES</p>
-            <p className="mt-4 text-sm leading-relaxed text-dark">
+            <p className="mt-4 font-display text-xl font-semibold text-white">SWASTIK ENTERPRISES</p>
+            <p className="mt-4 text-sm leading-relaxed text-warm">
               FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
             </p>
             <p className="mt-3 text-sm">

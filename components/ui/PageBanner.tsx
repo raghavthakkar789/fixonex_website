@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useMouseParallax } from "@/lib/useMouseParallax";
 type Crumb = { label: string; href?: string };
@@ -16,14 +17,18 @@ type PageBannerProps = {
 export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBannerProps) {
   const reduced = useReducedMotion();
   const { shift, onMove, onLeave } = useMouseParallax(3);
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -140]);
 
   return (
     <section
+      ref={ref}
       className="relative flex min-h-[200px] overflow-hidden bg-dark text-white md:min-h-[280px]"
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
-      <div
+      <motion.div
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: `repeating-linear-gradient(
@@ -41,6 +46,7 @@ export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBan
               transparent 16px
             )`,
           transform: reduced ? undefined : `translate(${shift.x}px, ${shift.y}px)`,
+          y: reduced ? undefined : bgY,
         }}
         aria-hidden
       />
@@ -67,14 +73,16 @@ export function PageBanner({ label, title, subtitle, breadcrumbs = [] }: PageBan
           <span className="w-1 shrink-0 rounded-sm bg-primary" aria-hidden />
           <div className="min-w-0">
             <p className="label-caps text-warm">{label}</p>
-            <motion.h1
-              className="mt-3 max-w-3xl font-display text-hero font-bold text-white"
-              initial={reduced ? false : { x: -40, opacity: 0 }}
-              animate={reduced ? undefined : { x: 0, opacity: 1 }}
-              transition={{ duration: 0.45 }}
-            >
-              {title}
-            </motion.h1>
+            <div className="mt-3 overflow-hidden">
+              <motion.h1
+                className="shimmer-text max-w-3xl font-display text-hero font-bold"
+                initial={reduced ? false : { y: 60, opacity: 0 }}
+                animate={reduced ? undefined : { y: 0, opacity: 1 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {title}
+              </motion.h1>
+            </div>
             <motion.p
               className="mt-4 max-w-2xl text-base text-mid"
               initial={reduced ? false : { opacity: 0 }}

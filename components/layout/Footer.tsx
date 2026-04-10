@@ -29,7 +29,7 @@ export function Footer() {
   ];
 
   return (
-    <footer ref={ref} className="bg-black text-white">
+    <footer ref={ref} className="border-t-4 border-warm bg-black text-white">
       <div className="site-container pt-16 pb-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
           <motion.section
@@ -37,11 +37,12 @@ export function Footer() {
             animate={inView ? { opacity: 1, y: 0 } : undefined}
             transition={{ delay: 0 }}
           >
-            <div className="flex flex-col leading-none">
-              <span className="font-display text-[22px] font-bold tracking-tight">{BRAND.name}</span>
-              <span className="mt-1 text-[11px] font-medium tracking-wide text-warm">{BRAND.logoMotto}</span>
+            <div className="relative flex flex-col leading-none">
+              <span className="pointer-events-none absolute -top-7 text-[52px] font-bold tracking-tight text-warm/15">{BRAND.name}</span>
+              <span className="relative z-10 font-display text-[48px] font-bold tracking-tight text-warm">{BRAND.name}</span>
+              <span className="mt-1 text-[11px] font-medium tracking-wide text-mid">{BRAND.logoMotto}</span>
             </div>
-            <p className="mt-4 text-[15px] font-medium capitalize text-white">{BRAND.tagline}</p>
+            <p className="mt-4 text-[16px] font-medium capitalize text-white">{BRAND.tagline}</p>
             <p className="mt-3 text-[18px] italic text-warm">{BRAND.taglineHi}</p>
           </motion.section>
 
@@ -54,7 +55,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {footerProducts.map((p) => (
                 <li key={p.href}>
-                  <Link href={p.href} className="text-sm text-mid transition-all duration-200 hover:translate-x-1 hover:text-white">
+                  <Link href={p.href} className="text-sm text-mid transition-all duration-200 hover:translate-x-1 hover:text-warm">
                     {p.label}
                   </Link>
                 </li>
@@ -71,7 +72,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-mid transition-all duration-200 hover:translate-x-1 hover:text-white">
+                  <Link href={link.href} className="text-sm text-mid transition-all duration-200 hover:translate-x-1 hover:text-warm">
                     {link.label}
                   </Link>
                 </li>
@@ -87,6 +88,7 @@ export function Footer() {
             <p className="label-caps text-mid">Contact</p>
             <ul className="mt-4 space-y-3 text-sm text-mid">
               <li>
+                <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-warm text-black">⌂</span>
                 SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
               </li>
               <li>
@@ -103,10 +105,10 @@ export function Footer() {
           </motion.section>
         </div>
 
-        <div className="relative mt-12 border-t border-warm pt-6">
+        <div className="relative mt-12 border-t-2 border-warm bg-[#0A0A0A] pt-6">
           <p className="flex flex-col items-center justify-center gap-1 text-center text-[13px] text-mid sm:flex-row sm:gap-2">
             <span>© {new Date().getFullYear()} {BRAND.name}.</span>
-            <span className="break-all sm:break-normal">www.fixonex.com</span>
+            <span className="break-all text-warm sm:break-normal">www.fixonex.com</span>
           </p>
         </div>
       </div>

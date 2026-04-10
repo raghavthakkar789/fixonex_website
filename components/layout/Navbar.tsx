@@ -48,8 +48,8 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-[72px] border-b border-border bg-white transition-shadow duration-300",
-        scrolled ? "shadow-nav" : "shadow-none",
+        "sticky top-0 z-50 h-[72px] border-b border-black/10 bg-warm transition-[background-color,box-shadow] duration-300",
+        scrolled ? "bg-warm-dark shadow-nav" : "shadow-none",
       )}
     >
       <div className="site-container flex h-full items-center gap-4">
@@ -63,7 +63,10 @@ export function Navbar() {
               className="object-contain object-left"
             />
           </div>
-          {/* <span className="hidden text-[11px] font-medium tracking-wide text-warm sm:inline">{BRAND.logoMotto}</span> */}
+          <div className="hidden flex-col sm:flex">
+            <span className="font-display text-[22px] font-bold text-black">{BRAND.name}</span>
+            <span className="text-[10px] tracking-wide text-dark">{BRAND.logoMotto}</span>
+          </div>
         </Link>
 
         <nav className="mx-2 hidden min-w-0 flex-1 items-center justify-center gap-4 xl:gap-6 lg:flex">
@@ -74,8 +77,8 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative whitespace-nowrap py-1 text-[13px] font-medium text-black transition-colors duration-200 xl:text-[14px]",
-                  !active && "hover:text-primary",
+                  "relative whitespace-nowrap py-1 text-[13px] font-medium text-dark transition-colors duration-200 xl:text-[14px]",
+                  !active && "hover:text-black",
                 )}
               >
                 {item.label}
@@ -95,7 +98,7 @@ export function Navbar() {
           type="button"
           suppressHydrationWarning
           onClick={() => setOpen((v) => !v)}
-          className="ml-auto inline-flex h-11 w-11 items-center justify-center lg:hidden"
+          className="ml-auto inline-flex h-11 w-11 items-center justify-center text-black lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -106,11 +109,11 @@ export function Navbar() {
         {open ? (
           <motion.nav
             key="mobile-nav"
-            initial={reduced ? false : { height: 0, opacity: 0 }}
-            animate={reduced ? undefined : { height: "auto", opacity: 1 }}
-            exit={reduced ? undefined : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.28 }}
-            className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-border bg-white lg:hidden"
+            initial={reduced ? false : { y: "-100%" }}
+            animate={reduced ? undefined : { y: 0 }}
+            exit={reduced ? undefined : { y: "-100%" }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-black/10 bg-warm lg:hidden"
           >
             <div className="site-container flex flex-col py-2">
               {navItems.map((item) => {
@@ -120,7 +123,7 @@ export function Navbar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "border-b border-border py-4 text-[17px] font-medium text-black transition-colors duration-200 last:border-b-0",
+                      "border-b border-black/10 py-4 text-[17px] font-medium text-black transition-colors duration-200 last:border-b-0",
                       active ? "text-primary" : "hover:text-primary",
                     )}
                   >

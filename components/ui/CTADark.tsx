@@ -13,7 +13,7 @@ export function CTADark({ headline, subtext }: CTADarkProps) {
       <div className="absolute left-1/2 top-0 h-px w-[min(90%,720px)] -translate-x-1/2 bg-warm" aria-hidden />
       <div className="site-container relative mx-auto max-w-[720px] px-6">
         <h2 className="font-display text-display font-semibold text-white">{headline}</h2>
-        <p className="mt-4 text-base text-mid">{subtext}</p>
+        <p className="mt-4 text-base text-warm">{subtext}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Button asChild size="lg" className="bg-[#25D366] text-white hover:bg-[#1ebe5b]">
             <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">

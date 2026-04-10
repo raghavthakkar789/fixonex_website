@@ -34,7 +34,7 @@ export default function TilesAdhesiveHubPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: "Tiles Adhesive" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container max-w-[980px]">
           <h2 className="font-display text-3xl font-semibold text-black">The Complete Tiles Adhesive Range</h2>
           <p className="mt-5 text-base leading-[1.8] text-dark">
@@ -44,7 +44,7 @@ export default function TilesAdhesiveHubPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-black">
         <div className="site-container">
           <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible">
             {family.map((product) => {
@@ -52,7 +52,7 @@ export default function TilesAdhesiveHubPage() {
               return (
                 <article
                   key={product.slug}
-                  className="group min-w-[260px] snap-start rounded-md border border-border bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-warm lg:min-w-0"
+                  className="group min-w-[260px] snap-start rounded-md border border-dark bg-dark p-5 transition-all duration-200 hover:-translate-y-1 hover:border-warm lg:min-w-0"
                 >
                   <div className="relative -mx-5 -mt-5 mb-4 h-[240px] overflow-hidden rounded-t-md bg-[#F5F5F5]">
                     <ImageWithFallback
@@ -67,7 +67,7 @@ export default function TilesAdhesiveHubPage() {
                   </div>
                   <div className="mb-4 h-1 w-full rounded-sm bg-transparent transition-colors group-hover:bg-warm" />
                   <span className="inline-flex rounded-pill bg-warm/20 px-2.5 py-1 text-[11px] font-semibold text-dark">{meta?.code ?? product.badge}</span>
-                  <h3 className="mt-3 font-display text-xl font-semibold text-black">{meta?.shortName ?? product.name}</h3>
+                  <h3 className="mt-3 font-display text-xl font-semibold text-white">{meta?.shortName ?? product.name}</h3>
                   <p className="mt-2 min-h-[42px] text-sm text-mid">{meta?.useCase ?? product.applicationShort}</p>
                   <Link href={`/products/tiles-adhesive/${product.subSlug}`} className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                     View Details <ArrowRight className="h-4 w-4" />
@@ -79,7 +79,7 @@ export default function TilesAdhesiveHubPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container">
           <h2 className="font-display text-3xl font-semibold text-black">Which Grade Do You Need</h2>
           <div className="overflow-x-auto rounded-md border border-border">
@@ -97,13 +97,13 @@ export default function TilesAdhesiveHubPage() {
                 ["fix-444", "FIX 444", "C2TES1 Type-4", "Exterior walls, large format, natural stone", "20kg"],
                 ["fix-555", "FIX 555", "C2TES2 Type-5", "Exterior, porcelain, swimming pools, tile on tile", "20kg"],
               ].map((row, i98) => (
-                <div key={row[0]} className={`grid grid-cols-4 gap-3 border-t border-border px-4 py-4 md:px-6 ${i98 % 2 ? "bg-light" : "bg-white"}`}>
+                <div key={row[0]} className={`grid grid-cols-4 gap-3 border-t border-black/20 px-4 py-4 md:px-6 ${i98 % 2 ? "bg-dark" : "bg-black"}`}>
                   <Link href={`/products/tiles-adhesive/${row[0]}`} className="border-l-[3px] border-warm pl-3 text-sm font-semibold text-primary hover:underline">
                     {row[1]}
                   </Link>
-                  <p className="text-sm text-dark">{row[2]}</p>
-                  <p className="text-sm text-dark">{row[3]}</p>
-                  <p className="text-sm text-dark">{row[4]}</p>
+                  <p className="text-sm text-white">{row[2]}</p>
+                  <p className="text-sm text-white">{row[3]}</p>
+                  <p className="text-sm text-white">{row[4]}</p>
                 </div>
               ))}
             </div>
@@ -116,7 +116,7 @@ export default function TilesAdhesiveHubPage() {
           <h2 className="font-display text-3xl font-semibold text-white">Not Sure Which Type to Use</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {useCases.map((item) => (
-              <article key={item.title} className="rounded-md border border-white/15 bg-white/5 p-5">
+              <article key={item.title} className="rounded-md border border-white/15 bg-white/10 p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <item.icon className="h-6 w-6 text-warm" />
@@ -138,8 +138,8 @@ export default function TilesAdhesiveHubPage() {
         </p>
       </section>
 
-      <section className="section-pad bg-white">
-        <div className="site-container mx-auto max-w-[760px] rounded-md border border-border bg-white p-10 text-center">
+      <section className="section-pad bg-warm">
+        <div className="site-container mx-auto max-w-[760px] rounded-md border border-black/20 bg-warm p-10 text-center">
           <h2 className="font-display text-3xl font-semibold text-black">Get Help Choosing the Right Grade</h2>
           <p className="mt-3 text-base text-dark">Our team can guide you based on your tile type, surface, and project conditions.</p>
           <Button asChild className="mt-7" variant="primary">

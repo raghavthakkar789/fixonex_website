@@ -29,7 +29,7 @@ export default function ProductsPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <motion.div
             initial={reduced ? false : { opacity: 0, x: -24 }}
@@ -55,7 +55,7 @@ export default function ProductsPage() {
               const [t, d] = lines[i98] ?? ["", ""];
               return (
                 <li key={key} className="flex gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-warm font-display text-lg font-semibold text-dark">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-semibold text-white">
                     {i98 + 1}
                   </span>
                   <div>
@@ -69,14 +69,14 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-black">
         <div className="site-container">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <motion.article
               initial={reduced ? false : { opacity: 0, y: 24 }}
               whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              className="rounded-md border border-border bg-white p-7 sm:col-span-2"
+              className="rounded-md border border-warm bg-warm p-7 sm:col-span-2"
             >
               <p className="inline-flex rounded-pill bg-warm/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-dark">Tiles Adhesive Range</p>
               <h3 className="mt-4 font-display text-3xl font-semibold text-black">5 Certified Grades</h3>
@@ -85,7 +85,7 @@ export default function ProductsPage() {
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {["C1T", "C2T", "C2TE", "C2TES1", "C2TES2"].map((code) => (
-                  <span key={code} className="rounded-pill bg-warm/25 px-2.5 py-1 text-[11px] font-semibold text-dark">
+                  <span key={code} className="rounded-pill bg-dark px-2.5 py-1 text-[11px] font-semibold text-warm">
                     {code}
                   </span>
                 ))}
@@ -123,7 +123,7 @@ export default function ProductsPage() {
               <div
                 key={surface}
                 className={`grid gap-2 border-b border-white/10 px-4 py-4 text-sm sm:grid-cols-2 sm:items-center sm:gap-8 md:px-6 ${
-                  i98 % 2 === 0 ? "bg-black/20" : "bg-white/5"
+                  i98 % 2 === 0 ? "bg-black" : "bg-[#1A1A1A]"
                 }`}
               >
                 <div className="border-l-4 border-warm pl-4 font-medium text-white">{surface}</div>

@@ -46,7 +46,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container grid gap-10 lg:grid-cols-12 lg:items-center">
           {isTileSpacer ? (
             <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border lg:col-span-5">
@@ -77,12 +77,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Where to Use</h2>
+          <h2 className="font-display text-2xl font-semibold text-white md:text-3xl">Where to Use</h2>
           <ul className="mt-8 space-y-4">
             {product.whereToUse.map((item) => (
-              <li key={item} className="flex gap-3 text-dark">
+              <li key={item} className="flex gap-3 text-white">
                 <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-warm/30 text-warm">
                   <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
                 </span>
@@ -93,24 +93,24 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-black">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Why Use This</h2>
+          <h2 className="font-display text-2xl font-semibold text-white md:text-3xl">Why Use This</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {product.whyBenefits.map((b) => (
-              <article key={b.title} className="rounded-md border border-border p-6">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-rose text-primary">
+              <article key={b.title} className="rounded-md border border-dark bg-dark p-6">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm/20 text-warm">
                   <b.icon className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-4 font-body text-xl font-semibold text-black">{b.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-mid">{b.text}</p>
+                <h3 className="mt-4 font-body text-xl font-semibold text-white">{b.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#E0E0E0]">{b.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container">
           <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Usage on Site</h2>
           <ol className="mt-8 space-y-6">
@@ -126,12 +126,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Variants &amp; Sizes</h2>
+          <h2 className="font-display text-2xl font-semibold text-white md:text-3xl">Variants &amp; Sizes</h2>
           <div className="mt-6 flex flex-wrap gap-2">
             {product.variants.map((v) => (
-              <span key={v} className="rounded-pill border border-border bg-white px-4 py-2 text-sm font-medium text-dark">
+              <span key={v} className="rounded-pill border border-warm/40 bg-warm/20 px-4 py-2 text-sm font-medium text-warm">
                 {v}
               </span>
             ))}
@@ -153,7 +153,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container mx-auto max-w-[720px] rounded-md bg-warm px-8 py-10 text-dark">
           <h2 className="font-display text-2xl font-semibold text-dark">Need Help?</h2>
           <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
@@ -163,9 +163,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-black">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black">Related Products</h2>
+          <h2 className="font-display text-2xl font-semibold text-white">Related Products</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {related.map((p, index) => (
               <ProductCard

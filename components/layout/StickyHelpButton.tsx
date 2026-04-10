@@ -13,7 +13,7 @@ export function StickyHelpButton() {
     <div className="fixed bottom-4 right-4 z-[60] md:bottom-8 md:right-8">
       <div className="group relative flex items-center">
         <span
-          className="pointer-events-none absolute -inset-2 rounded-full border-2 border-primary/40 opacity-0 animate-help-pulse motion-reduce:animate-none md:-inset-2.5"
+          className="pointer-events-none absolute -inset-2 rounded-full border-2 border-warm/70 opacity-0 animate-help-pulse motion-reduce:animate-none md:-inset-2.5"
           aria-hidden
         />
         <span

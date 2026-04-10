@@ -42,7 +42,7 @@ export default function PartnerPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner" }]}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
             <h2 className="font-display text-display font-semibold text-black">Become a FIXONEX Dealer</h2>
@@ -60,7 +60,7 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-light">
+      <section className="section-pad bg-dark">
         <div className="site-container">
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -69,25 +69,25 @@ export default function PartnerPage() {
               { icon: Network, title: "Business Support", text: "Marketing materials, product training, and technical guidance." },
               { icon: TrendingUp, title: "Growing Market", text: "Tap into Gujarat&apos;s booming construction sector." },
             ].map((item) => (
-              <article key={item.title} className="border-t-4 border-warm bg-white p-6 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-accent-rose text-primary">
+              <article key={item.title} className="border-t-4 border-primary bg-dark p-6 shadow-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-warm text-black">
                   <item.icon className="h-5 w-5" aria-hidden />
                 </div>
-                <h3 className="mt-4 font-body text-lg font-semibold text-black">{item.title}</h3>
-                <p className="mt-2 text-sm text-mid">{item.text}</p>
+                <h3 className="mt-4 font-body text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-[#E0E0E0]">{item.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-dark py-12 text-white">
+      <section className="bg-warm py-12 text-black">
         <div className="site-container flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12">
           {["Product Samples", "Sales Training", "Co-branding Support"].map((label, i98) => (
             <div key={label} className="flex items-center gap-8">
-              {i98 > 0 ? <span className="hidden h-10 w-px bg-warm md:block" aria-hidden /> : null}
+              {i98 > 0 ? <span className="hidden h-10 w-px bg-primary md:block" aria-hidden /> : null}
               <div className="text-center md:text-left">
-                <Package className="mx-auto mb-2 h-8 w-8 text-warm md:mx-0" aria-hidden />
+                <Package className="mx-auto mb-2 h-8 w-8 text-primary md:mx-0" aria-hidden />
                 <p className="font-semibold">{label}</p>
               </div>
             </div>
@@ -95,9 +95,9 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-black">
         <div className="site-container mx-auto max-w-[640px]">
-          <h2 className="text-center font-display text-display font-semibold text-black">Send Your Dealer Inquiry</h2>
+          <h2 className="text-center font-display text-display font-semibold text-white">Send Your Dealer Inquiry</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
             <div>
               <Label htmlFor="biz">Business Name</Label>
@@ -120,7 +120,7 @@ export default function PartnerPage() {
               <select
                 id="type"
                 {...register("businessType")}
-                className="mt-1.5 flex h-12 w-full rounded-md border border-border bg-white px-3 text-[15px] outline-none focus-visible:ring-2 focus-visible:ring-warm"
+                className="mt-1.5 flex h-12 w-full rounded-md border border-warm/40 bg-black px-3 text-[15px] text-white outline-none focus-visible:ring-2 focus-visible:ring-warm"
               >
                 {businessTypes.map((t) => (
                   <option key={t} value={t}>
