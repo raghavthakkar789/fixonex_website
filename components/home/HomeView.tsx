@@ -66,11 +66,11 @@ function StatCell({ value, label, delay }: { value: string; label: string; delay
       initial={false}
       animate={inView ? { opacity: 1, y: 0 } : undefined}
       transition={{ duration: 0.45, delay }}
-      className="rounded-md border border-dark bg-black p-6 shadow-sm"
+      className="surface-card p-6"
     >
       <div className="border-l-4 border-warm pl-4">
         <p className="font-display text-[clamp(28px,4vw,40px)] font-bold text-warm">{display}</p>
-        <p className="mt-2 text-sm text-white">{label}</p>
+        <p className="mt-2 text-sm text-[#3a3a3a]">{label}</p>
       </div>
     </motion.div>
   );
@@ -107,9 +107,9 @@ export function HomeView() {
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-screen overflow-hidden bg-warm pb-14">
-        <div className="absolute inset-0 bg-warm" aria-hidden />
-        <div className="absolute inset-y-0 right-0 w-[58%] bg-dark" style={{ clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)" }} aria-hidden>
+      <section className="relative min-h-screen overflow-hidden section-flow-warm pb-14">
+        <div className="absolute inset-0 bg-[rgb(208,200,193)]" aria-hidden />
+        <div className="absolute inset-y-0 right-0 w-[58%] bg-[rgb(208,200,193)]/70" style={{ clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)" }} aria-hidden>
           <ImageWithFallback
             src="/images/hero/hero-main.jpeg"
             alt="FIXONEX tile installation systems hero background image"
@@ -134,7 +134,7 @@ export function HomeView() {
               <HeroWords words={heroLine2} className="text-primary" delay={0.24} />
             </h1>
             <motion.p
-              className="mt-6 max-w-xl text-lg text-dark"
+            className="mt-6 max-w-xl text-lg text-[#3a3a3a]"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -155,17 +155,17 @@ export function HomeView() {
               animate={reduced ? undefined : { opacity: 1, scale: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <Button asChild size="lg" className="bg-black text-warm hover:bg-warm hover:text-black">
+              <Button asChild size="lg">
                 <Link href="/products">Explore Products</Link>
               </Button>
-              <Button asChild size="lg" className="border-2 border-black bg-transparent text-black hover:bg-black hover:text-warm">
+              <Button asChild size="lg" variant="outline">
                 <Link href="/contact">Get Consultation</Link>
               </Button>
             </motion.div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 overflow-hidden bg-black py-3 text-warm backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
+        <div className="relative z-10 mt-8 overflow-hidden rounded-2xl bg-white/70 py-3 text-[#3a3a3a] shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
           <div className="flex w-max animate-ticker motion-reduce:animate-none" style={{ animationPlayState: tickerPaused ? "paused" : "running" }}>
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={t} className="mx-6 flex items-center gap-6 text-sm font-medium">
@@ -184,7 +184,7 @@ export function HomeView() {
       </section>
 
       {/* COMPANY INTRO */}
-      <section className="section-pad spotlight-dark bg-dark">
+      <section className="section-pad section-flow-light">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <motion.div
             initial={false}
@@ -193,8 +193,8 @@ export function HomeView() {
             transition={{ duration: 0.5 }}
           >
             <p className="label-caps text-warm">WHO WE ARE</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-white">A Decade of Bonding Excellence</h2>
-            <p className="mt-5 text-base leading-[1.75] text-[#E0E0E0]">
+            <h2 className="mt-4 font-display text-display font-semibold text-[#111111]">A Decade of Bonding Excellence</h2>
+            <p className="mt-5 text-base leading-[1.75] text-[#3a3a3a]">
               FIXONEX Adhesive is a forward-thinking construction chemical brand specializing in high-performance tile adhesives and epoxy solutions. With more than a decade of experience in the
               tiles and ceramic industry, we are built on deep market knowledge, technical expertise, and a commitment to quality.
             </p>
@@ -209,7 +209,7 @@ export function HomeView() {
       </section>
 
       {/* WHY FIXONEX */}
-      <section className="section-pad bg-warm">
+      <section className="section-pad section-flow-warm">
         <div className="site-container">
           <motion.h2
             className="text-center font-display text-display font-semibold text-black"
@@ -249,15 +249,15 @@ export function HomeView() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
                 whileHover={reduced ? undefined : { y: -4 }}
-                className="group rounded-md border border-black bg-black pt-1 shadow-sm transition-[border-color,background-color,box-shadow] duration-200 hover:border-warm hover:bg-dark"
+                className="group surface-card pt-1"
               >
                 <div className="h-1 w-full rounded-t-md bg-primary" />
                 <div className="p-6">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
                     <item.icon className="h-5 w-5" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-body text-2xl font-semibold text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#E0E0E0]">{item.text}</p>
+                  <h3 className="mt-4 font-body text-2xl font-semibold text-[#111111]">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#3a3a3a]">{item.text}</p>
                 </div>
               </motion.article>
             ))}
@@ -266,7 +266,7 @@ export function HomeView() {
       </section>
 
       {/* PRODUCT HIGHLIGHT */}
-      <section className="section-pad spotlight-dark bg-black">
+      <section className="section-pad section-flow-light">
         <div className="site-container">
           <motion.div
             initial={false}
@@ -274,8 +274,8 @@ export function HomeView() {
             viewport={{ once: true, margin: "-60px" }}
             className="mx-auto max-w-2xl text-center"
           >
-            <h2 className="font-display text-display font-semibold text-white">Our Product Range</h2>
-            <p className="mt-4 text-base text-[#E0E0E0]">From interior walls to swimming pools — engineered adhesion for every surface.</p>
+            <h2 className="font-display text-display font-semibold text-[#111111]">Our Product Range</h2>
+            <p className="mt-4 text-base text-[#3a3a3a]">From interior walls to swimming pools — engineered adhesion for every surface.</p>
           </motion.div>
           <div className="mt-12 flex gap-6 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible">
             {[
@@ -305,13 +305,13 @@ export function HomeView() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.12 }}
                 whileHover={reduced ? undefined : { scale: 1.02 }}
-               className="min-w-[280px] flex-1 overflow-hidden rounded-md border border-dark bg-dark shadow-sm transition-[box-shadow,border-color,transform] hover:-translate-y-1 hover:border-warm hover:shadow-warm md:min-w-0"
+               className="surface-card min-w-[280px] flex-1 overflow-hidden md:min-w-0"
               >
                 <div className="h-[180px] bg-gradient-to-br from-warm via-warm/80 to-warm-dark" />
                 <div className="h-1 bg-warm" />
                 <div className="p-6">
                   <c.icon className="h-8 w-8 text-primary" aria-hidden />
-                  <h3 className="mt-4 font-body text-xl font-semibold text-white">{c.title}</h3>
+                  <h3 className="mt-4 font-body text-xl font-semibold text-[#111111]">{c.title}</h3>
                   <p className="mt-2 text-sm text-mid">{c.desc}</p>
                   <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
                     View Products →
@@ -324,7 +324,7 @@ export function HomeView() {
       </section>
 
       {/* PRODUCT GUIDANCE TEASER */}
-      <section className="section-pad bg-dark text-white" style={{ backgroundImage: "linear-gradient(125deg, #C1B2A4 0%, #C1B2A4 48%, #111111 48%, #111111 100%)" }}>
+      <section className="section-pad section-flow-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <h2 className="font-display text-display font-semibold text-black">Not Sure Which Product to Use?</h2>
@@ -341,9 +341,9 @@ export function HomeView() {
                 { n: "2", t: "Share tile type & size" },
                 { n: "3", t: "We recommend the right adhesive" },
               ].map((s) => (
-                <div key={s.n} className="rounded-md border border-white/15 bg-white/10 px-4 py-5 text-center">
+                <div key={s.n} className="surface-card px-4 py-5 text-center">
                   <p className="text-xs font-semibold text-primary">{s.n}</p>
-                  <p className="mt-2 text-sm text-white">{s.t}</p>
+                  <p className="mt-2 text-sm text-[#3a3a3a]">{s.t}</p>
                 </div>
               ))}
             </div>
@@ -352,10 +352,10 @@ export function HomeView() {
       </section>
 
       {/* SUPPORT TEASER */}
-      <section className="section-pad spotlight-dark bg-dark">
+      <section className="section-pad section-flow-light">
         <div className="site-container">
           <motion.h2
-            className="text-center font-display text-display font-semibold text-white"
+            className="text-center font-display text-display font-semibold text-[#111111]"
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
@@ -374,7 +374,7 @@ export function HomeView() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
-                className="flex flex-col border-t-4 border-primary bg-warm p-8 shadow-sm"
+                className="surface-card flex flex-col p-8"
               >
                 <item.icon className="h-8 w-8 text-primary" />
                 <h3 className="mt-4 font-body text-xl font-semibold text-black">{item.title}</h3>
@@ -389,7 +389,7 @@ export function HomeView() {
       </section>
 
       {/* SERVICES */}
-      <section className="bg-primary py-10">
+      <section className="section-flow-warm py-10">
         <motion.div
           initial={false}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
@@ -405,7 +405,7 @@ export function HomeView() {
               {i98 > 0 ? <span className="hidden h-10 w-px bg-white/70 md:block" aria-hidden /> : null}
               <div className="flex items-center gap-3">
                 <item.icon className="h-5 w-5 text-white" aria-hidden />
-                <span className="font-body text-base font-bold text-white">{item.label}</span>
+                <span className="font-body text-base font-bold text-[#111111]">{item.label}</span>
               </div>
             </div>
           ))}
@@ -413,11 +413,11 @@ export function HomeView() {
       </section>
 
       {/* PROJECTS */}
-      <section className="section-pad bg-black">
+      <section className="section-pad section-flow-light">
         <div className="site-container">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-display font-semibold text-white">Where FIXONEX Performs</h2>
-            <p className="mt-4 text-base text-[#E0E0E0]">From homes to commercial spaces — trusted adhesion on every surface.</p>
+            <h2 className="font-display text-display font-semibold text-[#111111]">Where FIXONEX Performs</h2>
+            <p className="mt-4 text-base text-[#3a3a3a]">From homes to commercial spaces — trusted adhesion on every surface.</p>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-3 auto-rows-[140px] md:grid-cols-3 md:auto-rows-[160px]">
             {Array.from({ length: 6 }).map((_, i98) => (
@@ -450,9 +450,9 @@ export function HomeView() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="section-pad bg-black">
+      <section className="section-pad section-flow-warm">
         <div className="site-container">
-          <h2 className="text-center font-display text-display font-semibold text-white">Trusted by Builders</h2>
+          <h2 className="text-center font-display text-display font-semibold text-[#111111]">Trusted by Builders</h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {testimonials.map((item, i98) => (
               <TestimonialCard key={item.name} {...item} index={i98} />
@@ -462,11 +462,11 @@ export function HomeView() {
       </section>
 
       {/* FAQ */}
-      <section className="section-pad spotlight-dark bg-dark">
+      <section className="section-pad section-flow-light">
         <div className="site-container grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="font-display text-display font-semibold text-white">Frequently Asked Questions</h2>
-            <p className="mt-4 text-sm text-[#E0E0E0]">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
+            <h2 className="font-display text-display font-semibold text-[#111111]">Frequently Asked Questions</h2>
+            <p className="mt-4 text-sm text-[#3a3a3a]">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
           </div>
           <div className="lg:col-span-8">
             <FAQAccordion items={homeFaqs} defaultOpen={0} />

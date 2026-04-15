@@ -13,10 +13,10 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={cn(
-        "rounded-md border border-border bg-card text-card-foreground shadow-card transition-[box-shadow,transform] duration-300 ease-industrial",
+        "rounded-2xl border border-[#e5e0da] bg-white text-[#111111] shadow-[0_10px_30px_rgba(0,0,0,0.08)] transition-[box-shadow,transform] duration-300",
         variant === "elevated" &&
-          "motion-safe:hover:-translate-y-px motion-safe:hover:shadow-card-hover",
-        variant === "quiet" && "motion-safe:hover:translate-y-0 motion-safe:hover:shadow-card",
+          "motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_16px_36px_rgba(0,0,0,0.12)]",
+        variant === "quiet" && "motion-safe:hover:translate-y-0",
         className,
       )}
       {...props}

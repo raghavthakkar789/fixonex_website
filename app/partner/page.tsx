@@ -42,11 +42,12 @@ export default function PartnerPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner" }]}
       />
 
-      <section className="section-pad bg-warm">
+      <section className="section-pad section-flow-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
+            <p className="section-eyebrow">Channel Partnership</p>
             <h2 className="font-display text-display font-semibold text-black">Become a FIXONEX Dealer</h2>
-            <p className="mt-5 text-base leading-[1.75] text-dark">
+            <p className="section-subtext mt-5 text-dark">
               Join our growing network of dealers and distributors across Gujarat and beyond. FIXONEX offers competitive margins, marketing support, and a complete product portfolio to help you grow.
             </p>
           </div>
@@ -60,8 +61,9 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-dark">
+      <section className="section-pad section-flow-light">
         <div className="site-container">
+          <p className="section-eyebrow">Partner Benefits</p>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: Shield, title: "Strong Brand", text: "Certified products with EN12004 & IS 15477:2019 compliance." },
@@ -69,19 +71,19 @@ export default function PartnerPage() {
               { icon: Network, title: "Business Support", text: "Marketing materials, product training, and technical guidance." },
               { icon: TrendingUp, title: "Growing Market", text: "Tap into Gujarat&apos;s booming construction sector." },
             ].map((item) => (
-              <article key={item.title} className="border-t-4 border-primary bg-dark p-6 shadow-sm">
+              <article key={item.title} className="surface-card p-6">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-warm text-black">
                   <item.icon className="h-5 w-5" aria-hidden />
                 </div>
-                <h3 className="mt-4 font-body text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm text-[#E0E0E0]">{item.text}</p>
+                <h3 className="mt-4 font-body text-lg font-semibold text-[#111111]">{item.title}</h3>
+                <p className="mt-2 text-sm text-[#3a3a3a]">{item.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-warm py-12 text-black">
+      <section className="section-flow-warm py-12 text-black">
         <div className="site-container flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12">
           {["Product Samples", "Sales Training", "Co-branding Support"].map((label, i98) => (
             <div key={label} className="flex items-center gap-8">
@@ -95,9 +97,10 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-black">
+      <section className="section-pad section-flow-light">
         <div className="site-container mx-auto max-w-[640px]">
-          <h2 className="text-center font-display text-display font-semibold text-white">Send Your Dealer Inquiry</h2>
+          <p className="section-eyebrow text-center">Dealer Inquiry</p>
+          <h2 className="text-center font-display text-display font-semibold text-[#111111]">Send Your Dealer Inquiry</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
             <div>
               <Label htmlFor="biz">Business Name</Label>
@@ -120,7 +123,7 @@ export default function PartnerPage() {
               <select
                 id="type"
                 {...register("businessType")}
-                className="mt-1.5 flex h-12 w-full rounded-md border border-warm/40 bg-black px-3 text-[15px] text-white outline-none focus-visible:ring-2 focus-visible:ring-warm"
+                className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-[#111111] outline-none focus-visible:ring-2 focus-visible:ring-warm"
               >
                 {businessTypes.map((t) => (
                   <option key={t} value={t}>

@@ -46,13 +46,14 @@ export function Navbar() {
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 h-[72px] border-b border-black/10 bg-warm transition-[background-color,box-shadow] duration-300",
-        scrolled ? "bg-warm-dark shadow-nav" : "shadow-none",
-      )}
-    >
-      <div className="site-container flex h-full items-center gap-4">
+    <header className="sticky top-0 z-50">
+      <div
+        className={cn(
+          "w-full border-b border-[rgba(193,178,164,0.3)] bg-[rgba(208,200,193,0.82)] backdrop-blur-[16px] transition-[box-shadow,backdrop-filter] duration-300",
+          scrolled && "backdrop-blur-[22px] shadow-[0_4px_24px_rgba(138,122,110,0.12)]",
+        )}
+      >
+      <div className="site-container flex h-[68px] items-center gap-4 max-md:h-[56px]">
         <Link href="/" className="flex shrink-0 items-center gap-3 leading-none" aria-label={`${BRAND.name} home`}>
           <div className="relative h-10 w-[132px] overflow-hidden">
             <ImageWithFallback
@@ -69,7 +70,7 @@ export function Navbar() {
           </div>
         </Link>
 
-        <nav className="mx-2 hidden min-w-0 flex-1 items-center justify-center gap-4 xl:gap-6 lg:flex">
+        <nav className="mx-2 hidden min-w-0 flex-1 items-center justify-center gap-5 lg:flex xl:gap-7">
           {navItems.map((item) => {
             const active = isActivePath(pathname, item.href);
             return (
@@ -77,14 +78,14 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative whitespace-nowrap py-1 text-[13px] font-medium text-dark transition-colors duration-200 xl:text-[14px]",
-                  !active && "hover:text-black",
+                  "relative whitespace-nowrap py-1 text-[14px] font-medium text-[#3a3a3a] transition-colors duration-300",
+                  !active && "hover:text-[#111111]",
                 )}
               >
                 {item.label}
                 <span
                   className={cn(
-                    "absolute -bottom-1 left-0 h-0.5 rounded-sm bg-primary transition-all duration-200",
+                    "absolute -bottom-1 left-0 h-0.5 rounded-sm bg-[#d32f2f] transition-all duration-200",
                     active ? "w-full" : "w-0 hover:w-full",
                   )}
                   aria-hidden
@@ -98,7 +99,7 @@ export function Navbar() {
           type="button"
           suppressHydrationWarning
           onClick={() => setOpen((v) => !v)}
-          className="ml-auto inline-flex h-11 w-11 items-center justify-center text-black lg:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center text-black lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
@@ -113,9 +114,9 @@ export function Navbar() {
             animate={reduced ? undefined : { y: 0 }}
             exit={reduced ? undefined : { y: "-100%" }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="max-h-[calc(100vh-72px)] overflow-y-auto border-t border-black/10 bg-warm lg:hidden"
+            className="max-h-[calc(100vh-56px)] overflow-y-auto border-t border-[rgba(193,178,164,0.3)] bg-[rgba(208,200,193,0.96)] shadow-[0_12px_24px_rgba(138,122,110,0.12)] lg:hidden"
           >
-            <div className="site-container flex flex-col py-2">
+            <div className="flex flex-col px-5 py-3">
               {navItems.map((item) => {
                 const active = isActivePath(pathname, item.href);
                 return (
@@ -123,7 +124,7 @@ export function Navbar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "border-b border-black/10 py-4 text-[17px] font-medium text-black transition-colors duration-200 last:border-b-0",
+                      "border-b border-[#e5e0da] py-4 text-[17px] font-medium text-black transition-colors duration-200 last:border-b-0",
                       active ? "text-primary" : "hover:text-primary",
                     )}
                   >
@@ -135,6 +136,7 @@ export function Navbar() {
           </motion.nav>
         ) : null}
       </AnimatePresence>
+      </div>
     </header>
   );
 }

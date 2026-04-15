@@ -24,7 +24,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
   }, [items.length]);
 
   return (
-    <motion.div layout className="divide-y divide-warm/40 rounded-md border border-warm/30 bg-black">
+    <motion.div layout className="divide-y divide-[#e5e0da] rounded-2xl border border-[#e5e0da] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
       {items.map((item, index) => {
         const isOpen = index === openIndex;
         return (
@@ -37,11 +37,11 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
               aria-controls={`faq-answer-${index}`}
               onClick={() => setOpenIndex(isOpen ? null : index)}
             >
-              <span className="font-body text-base font-semibold text-white">{item.question}</span>
+              <span className="font-body text-base font-semibold text-[#111111]">{item.question}</span>
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={{ duration: reduced ? 0 : 0.25 }}
-                className="shrink-0 text-warm"
+                className="shrink-0 text-[#6b6b6b]"
               >
                 <ChevronDown className="h-5 w-5" aria-hidden />
               </motion.span>
@@ -57,7 +57,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
                   transition={{ type: "spring", stiffness: 220, damping: 24 }}
                   className="overflow-hidden"
                 >
-                  <p className="border-t border-warm/30 px-5 pb-5 text-[15px] leading-[1.75] text-[#E0E0E0] md:px-6">{item.answer}</p>
+                  <p className="border-t border-[#e5e0da] px-5 pb-5 text-[15px] leading-[1.75] text-[#3a3a3a] md:px-6">{item.answer}</p>
                 </motion.div>
               ) : null}
             </AnimatePresence>

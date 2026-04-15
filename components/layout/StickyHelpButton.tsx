@@ -17,7 +17,7 @@ export function StickyHelpButton() {
           aria-hidden
         />
         <span
-          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-md bg-black px-3 py-1.5 text-[13px] font-medium text-white opacity-0 shadow-md transition-all duration-200 translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 lg:block"
+          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-md bg-white px-3 py-1.5 text-[13px] font-medium text-[#111111] opacity-0 shadow-[0_10px_30px_rgba(0,0,0,0.12)] transition-all duration-200 translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 lg:block"
           role="tooltip"
         >
           Get Help

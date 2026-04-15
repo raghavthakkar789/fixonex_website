@@ -9,11 +9,11 @@ type CTADarkProps = {
 
 export function CTADark({ headline, subtext }: CTADarkProps) {
   return (
-    <section className="relative overflow-hidden bg-black py-16 text-center md:py-20">
-      <div className="absolute left-1/2 top-0 h-px w-[min(90%,720px)] -translate-x-1/2 bg-warm" aria-hidden />
+    <section className="relative overflow-hidden bg-[#111111] py-16 text-center md:py-20">
+      <div className="absolute left-1/2 top-0 h-px w-[min(90%,720px)] -translate-x-1/2 bg-[#c1b2a4]" aria-hidden />
       <div className="site-container relative mx-auto max-w-[720px] px-6">
         <h2 className="font-display text-display font-semibold text-white">{headline}</h2>
-        <p className="mt-4 text-base text-warm">{subtext}</p>
+        <p className="mt-4 text-base text-[#c1b2a4]">{subtext}</p>
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Button asChild size="lg" className="bg-[#25D366] text-white hover:bg-[#1ebe5b]">
             <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
@@ -26,7 +26,7 @@ export function CTADark({ headline, subtext }: CTADarkProps) {
           </Button>
         </div>
       </div>
-      <div className="absolute bottom-0 left-1/2 h-px w-[min(90%,720px)] -translate-x-1/2 bg-warm" aria-hidden />
+      <div className="absolute bottom-0 left-1/2 h-px w-[min(90%,720px)] -translate-x-1/2 bg-[#c1b2a4]" aria-hidden />
     </section>
   );
 }

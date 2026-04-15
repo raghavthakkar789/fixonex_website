@@ -29,14 +29,16 @@ export default function ProductsPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />
 
-      <section className="section-pad bg-warm">
+      <section className="section-pad section-flow-warm">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <motion.div
             initial={reduced ? false : { opacity: 0, x: -24 }}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
-            <p className="text-base leading-[1.75] text-dark">
+            <p className="section-eyebrow">Product Overview</p>
+            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-[#111111]">Engineered Product System</h2>
+            <p className="section-subtext mt-5 text-dark">
               FIXONEX offers a complete system of tile installation solutions — from basic ceramic tile fixing to high-performance exterior applications and designer epoxy finishes.
             </p>
           </motion.div>
@@ -69,14 +71,14 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-black">
+      <section className="section-pad section-flow-light">
         <div className="site-container">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <motion.article
               initial={reduced ? false : { opacity: 0, y: 24 }}
               whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              className="rounded-md border border-warm bg-warm p-7 sm:col-span-2"
+              className="surface-card p-7 sm:col-span-2"
             >
               <p className="inline-flex rounded-pill bg-warm/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-dark">Tiles Adhesive Range</p>
               <h3 className="mt-4 font-display text-3xl font-semibold text-black">5 Certified Grades</h3>
@@ -85,7 +87,7 @@ export default function ProductsPage() {
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {["C1T", "C2T", "C2TE", "C2TES1", "C2TES2"].map((code) => (
-                  <span key={code} className="rounded-pill bg-dark px-2.5 py-1 text-[11px] font-semibold text-warm">
+                  <span key={code} className="rounded-pill bg-[#f3ede8] px-2.5 py-1 text-[11px] font-semibold text-[#3a3a3a]">
                     {code}
                   </span>
                 ))}
@@ -114,20 +116,21 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-pad bg-dark">
+      <section className="section-pad section-flow-warm">
         <div className="site-container">
-          <h2 className="font-display text-display font-semibold text-white">Which adhesive is right for me?</h2>
-          <p className="mt-3 max-w-2xl text-mid">Quick surface-to-product mapping — confirm with your TDS and specifier for final selection.</p>
-          <div className="mt-10 overflow-hidden rounded-md border border-white/10">
+          <p className="section-eyebrow">Selection Guide</p>
+          <h2 className="font-display text-display font-semibold text-[#111111]">Which adhesive is right for me?</h2>
+          <p className="section-subtext mt-3 max-w-2xl text-mid">Quick surface-to-product mapping — confirm with your TDS and specifier for final selection.</p>
+          <div className="mt-10 overflow-hidden rounded-2xl border border-[#e5e0da] shadow-[0_10px_30px_rgba(0,0,0,0.08)]">
             {guidanceRows.map(([surface, prod], i98) => (
               <div
                 key={surface}
-                className={`grid gap-2 border-b border-white/10 px-4 py-4 text-sm sm:grid-cols-2 sm:items-center sm:gap-8 md:px-6 ${
-                  i98 % 2 === 0 ? "bg-black" : "bg-[#1A1A1A]"
+                className={`grid gap-2 border-b border-[#e5e0da] px-4 py-4 text-sm sm:grid-cols-2 sm:items-center sm:gap-8 md:px-6 ${
+                  i98 % 2 === 0 ? "bg-white" : "bg-[#f8f5f2]"
                 }`}
               >
-                <div className="border-l-4 border-warm pl-4 font-medium text-white">{surface}</div>
-                <div className="pl-4 text-mid sm:border-l sm:border-white/10 sm:pl-6">{prod}</div>
+                <div className="border-l-4 border-warm pl-4 font-medium text-[#111111]">{surface}</div>
+                <div className="pl-4 text-mid sm:border-l sm:border-[#e5e0da] sm:pl-6">{prod}</div>
               </div>
             ))}
           </div>

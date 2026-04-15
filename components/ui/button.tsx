@@ -8,19 +8,19 @@ import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-pill font-display font-semibold transition-all duration-300 ease-[var(--ease-default)] disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0",
+  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-lg font-body font-semibold transition-all duration-300 ease-[var(--ease-default)] disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-red-dk hover:shadow-red",
-        primary: "bg-primary text-white hover:bg-red-dk hover:shadow-red",
-        secondary: "bg-brand text-white hover:bg-dark",
-        outline: "border-2 border-warm bg-transparent text-warm hover:bg-warm hover:text-brand",
-        outlineNeutral: "border-2 border-warm bg-transparent text-warm hover:bg-warm/10",
-        ghost: "group bg-transparent text-red hover:text-red-dk",
+        default: "bg-primary text-white shadow-[0_8px_20px_rgba(211,47,47,0.24)] hover:-translate-y-0.5 hover:bg-red-dk",
+        primary: "bg-primary text-white shadow-[0_8px_20px_rgba(211,47,47,0.24)] hover:-translate-y-0.5 hover:bg-red-dk",
+        secondary: "border border-[rgba(193,178,164,0.5)] bg-[#f7f4f1] text-[#111111] hover:bg-[#ede5df]",
+        outline: "border border-[rgba(193,178,164,0.5)] bg-[#f7f4f1] text-[#111111] hover:bg-[#ede5df]",
+        outlineNeutral: "border border-[rgba(193,178,164,0.5)] bg-transparent text-[#111111] hover:bg-[#ede5df]",
+        ghost: "group bg-transparent text-[#111111] hover:text-[#3a3a3a]",
         link: "group bg-transparent px-0 text-red hover:text-red-dk",
-        dark: "bg-brand text-white hover:bg-dark",
-        warm: "bg-warm text-brand hover:bg-[#b5a596]",
+        dark: "bg-[#3a3a3a] text-white hover:bg-[#2b2b2b]",
+        warm: "bg-[#c1b2a4] text-[#111111] hover:bg-[rgb(208,200,193)]",
       },
       size: {
         default: "px-7 py-3.5 text-[15px]",
