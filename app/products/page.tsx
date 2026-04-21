@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { products } from "@/lib/data/products";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -19,10 +20,11 @@ const guidanceRows: [string, string][] = [
 export default function ProductsPage() {
   const reduced = useReducedMotion();
   const nonAdhesiveProducts = products.filter((product) => product.familySlug !== "tiles-adhesive");
+  const imageWide = "https://picsum.photos/200";
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Products"
         title="Our Products"
         subtitle="Engineered adhesion for every surface and application."
@@ -30,7 +32,10 @@ export default function ProductsPage() {
       />
 
       <section className="section-pad section-flow-warm">
-        <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
+        <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
+          <div className="relative min-h-[340px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+            <ImageWithFallback src={imageWide} alt="Trusted adhesive applications" fill className="object-cover" />
+          </div>
           <motion.div
             initial={reduced ? false : { opacity: 0, x: -24 }}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}

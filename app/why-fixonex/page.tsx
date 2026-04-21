@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Award, CheckCircle2, FlaskConical, Handshake, Layers, ShieldCheck, Star, Zap } from "lucide-react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 
@@ -56,7 +56,7 @@ const differentiators = [
 export default function WhyFixonexPage() {
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Why FIXONEX"
         title="The Smarter Choice for Tile Installation"
         subtitle="Performance-proven adhesives backed by a decade of expertise, international standards, and genuine technical support."

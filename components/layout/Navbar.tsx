@@ -49,8 +49,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50">
       <div
         className={cn(
-          "w-full border-b border-[rgba(193,178,164,0.3)] bg-[rgba(208,200,193,0.82)] backdrop-blur-[16px] transition-[box-shadow,backdrop-filter] duration-300",
-          scrolled && "backdrop-blur-[22px] shadow-[0_4px_24px_rgba(138,122,110,0.12)]",
+          "w-full border-b border-border/70 bg-[rgba(255,252,249,0.78)] backdrop-blur-[18px] transition-[box-shadow,backdrop-filter,background-color] duration-300",
+          scrolled && "border-border/90 bg-[rgba(255,252,249,0.92)] shadow-nav backdrop-blur-[24px]",
         )}
       >
       <div className="site-container flex h-[68px] items-center gap-4 max-md:h-[56px]">
@@ -114,7 +114,7 @@ export function Navbar() {
             animate={reduced ? undefined : { y: 0 }}
             exit={reduced ? undefined : { y: "-100%" }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="max-h-[calc(100vh-56px)] overflow-y-auto border-t border-[rgba(193,178,164,0.3)] bg-[rgba(208,200,193,0.96)] shadow-[0_12px_24px_rgba(138,122,110,0.12)] lg:hidden"
+            className="max-h-[calc(100vh-56px)] overflow-y-auto border-t border-border/70 bg-[rgba(255,252,249,0.98)] shadow-md lg:hidden"
           >
             <div className="flex flex-col px-5 py-3">
               {navItems.map((item) => {

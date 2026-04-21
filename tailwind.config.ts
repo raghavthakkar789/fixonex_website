@@ -8,9 +8,9 @@ const config: Config = {
         white: "#FFFFFF",
         black: "#111111",
         dark: "#2B2B2B",
-        mid: "#6B6B6B",
-        light: "#F5F5F5",
-        border: "#E0E0E0",
+        mid: "#5C5650",
+        light: "#EDE8E2",
+        border: "#E4DDD4",
         primary: "#D32F2F",
         "primary-dark": "#B71C1C",
         warm: "#C1B2A4",
@@ -18,17 +18,23 @@ const config: Config = {
         "warm-dim": "rgba(193,178,164,0.12)",
         "accent-rose": "#FFEBEE",
         brand: "#111111",
-        surface: "#F5F5F5",
+        surface: "#F7F3EE",
         red: "#D32F2F",
         "red-dk": "#B71C1C",
+        foreground: "#111111",
+        background: "#F7F3EE",
+        muted: "#EDE6DE",
+        "muted-foreground": "#5C5650",
+        subhead: "#7A6B5E",
       },
       fontFamily: {
-        display: ["var(--font-playfair)", "Georgia", "serif"],
+        display: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        heading: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        hero: ["clamp(2.5rem,6vw,4rem)", { lineHeight: "1.08", fontWeight: "700" }],
-        display: ["clamp(2rem,4vw,2.75rem)", { lineHeight: "1.12", fontWeight: "600" }],
+        hero: ["clamp(2.65rem,6.2vw,4.25rem)", { lineHeight: "1.06", fontWeight: "700" }],
+        display: ["clamp(2.1rem,4.2vw,3rem)", { lineHeight: "1.14", fontWeight: "600" }],
       },
       borderRadius: {
         xs: "4px",
@@ -74,6 +80,14 @@ const config: Config = {
       animation: {
         "help-pulse": "help-pulse 3s ease-out infinite",
         ticker: "ticker 20s linear infinite",
+      },
+      backgroundImage: {
+        "mesh-warm":
+          "radial-gradient(ellipse 120% 80% at 0% 0%, rgba(193,178,164,0.35), transparent 50%), radial-gradient(ellipse 90% 70% at 100% 10%, rgba(211,47,47,0.08), transparent 45%), radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255,255,255,0.9), transparent 55%)",
+        "mesh-hero":
+          "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.28), transparent 42%), radial-gradient(circle at 92% 18%, rgba(211,47,47,0.12), transparent 38%), linear-gradient(165deg, rgba(17,17,17,0.92) 0%, rgba(17,17,17,0.78) 100%)",
+        "stripe-soft":
+          "repeating-linear-gradient(115deg, transparent, transparent 12px, rgba(193,178,164,0.06) 12px, rgba(193,178,164,0.06) 24px)",
       },
     },
   },

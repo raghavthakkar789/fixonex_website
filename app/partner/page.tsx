@@ -3,7 +3,8 @@
 import { useForm } from "react-hook-form";
 import { Loader2, Network, Package, Shield, TrendingUp } from "lucide-react";
 import { useState } from "react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +23,7 @@ const businessTypes = ["Tile Shop", "Hardware Store", "Building Materials", "Con
 
 export default function PartnerPage() {
   const [submitting, setSubmitting] = useState(false);
+  const imageWide = "https://picsum.photos/200";
   const { register, handleSubmit, reset } = useForm<DealerForm>({
     defaultValues: { businessType: businessTypes[0] },
   });
@@ -35,7 +37,7 @@ export default function PartnerPage() {
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Partners"
         title="Partner with FIXONEX"
         subtitle="Grow your business with a trusted construction chemical brand."
@@ -51,12 +53,15 @@ export default function PartnerPage() {
               Join our growing network of dealers and distributors across Gujarat and beyond. FIXONEX offers competitive margins, marketing support, and a complete product portfolio to help you grow.
             </p>
           </div>
-          <div className="flex flex-col gap-3">
-            {["Competitive Margins", "Marketing Support", "Technical Training"].map((pill) => (
-              <span key={pill} className="rounded-pill bg-warm px-5 py-3 text-center text-sm font-semibold text-dark">
-                {pill}
-              </span>
-            ))}
+          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+            <ImageWithFallback src={imageWide} alt="Partner growth with FIXONEX" fill className="object-cover" />
+            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
+              {["Competitive Margins", "Marketing Support", "Technical Training"].map((pill) => (
+                <span key={pill} className="rounded-pill bg-warm px-3 py-1.5 text-xs font-semibold text-dark">
+                  {pill}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { Check } from "lucide-react";
 import { products, getCatalogProduct } from "@/lib/data/products";
 import { Button } from "@/components/ui/button";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -39,7 +39,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label={product.badge}
         title={product.name}
         subtitle={product.applicationShort}

@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { AlertTriangle, BookOpen } from "lucide-react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Button } from "@/components/ui/button";
 import { supportFaqs } from "@/lib/data/support-faqs";
@@ -27,6 +28,7 @@ const timelineSteps = [
 
 export default function SupportPage() {
   const reduced = useReducedMotion();
+  const imageWide = "https://picsum.photos/200";
   const [faqVisible, setFaqVisible] = useState(FAQ_INITIAL);
   const [guideVisible, setGuideVisible] = useState(GUIDE_INITIAL);
 
@@ -56,7 +58,7 @@ export default function SupportPage() {
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Support"
         title="Help & Support"
         subtitle="Your installation guide starts here."
@@ -64,11 +66,16 @@ export default function SupportPage() {
       />
 
       <section className="section-pad section-flow-warm">
-        <div className="site-container mx-auto max-w-[720px] text-center">
-          <p className="section-eyebrow text-center">Support Center</p>
-          <p className="section-subtext mx-auto text-dark">
-            Everything you need to install FIXONEX products correctly — from surface preparation to final finishing.
-          </p>
+        <div className="site-container grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+            <ImageWithFallback src={imageWide} alt="Support guidance for adhesive application" fill className="object-cover" />
+          </div>
+          <div>
+            <p className="section-eyebrow">Support Center</p>
+            <p className="section-subtext text-dark">
+              Everything you need to install FIXONEX products correctly — from surface preparation to final finishing.
+            </p>
+          </div>
         </div>
       </section>
 

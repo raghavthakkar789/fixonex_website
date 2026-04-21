@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Phone, Youtube } from "lucide-react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +26,7 @@ const inquiryOptions = ["Product Information", "Technical Guidance", "Dealer Inq
 export default function ContactPage() {
   const [isSubmitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const imageTall = "https://picsum.photos/200/300";
   const reduced = useReducedMotion();
   const {
     register,
@@ -47,7 +49,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Contact"
         title="Contact & Consultation"
         subtitle="We're here to help you get it right."
@@ -147,6 +149,9 @@ export default function ContactPage() {
           </div>
 
           <aside className="surface-card p-8 lg:col-span-5">
+            <div className="relative mb-6 min-h-[220px] overflow-hidden rounded-md border border-light">
+              <ImageWithFallback src={imageTall} alt="FIXONEX consultation support" fill className="object-cover" />
+            </div>
             <p className="section-eyebrow">Reach Us Directly</p>
             <ul className="mt-6 space-y-5 text-[#111111]">
               <li className="flex gap-3">

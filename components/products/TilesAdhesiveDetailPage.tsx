@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -40,7 +40,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         </div>
       </div>
 
-      <PageBanner
+      <PageHero
         label={product.badge}
         title={product.name}
         subtitle={product.applicationShort}

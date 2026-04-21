@@ -20,15 +20,15 @@ export function StatsStrip({ stats, className = "" }: StatsStripProps) {
   const reduced = useReducedMotion();
 
   return (
-    <section ref={ref} className={`section-flow-warm py-12 text-[#111111] md:py-16 ${className}`}>
-      <div className="site-container grid grid-cols-2 gap-8 md:grid-cols-4">
+    <section ref={ref} className={`section-flow-warm py-12 text-foreground md:py-16 ${className}`}>
+      <div className="relative z-10 site-container grid grid-cols-2 gap-8 md:grid-cols-4">
         {stats.map((stat, index) => (
           <div key={stat.label} className="relative text-center md:text-left">
             {index > 0 ? <span className="absolute -left-4 top-1/2 hidden h-12 w-px -translate-y-1/2 bg-[#c1b2a4] md:block" aria-hidden /> : null}
             <p className="font-display text-[clamp(32px,5vw,52px)] font-bold tracking-tight">
               <StatValue value={stat.value} start={inView || reduced} />
             </p>
-            <p className="mt-2 text-sm font-medium uppercase tracking-[0.08em] text-[#3a3a3a]">{stat.label}</p>
+            <p className="mt-2 text-sm font-medium uppercase tracking-[0.08em] text-mid">{stat.label}</p>
           </div>
         ))}
       </div>

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Building2, Gem, Headphones } from "lucide-react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 
 const missionPoints = [
@@ -12,9 +13,12 @@ const missionPoints = [
 ];
 
 export default function AboutPage() {
+  const imageWide = "https://picsum.photos/200";
+  const imageTall = "https://picsum.photos/200/300";
+
   return (
     <>
-      <PageBanner
+      <PageHero
         label="About"
         title="About FIXONEX"
         subtitle="Trusted expertise in tile installation solutions."
@@ -31,9 +35,12 @@ export default function AboutPage() {
               With more than a decade of experience in the tiles and ceramic industry, the brand is built on deep market knowledge, technical expertise, and a commitment to quality.
             </p>
           </div>
-          <div className="surface-card flex flex-col items-center justify-center px-8 py-12 text-center">
-            <p className="font-display text-[clamp(72px,14vw,120px)] font-semibold leading-none text-warm">10+</p>
-            <p className="mt-4 font-body text-lg font-semibold text-dark">Years of Experience</p>
+          <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+            <ImageWithFallback src={imageTall} alt="FIXONEX leadership and quality" fill className="object-cover" />
+            <div className="absolute bottom-4 left-4 rounded-md bg-warm px-4 py-3 text-black shadow-warm">
+              <p className="font-display text-2xl font-bold">10+</p>
+              <p className="text-xs">Years of Experience</p>
+            </div>
           </div>
         </div>
       </section>
@@ -74,6 +81,9 @@ export default function AboutPage() {
 
       <section className="section-pad section-flow-warm">
         <div className="site-container grid gap-8 lg:grid-cols-2">
+          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+            <ImageWithFallback src={imageWide} alt="Construction team at work" fill className="object-cover" />
+          </div>
           <div className="surface-card px-6 py-10 md:px-8">
             <p className="section-eyebrow">Vision</p>
             <p className="text-lg leading-[1.75] text-[#111111]">
@@ -81,7 +91,7 @@ export default function AboutPage() {
             strength, durability, and long-lasting performance for modern architecture and interior spaces.
             </p>
           </div>
-          <div className="surface-card px-6 py-10 md:px-8">
+          <div className="surface-card px-6 py-10 md:px-8 lg:col-span-1">
             <p className="section-eyebrow">Mission</p>
             <ul className="space-y-4">
               {missionPoints.map((line) => (

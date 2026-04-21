@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Building2, Home, Layers, Mountain, RefreshCw, Waves } from "lucide-react";
-import { PageBanner } from "@/components/ui/PageBanner";
+import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { getTileAdhesiveProducts } from "@/lib/data/products";
@@ -27,7 +27,7 @@ export default function TilesAdhesiveHubPage() {
 
   return (
     <>
-      <PageBanner
+      <PageHero
         label="Products"
         title="Tiles Adhesive"
         subtitle="From standard ceramic interiors to exterior facades and swimming pools — find the right grade for your project."

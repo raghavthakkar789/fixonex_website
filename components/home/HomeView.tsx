@@ -70,7 +70,7 @@ function StatCell({ value, label, delay }: { value: string; label: string; delay
     >
       <div className="border-l-4 border-warm pl-4">
         <p className="font-display text-[clamp(28px,4vw,40px)] font-bold text-warm">{display}</p>
-        <p className="mt-2 text-sm text-[#3a3a3a]">{label}</p>
+        <p className="mt-2 text-sm text-mid">{label}</p>
       </div>
     </motion.div>
   );
@@ -107,34 +107,36 @@ export function HomeView() {
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-screen overflow-hidden section-flow-warm pb-14">
-        <div className="absolute inset-0 bg-[rgb(208,200,193)]" aria-hidden />
-        <div className="absolute inset-y-0 right-0 w-[58%] bg-[rgb(208,200,193)]/70" style={{ clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)" }} aria-hidden>
+      <section className="relative min-h-screen overflow-hidden bg-brand pb-14">
+        <div className="absolute inset-0 bg-brand" aria-hidden />
+        <div className="absolute inset-0 bg-mesh-hero opacity-90" aria-hidden />
+        <div className="absolute inset-y-0 right-0 w-[58%] bg-dark/55" style={{ clipPath: "polygon(22% 0,100% 0,100% 100%,0 100%)" }} aria-hidden>
           <ImageWithFallback
-            src="/images/hero/hero-main.jpeg"
+            src="https://picsum.photos/200/300"
             alt="FIXONEX tile installation systems hero background image"
             fill
             priority
             sizes="58vw"
-            className="object-cover object-center opacity-45"
+            className="object-cover object-center opacity-35"
           />
         </div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(193,178,164,0.35),transparent_42%),radial-gradient(circle_at_78%_88%,rgba(211,47,47,0.14),transparent_38%)]" aria-hidden />
 
         <div className="site-container relative z-10 flex min-h-[calc(100vh-72px)] flex-col justify-center">
           <div className="flex flex-1 flex-col justify-center pt-10 lg:max-w-[55%] lg:pt-0">
             <motion.div
               initial={reduced ? false : { opacity: 0, y: 20 }}
               animate={reduced ? undefined : { opacity: 1, y: 0 }}
-              className="inline-flex w-fit rounded-sm bg-warm px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-dark"
+              className="inline-flex w-fit rounded-sm bg-warm px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-black"
             >
               Tile Installation Solutions
             </motion.div>
             <h1 className="mt-6 flex flex-col gap-0 font-display text-hero font-bold !leading-[1.08]">
-              <HeroWords words={heroLine1} className="text-black" />
-              <HeroWords words={heroLine2} className="text-primary" delay={0.24} />
+              <HeroWords words={heroLine1} className="text-white" />
+              <HeroWords words={heroLine2} className="text-warm" delay={0.24} />
             </h1>
             <motion.p
-            className="mt-6 max-w-xl text-lg text-[#3a3a3a]"
+              className="mt-6 max-w-xl text-lg leading-relaxed text-white/90"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -142,7 +144,7 @@ export function HomeView() {
               High-performance tile adhesives and epoxy solutions engineered for modern construction.
             </motion.p>
             <motion.p
-              className="mt-4 text-base italic leading-snug text-dark"
+              className="mt-4 text-base italic leading-snug text-warm"
               initial={reduced ? false : { opacity: 0 }}
               animate={reduced ? undefined : { opacity: 1 }}
               transition={{ delay: 0.7 }}
@@ -158,24 +160,24 @@ export function HomeView() {
               <Button asChild size="lg">
                 <Link href="/products">Explore Products</Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="border-warm text-warm hover:text-black">
                 <Link href="/contact">Get Consultation</Link>
               </Button>
             </motion.div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 overflow-hidden rounded-2xl bg-white/70 py-3 text-[#3a3a3a] shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
+        <div className="relative z-10 mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/30 py-3 text-[#E0E0E0] shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
           <div className="flex w-max animate-ticker motion-reduce:animate-none" style={{ animationPlayState: tickerPaused ? "paused" : "running" }}>
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={t} className="mx-6 flex items-center gap-6 text-sm font-medium">
-                <span className="text-primary">·</span>
+                <span className="text-warm">·</span>
                 {t}
               </span>
             ))}
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={`${t}-dup`} className="mx-6 flex items-center gap-6 text-sm font-medium">
-                <span className="text-primary">·</span>
+                <span className="text-warm">·</span>
                 {t}
               </span>
             ))}
@@ -185,16 +187,19 @@ export function HomeView() {
 
       {/* COMPANY INTRO */}
       <section className="section-pad section-flow-light">
-        <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="relative z-10 site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <motion.div
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.5 }}
+            className="relative border-l-[3px] border-primary/85 pl-6 md:pl-8"
           >
-            <p className="label-caps text-warm">WHO WE ARE</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-[#111111]">A Decade of Bonding Excellence</h2>
-            <p className="mt-5 text-base leading-[1.75] text-[#3a3a3a]">
+            <p className="label-caps text-subhead">WHO WE ARE</p>
+            <h2 className="mt-4 font-display text-display font-semibold text-foreground">
+              <span className="heading-accent">A Decade of Bonding Excellence</span>
+            </h2>
+            <p className="mt-6 max-w-prose text-[1.0625rem] leading-[1.72] text-mid">
               FIXONEX Adhesive is a forward-thinking construction chemical brand specializing in high-performance tile adhesives and epoxy solutions. With more than a decade of experience in the
               tiles and ceramic industry, we are built on deep market knowledge, technical expertise, and a commitment to quality.
             </p>
@@ -210,14 +215,14 @@ export function HomeView() {
 
       {/* WHY FIXONEX */}
       <section className="section-pad section-flow-warm">
-        <div className="site-container">
+        <div className="relative z-10 site-container">
           <motion.h2
-            className="text-center font-display text-display font-semibold text-black"
+            className="flex flex-col items-center text-center font-display text-display font-semibold text-foreground"
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
-            Why Choose FIXONEX
+            <span className="heading-accent heading-accent-center">Why Choose FIXONEX</span>
           </motion.h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -251,13 +256,13 @@ export function HomeView() {
                 whileHover={reduced ? undefined : { y: -4 }}
                 className="group surface-card pt-1"
               >
-                <div className="h-1 w-full rounded-t-md bg-primary" />
+                <div className="h-1 w-full rounded-t-md bg-gradient-to-r from-primary via-primary-dark to-warm-dark" />
                 <div className="p-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-white">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-md shadow-red ring-2 ring-white/30">
                     <item.icon className="h-5 w-5" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-body text-2xl font-semibold text-[#111111]">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[#3a3a3a]">{item.text}</p>
+                  <h3 className="mt-4 font-body text-2xl font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-mid">{item.text}</p>
                 </div>
               </motion.article>
             ))}
@@ -267,15 +272,19 @@ export function HomeView() {
 
       {/* PRODUCT HIGHLIGHT */}
       <section className="section-pad section-flow-light">
-        <div className="site-container">
+        <div className="relative z-10 site-container">
           <motion.div
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             className="mx-auto max-w-2xl text-center"
           >
-            <h2 className="font-display text-display font-semibold text-[#111111]">Our Product Range</h2>
-            <p className="mt-4 text-base text-[#3a3a3a]">From interior walls to swimming pools — engineered adhesion for every surface.</p>
+            <h2 className="font-display text-display font-semibold text-foreground">
+              <span className="heading-accent heading-accent-center">Our Product Range</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-prose text-[1.0625rem] text-mid">
+              From interior walls to swimming pools — engineered adhesion for every surface.
+            </p>
           </motion.div>
           <div className="mt-12 flex gap-6 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible">
             {[
@@ -307,11 +316,15 @@ export function HomeView() {
                 whileHover={reduced ? undefined : { scale: 1.02 }}
                className="surface-card min-w-[280px] flex-1 overflow-hidden md:min-w-0"
               >
-                <div className="h-[180px] bg-gradient-to-br from-warm via-warm/80 to-warm-dark" />
-                <div className="h-1 bg-warm" />
+                <div className="relative h-[180px] overflow-hidden bg-gradient-to-br from-[#2c2826] via-[#4a3534] to-primary">
+                  <div className="absolute inset-0 bg-stripe-soft opacity-60" aria-hidden />
+                  <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-warm/25 blur-2xl" aria-hidden />
+                  <div className="absolute bottom-4 left-4 h-16 w-24 rounded-full bg-primary/30 blur-xl" aria-hidden />
+                </div>
+                <div className="h-1 bg-gradient-to-r from-warm-dark via-primary to-warm" />
                 <div className="p-6">
                   <c.icon className="h-8 w-8 text-primary" aria-hidden />
-                  <h3 className="mt-4 font-body text-xl font-semibold text-[#111111]">{c.title}</h3>
+                  <h3 className="mt-4 font-body text-xl font-semibold text-foreground">{c.title}</h3>
                   <p className="mt-2 text-sm text-mid">{c.desc}</p>
                   <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
                     View Products →
@@ -325,10 +338,12 @@ export function HomeView() {
 
       {/* PRODUCT GUIDANCE TEASER */}
       <section className="section-pad section-flow-warm">
-        <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="relative z-10 site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <h2 className="font-display text-display font-semibold text-black">Not Sure Which Product to Use?</h2>
-            <p className="mt-4 max-w-xl text-base text-dark">Tell us your surface, tile, and exposure — we recommend the right adhesive grade.</p>
+            <h2 className="font-display text-display font-semibold text-foreground">
+              <span className="heading-accent">Not Sure Which Product to Use?</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-mid">Tell us your surface, tile, and exposure — we recommend the right adhesive grade.</p>
             <Button asChild className="mt-8" size="lg" variant="primary">
               <Link href="/contact">Get Free Guidance</Link>
             </Button>
@@ -343,7 +358,7 @@ export function HomeView() {
               ].map((s) => (
                 <div key={s.n} className="surface-card px-4 py-5 text-center">
                   <p className="text-xs font-semibold text-primary">{s.n}</p>
-                  <p className="mt-2 text-sm text-[#3a3a3a]">{s.t}</p>
+                  <p className="mt-2 text-sm text-mid">{s.t}</p>
                 </div>
               ))}
             </div>
@@ -353,14 +368,14 @@ export function HomeView() {
 
       {/* SUPPORT TEASER */}
       <section className="section-pad section-flow-light">
-        <div className="site-container">
+        <div className="relative z-10 site-container">
           <motion.h2
-            className="text-center font-display text-display font-semibold text-[#111111]"
+            className="flex flex-col items-center text-center font-display text-display font-semibold text-foreground"
             initial={false}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
-            Learn Before You Build
+            <span className="heading-accent heading-accent-center">Learn Before You Build</span>
           </motion.h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {[
@@ -389,12 +404,13 @@ export function HomeView() {
       </section>
 
       {/* SERVICES */}
-      <section className="section-flow-warm py-10">
+      <section className="relative overflow-hidden border-y border-border/60 bg-mesh-warm py-12">
+        <div className="pointer-events-none absolute inset-0 bg-stripe-soft opacity-40" aria-hidden />
         <motion.div
           initial={false}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          className="site-container flex min-h-[120px] flex-col items-center justify-center gap-8 md:flex-row md:gap-0"
+          className="relative z-10 site-container flex min-h-[120px] flex-col items-center justify-center gap-8 md:flex-row md:gap-0"
         >
           {[
             { icon: Headphones, label: "Free Consultation" },
@@ -402,10 +418,10 @@ export function HomeView() {
             { icon: Users, label: "Dealer Network" },
           ].map((item, i98) => (
             <div key={item.label} className="flex items-center gap-8 md:px-10">
-              {i98 > 0 ? <span className="hidden h-10 w-px bg-white/70 md:block" aria-hidden /> : null}
+              {i98 > 0 ? <span className="hidden h-10 w-px bg-light md:block" aria-hidden /> : null}
               <div className="flex items-center gap-3">
-                <item.icon className="h-5 w-5 text-white" aria-hidden />
-                <span className="font-body text-base font-bold text-[#111111]">{item.label}</span>
+                <item.icon className="h-5 w-5 text-warm" aria-hidden />
+                <span className="font-body text-base font-bold text-foreground">{item.label}</span>
               </div>
             </div>
           ))}
@@ -414,10 +430,12 @@ export function HomeView() {
 
       {/* PROJECTS */}
       <section className="section-pad section-flow-light">
-        <div className="site-container">
+        <div className="relative z-10 site-container">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display text-display font-semibold text-[#111111]">Where FIXONEX Performs</h2>
-            <p className="mt-4 text-base text-[#3a3a3a]">From homes to commercial spaces — trusted adhesion on every surface.</p>
+            <h2 className="font-display text-display font-semibold text-foreground">
+              <span className="heading-accent heading-accent-center">Where FIXONEX Performs</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-prose text-[1.0625rem] text-mid">From homes to commercial spaces — trusted adhesion on every surface.</p>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-3 auto-rows-[140px] md:grid-cols-3 md:auto-rows-[160px]">
             {Array.from({ length: 6 }).map((_, i98) => (
@@ -433,12 +451,7 @@ export function HomeView() {
                   (i98 === 1 || i98 === 4) && "md:row-span-2",
                 )}
               >
-                <div
-                  className="h-full w-full opacity-60"
-                  style={{
-                    backgroundImage: `repeating-linear-gradient(90deg, #A89585 0, #A89585 2px, transparent 2px, transparent 14px), repeating-linear-gradient(0deg, #C1B2A4 0, #C1B2A4 2px, transparent 2px, transparent 14px)`,
-                  }}
-                />
+                <ImageWithFallback src="https://picsum.photos/200" alt="Completed project site" fill className="object-cover" />
                 <div className="pointer-events-none absolute inset-0 flex items-end bg-warm/0 p-4 opacity-0 transition-all duration-300 group-hover:bg-warm/80 group-hover:opacity-100">
                   <p className="translate-y-2 text-sm font-medium text-black transition-transform duration-300 group-hover:translate-y-0">Project preview</p>
                 </div>
@@ -451,8 +464,10 @@ export function HomeView() {
 
       {/* TESTIMONIALS */}
       <section className="section-pad section-flow-warm">
-        <div className="site-container">
-          <h2 className="text-center font-display text-display font-semibold text-[#111111]">Trusted by Builders</h2>
+        <div className="relative z-10 site-container">
+          <h2 className="flex flex-col items-center text-center font-display text-display font-semibold text-foreground">
+            <span className="heading-accent heading-accent-center">Trusted by Builders</span>
+          </h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {testimonials.map((item, i98) => (
               <TestimonialCard key={item.name} {...item} index={i98} />
@@ -463,10 +478,12 @@ export function HomeView() {
 
       {/* FAQ */}
       <section className="section-pad section-flow-light">
-        <div className="site-container grid gap-10 lg:grid-cols-12">
+        <div className="relative z-10 site-container grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <h2 className="font-display text-display font-semibold text-[#111111]">Frequently Asked Questions</h2>
-            <p className="mt-4 text-sm text-[#3a3a3a]">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
+            <h2 className="font-display text-display font-semibold text-foreground">
+              <span className="heading-accent">Frequently Asked Questions</span>
+            </h2>
+            <p className="mt-6 text-sm leading-relaxed text-mid">Straight answers on adhesive grades, tile-on-tile, epoxy colors, and partnerships.</p>
           </div>
           <div className="lg:col-span-8">
             <FAQAccordion items={homeFaqs} defaultOpen={0} />
