@@ -1,19 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { BRAND } from "@/lib/brand";
 import { products } from "@/lib/data/products";
 import { useReducedMotion } from "@/lib/useReducedMotion";
-
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Support", href: "/support" },
-  { label: "Partner with Us", href: "/partner" },
-];
+import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { socialLinks } from "@/data/social";
+import { socialIconMap } from "@/lib/social-icons";
 
 const stagger = 0.06;
 
@@ -26,6 +20,13 @@ export function Footer() {
     ...products
       .filter((p) => p.familySlug !== "tiles-adhesive")
       .map((p) => ({ label: p.name, href: `/products/${p.slug}` })),
+  ];
+
+  const quickLinks = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Support", href: "/support" },
+    { label: "Partner with Us", href: "/partner" },
   ];
 
   return (
@@ -44,6 +45,26 @@ export function Footer() {
             </div>
             <p className="mt-5 text-[15px] leading-relaxed text-[#3a3a3a]">{BRAND.tagline}</p>
             <p className="mt-2 text-[15px] text-[#6b6b6b]">{BRAND.taglineHi}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {socialLinks.map((s, si) => {
+                const Icon = socialIconMap[s.icon];
+                return (
+                  <motion.a
+                    key={s.id}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className="icon-hover-standalone inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#c1b2a4] bg-white/80 text-[#111111] transition-colors duration-200 hover:border-primary"
+                    initial={false}
+                    animate={inView && !reduced ? { y: [0, -6, 0] } : undefined}
+                    transition={{ delay: 0.2 + si * 0.1, duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }}
+                  >
+                    <Icon className="h-4 w-4" aria-hidden />
+                  </motion.a>
+                );
+              })}
+            </div>
           </motion.section>
 
           <motion.section
@@ -55,9 +76,9 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {footerProducts.map((p) => (
                 <li key={p.href}>
-                  <Link href={p.href} className="text-[14px] text-[#3a3a3a] transition-colors duration-200 hover:text-[#111111]">
+                  <TransitionLink href={p.href} className="text-[14px] text-[#3a3a3a] transition-colors duration-200 hover:text-[#111111]">
                     {p.label}
-                  </Link>
+                  </TransitionLink>
                 </li>
               ))}
             </ul>
@@ -72,9 +93,9 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-[14px] text-[#3a3a3a] transition-colors duration-200 hover:text-[#111111]">
+                  <TransitionLink href={link.href} className="text-[14px] text-[#3a3a3a] transition-colors duration-200 hover:text-[#111111]">
                     {link.label}
-                  </Link>
+                  </TransitionLink>
                 </li>
               ))}
             </ul>
@@ -92,12 +113,12 @@ export function Footer() {
                 SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
               </li>
               <li>
-                <a href="tel:+917383838632" className="transition-colors hover:text-[#111111]">
+                <a href="tel:+917383838632" className="transition-colors duration-200 hover:text-[#111111]">
                   +91 7383838632
                 </a>
               </li>
               <li>
-                <a href="mailto:info@fixonex.com" className="transition-colors hover:text-[#111111]">
+                <a href="mailto:info@fixonex.com" className="transition-colors duration-200 hover:text-[#111111]">
                   info@fixonex.com
                 </a>
               </li>

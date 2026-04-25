@@ -43,6 +43,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         label={product.badge}
         title={product.name}
         subtitle={product.applicationShort}
+        bannerLayoutId={`product-hero-${slug}`}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
       />
 

@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PageHero } from "@/components/ui/PageHero";
-import { ProductCard } from "@/components/ui/ProductCard";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { products } from "@/lib/data/products";
+import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 const guidanceRows: [string, string][] = [
@@ -19,7 +18,6 @@ const guidanceRows: [string, string][] = [
 
 export default function ProductsPage() {
   const reduced = useReducedMotion();
-  const nonAdhesiveProducts = products.filter((product) => product.familySlug !== "tiles-adhesive");
   const imageWide = "https://picsum.photos/200";
 
   return (
@@ -78,48 +76,32 @@ export default function ProductsPage() {
 
       <section className="section-pad section-flow-light">
         <div className="site-container">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <motion.article
-              initial={reduced ? false : { opacity: 0, y: 24 }}
-              whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              className="surface-card p-7 sm:col-span-2"
-            >
-              <p className="inline-flex rounded-pill bg-warm/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-dark">Tiles Adhesive Range</p>
-              <h3 className="mt-4 font-display text-3xl font-semibold text-black">5 Certified Grades</h3>
-              <p className="mt-3 max-w-[560px] text-sm leading-relaxed text-mid">
-                From interior ceramics to swimming pools — one family covers every application.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {["C1T", "C2T", "C2TE", "C2TES1", "C2TES2"].map((code) => (
-                  <span key={code} className="rounded-pill bg-[#f3ede8] px-2.5 py-1 text-[11px] font-semibold text-[#3a3a3a]">
-                    {code}
-                  </span>
-                ))}
-              </div>
-              <Link href="/products/tiles-adhesive" className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-dark">
-                Explore All Grades
-              </Link>
-            </motion.article>
-
-            {nonAdhesiveProducts.map((product, index) => (
-              <ProductCard
-                id={product.id}
-                key={product.slug}
-                name={product.name}
-                slug={product.slug}
-                badge={product.badge}
-                standard={product.standard}
-                applicationShort={product.applicationShort}
-                sizesLine={product.sizesLine}
-                image={product.image}
-                dimensions={product.dimensions}
-                index={index}
-              />
-            ))}
-          </div>
+          <motion.article
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            className="surface-card p-7"
+          >
+            <p className="inline-flex rounded-pill bg-warm/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-dark">Tiles Adhesive Range</p>
+            <h3 className="mt-4 font-display text-3xl font-semibold text-black">5 Certified Grades</h3>
+            <p className="mt-3 max-w-[560px] text-sm leading-relaxed text-mid">
+              From interior ceramics to swimming pools — one family covers every application.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["C1T", "C2T", "C2TE", "C2TES1", "C2TES2"].map((code) => (
+                <span key={code} className="rounded-pill bg-[#f3ede8] px-2.5 py-1 text-[11px] font-semibold text-[#3a3a3a]">
+                  {code}
+                </span>
+              ))}
+            </div>
+            <Link href="/products/tiles-adhesive" className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-primary-dark">
+              Explore All Grades
+            </Link>
+          </motion.article>
         </div>
       </section>
+
+      <ProductsShowcaseRow />
 
       <section className="section-pad section-flow-warm">
         <div className="site-container">

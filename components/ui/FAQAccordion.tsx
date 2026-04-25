@@ -40,7 +40,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
               <span className="font-display text-base font-semibold text-[#111111]">{item.question}</span>
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: reduced ? 0 : 0.25 }}
+                transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 30, mass: 1 }}
                 className="shrink-0 text-warm"
               >
                 <ChevronDown className="h-5 w-5" aria-hidden />
@@ -54,7 +54,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
                   initial={reduced ? false : { height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={reduced ? undefined : { height: 0, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 220, damping: 24 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 28, mass: 1.1 }}
                   className="overflow-hidden"
                 >
                   <p className="border-t border-light px-5 pb-5 text-[15px] leading-[1.75] text-mid md:px-6">{item.answer}</p>

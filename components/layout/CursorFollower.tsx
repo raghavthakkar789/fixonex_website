@@ -4,12 +4,21 @@ import { useEffect, useState } from "react";
 import { motion, useSpring } from "framer-motion";
 
 export function CursorFollower() {
+  const [noFinePointer, setNoFinePointer] = useState(false);
   const [interactive, setInteractive] = useState(false);
   const [hidden, setHidden] = useState(true);
   const smallX = useSpring(0, { stiffness: 400, damping: 28 });
   const smallY = useSpring(0, { stiffness: 400, damping: 28 });
   const ringX = useSpring(0, { stiffness: 150, damping: 20 });
   const ringY = useSpring(0, { stiffness: 150, damping: 20 });
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const upd = () => setNoFinePointer(!mq.matches);
+    upd();
+    mq.addEventListener("change", upd);
+    return () => mq.removeEventListener("change", upd);
+  }, []);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -25,6 +34,8 @@ export function CursorFollower() {
     window.addEventListener("mousemove", onMove);
     return () => window.removeEventListener("mousemove", onMove);
   }, [ringX, ringY, smallX, smallY]);
+
+  if (noFinePointer) return null;
 
   return (
     <>

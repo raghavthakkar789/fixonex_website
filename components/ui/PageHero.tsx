@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useReducedMotion } from "@/lib/useReducedMotion";
+import { motion, useReducedMotion } from "framer-motion";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { MaskHeading, BodyFadeUp } from "@/components/ui/MaskHeading";
 
 type Crumb = { label: string; href?: string };
 type PageHeroProps = {
@@ -10,13 +10,15 @@ type PageHeroProps = {
   title: string;
   subtitle: string;
   breadcrumbs?: Crumb[];
+  /** Framer `layoutId` for shared product card → detail transition */
+  bannerLayoutId?: string;
 };
 
-export function PageHero({ label, title, subtitle, breadcrumbs = [] }: PageHeroProps) {
+export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayoutId }: PageHeroProps) {
   const reduced = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-brand text-white">
+    <motion.section className="relative overflow-hidden bg-brand text-white" layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}>
       <div className="absolute inset-0 opacity-25" aria-hidden style={{ backgroundImage: "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.35), transparent 45%)" }} />
       <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-dark opacity-70" aria-hidden />
       <div className="site-container relative flex min-h-[280px] flex-col justify-center py-14 lg:min-h-[360px]">
@@ -25,9 +27,9 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [] }: PageHeroP
             {breadcrumbs.map((crumb, index) => (
               <span key={`${crumb.label}-${index}`} className="inline-flex items-center gap-2">
                 {crumb.href ? (
-                  <Link href={crumb.href} className="transition-colors hover:text-white">
+                  <TransitionLink href={crumb.href} className="transition-colors duration-200 hover:text-white">
                     {crumb.label}
-                  </Link>
+                  </TransitionLink>
                 ) : (
                   <span className="text-warm">{crumb.label}</span>
                 )}
@@ -37,13 +39,13 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [] }: PageHeroP
           </nav>
         ) : null}
         <p className="section-eyebrow text-warm">{label}</p>
-        <motion.h1 initial={reduced ? false : { y: 24, opacity: 0 }} animate={reduced ? undefined : { y: 0, opacity: 1 }} transition={{ duration: 0.55, ease: [0, 0, 0.2, 1] }} className="max-w-4xl font-display text-[clamp(2.2rem,5vw,3.8rem)] font-bold tracking-[-0.02em] text-white">
+        <MaskHeading as="h1" className="max-w-4xl font-display text-[clamp(2.2rem,5vw,3.8rem)] font-bold tracking-[-0.02em] text-white" delayStart={0.05} wordStagger={0.08}>
           {title}
-        </motion.h1>
-        <motion.p initial={reduced ? false : { y: 18, opacity: 0 }} animate={reduced ? undefined : { y: 0, opacity: 1 }} transition={{ duration: 0.55, delay: 0.08, ease: [0, 0, 0.2, 1] }} className="mt-4 max-w-2xl text-md text-[#e2e2e2]">
-          {subtitle}
-        </motion.p>
+        </MaskHeading>
+        <BodyFadeUp className="mt-4 max-w-2xl text-md text-[#e2e2e2]">
+          <p>{subtitle}</p>
+        </BodyFadeUp>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -1,4 +1,7 @@
-export const premiumEase: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import { easings, transitions, variants } from "./animations";
+
+export const premiumEase = easings.easeOutExpo as [number, number, number, number];
+export { easings, transitions, variants };
 
 export const headingReveal = {
   initial: { y: 60, opacity: 0 },

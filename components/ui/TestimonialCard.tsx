@@ -20,7 +20,7 @@ export function TestimonialCard({ quote, name, role, index = 0 }: TestimonialCar
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.45, delay: index * 0.15 }}
       whileHover={reduced ? undefined : { y: -6 }}
-      className="relative overflow-hidden rounded-lg border-l-4 border-warm bg-white p-8 shadow-md"
+      className="pop-shadow-quote relative overflow-hidden rounded-lg border-l-4 border-warm bg-white p-8"
     >
       <p className="pointer-events-none font-display text-[72px] leading-none text-warm/55" aria-hidden>
         &ldquo;

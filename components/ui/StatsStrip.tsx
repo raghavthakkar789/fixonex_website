@@ -26,7 +26,7 @@ export function StatsStrip({ stats, className = "" }: StatsStripProps) {
           <div key={stat.label} className="relative text-center md:text-left">
             {index > 0 ? <span className="absolute -left-4 top-1/2 hidden h-12 w-px -translate-y-1/2 bg-[#c1b2a4] md:block" aria-hidden /> : null}
             <p className="font-display text-[clamp(32px,5vw,52px)] font-bold tracking-tight">
-              <StatValue value={stat.value} start={inView || reduced} />
+              <StatValue value={stat.value} start={reduced || Boolean(inView)} />
             </p>
             <p className="mt-2 text-sm font-medium uppercase tracking-[0.08em] text-mid">{stat.label}</p>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import {
@@ -30,6 +30,8 @@ import { testimonials } from "@/lib/data/testimonials";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useCountUp } from "@/lib/useCountUp";
 import { cn } from "@/lib/utils";
+import { BentoTiltCard } from "@/components/ui/BentoTiltCard";
+import { AnimatedSection } from "@/components/ui/AnimatedSection";
 
 const heroLine1 = ["Strong", "Bond"];
 const heroLine2 = ["Begins", "Here."];
@@ -58,7 +60,7 @@ function StatCell({ value, label, delay }: { value: string; label: string; delay
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduced = useReducedMotion();
-  const display = useCountUp(value, inView || reduced, { durationMs: 1500 });
+  const display = useCountUp(value, reduced || Boolean(inView), { durationMs: 1500 });
 
   return (
     <motion.div
@@ -121,6 +123,18 @@ export function HomeView() {
           />
         </div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_18%,rgba(193,178,164,0.35),transparent_42%),radial-gradient(circle_at_78%_88%,rgba(211,47,47,0.14),transparent_38%)]" aria-hidden />
+        <div
+          className="pointer-events-none absolute left-[5%] top-[16%] h-[min(300px,42vw)] w-[min(300px,42vw)] rounded-full bg-primary/30 blur-[100px]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute bottom-[10%] right-[6%] h-[min(260px,38vw)] w-[min(260px,38vw)] rounded-full bg-sky-400/25 blur-[88px]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute right-[28%] top-[38%] h-44 w-44 rounded-full bg-amber-400/20 blur-[64px]"
+          aria-hidden
+        />
 
         <div className="site-container relative z-10 flex min-h-[calc(100vh-72px)] flex-col justify-center">
           <div className="flex flex-1 flex-col justify-center pt-10 lg:max-w-[55%] lg:pt-0">
@@ -158,16 +172,20 @@ export function HomeView() {
               transition={{ delay: 0.9 }}
             >
               <Button asChild size="lg">
-                <Link href="/products">Explore Products</Link>
+                <TransitionLink href="/products">Explore Products</TransitionLink>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-warm text-warm hover:text-black">
-                <Link href="/contact">Get Consultation</Link>
+                <TransitionLink href="/contact">Get Consultation</TransitionLink>
               </Button>
             </motion.div>
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/30 py-3 text-[#E0E0E0] shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-[1px]" onMouseEnter={() => setTickerPaused(true)} onMouseLeave={() => setTickerPaused(false)}>
+        <div
+          className="relative z-10 mt-8 overflow-hidden rounded-2xl border border-white/10 bg-black/30 py-3 text-[#E0E0E0] shadow-[0_10px_30px_rgba(0,0,0,0.18)] backdrop-blur-[1px] transition-[box-shadow,border-color] duration-500 motion-reduce:transition-none md:hover:border-white/20 md:hover:shadow-pop"
+          onMouseEnter={() => setTickerPaused(true)}
+          onMouseLeave={() => setTickerPaused(false)}
+        >
           <div className="flex w-max animate-ticker motion-reduce:animate-none" style={{ animationPlayState: tickerPaused ? "paused" : "running" }}>
             {["Tile Adhesive", "Epoxy Grout", "Block Mortar", "PU Adhesive", "Tile Spacers", "Tile Cleaner"].map((t) => (
               <span key={t} className="mx-6 flex items-center gap-6 text-sm font-medium">
@@ -254,9 +272,8 @@ export function HomeView() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.1 }}
                 whileHover={reduced ? undefined : { y: -4 }}
-                className="group surface-card pt-1"
+                className="group surface-card"
               >
-                <div className="h-1 w-full rounded-t-md bg-gradient-to-r from-primary via-primary-dark to-warm-dark" />
                 <div className="p-6">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-md shadow-red ring-2 ring-white/30">
                     <item.icon className="h-5 w-5" aria-hidden />
@@ -326,9 +343,9 @@ export function HomeView() {
                   <c.icon className="h-8 w-8 text-primary" aria-hidden />
                   <h3 className="mt-4 font-body text-xl font-semibold text-foreground">{c.title}</h3>
                   <p className="mt-2 text-sm text-mid">{c.desc}</p>
-                  <Link href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
+                  <TransitionLink href={c.href} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
                     View Products →
-                  </Link>
+                  </TransitionLink>
                 </div>
               </motion.div>
             ))}
@@ -345,7 +362,7 @@ export function HomeView() {
             </h2>
             <p className="mt-6 max-w-xl text-[1.0625rem] leading-relaxed text-mid">Tell us your surface, tile, and exposure — we recommend the right adhesive grade.</p>
             <Button asChild className="mt-8" size="lg" variant="primary">
-              <Link href="/contact">Get Free Guidance</Link>
+              <TransitionLink href="/contact">Get Free Guidance</TransitionLink>
             </Button>
           </div>
           <div className="space-y-6">
@@ -394,9 +411,9 @@ export function HomeView() {
                 <item.icon className="h-8 w-8 text-primary" />
                 <h3 className="mt-4 font-body text-xl font-semibold text-black">{item.title}</h3>
                 <p className="mt-2 flex-1 text-sm text-mid">{item.text}</p>
-                <Link href={item.href} className="mt-6 text-sm font-semibold text-primary">
+                <TransitionLink href={item.href} className="mt-6 text-sm font-semibold text-primary">
                   Learn more →
-                </Link>
+                </TransitionLink>
               </motion.article>
             ))}
           </div>
@@ -429,7 +446,7 @@ export function HomeView() {
       </section>
 
       {/* PROJECTS */}
-      <section className="section-pad section-flow-light">
+      <AnimatedSection as="section" className="section-pad section-flow-light" variant="fadeUp">
         <div className="relative z-10 site-container">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-display text-display font-semibold text-foreground">
@@ -444,23 +461,26 @@ export function HomeView() {
                 initial={false}
                 whileInView={reduced ? undefined : { opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ delay: i98 * 0.06 }}
-                className={cn(
-                  "group relative overflow-hidden rounded-md",
-                  i98 % 2 === 0 ? "bg-warm/50" : "bg-warm-dark/35",
-                  (i98 === 1 || i98 === 4) && "md:row-span-2",
-                )}
+                transition={{ delay: i98 * 0.06, ease: [0.16, 1, 0.3, 1] }}
+                className={cn("h-full", (i98 === 1 || i98 === 4) && "md:row-span-2")}
               >
-                <ImageWithFallback src="https://picsum.photos/200" alt="Completed project site" fill className="object-cover" />
-                <div className="pointer-events-none absolute inset-0 flex items-end bg-warm/0 p-4 opacity-0 transition-all duration-300 group-hover:bg-warm/80 group-hover:opacity-100">
-                  <p className="translate-y-2 text-sm font-medium text-black transition-transform duration-300 group-hover:translate-y-0">Project preview</p>
-                </div>
-                <span className="sr-only">Placeholder project visual {i98 + 1}</span>
+                <BentoTiltCard
+                  className={cn(
+                    "group relative h-full min-h-[120px] overflow-hidden rounded-md md:min-h-0",
+                    i98 % 2 === 0 ? "bg-warm/50" : "bg-warm-dark/35",
+                  )}
+                >
+                  <ImageWithFallback src="https://picsum.photos/200" alt="Completed project site" fill className="object-cover" />
+                  <div className="pointer-events-none absolute inset-0 flex items-end bg-warm/0 p-4 opacity-0 transition-all duration-300 group-hover:bg-warm/80 group-hover:opacity-100">
+                    <p className="translate-y-2 text-sm font-medium text-black transition-transform duration-300 group-hover:translate-y-0">Project preview</p>
+                  </div>
+                  <span className="sr-only">Placeholder project visual {i98 + 1}</span>
+                </BentoTiltCard>
               </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* TESTIMONIALS */}
       <section className="section-pad section-flow-warm">
@@ -488,9 +508,9 @@ export function HomeView() {
           <div className="lg:col-span-8">
             <FAQAccordion items={homeFaqs} defaultOpen={0} />
             <p className="mt-8 text-right text-sm text-mid">
-              <Link href="/support/#faq" className="font-semibold text-primary transition-colors hover:text-primary-dark">
+              <TransitionLink href="/support/#faq" className="font-semibold text-primary transition-colors hover:text-primary-dark">
                 More questions →
-              </Link>
+              </TransitionLink>
             </p>
           </div>
         </div>

@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-import { useReducedMotion } from "@/lib/useReducedMotion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { transitions } from "@/lib/animations";
+import { MagneticElement } from "@/components/ui/MagneticElement";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 
 export function StickyHelpButton() {
   const reduced = useReducedMotion();
@@ -13,7 +14,7 @@ export function StickyHelpButton() {
     <div className="fixed bottom-4 right-4 z-[60] md:bottom-8 md:right-8">
       <div className="group relative flex items-center">
         <span
-          className="pointer-events-none absolute -inset-2 rounded-full border-2 border-warm/70 opacity-0 animate-help-pulse motion-reduce:animate-none md:-inset-2.5"
+          className="help-pulse-ring pointer-events-none absolute inset-0 rounded-full border border-warm"
           aria-hidden
         />
         <span
@@ -22,18 +23,24 @@ export function StickyHelpButton() {
         >
           Get Help
         </span>
-        <motion.div whileHover={reduced ? undefined : { scale: 1.04 }} whileTap={reduced ? undefined : { scale: 0.97 }}>
-          <Link
-            href="/contact"
-            aria-label="Get Help"
-            className={cn(
-              "relative inline-flex items-center justify-center rounded-full bg-primary text-white shadow-red transition-colors hover:bg-primary-dark",
-              "h-12 w-12 md:h-14 md:w-14",
-            )}
+        <MagneticElement maxPx={8}>
+          <motion.div
+            className="relative"
+            whileHover={reduced ? undefined : { scale: 1.1 }}
+            transition={transitions.gentleSpring}
           >
-            <MessageCircle className="h-6 w-6" strokeWidth={2} aria-hidden />
-          </Link>
-        </motion.div>
+            <TransitionLink
+              href="/contact"
+              aria-label="Get Help"
+              className={cn(
+                "relative inline-flex items-center justify-center rounded-full bg-primary text-white shadow-red transition-colors duration-200 ease-out hover:bg-primary-dark",
+                "h-12 w-12 md:h-14 md:w-14",
+              )}
+            >
+              <MessageCircle className="h-6 w-6" strokeWidth={2} aria-hidden />
+            </TransitionLink>
+          </motion.div>
+        </MagneticElement>
       </div>
     </div>
   );

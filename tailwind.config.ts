@@ -53,6 +53,9 @@ const config: Config = {
         nav: "0 2px 20px rgba(0,0,0,0.08)",
         warm: "0 8px 32px rgba(193,178,164,0.30)",
         red: "0 4px 24px rgba(211,47,47,0.35)",
+        pop: "0 14px 36px rgba(0,0,0,0.07), 16px 22px 52px rgba(255,94,108,0.16), -14px -10px 44px rgba(56,189,248,0.13), 8px 28px 48px rgba(251,191,36,0.11), 0 0 72px rgba(167,139,250,0.06)",
+        "pop-sm":
+          "0 10px 28px rgba(0,0,0,0.07), 18px 14px 46px rgba(255,94,108,0.17), -12px 20px 50px rgba(56,189,248,0.12), 10px 26px 44px rgba(251,191,36,0.1)",
       },
       spacing: {
         18: "4.5rem",
@@ -85,7 +88,7 @@ const config: Config = {
         "mesh-warm":
           "radial-gradient(ellipse 120% 80% at 0% 0%, rgba(193,178,164,0.35), transparent 50%), radial-gradient(ellipse 90% 70% at 100% 10%, rgba(211,47,47,0.08), transparent 45%), radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255,255,255,0.9), transparent 55%)",
         "mesh-hero":
-          "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.28), transparent 42%), radial-gradient(circle at 92% 18%, rgba(211,47,47,0.12), transparent 38%), linear-gradient(165deg, rgba(17,17,17,0.92) 0%, rgba(17,17,17,0.78) 100%)",
+          "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.32), transparent 42%), radial-gradient(circle at 92% 18%, rgba(211,47,47,0.16), transparent 38%), radial-gradient(circle at 72% 88%, rgba(56,189,248,0.08), transparent 45%), radial-gradient(circle at 8% 78%, rgba(251,191,36,0.07), transparent 42%), linear-gradient(165deg, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.76) 100%)",
         "stripe-soft":
           "repeating-linear-gradient(115deg, transparent, transparent 12px, rgba(193,178,164,0.06) 12px, rgba(193,178,164,0.06) 24px)",
       },
