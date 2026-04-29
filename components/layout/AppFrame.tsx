@@ -40,13 +40,9 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
       <main
         id="main-content"
         tabIndex={-1}
-        className="relative min-h-[50vh] outline-none [transition:transform_0.45s_cubic-bezier(0.16,1,0.3,1),filter_0.45s_cubic-bezier(0.16,1,0.3,1),opacity_0.45s_cubic-bezier(0.16,1,0.3,1)]"
+        className="relative z-[1] min-h-[50vh] bg-transparent outline-none [transition:transform_0.3s_cubic-bezier(0.16,1,0.3,1),filter_0.3s_cubic-bezier(0.16,1,0.3,1),opacity_0.3s_cubic-bezier(0.16,1,0.3,1)]"
         style={reduced ? undefined : { willChange: "auto" }}
       >
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[min(380px,48vh)] bg-gradient-to-b from-primary/[0.045] via-sky-400/[0.03] to-transparent mix-blend-multiply"
-          aria-hidden
-        />
         <PageTransitionWrapper key={pathname} className="relative z-10">
           {children}
         </PageTransitionWrapper>

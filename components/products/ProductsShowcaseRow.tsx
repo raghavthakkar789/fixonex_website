@@ -38,7 +38,7 @@ function HorizontalTrack({ cards }: RowProps) {
     >
       <div className="site-container">
         <p className="section-eyebrow">Our Range</p>
-        <h2 className="font-display text-display font-semibold text-[#111111]">Product Cards</h2>
+        <h2 className="font-heading text-display font-semibold text-foreground">Product Cards</h2>
         <p className="section-subtext mt-3 max-w-2xl">Scroll to explore. Each card links to a full product profile.</p>
         <div className="mt-8 overflow-x-hidden">
           <motion.div
@@ -52,9 +52,9 @@ function HorizontalTrack({ cards }: RowProps) {
             ))}
           </motion.div>
         </div>
-        <div className="mt-3 h-0.5 w-full overflow-hidden rounded bg-[#e5e0da]">
+        <div className="mt-3 h-0.5 w-full overflow-hidden rounded bg-border-strong/65">
           <motion.div
-            className="h-full origin-left bg-warm/80"
+            className="h-full origin-left bg-chip/80"
             style={{ scaleX: smooth, transformOrigin: "left" }}
           />
         </div>
@@ -68,7 +68,7 @@ function Stacked({ cards }: RowProps) {
     <section className="section-pad section-flow-light">
       <div className="site-container">
         <p className="section-eyebrow">Our Range</p>
-        <h2 className="font-display text-display font-semibold text-[#111111]">Product Cards</h2>
+        <h2 className="font-heading text-display font-semibold text-foreground">Product Cards</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {cards.map((p, i) => (
             <ProductCard key={p.slug} {...p} index={i} />

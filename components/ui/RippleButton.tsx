@@ -4,7 +4,7 @@ import { useRef, useCallback, type ReactNode, type ComponentProps } from "react"
 import { cn } from "@/lib/utils";
 import { easingsWAAPI } from "@/lib/animations";
 
-const darkRipple = "rgba(193,178,164,0.5)";
+const darkRipple = "rgba(197,205,210,0.45)";
 const redRipple = "rgba(255,255,255,0.4)";
 
 type ButtonLikeProps = {

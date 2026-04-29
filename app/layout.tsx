@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { DM_Sans, Inter, Playfair_Display } from "next/font/google";
+import { Inter, Manrope, Merriweather } from "next/font/google";
 import "./globals.css";
 import { AppFrame } from "@/components/layout/AppFrame";
 import { BRAND } from "@/lib/brand";
 
-const dmSans = DM_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-manrope",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
   display: "swap",
 });
 
-const playfair = Playfair_Display({
+const merriweather = Merriweather({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["400", "700"],
+  variable: "--font-merriweather",
   display: "swap",
 });
 
@@ -45,7 +46,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${inter.variable} ${playfair.variable}`}>
+    <html
+      lang="en"
+      className={`${manrope.variable} ${inter.variable} ${merriweather.variable} scroll-smooth antialiased`}
+    >
       <body>
         <a href="#main-content" className="skip-to-main">
           Skip to main content

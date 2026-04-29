@@ -1,11 +1,12 @@
 import { create } from "zustand";
 
+/** Route overlays — warm shells aligned with anchor `#C1B2A4`, band-alt, and cream surfaces. */
 const routeOverlayColors: Record<string, { bg: string; wordmark: string }> = {
-  "/products": { bg: "#111111", wordmark: "#C1B2A4" },
-  "/about": { bg: "#2B2B2B", wordmark: "#C1B2A4" },
-  "/contact": { bg: "#C1B2A4", wordmark: "#111111" },
-  "/partner": { bg: "#111111", wordmark: "#C1B2A4" },
-  "/support": { bg: "#2B2B2B", wordmark: "#C1B2A4" },
+  "/products": { bg: "#F5F0EB", wordmark: "#D32F2F" },
+  "/about": { bg: "#D6CBBF", wordmark: "#2C2622" },
+  "/contact": { bg: "#FAF8F6", wordmark: "#D32F2F" },
+  "/partner": { bg: "#F5F0EB", wordmark: "#D32F2F" },
+  "/support": { bg: "#FFFFFF", wordmark: "#2C2622" },
 };
 
 function pathOnlyFromHref(href: string) {
@@ -18,10 +19,10 @@ function pathOnlyFromHref(href: string) {
 
 function colorsForPath(path: string) {
   const p = pathOnlyFromHref(path) || path;
-  if (p === "/") return { bg: "#111111", wordmark: "#C1B2A4" };
+  if (p === "/") return { bg: "#C1B2A4", wordmark: "#2C2622" };
   const k = Object.keys(routeOverlayColors).find((key) => p === key || p.startsWith(`${key}/`));
   if (k) return routeOverlayColors[k]!;
-  return { bg: "#111111", wordmark: "#C1B2A4" };
+  return { bg: "#F5F0EB", wordmark: "#2C2622" };
 }
 
 type State = {

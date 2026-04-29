@@ -3,16 +3,16 @@
   <desc id="desc">Placeholder image for team overview section</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#d8ccc1" />
-      <stop offset="100%" stop-color="#c1b2a4" />
+      <stop offset="0%" stop-color="#dce1e4" />
+      <stop offset="100%" stop-color="#b8c8d0" />
     </linearGradient>
   </defs>
   <rect width="1200" height="700" fill="url(#bg)" />
-  <circle cx="350" cy="300" r="90" fill="#efe6de" />
-  <circle cx="600" cy="280" r="100" fill="#f4ece4" />
-  <circle cx="850" cy="300" r="90" fill="#efe6de" />
-  <rect x="230" y="410" width="240" height="180" rx="80" fill="#efe6de" />
-  <rect x="470" y="400" width="260" height="190" rx="85" fill="#f4ece4" />
-  <rect x="730" y="410" width="240" height="180" rx="80" fill="#efe6de" />
-  <text x="600" y="650" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" fill="#5f4a3a">Our Team</text>
+  <circle cx="350" cy="300" r="90" fill="#e8ebef" />
+  <circle cx="600" cy="280" r="100" fill="#f0f3f5" />
+  <circle cx="850" cy="300" r="90" fill="#e8ebef" />
+  <rect x="230" y="410" width="240" height="180" rx="80" fill="#e8ebef" />
+  <rect x="470" y="400" width="260" height="190" rx="85" fill="#f0f3f5" />
+  <rect x="730" y="410" width="240" height="180" rx="80" fill="#e8ebef" />
+  <text x="600" y="650" text-anchor="middle" font-family="Arial, sans-serif" font-size="46" fill="#2d3a3f">Our Team</text>
 </svg>

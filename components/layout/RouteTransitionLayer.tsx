@@ -11,11 +11,11 @@ const D_EXIT_MS = 350;
 const D_OVER_MS = 300;
 
 const easeQ = easings.easeInOutQuart as [number, number, number, number];
-const defOverlay = { bg: "#111111", wordmark: "#C1B2A4" as const };
+const defOverlay = { bg: "#F5F5F5", wordmark: "#2B2B2B" as const };
 
 /**
- * Overlay: slides in (phase 1), router.push after exit window, on pathname change
- * (phase 2) slides out; then reset + resolve the navigation promise.
+ * Overlay: slides down from the top (phase 1), router.push after exit window, on pathname change
+ * (phase 2) slides back up; then reset + resolve the navigation promise.
  */
 export function RouteTransitionLayer() {
   const phase = useTransitionStore((s) => s.phase);
@@ -73,7 +73,7 @@ export function RouteTransitionLayer() {
       className="pointer-events-none fixed inset-0 z-[190] flex items-center justify-center"
       style={{ background: overlay.bg }}
       key={phase}
-      initial={phase === 1 ? { y: "100%" } : { y: 0 }}
+      initial={phase === 1 ? { y: "-100%" } : { y: 0 }}
       animate={phase === 1 ? { y: 0 } : { y: "-100%" }}
       transition={{ duration: D_OVER_MS / 1000, ease: easeQ }}
       onAnimationComplete={() => {
@@ -83,7 +83,7 @@ export function RouteTransitionLayer() {
         }
       }}
     >
-      <p className="font-display text-2xl font-semibold" style={{ color: overlay.wordmark }}>
+      <p className="font-heading text-2xl font-semibold" style={{ color: overlay.wordmark }}>
         {BRAND.name}
       </p>
     </motion.div>

@@ -59,7 +59,7 @@ export function MediaPlaceholder({
       aria-label={decorative ? undefined : a11yLabel}
     >
       <div
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.9)_0%,rgba(245,245,245,0.88)_38%,rgba(193,178,164,0.18)_100%)]"
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.95)_0%,rgba(232,235,237,0.9)_45%,rgba(200,210,218,0.2)_100%)]"
         aria-hidden
       />
       <div

@@ -56,7 +56,7 @@ export default function ContactPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container mx-auto max-w-[680px] text-center">
           <p className="section-eyebrow text-center">Contact Desk</p>
           <p className="section-subtext mx-auto text-dark">
@@ -69,7 +69,7 @@ export default function ContactPage() {
         <div className="site-container grid gap-12 lg:grid-cols-12">
           <div className="surface-card p-8 lg:col-span-7 md:p-10">
             <p className="section-eyebrow">Inquiry Form</p>
-            <h2 className="font-display text-2xl font-semibold text-black sr-only">Contact form</h2>
+            <h2 className="font-heading text-2xl font-semibold text-black sr-only">Contact form</h2>
             <AnimatePresence mode="wait">
               {submitted ? (
                 <motion.div
@@ -119,7 +119,7 @@ export default function ContactPage() {
                     <select
                       id="inquiryType"
                       {...register("inquiryType", { required: true })}
-                      className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-[#111111] outline-none focus-visible:ring-2 focus-visible:ring-warm"
+                      className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-chip"
                     >
                       {inquiryOptions.map((opt) => (
                         <option key={opt} value={opt}>
@@ -153,7 +153,7 @@ export default function ContactPage() {
               <ImageWithFallback src={imageTall} alt="FIXONEX consultation support" fill className="object-cover" />
             </div>
             <p className="section-eyebrow">Reach Us Directly</p>
-            <ul className="mt-6 space-y-5 text-[#111111]">
+            <ul className="mt-6 space-y-5 text-foreground">
               <li className="flex gap-3">
                 <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
                 <a href="tel:+917383838632" className="font-medium hover:text-primary">
@@ -181,7 +181,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="text-center text-sm font-medium text-mid">Connect with us</p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -195,7 +195,7 @@ export default function ContactPage() {
                 key={label}
                 href={href}
                 aria-label={label}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#e5e0da] bg-white text-[#6b6b6b] transition-colors hover:border-[#c1b2a4] hover:text-primary"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#e5e0da] bg-white text-[#6b6b6b] transition-colors hover:border-chip hover:text-primary"
               >
                 <Icon className="h-5 w-5" />
               </Link>

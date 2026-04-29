@@ -18,10 +18,24 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
   const reduced = useReducedMotion();
 
   return (
-    <motion.section className="relative overflow-hidden bg-brand text-white" layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}>
-      <div className="absolute inset-0 opacity-25" aria-hidden style={{ backgroundImage: "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.35), transparent 45%)" }} />
-      <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-dark opacity-70" aria-hidden />
-      <div className="site-container relative flex min-h-[280px] flex-col justify-center py-14 lg:min-h-[360px]">
+    <motion.section
+      className="relative overflow-hidden border-b border-white/10 bg-[#0a0908] text-white"
+      layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}
+    >
+      <div
+        className="absolute inset-0"
+        aria-hidden
+        style={{
+          backgroundImage:
+            "radial-gradient(ellipse 90% 70% at 0% 0%, rgba(140,160,175,0.28), transparent 55%), radial-gradient(ellipse 50% 45% at 100% 0%, rgba(211,47,47,0.15), transparent 45%)",
+        }}
+      />
+      <div
+        className="absolute inset-0 bg-[repeating-linear-gradient(120deg,transparent,transparent_28px,rgba(255,255,255,0.03)_28px,rgba(255,255,255,0.03)_29px)]"
+        aria-hidden
+      />
+      <div className="absolute -right-24 -top-28 h-[min(100vw,26rem)] w-[min(100vw,26rem)] rounded-full bg-primary/20 blur-3xl" aria-hidden />
+      <div className="site-container relative flex min-h-[17rem] flex-col justify-center py-16 sm:min-h-[20rem] lg:min-h-[22rem] lg:py-20">
         {breadcrumbs.length > 0 ? (
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-[#c8c8c8]">
             {breadcrumbs.map((crumb, index) => (
@@ -31,18 +45,18 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
                     {crumb.label}
                   </TransitionLink>
                 ) : (
-                  <span className="text-warm">{crumb.label}</span>
+                  <span className="text-terracotta">{crumb.label}</span>
                 )}
-                {index < breadcrumbs.length - 1 ? <span className="text-warm">›</span> : null}
+                {index < breadcrumbs.length - 1 ? <span className="text-terracotta">›</span> : null}
               </span>
             ))}
           </nav>
         ) : null}
-        <p className="section-eyebrow text-warm">{label}</p>
-        <MaskHeading as="h1" className="max-w-4xl font-display text-[clamp(2.2rem,5vw,3.8rem)] font-bold tracking-[-0.02em] text-white" delayStart={0.05} wordStagger={0.08}>
+        <p className="section-eyebrow text-terracotta">{label}</p>
+        <MaskHeading as="h1" className="max-w-4xl font-heading text-[clamp(2.2rem,5vw,3.8rem)] font-bold tracking-[-0.02em] text-white" delayStart={0.05} wordStagger={0.08}>
           {title}
         </MaskHeading>
-        <BodyFadeUp className="mt-4 max-w-2xl text-md text-[#e2e2e2]">
+        <BodyFadeUp className="mt-4 max-w-2xl text-base leading-relaxed text-white/80">
           <p>{subtitle}</p>
         </BodyFadeUp>
       </div>

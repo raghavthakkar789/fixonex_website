@@ -1,61 +1,114 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * FIXONEX — Warm anchor shell `#C1B2A4`, alternating bands `#D6CBBF`, elevated cream/white,
+ * neo + glass + red `#D32F2F`; terracotta accent `#D97846`.
+ */
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
         white: "#FFFFFF",
-        black: "#111111",
-        dark: "#2B2B2B",
-        mid: "#5C5650",
-        light: "#EDE8E2",
-        border: "#E4DDD4",
-        primary: "#D32F2F",
-        "primary-dark": "#B71C1C",
-        warm: "#C1B2A4",
-        "warm-dark": "#A89585",
-        "warm-dim": "rgba(193,178,164,0.12)",
-        "accent-rose": "#FFEBEE",
-        brand: "#111111",
-        surface: "#F7F3EE",
+        neutral: {
+          darkest: "#231F1D",
+          dark: "#2C2622",
+          mid: "#5E5247",
+        },
+        black: "#2C2622",
+        dark: "#2C2622",
+        mid: "#5E5247",
+        muted: "#F5F0EB",
+        "muted-foreground": "#6B6158",
+        /** Canonical soft greige — main page canvas */
+        anchor: "#C1B2A4",
+        /** Alternate section band — lighter stone */
+        "band-alt": "#D6CBBF",
+        "faq-title": "#4A4036",
+        "faq-body": "#5E5247",
+        secondary: "#D6CBBF",
+        elevated: "#FFFFFF",
+        canvas: "#C1B2A4",
+        "section-alt": "#D6CBBF",
+        /** Chips, wells on greige backgrounds */
+        chip: "#ADA293",
+        "chip-dark": "#978A7E",
+        "chip-dim": "rgba(173, 162, 147, 0.35)",
+        surface: "#FAF8F6",
+        border: "rgba(218, 210, 200, 0.95)",
+        "border-strong": "#D4CCC2",
+        "border-soft": "rgba(200, 190, 176, 0.55)",
+        subhead: "#6B6158",
+        charcoal: "#5E5247",
+        ink: "#2C2622",
+        foreground: "#2C2622",
+        /** Body / shell background */
+        background: "#C1B2A4",
+        brand: "#2C2622",
+        footer: "#B5A89C",
+        "footer-muted": "#4A4036",
+        "accent-rose": "#F5F0EB",
+        "accent-cta": "#D32F2F",
+        "accent-cta-hover": "#B71C1C",
+        "off-white": "#FAF8F6",
+        light: "#E8E0D6",
         red: "#D32F2F",
         "red-dk": "#B71C1C",
-        foreground: "#111111",
-        background: "#F7F3EE",
-        muted: "#EDE6DE",
-        "muted-foreground": "#5C5650",
-        subhead: "#7A6B5E",
+        primary: {
+          DEFAULT: "#D32F2F",
+          foreground: "#FFFFFF",
+          dark: "#B71C1C",
+          hover: "#B71C1C",
+        },
+        "primary-dark": "#B71C1C",
+        terracotta: {
+          DEFAULT: "#D97846",
+          dark: "#C5693D",
+          foreground: "#FFFFFF",
+        },
+        glass: {
+          DEFAULT: "rgba(250, 248, 246, 0.78)",
+          strong: "rgba(255, 255, 255, 0.9)",
+        },
       },
       fontFamily: {
-        display: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        heading: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        body: ["var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-manrope)", "system-ui", "sans-serif"],
+        heading: ["var(--font-manrope)", "system-ui", "sans-serif"],
+        body: ["var(--font-merriweather)", "Georgia", "serif"],
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        serif: ["var(--font-merriweather)", "Georgia", "serif"],
       },
       fontSize: {
-        hero: ["clamp(2.65rem,6.2vw,4.25rem)", { lineHeight: "1.06", fontWeight: "700" }],
-        display: ["clamp(2.1rem,4.2vw,3rem)", { lineHeight: "1.14", fontWeight: "600" }],
+        hero: ["clamp(2.5rem, 6vw, 4rem)", { lineHeight: "1.08", fontWeight: "700" }],
+        display: ["clamp(2rem, 4vw, 3rem)", { lineHeight: "1.12", fontWeight: "600" }],
+        "type-headline": ["clamp(2.25rem, 5vw, 3.25rem)", { lineHeight: "1.1", fontWeight: "600" }],
+        "type-caption": ["0.6875rem", { lineHeight: "1.4", letterSpacing: "0.2em" }],
       },
       borderRadius: {
         xs: "4px",
         sm: "8px",
         md: "12px",
-        lg: "20px",
+        lg: "16px",
+        neo: "20px",
         xl: "32px",
         pill: "9999px",
+        glass: "16px",
       },
       boxShadow: {
-        xs: "0 1px 3px rgba(0,0,0,0.05)",
-        sm: "0 2px 8px rgba(0,0,0,0.06)",
-        md: "0 4px 20px rgba(0,0,0,0.08)",
-        lg: "0 12px 40px rgba(0,0,0,0.12)",
-        xl: "0 24px 64px rgba(0,0,0,0.16)",
-        nav: "0 2px 20px rgba(0,0,0,0.08)",
-        warm: "0 8px 32px rgba(193,178,164,0.30)",
-        red: "0 4px 24px rgba(211,47,47,0.35)",
-        pop: "0 14px 36px rgba(0,0,0,0.07), 16px 22px 52px rgba(255,94,108,0.16), -14px -10px 44px rgba(56,189,248,0.13), 8px 28px 48px rgba(251,191,36,0.11), 0 0 72px rgba(167,139,250,0.06)",
-        "pop-sm":
-          "0 10px 28px rgba(0,0,0,0.07), 18px 14px 46px rgba(255,94,108,0.17), -12px 20px 50px rgba(56,189,248,0.12), 10px 26px 44px rgba(251,191,36,0.1)",
+        xs: "0 1px 2px rgba(44, 38, 34, 0.05)",
+        sm: "0 2px 8px rgba(44, 38, 34, 0.06)",
+        md: "0 4px 16px rgba(44, 38, 34, 0.07)",
+        lg: "0 8px 24px rgba(44, 38, 34, 0.08)",
+        xl: "0 16px 40px rgba(44, 38, 34, 0.09)",
+        nav: "var(--shadow-nav)",
+        card: "var(--shadow-neo-rest)",
+        soft: "0 2px 10px rgba(44, 38, 34, 0.055)",
+        lift: "0 14px 36px rgba(44, 38, 34, 0.09)",
+        surface: "0 8px 22px rgba(44, 38, 34, 0.06)",
+        neo: "var(--shadow-neo-rest)",
+        "neo-hover": "var(--shadow-neo-hover)",
+        "neo-inset": "var(--shadow-neo-inset)",
+        cta: "var(--shadow-cta)",
       },
       spacing: {
         18: "4.5rem",
@@ -66,9 +119,16 @@ const config: Config = {
       },
       maxWidth: {
         container: "1280px",
+        content: "72rem",
+        /** Consistent readable column for marketing copy */
+        prose: "42rem",
+        "section-inner": "70rem",
+      },
+      padding: {
+        section: "clamp(2.25rem, 4vw, 3.25rem)",
       },
       transitionTimingFunction: {
-        spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        standard: "cubic-bezier(0.2, 0, 0.2, 1)",
       },
       keyframes: {
         "help-pulse": {
@@ -83,14 +143,6 @@ const config: Config = {
       animation: {
         "help-pulse": "help-pulse 3s ease-out infinite",
         ticker: "ticker 20s linear infinite",
-      },
-      backgroundImage: {
-        "mesh-warm":
-          "radial-gradient(ellipse 120% 80% at 0% 0%, rgba(193,178,164,0.35), transparent 50%), radial-gradient(ellipse 90% 70% at 100% 10%, rgba(211,47,47,0.08), transparent 45%), radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255,255,255,0.9), transparent 55%)",
-        "mesh-hero":
-          "radial-gradient(circle at 18% 22%, rgba(193,178,164,0.32), transparent 42%), radial-gradient(circle at 92% 18%, rgba(211,47,47,0.16), transparent 38%), radial-gradient(circle at 72% 88%, rgba(56,189,248,0.08), transparent 45%), radial-gradient(circle at 8% 78%, rgba(251,191,36,0.07), transparent 42%), linear-gradient(165deg, rgba(17,17,17,0.94) 0%, rgba(17,17,17,0.76) 100%)",
-        "stripe-soft":
-          "repeating-linear-gradient(115deg, transparent, transparent 12px, rgba(193,178,164,0.06) 12px, rgba(193,178,164,0.06) 24px)",
       },
     },
   },

@@ -43,8 +43,8 @@ export function ImageWithFallback({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px" });
   const reduced = useReducedMotion();
-  const ph = imageTone === "light" ? "bg-off-white" : "bg-dark";
-  const bg = imageTone === "light" ? "#F5F5F5" : "#2B2B2B";
+  const ph = imageTone === "light" ? "bg-off-white" : "bg-charcoal";
+  const bg = imageTone === "light" ? "#F5F5F5" : "#1E1E1E";
 
   const onDone = () => setLoaded(true);
 

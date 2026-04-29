@@ -12,11 +12,11 @@ type FeatureCardProps = {
 
 export function FeatureCard({ icon: Icon, title, description, href, className }: FeatureCardProps) {
   const content = (
-    <article className={cn("rounded-2xl border border-border bg-white p-8 transition-all duration-300 ease-[var(--ease-default)] hover:-translate-y-1.5 hover:border-warm hover:shadow-warm", className)}>
-      <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-[rgba(193,178,164,0.15)] transition-colors duration-300 group-hover:bg-[rgba(193,178,164,0.25)]">
-        <Icon size={24} color="#C1B2A4" strokeWidth={1.5} />
+    <article className={cn("rounded-2xl border border-border-strong/50 bg-elevated p-8 shadow-sm transition-all duration-300 ease-[var(--ease-default)] hover:-translate-y-1.5 hover:border-primary/30 hover:shadow-neo-hover", className)}>
+      <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[14px] bg-muted transition-colors duration-300 group-hover:bg-secondary">
+        <Icon size={24} className="text-primary" strokeWidth={1.5} />
       </div>
-      <h3 className="mt-5 font-display text-lg font-semibold text-brand">{title}</h3>
+      <h3 className="mt-5 font-heading text-lg font-semibold text-brand">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-mid">{description}</p>
     </article>
   );

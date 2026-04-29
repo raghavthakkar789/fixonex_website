@@ -64,11 +64,11 @@ export default function WhyFixonexPage() {
       />
 
       {/* Intro */}
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="label-caps text-warm">The FIXONEX Difference</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-black">
+            <p className="label-caps text-terracotta">The FIXONEX Difference</p>
+            <h2 className="mt-4 font-heading text-display font-semibold text-black">
               Quality Built Into Every Layer
             </h2>
             <p className="mt-5 text-base leading-[1.75] text-dark">
@@ -89,7 +89,7 @@ export default function WhyFixonexPage() {
                 key={s.label}
                 className="surface-card flex flex-col items-center justify-center px-6 py-8 text-center"
               >
-                <p className="font-display text-[clamp(2rem,6vw,3.5rem)] font-semibold leading-none text-primary">
+                <p className="font-heading text-[clamp(2rem,6vw,3.5rem)] font-semibold leading-none text-primary">
                   {s.value}
                 </p>
                 <p className="mt-3 text-sm font-medium text-dark">{s.label}</p>
@@ -102,17 +102,17 @@ export default function WhyFixonexPage() {
       {/* 6 Reasons */}
       <section className="section-pad section-flow-light">
         <div className="site-container">
-          <p className="label-caps text-warm">6 Reasons to Choose FIXONEX</p>
-          <h2 className="mt-4 font-display text-display font-semibold text-[#111111]">
+          <p className="label-caps text-terracotta">6 Reasons to Choose FIXONEX</p>
+          <h2 className="mt-4 font-heading text-display font-semibold text-foreground">
             What Sets Us Apart
           </h2>
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {reasons.map((item) => (
               <article key={item.title} className="surface-card p-8">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-warm text-black">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-chip text-black">
                   <item.icon className="h-6 w-6" aria-hidden />
                 </div>
-                <h3 className="mt-5 font-body text-lg font-semibold text-[#111111]">{item.title}</h3>
+                <h3 className="mt-5 font-body text-lg font-semibold text-foreground">{item.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[#3a3a3a]">{item.text}</p>
               </article>
             ))}
@@ -121,11 +121,11 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* Technical differentiators list */}
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
-            <p className="label-caps text-warm">Technical Edge</p>
-            <h2 className="mt-4 font-display text-display font-semibold text-[#111111]">
+            <p className="label-caps text-terracotta">Technical Edge</p>
+            <h2 className="mt-4 font-heading text-display font-semibold text-foreground">
               Engineered for Modern Construction
             </h2>
             <p className="mt-5 text-base leading-[1.75] text-[#3a3a3a]">
@@ -137,7 +137,7 @@ export default function WhyFixonexPage() {
               {differentiators.map((point) => (
                 <li key={point} className="flex items-start gap-3">
                   <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                  <span className="text-base leading-[1.7] text-[#111111]">{point}</span>
+                  <span className="text-base leading-[1.7] text-foreground">{point}</span>
                 </li>
               ))}
             </ul>
@@ -145,7 +145,7 @@ export default function WhyFixonexPage() {
           <div className="flex flex-col gap-6 lg:pt-20">
             <div className="surface-card border-l-4 border-primary px-6 py-6">
               <Star className="h-6 w-6 text-primary" aria-hidden />
-              <p className="mt-3 font-body text-lg font-semibold text-[#111111]">
+              <p className="mt-3 font-body text-lg font-semibold text-foreground">
                 Trusted by Professionals
               </p>
               <p className="mt-2 text-sm leading-relaxed text-mid">
@@ -153,9 +153,9 @@ export default function WhyFixonexPage() {
                 demanding residential and commercial projects.
               </p>
             </div>
-            <div className="surface-card border-l-4 border-warm px-6 py-6">
-              <FlaskConical className="h-6 w-6 text-warm" aria-hidden />
-              <p className="mt-3 font-body text-lg font-semibold text-[#111111]">
+            <div className="surface-card border-l-4 border-chip px-6 py-6">
+              <FlaskConical className="h-6 w-6 text-terracotta" aria-hidden />
+              <p className="mt-3 font-body text-lg font-semibold text-foreground">
                 Continuous Innovation
               </p>
               <p className="mt-2 text-sm leading-relaxed text-mid">
@@ -169,16 +169,16 @@ export default function WhyFixonexPage() {
 
       {/* Commitment banner */}
       <section className="grid lg:grid-cols-2">
-        <div className="section-flow-light px-6 py-16 text-[#111111] md:px-12 md:py-20">
-          <p className="label-caps text-warm">Our Commitment</p>
-          <p className="mt-6 text-lg leading-[1.75] text-[#111111]">
+        <div className="section-flow-light px-6 py-16 text-foreground md:px-12 md:py-20">
+          <p className="label-caps text-terracotta">Our Commitment</p>
+          <p className="mt-6 text-lg leading-[1.75] text-foreground">
             We stand behind every product with transparent data sheets, application guides, and a
             technical team that picks up the phone. If a job has a challenge, we help solve it —
             before, during, and after the install.
           </p>
         </div>
-        <div className="section-flow-warm px-6 py-16 md:px-12 md:py-20">
-          <p className="label-caps text-warm">Sustainability Focus</p>
+        <div className="section-flow-secondary px-6 py-16 md:px-12 md:py-20">
+          <p className="label-caps text-terracotta">Sustainability Focus</p>
           <p className="mt-6 text-lg leading-[1.75] text-dark">
             Reducing waste starts with bonds that last. Long-life installations mean fewer
             replacements, less demolition debris, and lower material throughput. FIXONEX adhesives
@@ -191,7 +191,7 @@ export default function WhyFixonexPage() {
       <section className="section-pad bg-primary text-center text-white">
         <div className="site-container mx-auto max-w-2xl">
           <p className="label-caps text-white/70">Ready to Specify FIXONEX?</p>
-          <h2 className="mt-4 font-display text-[clamp(1.75rem,4vw,2.75rem)] font-semibold text-white">
+          <h2 className="mt-4 font-heading text-[clamp(1.75rem,4vw,2.75rem)] font-semibold text-white">
             Start with the Right Bond
           </h2>
           <p className="mt-4 text-base text-white/80">
@@ -199,10 +199,10 @@ export default function WhyFixonexPage() {
             technical team.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button asChild variant="outline" className="border-warm text-warm hover:bg-warm hover:text-black">
+            <Button asChild variant="outline" className="border-chip text-terracotta hover:bg-chip hover:text-black">
               <Link href="/products">View Products</Link>
             </Button>
-            <Button asChild className="bg-black text-warm hover:bg-warm hover:text-black">
+            <Button asChild className="bg-black text-chip hover:bg-chip hover:text-foreground">
               <Link href="/contact">Contact Us</Link>
             </Button>
           </div>
@@ -210,7 +210,7 @@ export default function WhyFixonexPage() {
       </section>
 
       <section className="section-pad section-flow-light text-center">
-        <p className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-semibold text-[#111111]">
+        <p className="font-heading text-[clamp(1.75rem,4vw,2.75rem)] font-semibold text-foreground">
           Every strong surface starts with the right bond.
         </p>
         <p className="mt-6 text-base text-mid">{BRAND.tagline}</p>

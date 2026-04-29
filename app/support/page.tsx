@@ -65,7 +65,7 @@ export default function SupportPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
       />
 
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-10 lg:grid-cols-2 lg:items-center">
           <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
             <ImageWithFallback src={imageWide} alt="Support guidance for adhesive application" fill className="object-cover" />
@@ -82,7 +82,7 @@ export default function SupportPage() {
       <section className="section-pad section-flow-light">
         <div className="site-container">
           <p className="section-eyebrow">Guides</p>
-          <h2 className="font-display text-display font-semibold text-[#111111]">How-to Guides</h2>
+          <h2 className="font-heading text-display font-semibold text-foreground">How-to Guides</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {visibleGuides.map((g, i98) => (
               <motion.article
@@ -93,11 +93,11 @@ export default function SupportPage() {
                 transition={{ delay: i98 * 0.06 }}
                 className="surface-card flex flex-col overflow-hidden"
               >
-                <div className="h-2 bg-warm" />
-                <div className="h-24 bg-gradient-to-br from-warm/50 to-warm-dark/40" />
+                <div className="h-2 bg-chip" />
+                <div className="h-24 bg-gradient-to-br from-chip/45 to-chip-dark/45" />
                 <div className="flex flex-1 flex-col p-6">
                   <BookOpen className="h-6 w-6 text-primary" aria-hidden />
-                  <h3 className="mt-3 font-body text-lg font-semibold text-[#111111]">{g.title}</h3>
+                  <h3 className="mt-3 font-body text-lg font-semibold text-foreground">{g.title}</h3>
                   <p className="mt-2 flex-1 text-sm text-mid">{g.excerpt}</p>
                   <Link
                     href={`/support/guides/${g.id}`}
@@ -140,10 +140,10 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-warm">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Execution Flow</p>
-          <h2 className="font-display text-display font-semibold text-[#111111]">Key Steps On Site</h2>
+          <h2 className="font-heading text-display font-semibold text-foreground">Key Steps On Site</h2>
           <div className="mt-10 flex flex-col gap-6 md:flex-row md:flex-wrap md:justify-center lg:flex-nowrap">
             {timelineSteps.map((step, i98) => (
               <motion.div
@@ -154,10 +154,10 @@ export default function SupportPage() {
                 transition={{ delay: i98 * 0.15 }}
                 className="surface-card flex flex-1 flex-col items-center px-4 py-5 text-center md:min-w-[140px] lg:min-w-0"
               >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-display text-base font-bold text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary font-heading text-base font-bold text-white">
                   {i98 + 1}
                 </span>
-                <p className="mt-3 font-semibold text-[#111111]">{step.title}</p>
+                <p className="mt-3 font-semibold text-foreground">{step.title}</p>
                 <p className="mt-1 text-xs text-mid">{step.desc}</p>
               </motion.div>
             ))}
@@ -171,7 +171,7 @@ export default function SupportPage() {
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-8 w-8 shrink-0 text-primary" aria-hidden />
             <div>
-              <h2 className="font-display text-2xl font-semibold text-[#111111]">Safety &amp; Handling</h2>
+              <h2 className="font-heading text-2xl font-semibold text-foreground">Safety &amp; Handling</h2>
               <ul className="mt-4 space-y-2 text-sm text-[#3a3a3a]">
                 <li>Keep out of reach of children.</li>
                 <li>Wash hands after use.</li>
@@ -182,10 +182,10 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section id="faq" className="scroll-mt-28 section-pad section-flow-warm lg:scroll-mt-24">
+      <section id="faq" className="scroll-mt-28 section-pad section-flow-secondary lg:scroll-mt-24">
         <div className="site-container">
           <p className="section-eyebrow">FAQ</p>
-          <h2 className="font-display text-display font-semibold text-[#111111]">FAQ</h2>
+          <h2 className="font-heading text-display font-semibold text-foreground">FAQ</h2>
           <div className="mt-8 max-w-3xl">
             <FAQAccordion items={visibleFaqs} defaultOpen={null} />
             {canLoadMoreFaq || expandedBeyondInitialFaq ? (
@@ -220,9 +220,9 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-flow-light py-16 text-center text-[#111111]">
+      <section className="section-flow-light py-16 text-center text-foreground">
         <div className="site-container mx-auto max-w-[560px]">
-          <h2 className="font-display text-2xl font-semibold">Still need help?</h2>
+          <h2 className="font-heading text-2xl font-semibold">Still need help?</h2>
           <Button asChild className="mt-8" size="lg" variant="primary">
             <Link href="/contact">Contact Our Experts</Link>
           </Button>

@@ -7,13 +7,13 @@ type SectionLabelProps = {
 };
 
 const colorMap = {
-  warm: "text-warm",
+  warm: "text-terracotta",
   red: "text-red",
   white: "text-white",
 } as const;
 
 const dotMap = {
-  warm: "bg-warm",
+  warm: "bg-chip",
   red: "bg-red",
   white: "bg-white",
 } as const;

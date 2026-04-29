@@ -24,17 +24,17 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
 
   return (
     <>
-      <div className="border-b border-border bg-white">
+      <div className="border-b border-border bg-elevated">
         <div className="site-container overflow-x-auto py-3 text-[13px] text-mid">
           <div className="min-w-max whitespace-nowrap">
           <Link href="/products" className="transition-colors hover:text-black">
             Products
           </Link>
-          <span className="mx-2 text-warm">›</span>
+          <span className="mx-2 text-terracotta">›</span>
           <Link href="/products/tiles-adhesive" className="transition-colors hover:text-black">
             Tiles Adhesive
           </Link>
-          <span className="mx-2 text-warm">›</span>
+          <span className="mx-2 text-terracotta">›</span>
           <span>{product.name.replace(/[()]/g, "")}</span>
           </div>
         </div>
@@ -52,7 +52,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         ]}
       />
 
-      <section className="sticky top-[72px] z-30 border-b border-border bg-white">
+      <section className="sticky top-[72px] z-30 border-b border-border bg-elevated">
         <div className="site-container overflow-x-auto">
           <div className="flex min-w-max gap-6">
             {familyTabs.map((tab) => {
@@ -73,7 +73,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-elevated">
         <div className="site-container grid gap-10 lg:grid-cols-12 lg:items-center">
           <div className="relative h-[360px] overflow-hidden rounded-md border border-border bg-[#F5F5F5] md:h-[460px] lg:col-span-5 lg:h-[560px]">
             <ImageWithFallback
@@ -88,7 +88,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
             />
           </div>
           <div className="lg:col-span-7">
-            <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">What it is</h2>
+            <h2 className="font-heading text-2xl font-semibold text-black md:text-3xl">What it is</h2>
             <p className="mt-4 text-base leading-[1.75] text-dark">{product.whatItIs}</p>
             <p className="mt-4 text-sm text-mid">
               <span className="font-semibold text-black">Standard: </span>
@@ -100,11 +100,11 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
 
       <section className="section-pad bg-light">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Where to Use</h2>
+          <h2 className="font-heading text-2xl font-semibold text-black md:text-3xl">Where to Use</h2>
           <ul className="mt-8 space-y-4">
             {product.whereToUse.map((item) => (
               <li key={item} className="flex gap-3 text-dark">
-                <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-warm/30 text-warm">
+                <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-chip/35 text-terracotta">
                   <Check className="h-3.5 w-3.5" strokeWidth={3} aria-hidden />
                 </span>
                 <span className="text-base leading-[1.75]">{item}</span>
@@ -114,9 +114,9 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-elevated">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Why Use This</h2>
+          <h2 className="font-heading text-2xl font-semibold text-black md:text-3xl">Why Use This</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {product.whyBenefits.map((b) => (
               <article key={b.title} className="rounded-md border border-border p-6">
@@ -131,13 +131,13 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
+      <section className="section-pad bg-elevated">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Usage on Site</h2>
+          <h2 className="font-heading text-2xl font-semibold text-black md:text-3xl">Usage on Site</h2>
           <ol className="mt-8 space-y-6">
             {product.usageSteps.map((step, i98) => (
               <li key={i98} className="flex gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-display text-lg font-bold text-white">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-lg font-bold text-white">
                   {i98 + 1}
                 </span>
                 <p className="pt-1 text-base leading-[1.75] text-dark">{step}</p>
@@ -149,10 +149,10 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
 
       <section className="section-pad bg-light">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black md:text-3xl">Variants &amp; Sizes</h2>
+          <h2 className="font-heading text-2xl font-semibold text-black md:text-3xl">Variants &amp; Sizes</h2>
           <div className="mt-6 flex flex-wrap gap-2">
             {product.variants.map((v) => (
-              <span key={v} className="rounded-pill border border-border bg-white px-4 py-2 text-sm font-medium text-dark">
+              <span key={v} className="rounded-pill border border-border bg-elevated px-4 py-2 text-sm font-medium text-dark">
                 {v}
               </span>
             ))}
@@ -160,9 +160,9 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         </div>
       </section>
 
-      <section className="section-pad bg-white">
-        <div className="site-container mx-auto max-w-[720px] rounded-md bg-warm px-8 py-10 text-dark">
-          <h2 className="font-display text-2xl font-semibold text-dark">Need Help?</h2>
+      <section className="section-pad bg-elevated">
+        <div className="site-container mx-auto max-w-[720px] rounded-md bg-chip px-8 py-10 text-dark">
+          <h2 className="font-heading text-2xl font-semibold text-dark">Need Help?</h2>
           <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
           <Button asChild className="mt-6" variant="primary">
             <Link href="/contact">Get guidance</Link>
@@ -172,7 +172,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
 
       <section className="section-pad bg-light">
         <div className="site-container">
-          <h2 className="font-display text-2xl font-semibold text-black">Related Products</h2>
+          <h2 className="font-heading text-2xl font-semibold text-black">Related Products</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {related.map((p, index) => (
               <ProductCard

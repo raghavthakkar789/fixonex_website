@@ -13,7 +13,7 @@ type BlogCardProps = {
 
 export function BlogCard({ title, excerpt, category, image, readTime, href }: BlogCardProps) {
   return (
-    <article className="group overflow-hidden rounded-xl border border-border bg-white">
+    <article className="group overflow-hidden rounded-xl border border-border-strong/50 bg-elevated shadow-sm transition-shadow hover:shadow-neo">
       <div className="relative aspect-[3/2] overflow-hidden">
         <ImageWithFallback
           src={image}
@@ -24,8 +24,8 @@ export function BlogCard({ title, excerpt, category, image, readTime, href }: Bl
         />
       </div>
       <div className="p-6">
-        <span className="inline-flex rounded-pill bg-[rgba(193,178,164,0.18)] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-warm">{category}</span>
-        <h3 className="my-3 line-clamp-2 font-display text-lg font-semibold text-brand">{title}</h3>
+        <span className="inline-flex rounded-pill bg-[rgba(197,205,210,0.35)] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-terracotta">{category}</span>
+        <h3 className="my-3 line-clamp-2 font-heading text-lg font-semibold text-brand">{title}</h3>
         <p className="line-clamp-2 text-sm text-mid">{excerpt}</p>
         <div className="mt-4 flex items-center justify-between">
           <span className="text-xs text-mid">{readTime}</span>

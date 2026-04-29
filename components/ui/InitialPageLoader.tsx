@@ -2,7 +2,6 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/brand";
 import { easings } from "@/lib/animations";
 
@@ -12,13 +11,21 @@ const STAGGER = 0.06;
 const HOLD_EXTRA_MS = 2000;
 const POST_LINE_MS = 800 + 500 + HOLD_EXTRA_MS;
 
+const isProd = process.env.NODE_ENV === "production";
+
+/**
+ * Do not use Framer's `useReducedMotion()` here: it snapshots `prefers-reduced-motion`
+ * once in `useState` and can stay out of sync with `matchMedia`, which hides the
+ * entire loader via `return null` while `shouldSkipLoaderClient()` would still run.
+ */
 function shouldSkipLoaderClient(): boolean {
   if (typeof window === "undefined") return true;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+  if (!isProd) return false;
   try {
     if (sessionStorage.getItem(SEEN) === "1") return true;
   } catch {
-    // treat as not seen; may fail to persist at end in private mode
+    // treat as not seen; may fail in private mode
   }
   return false;
 }
@@ -26,7 +33,6 @@ function shouldSkipLoaderClient(): boolean {
 export function InitialPageLoader() {
   const [active, setActive] = useState(false);
   const [line, setLine] = useState(false);
-  const fmReduced = useReducedMotion();
   const w = BRAND.name;
   const n = w.length;
   const textTime = n * STAGGER * 1000 + 200;
@@ -34,9 +40,9 @@ export function InitialPageLoader() {
   const endTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useLayoutEffect(() => {
-    if (shouldSkipLoaderClient() || fmReduced) return;
+    if (shouldSkipLoaderClient()) return;
     setActive(true);
-  }, [fmReduced]);
+  }, []);
 
   useEffect(() => {
     if (!active) {
@@ -74,10 +80,12 @@ export function InitialPageLoader() {
     }
     if (endTimeoutRef.current) clearTimeout(endTimeoutRef.current);
     endTimeoutRef.current = setTimeout(() => {
-      try {
-        sessionStorage.setItem(SEEN, "1");
-      } catch {
-        // ignore
+      if (isProd) {
+        try {
+          sessionStorage.setItem(SEEN, "1");
+        } catch {
+          // ignore
+        }
       }
       setActive(false);
       setLine(false);
@@ -91,17 +99,6 @@ export function InitialPageLoader() {
     };
   }, [active, line]);
 
-  useEffect(() => {
-    if (fmReduced) {
-      setActive(false);
-      setLine(false);
-    }
-  }, [fmReduced]);
-
-  if (fmReduced) {
-    return null;
-  }
-
   return (
     <AnimatePresence>
       {active ? (
@@ -109,8 +106,8 @@ export function InitialPageLoader() {
           key="ipl"
           role="presentation"
           aria-hidden
-          className="fixed inset-0 z-[210] flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: "#111111" }}
+          className="fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden"
+          style={{ background: "#C1B2A4" }}
           initial={{ opacity: 1, scale: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.5, ease }}
@@ -120,7 +117,7 @@ export function InitialPageLoader() {
               {w.split("").map((ch, i) => (
                 <motion.span
                   key={`${ch}-${i}`}
-                  className="font-['var(--font-playfair)',serif] text-[48px] font-medium text-[#C1B2A4]"
+                  className="font-heading text-type-headline font-semibold tracking-[-0.02em] text-foreground"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: i * STAGGER, ease }}
@@ -130,7 +127,7 @@ export function InitialPageLoader() {
               ))}
             </div>
             <motion.p
-              className="mt-3 text-center font-body text-[13px] font-medium uppercase tracking-[0.2em] text-[#C1B2A4]/85"
+              className="mt-ds-3 text-center font-body text-type-caption font-normal uppercase tracking-[0.2em] text-muted-foreground"
               initial={{ y: 12, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.45, delay: n * STAGGER + 0.12, ease }}
@@ -138,7 +135,7 @@ export function InitialPageLoader() {
               {BRAND.logoMotto}
             </motion.p>
           </div>
-          <div className="mt-6 h-0.5 w-[200px] overflow-hidden">
+          <div className="mt-ds-6 h-0.5 w-ds-11 max-w-full overflow-hidden">
             <motion.div
               className="h-full w-full origin-left bg-primary"
               initial={{ scaleX: 0 }}

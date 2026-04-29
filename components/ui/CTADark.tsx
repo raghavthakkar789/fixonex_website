@@ -7,24 +7,25 @@ type CTADarkProps = {
   subtext: string;
 };
 
+/** High-visibility closing band — light layout with brand red CTAs only. */
 export function CTADark({ headline, subtext }: CTADarkProps) {
   return (
-    <section className="relative overflow-hidden bg-red py-16 text-center md:py-20">
-      <span className="absolute -left-24 -top-24 h-[380px] w-[380px] rounded-full bg-red-dk/50" aria-hidden />
-      <span className="absolute -bottom-28 -right-20 h-[360px] w-[360px] rounded-full bg-red-dk/40" aria-hidden />
-      <div className="site-container relative mx-auto max-w-[720px] px-6">
-        <p className="section-eyebrow text-white">Let's Build Together</p>
-        <h2 className="font-display text-display font-bold text-white">{headline}</h2>
-        <p className="mt-4 text-base text-white/85">{subtext}</p>
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Button asChild size="lg" variant="outline" className="border-white/70 text-white hover:bg-white/10 hover:text-white">
+    <section className="border-t border-border-soft bg-gradient-to-b from-muted to-secondary/50 py-16 text-center md:py-24">
+      <div className="site-container relative mx-auto max-w-[min(100%,40rem)] rounded-3xl border border-border-strong/50 bg-elevated px-6 py-12 shadow-[0_22px_50px_-24px_rgba(62,55,48,0.14)] sm:px-10">
+        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-subhead">Let&apos;s build together</p>
+        <h2 className="mt-3 font-heading text-[clamp(1.75rem,4vw,2.4rem)] font-bold leading-tight tracking-tight text-foreground">
+          {headline}
+        </h2>
+        <p className="mt-4 text-base leading-relaxed text-mid">{subtext}</p>
+        <div className="mt-9 flex flex-wrap justify-center gap-3 sm:gap-4">
+          <Button asChild size="lg" variant="outline" className="gap-2">
             <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={18} aria-hidden />
-              WhatsApp Us
+              WhatsApp
             </Link>
           </Button>
-          <Button asChild size="lg" className="bg-white text-red hover:bg-off-white">
-            <Link href="/contact">Book Consultation</Link>
+          <Button asChild size="lg" variant="primary">
+            <Link href="/contact">Book consultation</Link>
           </Button>
         </div>
       </div>

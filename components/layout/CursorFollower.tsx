@@ -40,7 +40,7 @@ export function CursorFollower() {
   return (
     <>
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[120] rounded-full bg-warm mix-blend-screen"
+        className="pointer-events-none fixed left-0 top-0 z-[120] rounded-full bg-chip mix-blend-screen"
         style={{
           x: smallX,
           y: smallY,
