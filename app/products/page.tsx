@@ -29,9 +29,9 @@ export default function ProductsPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="relative min-h-[340px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+          <div className="relative min-h-[420px] overflow-hidden rounded-2xl border border-border-strong bg-white shadow-sm">
             <ImageWithFallback src={imageWide} alt="Trusted adhesive applications" fill className="object-cover" />
           </div>
           <motion.div
@@ -77,13 +77,13 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <motion.article
             initial={reduced ? false : { opacity: 0, y: 24 }}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            className="surface-card p-7"
+            className="surface-card p-8 md:p-10"
           >
             <p className="inline-flex rounded-pill bg-chip/30 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-dark">Tiles Adhesive Range</p>
             <h3 className="mt-4 font-heading text-3xl font-semibold text-black">5 Certified Grades</h3>
@@ -106,7 +106,7 @@ export default function ProductsPage() {
 
       <ProductsShowcaseRow />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container">
           <p className="section-eyebrow">Selection Guide</p>
           <h2 className="font-heading text-display font-semibold text-foreground">Which adhesive is right for me?</h2>

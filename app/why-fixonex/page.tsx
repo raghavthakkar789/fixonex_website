@@ -67,7 +67,7 @@ export default function WhyFixonexPage() {
       <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
-            <p className="label-caps text-terracotta">The FIXONEX Difference</p>
+            <p className="section-eyebrow">The FIXONEX Difference</p>
             <h2 className="mt-4 font-heading text-display font-semibold text-black">
               Quality Built Into Every Layer
             </h2>
@@ -100,13 +100,13 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* 6 Reasons */}
-      <section className="section-pad section-flow-light">
+      <section className="section-pad bg-white">
         <div className="site-container">
-          <p className="label-caps text-terracotta">6 Reasons to Choose FIXONEX</p>
+          <p className="section-eyebrow">6 Reasons to Choose FIXONEX</p>
           <h2 className="mt-4 font-heading text-display font-semibold text-foreground">
             What Sets Us Apart
           </h2>
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-8 sm:grid-cols-2">
             {reasons.map((item) => (
               <article key={item.title} className="surface-card p-8">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-chip text-black">
@@ -124,7 +124,7 @@ export default function WhyFixonexPage() {
       <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
-            <p className="label-caps text-terracotta">Technical Edge</p>
+            <p className="section-eyebrow">Technical Edge</p>
             <h2 className="mt-4 font-heading text-display font-semibold text-foreground">
               Engineered for Modern Construction
             </h2>
@@ -143,7 +143,7 @@ export default function WhyFixonexPage() {
             </ul>
           </div>
           <div className="flex flex-col gap-6 lg:pt-20">
-            <div className="surface-card border-l-4 border-primary px-6 py-6">
+            <div className="surface-card px-6 py-6">
               <Star className="h-6 w-6 text-primary" aria-hidden />
               <p className="mt-3 font-body text-lg font-semibold text-foreground">
                 Trusted by Professionals
@@ -153,7 +153,7 @@ export default function WhyFixonexPage() {
                 demanding residential and commercial projects.
               </p>
             </div>
-            <div className="surface-card border-l-4 border-chip px-6 py-6">
+            <div className="surface-card px-6 py-6">
               <FlaskConical className="h-6 w-6 text-terracotta" aria-hidden />
               <p className="mt-3 font-body text-lg font-semibold text-foreground">
                 Continuous Innovation
@@ -170,7 +170,7 @@ export default function WhyFixonexPage() {
       {/* Commitment banner */}
       <section className="grid lg:grid-cols-2">
         <div className="section-flow-light px-6 py-16 text-foreground md:px-12 md:py-20">
-          <p className="label-caps text-terracotta">Our Commitment</p>
+          <p className="section-eyebrow">Our Commitment</p>
           <p className="mt-6 text-lg leading-[1.75] text-foreground">
             We stand behind every product with transparent data sheets, application guides, and a
             technical team that picks up the phone. If a job has a challenge, we help solve it —
@@ -178,7 +178,7 @@ export default function WhyFixonexPage() {
           </p>
         </div>
         <div className="section-flow-secondary px-6 py-16 md:px-12 md:py-20">
-          <p className="label-caps text-terracotta">Sustainability Focus</p>
+          <p className="section-eyebrow">Sustainability Focus</p>
           <p className="mt-6 text-lg leading-[1.75] text-dark">
             Reducing waste starts with bonds that last. Long-life installations mean fewer
             replacements, less demolition debris, and lower material throughput. FIXONEX adhesives
@@ -190,7 +190,7 @@ export default function WhyFixonexPage() {
       {/* CTA */}
       <section className="section-pad bg-primary text-center text-white">
         <div className="site-container mx-auto max-w-2xl">
-          <p className="label-caps text-white/70">Ready to Specify FIXONEX?</p>
+          <p className="section-eyebrow !text-white/70">Ready to Specify FIXONEX?</p>
           <h2 className="mt-4 font-heading text-[clamp(1.75rem,4vw,2.75rem)] font-semibold text-white">
             Start with the Right Bond
           </h2>

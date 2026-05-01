@@ -34,11 +34,10 @@ export function Footer() {
       : ({ opacity: inView ? 1 : 0, y: inView ? 0 : 12 } as const);
 
   return (
-    <footer ref={ref} className="relative border-t border-transparent bg-gradient-to-b from-[#101118] via-footer to-fx-night text-zinc-100">
-      <div aria-hidden className="fx-top-glow-primary absolute left-[6%] right-[6%] top-0 opacity-95" />
+    <footer ref={ref} className="border-t border-border-strong bg-[#111111] text-zinc-100">
       <div className="site-container pb-14 pt-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
-          <motion.section className="glass-panel rounded-3xl border border-white/10 bg-white/[0.02] p-6 lg:col-span-4" animate={rise} transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.section className="rounded-2xl border border-white/12 bg-white/[0.02] p-6 lg:col-span-4" animate={rise} transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}>
             <p className="font-display text-3xl font-semibold tracking-tight text-white">{BRAND.name}</p>
             <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">{BRAND.logoMotto}</p>
             <p className="mt-7 max-w-sm text-[15px] leading-relaxed text-zinc-300">{BRAND.tagline}</p>
@@ -53,7 +52,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/16 bg-gradient-to-br from-white/8 to-transparent text-zinc-300 transition-all hover:border-primary/52 hover:bg-primary/18 hover:text-white hover:shadow-[0_0_24px_-3px_rgba(211,47,47,0.55)] active:translate-y-[1px]"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/16 bg-white/5 text-zinc-300 transition-colors hover:border-white/35 hover:bg-white/10 hover:text-white active:translate-y-[1px]"
                   >
                     <Icon className="h-[18px] w-[18px]" aria-hidden />
                   </a>

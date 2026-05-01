@@ -25,7 +25,7 @@ export default function AboutPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="section-eyebrow">Our Story</p>
@@ -35,7 +35,7 @@ export default function AboutPage() {
               With more than a decade of experience in the tiles and ceramic industry, the brand is built on deep market knowledge, technical expertise, and a commitment to quality.
             </p>
           </div>
-          <div className="relative min-h-[420px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+          <div className="relative min-h-[460px] overflow-hidden rounded-2xl border border-border-strong bg-white shadow-sm">
             <ImageWithFallback src={imageTall} alt="FIXONEX leadership and quality" fill className="object-cover" />
             <div className="absolute bottom-4 left-4 rounded-md bg-chip px-4 py-3 text-black shadow-surface">
               <p className="font-heading text-2xl font-bold">10+</p>
@@ -45,11 +45,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow text-center">Capabilities</p>
           <h2 className="text-center font-heading text-display font-semibold text-foreground">What FIXONEX Does</h2>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="mt-12 grid gap-8 md:grid-cols-2">
             {[
               {
                 icon: Building2,
@@ -79,9 +79,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-8 lg:grid-cols-2">
-          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+          <div className="relative min-h-[360px] overflow-hidden rounded-2xl border border-border-strong bg-white shadow-sm">
             <ImageWithFallback src={imageWide} alt="Construction team at work" fill className="object-cover" />
           </div>
           <div className="surface-card px-6 py-10 md:px-8">
@@ -105,7 +105,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Leadership</p>
           <h2 className="font-heading text-display font-semibold text-foreground">Leadership</h2>
@@ -129,10 +129,10 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container mx-auto max-w-[640px]">
           <div className="surface-card px-8 py-10 text-center">
-            <p className="label-caps text-terracotta">Company information</p>
+            <p className="section-eyebrow">Company information</p>
             <p className="mt-4 font-heading text-xl font-semibold text-foreground">SWASTIK ENTERPRISES</p>
             <p className="mt-4 text-sm leading-relaxed text-mid">
               FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat

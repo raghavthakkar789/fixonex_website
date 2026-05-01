@@ -65,9 +65,9 @@ export default function SupportPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+          <div className="relative min-h-[380px] overflow-hidden rounded-2xl border border-border-strong bg-white shadow-sm">
             <ImageWithFallback src={imageWide} alt="Support guidance for adhesive application" fill className="object-cover" />
           </div>
           <div>
@@ -79,7 +79,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Guides</p>
           <h2 className="font-heading text-display font-semibold text-foreground">How-to Guides</h2>
@@ -93,8 +93,7 @@ export default function SupportPage() {
                 transition={{ delay: i98 * 0.06 }}
                 className="surface-card flex h-full flex-col overflow-hidden"
               >
-                <div className="h-2 bg-chip" />
-                <div className="h-24 bg-gradient-to-br from-chip/45 to-chip-dark/45" />
+                <div className="h-24 bg-zinc-100" />
                 <div className="flex flex-1 flex-col p-6">
                   <BookOpen className="h-6 w-6 text-primary" aria-hidden />
                   <h3 className="mt-3 font-body text-lg font-semibold text-foreground">{g.title}</h3>
@@ -140,7 +139,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container">
           <p className="section-eyebrow">Execution Flow</p>
           <h2 className="font-heading text-display font-semibold text-foreground">Key Steps On Site</h2>
@@ -165,7 +164,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Safety</p>
           <div className="flex items-start gap-3">
@@ -220,7 +219,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="section-flow-light py-16 text-center text-foreground">
+      <section className="bg-white py-16 text-center text-foreground">
         <div className="site-container mx-auto max-w-[560px]">
           <h2 className="font-heading text-2xl font-semibold">Still need help?</h2>
           <Button asChild className="mt-8" size="lg" variant="primary">

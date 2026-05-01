@@ -47,7 +47,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
       />
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-10 lg:grid-cols-12 lg:items-center">
           {isTileSpacer ? (
             <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border lg:col-span-5">
@@ -96,13 +96,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad bg-white">
         <div className="site-container">
           <p className="section-eyebrow">Benefits</p>
           <h2 className="font-heading text-2xl font-semibold text-foreground md:text-3xl">Why Use This</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
             {product.whyBenefits.map((b) => (
-              <article key={b.title} className="surface-card p-6">
+              <article key={b.title} className="surface-card p-7">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f3ede8] text-[#6b6b6b]">
                   <b.icon className="h-6 w-6" aria-hidden />
                 </div>
@@ -131,7 +131,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad bg-white">
         <div className="site-container">
           <p className="section-eyebrow">Pack Options</p>
           <h2 className="font-heading text-2xl font-semibold text-foreground md:text-3xl">Variants &amp; Sizes</h2>
@@ -159,8 +159,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container mx-auto max-w-[720px] surface-card px-8 py-10 text-dark">
+      <section className="section-pad bg-white">
+        <div className="site-container mx-auto max-w-[760px] rounded-2xl border border-border-strong bg-zinc-50 px-8 py-12 text-dark">
           <h2 className="font-heading text-2xl font-semibold text-dark">Need Help?</h2>
           <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
           <Button asChild className="mt-6" variant="primary">
@@ -169,7 +169,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Related Range</p>
           <h2 className="font-heading text-2xl font-semibold text-foreground">Related Products</h2>

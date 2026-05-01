@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { selectControlClass } from "@/lib/ui-constants";
 
 type ContactFormValues = {
   fullName: string;
@@ -56,7 +57,7 @@ export default function ContactPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container mx-auto max-w-[680px] text-center">
           <p className="section-eyebrow text-center">Contact Desk</p>
           <p className="section-subtext mx-auto text-dark">
@@ -65,7 +66,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container grid gap-12 lg:grid-cols-12">
           <div className="surface-card p-8 lg:col-span-7 md:p-10">
             <p className="section-eyebrow">Inquiry Form</p>
@@ -119,7 +120,7 @@ export default function ContactPage() {
                     <select
                       id="inquiryType"
                       {...register("inquiryType", { required: true })}
-                      className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-chip"
+                      className={`mt-1.5 ${selectControlClass}`}
                     >
                       {inquiryOptions.map((opt) => (
                         <option key={opt} value={opt}>
@@ -149,7 +150,7 @@ export default function ContactPage() {
           </div>
 
           <aside className="surface-card p-8 lg:col-span-5">
-            <div className="relative mb-6 min-h-[220px] overflow-hidden rounded-md border border-light">
+            <div className="relative mb-6 min-h-[280px] overflow-hidden rounded-md border border-light">
               <ImageWithFallback src={imageTall} alt="FIXONEX consultation support" fill className="object-cover" />
             </div>
             <p className="section-eyebrow">Reach Us Directly</p>

@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { selectControlClass } from "@/lib/ui-constants";
 
 type DealerForm = {
   businessName: string;
@@ -44,7 +45,7 @@ export default function PartnerPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
+      <section className="section-pad bg-white">
         <div className="site-container grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="section-eyebrow">Channel Partnership</p>
@@ -53,9 +54,9 @@ export default function PartnerPage() {
               Join our growing network of dealers and distributors across Gujarat and beyond. FIXONEX offers competitive margins, marketing support, and a complete product portfolio to help you grow.
             </p>
           </div>
-          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
+          <div className="relative min-h-[380px] overflow-hidden rounded-2xl border border-border-strong bg-white shadow-sm">
             <ImageWithFallback src={imageWide} alt="Partner growth with FIXONEX" fill className="object-cover" />
-            <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
+            <div className="absolute bottom-4 left-4 right-4 hidden flex-wrap gap-2 md:flex">
               {["Competitive Margins", "Marketing Support", "Technical Training"].map((pill) => (
                 <span key={pill} className="rounded-pill bg-chip px-3 py-1.5 text-xs font-semibold text-dark">
                   {pill}
@@ -66,7 +67,7 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container">
           <p className="section-eyebrow">Partner Benefits</p>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -88,7 +89,7 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-flow-secondary py-12 text-black">
+      <section className="bg-white py-12 text-black">
         <div className="site-container flex flex-col items-center justify-center gap-8 md:flex-row md:gap-12">
           {["Product Samples", "Sales Training", "Co-branding Support"].map((label, i98) => (
             <div key={label} className="flex items-center gap-8">
@@ -102,7 +103,7 @@ export default function PartnerPage() {
         </div>
       </section>
 
-      <section className="section-pad section-flow-light">
+      <section className="section-pad section-flow-secondary">
         <div className="site-container mx-auto max-w-[640px]">
           <p className="section-eyebrow text-center">Dealer Inquiry</p>
           <h2 className="text-center font-heading text-display font-semibold text-foreground">Send Your Dealer Inquiry</h2>
@@ -128,7 +129,7 @@ export default function PartnerPage() {
               <select
                 id="type"
                 {...register("businessType")}
-                className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-chip"
+                className={`mt-1.5 ${selectControlClass}`}
               >
                 {businessTypes.map((t) => (
                   <option key={t} value={t}>

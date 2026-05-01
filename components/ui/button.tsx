@@ -15,18 +15,18 @@ function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
 
 const variantClasses: Record<string, string> = {
   default:
-    "border-transparent bg-primary text-primary-foreground shadow-cta hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "border-transparent bg-primary text-primary-foreground hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   primary:
-    "border-transparent bg-primary text-primary-foreground shadow-cta hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "border-transparent bg-primary text-primary-foreground hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   secondary:
-    "border border-border-strong bg-elevated text-foreground shadow-neo hover:shadow-neo-hover",
+    "border border-border-strong bg-elevated text-foreground hover:bg-zinc-50",
   outline: "border border-border-strong bg-transparent text-foreground shadow-none hover:bg-secondary/60",
   outlineNeutral: "border border-border-strong bg-transparent text-foreground hover:bg-elevated/80",
   ghost: "group border-transparent bg-transparent text-foreground hover:bg-elevated/90",
   link: "border-transparent px-0 text-primary underline-offset-4 hover:underline hover:text-primary-dark",
   dark:
-    "border-transparent bg-secondary text-foreground shadow-neo hover:bg-secondary/95 active:shadow-neo-inset",
-  warm: "border border-border-strong bg-band-alt text-foreground shadow-neo hover:shadow-neo-hover",
+    "border-transparent bg-secondary text-foreground hover:bg-secondary/95 active:shadow-neo-inset",
+  warm: "border border-border-strong bg-band-alt text-foreground hover:bg-zinc-100",
 };
 
 const sizeClasses: Record<string, string> = {
@@ -38,7 +38,7 @@ const sizeClasses: Record<string, string> = {
 };
 
 const baseClasses =
-  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-xl border font-sans text-[15px] font-semibold transition-[background-color,color,box-shadow,border-color,transform] duration-200 active:shadow-neo-inset disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0";
+  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-xl border font-sans text-[15px] font-semibold transition-[background-color,color,border-color,transform] duration-200 active:shadow-neo-inset disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0";
 
 export type ButtonVariant = keyof typeof variantClasses | null | undefined;
 export type ButtonSize = keyof typeof sizeClasses | null | undefined;
@@ -59,8 +59,10 @@ function addRipple(clientX: number, clientY: number, node: HTMLElement, variant:
   sp.setAttribute("aria-hidden", "true");
   sp.className = "pointer-events-none absolute z-[1] rounded-full";
   sp.style.cssText = `left:${x}px;top:${y}px;width:1px;height:1px;transform:translate(-50%,-50%) scale(0);opacity:0.4;background:${color};animation:fixonex-ripple 0.55s cubic-bezier(0.16,1,0.3,1) forwards;`;
-  node.appendChild(sp);
-  window.setTimeout(() => sp.remove(), 600);
+  if (variant === "primary" || variant === "default") {
+    node.appendChild(sp);
+    window.setTimeout(() => sp.remove(), 600);
+  }
 }
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

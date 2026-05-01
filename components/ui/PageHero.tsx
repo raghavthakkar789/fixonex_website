@@ -19,17 +19,9 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
 
   return (
     <motion.section
-      className="relative overflow-hidden border-b border-border-soft bg-gradient-to-b from-elevated to-background"
+      className="relative border-b border-border-soft bg-white"
       layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.92]"
-        aria-hidden
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 70% 50% at 0% 0%, rgba(211,47,47,0.055), transparent 58%), radial-gradient(ellipse 50% 40% at 100% 0%, rgba(217,120,70,0.07), transparent 50%)",
-        }}
-      />
       <div className="site-container relative flex min-h-[16.5rem] flex-col justify-center py-14 sm:min-h-[19rem] lg:min-h-[20rem] lg:py-[4.25rem]">
         {breadcrumbs.length > 0 ? (
           <nav aria-label="Breadcrumb" className="mb-5 flex flex-wrap items-center gap-2 text-sm text-mid">
