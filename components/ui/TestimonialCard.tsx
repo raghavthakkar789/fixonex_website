@@ -24,7 +24,7 @@ function initialsFromName(name: string) {
 }
 
 const cardBase =
-  "pop-shadow-quote relative flex min-h-[220px] flex-col overflow-hidden rounded-2xl border border-border-strong/55 bg-elevated/95 p-5 ring-1 ring-border-soft backdrop-blur-[1px] before:absolute before:left-0 before:top-0 before:h-1 before:w-full before:bg-gradient-to-r before:from-primary before:to-terracotta before:content-[''] transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-neo-hover md:p-6";
+  "pop-shadow-quote relative flex min-h-[220px] flex-col overflow-hidden rounded-3xl border border-orange-950/[0.09] bg-gradient-to-b from-white via-fx-cloud/35 to-accent-rose/53 p-5 shadow-soft ring-1 ring-purple-950/[0.035] transition-[transform,box-shadow] duration-200 hover:-translate-y-[2px] hover:shadow-lg md:p-6";
 
 export function TestimonialCard({
   quote,
@@ -41,7 +41,7 @@ export function TestimonialCard({
     <>
       <p
         className={cn(
-          "pointer-events-none font-heading leading-none text-chip/35",
+          "pointer-events-none font-display leading-none text-primary/22",
           featured ? "text-[100px]" : "text-[72px]",
         )}
         aria-hidden
@@ -50,7 +50,7 @@ export function TestimonialCard({
       </p>
       <div className="flex flex-wrap items-center gap-2 pt-2" aria-hidden>
         {Array.from({ length: 5 }).map((_, i) => (
-          <Star key={i} className="h-3.5 w-3.5 fill-terracotta text-terracotta" strokeWidth={0} />
+          <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-600" strokeWidth={0} />
         ))}
       </div>
       <p className={cn("-mt-1 flex-1 italic leading-[1.72] text-dark", featured ? "text-[1.05rem] md:text-lg" : "text-base")}>
@@ -62,7 +62,7 @@ export function TestimonialCard({
         </p>
       ) : null}
       <div className="mt-6 flex items-center gap-3 border-t border-border-soft pt-4">
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-terracotta to-terracotta-dark font-heading text-sm font-semibold text-white shadow-sm ring-2 ring-white/55">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary via-orange-600 to-orange-950 font-display text-sm font-semibold text-orange-50 shadow-md ring-2 ring-white/60">
           {initialsFromName(name)}
         </span>
         <div>

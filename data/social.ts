@@ -36,3 +36,7 @@ export const socialLinks: SocialLink[] = [
     icon: "whatsapp",
   },
 ];
+
+/** Canonical WhatsApp deep link — use for all chat CTAs sitewide. */
+export const WHATSAPP_HREF =
+  socialLinks.find((s) => s.id === "whatsapp")?.href ?? "https://wa.me/917383838632";

@@ -21,7 +21,7 @@ export const COLORS = {
   sectionAlt: "#D6CBBF",
   elevated: "#FFFFFF",
   foreground: "#2C2622",
-  background: "#C1B2A4",
+  background: "#FAFAF9",
   muted: "#6B6158",
   border: "#D4CCC2",
   primary: "#D32F2F",

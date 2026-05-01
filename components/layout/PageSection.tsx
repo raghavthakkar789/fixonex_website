@@ -27,7 +27,7 @@ export function PageSection({
   return (
     <div
       className={cn(
-        "mx-auto w-full min-w-0 px-4 sm:px-6 lg:px-8",
+        "site-container w-full min-w-0",
         size === "narrow" ? "max-w-3xl" : "max-w-content",
         spacing === "default" && "py-12 sm:py-14 md:py-[4.25rem] lg:py-24",
         spacing === "spacious" && "py-14 sm:py-16 md:py-20 lg:py-28",

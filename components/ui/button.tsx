@@ -38,7 +38,7 @@ const sizeClasses: Record<string, string> = {
 };
 
 const baseClasses =
-  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-md border font-sans text-[15px] font-semibold transition-[background-color,color,box-shadow,border-color,transform] duration-200 active:shadow-neo-inset disabled:pointer-events-none disabled:opacity-60 motion-safe:hover:scale-[1.005] [&_svg]:size-4 [&_svg]:shrink-0";
+  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-xl border font-sans text-[15px] font-semibold transition-[background-color,color,box-shadow,border-color,transform] duration-200 active:shadow-neo-inset disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0";
 
 export type ButtonVariant = keyof typeof variantClasses | null | undefined;
 export type ButtonSize = keyof typeof sizeClasses | null | undefined;

@@ -83,7 +83,7 @@ export default function SupportPage() {
         <div className="site-container">
           <p className="section-eyebrow">Guides</p>
           <h2 className="font-heading text-display font-semibold text-foreground">How-to Guides</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:gap-7 md:grid-cols-2 lg:grid-cols-3">
             {visibleGuides.map((g, i98) => (
               <motion.article
                 key={g.id}
@@ -91,7 +91,7 @@ export default function SupportPage() {
                 whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i98 * 0.06 }}
-                className="surface-card flex flex-col overflow-hidden"
+                className="surface-card flex h-full flex-col overflow-hidden"
               >
                 <div className="h-2 bg-chip" />
                 <div className="h-24 bg-gradient-to-br from-chip/45 to-chip-dark/45" />
@@ -185,7 +185,7 @@ export default function SupportPage() {
       <section id="faq" className="scroll-mt-28 section-pad section-flow-secondary lg:scroll-mt-24">
         <div className="site-container">
           <p className="section-eyebrow">FAQ</p>
-          <h2 className="font-heading text-display font-semibold text-foreground">FAQ</h2>
+          <h2 className="font-heading text-display font-semibold text-foreground">Frequently Asked Questions</h2>
           <div className="mt-8 max-w-3xl">
             <FAQAccordion items={visibleFaqs} defaultOpen={null} />
             {canLoadMoreFaq || expandedBeyondInitialFaq ? (

@@ -41,7 +41,7 @@ export function ContentSplit({
         className={cn(
           "flex min-h-0 min-w-0 flex-col justify-center max-md:max-w-lg max-md:mx-auto max-md:w-full md:max-w-none",
           mediaMat &&
-            "rounded-2xl bg-gradient-to-br from-muted/55 via-muted/25 to-transparent p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8",
+            "rounded-2xl border border-border-soft bg-muted/35 p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8",
           mediaFirst ? "md:col-start-1 md:row-start-1 lg:col-start-1" : "md:col-start-2 lg:col-start-2",
         )}
       >

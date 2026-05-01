@@ -42,7 +42,7 @@ export const panelMutedClass =
 
 /** Native `<select>` — matches `Input` chrome */
 export const selectControlClass =
-  "flex h-11 w-full cursor-pointer rounded-md border border-border bg-background px-3 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+  "flex h-12 w-full cursor-pointer rounded-md border border-border-strong bg-elevated px-3 font-sans text-[15px] text-foreground shadow-sm ring-offset-background transition-[border-color,box-shadow] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
 /** Vertical stack between fields in enquiry forms */
 export const formStackClass = "space-y-6";

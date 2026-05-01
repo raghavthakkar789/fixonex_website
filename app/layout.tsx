@@ -1,27 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Manrope, Merriweather } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { AppFrame } from "@/components/layout/AppFrame";
 import { BRAND } from "@/lib/brand";
 
-const manrope = Manrope({
+const display = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-manrope",
+  weight: ["600", "700", "800"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const inter = Inter({
+const sans = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const merriweather = Merriweather({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-merriweather",
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -46,10 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${inter.variable} ${merriweather.variable} scroll-smooth antialiased`}
-    >
+    <html lang="en" className={`${display.variable} ${sans.variable} scroll-smooth antialiased`}>
       <body>
         <a href="#main-content" className="skip-to-main">
           Skip to main content

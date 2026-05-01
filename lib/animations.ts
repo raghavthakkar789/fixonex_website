@@ -65,9 +65,9 @@ export const variants: Record<string, Variants> = {
 };
 
 export const pageTransitionVariants: Variants = {
-  initial: { scale: 0.96, filter: "blur(6px)", opacity: 0 },
-  animate: { scale: 1, filter: "blur(0px)", opacity: 1 },
-  exit: { scale: 0.96, filter: "blur(6px)", opacity: 0 },
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -6 },
 };
 
 export const easingsWAAPI = {

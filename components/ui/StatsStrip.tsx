@@ -20,8 +20,8 @@ export function StatsStrip({ stats, className = "" }: StatsStripProps) {
   const reduced = useReducedMotion();
 
   return (
-    <section ref={ref} className={`border-y border-border-soft bg-elevated py-14 text-foreground md:py-18 ${className}`}>
-      <div className="relative z-10 site-container grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-8">
+    <section ref={ref} className={`border-y border-border-soft bg-elevated py-12 text-foreground md:py-14 ${className}`}>
+      <div className="relative z-10 site-container grid grid-cols-2 gap-8 md:grid-cols-4 md:gap-6">
         {stats.map((stat, index) => (
           <div key={stat.label} className="relative text-center md:text-left">
             {index > 0 ? (
@@ -30,10 +30,10 @@ export function StatsStrip({ stats, className = "" }: StatsStripProps) {
                 aria-hidden
               />
             ) : null}
-            <p className="font-heading text-[clamp(32px,5vw,52px)] font-bold tracking-[-0.02em] text-foreground">
+            <p className="font-heading text-[clamp(30px,5vw,46px)] font-bold tracking-[-0.02em] text-foreground">
               <StatValue value={stat.value} start={reduced || Boolean(inView)} />
             </p>
-            <p className="mt-2 text-sm font-medium uppercase tracking-[0.08em] text-mid">{stat.label}</p>
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.1em] text-mid">{stat.label}</p>
           </div>
         ))}
       </div>

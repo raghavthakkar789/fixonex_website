@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       suppressHydrationWarning
       className={cn(
         "flex h-12 w-full rounded-md border border-border-strong bg-elevated px-3 font-sans text-[15px] text-foreground outline-none placeholder:text-muted-foreground",
-        "shadow-neo-inset",
+        "shadow-sm",
         "transition-[border-color,box-shadow] duration-150",
         "focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/25 focus-visible:ring-offset-2 focus-visible:ring-offset-elevated",
         "disabled:cursor-not-allowed disabled:opacity-50",

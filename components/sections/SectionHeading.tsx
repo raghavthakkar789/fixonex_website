@@ -32,7 +32,7 @@ export function SectionHeading({
       {eyebrow && (
         <p
           className={cn(
-            "font-heading uppercase text-subhead [letter-spacing:0.14em]",
+            "text-helper text-subhead",
             importance === "quiet" &&
               "text-[0.625rem] font-bold [letter-spacing:0.16em] sm:text-[0.6875rem]",
             importance === "primary" && "text-[0.6875rem] font-bold sm:text-xs",
@@ -46,8 +46,8 @@ export function SectionHeading({
         className={cn(
           "font-heading font-bold tracking-tight text-foreground",
           importance === "primary" &&
-            "mt-2.5 text-[1.625rem] leading-[1.15] min-[400px]:text-3xl sm:mt-3 sm:text-4xl lg:text-[2rem] lg:leading-tight",
-          importance === "default" && "mt-2.5 text-[1.3125rem] leading-snug sm:mt-3 sm:text-2xl md:text-[1.75rem]",
+            "mt-2.5 text-[1.75rem] leading-[1.15] min-[400px]:text-3xl sm:mt-3 sm:text-[2.2rem] lg:text-[2.5rem] lg:leading-tight",
+          importance === "default" && "mt-2.5 text-[1.45rem] leading-snug sm:mt-3 sm:text-[1.95rem] md:text-[2.1rem]",
           importance === "secondary" &&
             "mt-2 text-lg font-bold leading-snug sm:text-xl md:text-2xl",
           importance === "quiet" &&

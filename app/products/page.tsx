@@ -35,42 +35,45 @@ export default function ProductsPage() {
             <ImageWithFallback src={imageWide} alt="Trusted adhesive applications" fill className="object-cover" />
           </div>
           <motion.div
+            className="space-y-8"
             initial={reduced ? false : { opacity: 0, x: -24 }}
             whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
           >
-            <p className="section-eyebrow">Product Overview</p>
-            <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-foreground">Engineered Product System</h2>
-            <p className="section-subtext mt-5 text-dark">
-              FIXONEX offers a complete system of tile installation solutions — from basic ceramic tile fixing to high-performance exterior applications and designer epoxy finishes.
-            </p>
+            <div>
+              <p className="section-eyebrow">Product Overview</p>
+              <h2 className="text-[clamp(2rem,4vw,3rem)] font-bold text-foreground">Engineered Product System</h2>
+              <p className="section-subtext mt-5 text-dark">
+                FIXONEX offers a complete system of tile installation solutions — from basic ceramic tile fixing to high-performance exterior applications and designer epoxy finishes.
+              </p>
+            </div>
+            <motion.ol
+              className="space-y-4"
+              initial={reduced ? false : { opacity: 0, x: 24 }}
+              whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+            >
+              {["cho_tile", "cho_match", "cho_grout"].map((key, i98) => {
+                const lines = [
+                  ["Choose your tile type", "Match substrate, format, and exposure before selecting grade."],
+                  ["Match the adhesive grade", "Step from C1T through C2TES2 — or PU for specialty bonds."],
+                  ["Finish with epoxy grout", "20+ colours for durable, stain-resistant joints."],
+                ];
+                const [t, d] = lines[i98] ?? ["", ""];
+                return (
+                  <li key={key} className="flex gap-4">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-lg font-semibold text-white">
+                      {i98 + 1}
+                    </span>
+                    <div>
+                      <p className="font-semibold text-black">{t}</p>
+                      <p className="mt-1 text-sm text-mid">{d}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </motion.ol>
           </motion.div>
-          <motion.ol
-            className="space-y-4"
-            initial={reduced ? false : { opacity: 0, x: 24 }}
-            whileInView={reduced ? undefined : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-          >
-            {["cho_tile", "cho_match", "cho_grout"].map((key, i98) => {
-              const lines = [
-                ["Choose your tile type", "Match substrate, format, and exposure before selecting grade."],
-                ["Match the adhesive grade", "Step from C1T through C2TES2 — or PU for specialty bonds."],
-                ["Finish with epoxy grout", "20+ colours for durable, stain-resistant joints."],
-              ];
-              const [t, d] = lines[i98] ?? ["", ""];
-              return (
-                <li key={key} className="flex gap-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-heading text-lg font-semibold text-white">
-                    {i98 + 1}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-black">{t}</p>
-                    <p className="mt-1 text-sm text-mid">{d}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </motion.ol>
         </div>
       </section>
 

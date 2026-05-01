@@ -1,19 +1,18 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import { MapPin, Phone, Mail } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/brand";
 import { products } from "@/lib/data/products";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { socialLinks } from "@/data/social";
 import { socialIconMap } from "@/lib/social-icons";
 
-const stagger = 0.06;
-
 export function Footer() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "-32px", amount: 0.25 });
+  const reduced = useReducedMotion();
 
   const footerProducts = [
     { label: "Tiles Adhesive", href: "/products/tiles-adhesive" },
@@ -23,24 +22,28 @@ export function Footer() {
   ];
 
   const quickLinks = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Support", href: "/support" },
-    { label: "Partner with us", href: "/partner" },
+    { label: "Why FIXONEX", href: "/why-fixonex" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Services", href: "/services" },
+    { label: "Company & legal", href: "/company-info" },
   ];
 
+  const rise =
+    reduced
+      ? { opacity: 1, y: 0 }
+      : ({ opacity: inView ? 1 : 0, y: inView ? 0 : 12 } as const);
+
   return (
-    <footer ref={ref} className="relative border-t border-border-strong/35 bg-footer text-foreground">
-      <div className="site-container relative pb-10 pt-10 max-md:pt-9">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
-          <motion.section initial={false} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ delay: 0 }}>
-            <p className="font-heading text-[2.4rem] font-semibold leading-tight tracking-tight text-foreground md:text-[2.65rem]">
-              {BRAND.name}
-            </p>
-            <p className="mt-1 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">{BRAND.logoMotto}</p>
-            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-mid">{BRAND.tagline}</p>
-            <p className="mt-2 text-sm text-muted-foreground">{BRAND.taglineHi}</p>
-            <div className="mt-7 flex flex-wrap gap-2.5">
+    <footer ref={ref} className="relative border-t border-transparent bg-gradient-to-b from-[#101118] via-footer to-fx-night text-zinc-100">
+      <div aria-hidden className="fx-top-glow-primary absolute left-[6%] right-[6%] top-0 opacity-95" />
+      <div className="site-container pb-14 pt-16">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
+          <motion.section className="glass-panel rounded-3xl border border-white/10 bg-white/[0.02] p-6 lg:col-span-4" animate={rise} transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}>
+            <p className="font-display text-3xl font-semibold tracking-tight text-white">{BRAND.name}</p>
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">{BRAND.logoMotto}</p>
+            <p className="mt-7 max-w-sm text-[15px] leading-relaxed text-zinc-300">{BRAND.tagline}</p>
+            <p className="mt-2 max-w-xs text-xs text-zinc-500">{BRAND.taglineHi}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
               {socialLinks.map((s) => {
                 const Icon = socialIconMap[s.icon];
                 return (
@@ -50,76 +53,74 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border-strong bg-elevated text-mid transition-colors duration-200 hover:-translate-y-0.5 hover:border-terracotta/60 hover:bg-elevated hover:text-terracotta-dark"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/16 bg-gradient-to-br from-white/8 to-transparent text-zinc-300 transition-all hover:border-primary/52 hover:bg-primary/18 hover:text-white hover:shadow-[0_0_24px_-3px_rgba(211,47,47,0.55)] active:translate-y-[1px]"
                   >
-                    <Icon className="h-4 w-4" aria-hidden />
+                    <Icon className="h-[18px] w-[18px]" aria-hidden />
                   </a>
                 );
               })}
             </div>
           </motion.section>
 
-          <motion.section initial={false} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ delay: stagger }}>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-subhead">Products</p>
-            <ul className="mt-5 space-y-2.5">
-              {footerProducts.map((p) => (
+          <motion.nav className="lg:col-span-2" animate={rise} transition={{ duration: 0.55, delay: 0.05, ease: [0.16, 1, 0.3, 1] }} aria-labelledby="footer-products-heading">
+            <p id="footer-products-heading" className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+              Catalogue
+            </p>
+            <ul className="mt-7 space-y-3">
+              {footerProducts.slice(0, 8).map((p) => (
                 <li key={p.href}>
-                  <TransitionLink href={p.href} className="text-[14px] text-mid transition-colors duration-150 hover:text-foreground">
+                  <TransitionLink href={p.href} className="text-sm text-zinc-300 hover:text-white">
                     {p.label}
                   </TransitionLink>
                 </li>
               ))}
             </ul>
-          </motion.section>
+          </motion.nav>
 
-          <motion.section initial={false} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ delay: stagger * 2 }}>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-subhead">Quick links</p>
-            <ul className="mt-5 space-y-2.5">
+          <motion.nav className="lg:col-span-2" animate={rise} transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">Explore</p>
+            <ul className="mt-7 space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <TransitionLink href={link.href} className="text-[14px] text-mid transition-colors duration-150 hover:text-foreground">
+                  <TransitionLink href={link.href} className="text-sm text-zinc-300 hover:text-white">
                     {link.label}
                   </TransitionLink>
                 </li>
               ))}
             </ul>
-          </motion.section>
+          </motion.nav>
 
-          <motion.section initial={false} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ delay: stagger * 3 }}>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-subhead">Contact</p>
-            <ul className="mt-5 space-y-4 text-[14px] text-mid">
+          <motion.address className="not-italic lg:col-span-4" animate={rise} transition={{ duration: 0.55, delay: 0.14, ease: [0.16, 1, 0.3, 1] }}>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">Contact</p>
+            <ul className="mt-7 space-y-6 text-[15px] leading-relaxed text-zinc-400">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
-                <span>SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat</span>
+                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-white/90" aria-hidden />
+                SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                <a href="tel:+917383838632" className="transition-colors hover:text-foreground">
+                <Phone className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
+                <a href="tel:+917383838632" className="hover:text-white">
                   +91 7383838632
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-primary" aria-hidden />
-                <a href="mailto:info@fixonex.com" className="transition-colors hover:text-foreground">
+                <Mail className="h-5 w-5 shrink-0 text-white/90" aria-hidden />
+                <a href="mailto:info@fixonex.com" className="hover:text-white">
                   info@fixonex.com
                 </a>
               </li>
             </ul>
-          </motion.section>
+          </motion.address>
         </div>
 
-        <div className="relative mt-10 border-t border-border-strong/35 pt-8">
-          <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center text-[12px] text-mid">
-            <TransitionLink href="/company-info" className="hover:text-foreground">
-              Company & legal
-            </TransitionLink>
-            <span aria-hidden className="text-border-strong">
-              ·
-            </span>
-            <span>© {new Date().getFullYear()} {BRAND.name}</span>
-            <span className="hidden h-1 w-1 rounded-full bg-mid/35 sm:block" aria-hidden />
-            <span className="break-all text-mid sm:break-normal">www.fixonex.com</span>
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/12 pt-8 text-[12px] text-zinc-500">
+          <p>
+            © {new Date().getFullYear()} {BRAND.name} ·{' '}
+            <span className="hidden sm:inline">www.fixonex.com</span>
           </p>
+          <TransitionLink href="/contact" className="font-semibold text-zinc-200 hover:text-white">
+            Start a specification →
+          </TransitionLink>
         </div>
       </div>
     </footer>

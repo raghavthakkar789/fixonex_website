@@ -24,7 +24,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
   }, [items.length]);
 
   return (
-    <motion.div layout className="divide-y divide-border-soft rounded-lg border border-border-soft bg-elevated shadow-sm">
+    <motion.div layout className="divide-y divide-border-soft rounded-xl border border-border-strong bg-elevated shadow-sm">
       {items.map((item, index) => {
         const isOpen = index === openIndex;
         return (
@@ -37,7 +37,7 @@ export function FAQAccordion({ items, defaultOpen = null }: FAQAccordionProps) {
               aria-controls={`faq-answer-${index}`}
               onClick={() => setOpenIndex(isOpen ? null : index)}
             >
-              <span className="font-heading text-base font-semibold text-foreground">{item.question}</span>
+              <span className="font-heading text-[1rem] font-semibold leading-snug text-foreground">{item.question}</span>
               <motion.span
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={reduced ? { duration: 0 } : { duration: 0.2, ease: [0.2, 0, 0.2, 1] }}
