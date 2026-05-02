@@ -16,8 +16,14 @@ function activeFor(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-/* Three links shown in the center pill */
-const pillLinks = mainNav.slice(0, 3); // Products, About, Support
+/* Four links shown in the center pill */
+const pillLinks = [
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/about", label: "About" },
+  { href: "/why-fixonex", label: "Why FIXONEX" },
+  { href: "/support", label: "Support" },
+];
 
 export function Navbar() {
   const pathname = usePathname();
@@ -130,10 +136,10 @@ export function Navbar() {
             transition={{ duration: 0.18 }}
           >
             <TransitionLink
-              href="/contact"
+              href="/partner"
               className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary"
             >
-              Get a quote
+              Partnership
             </TransitionLink>
           </motion.div>
 
@@ -224,10 +230,10 @@ export function Navbar() {
                 transition={{ delay: 0.2, duration: 0.28 }}
               >
                 <TransitionLink
-                  href="/contact"
+                  href="/partner"
                   className="block w-full rounded-xl bg-zinc-900 py-3 text-center text-sm font-semibold text-white hover:bg-primary transition-colors"
                 >
-                  Get a quote
+                  Partnership
                 </TransitionLink>
               </motion.div>
             </div>

@@ -65,16 +65,31 @@ export default function SupportPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="relative min-h-[320px] overflow-hidden rounded-lg border border-light bg-white shadow-md">
-            <ImageWithFallback src={imageWide} alt="Support guidance for adhesive application" fill className="object-cover" />
-          </div>
-          <div>
-            <p className="section-eyebrow">Support Center</p>
-            <p className="section-subtext text-dark">
-              Everything you need to install FIXONEX products correctly — from surface preparation to final finishing.
-            </p>
+      <section className="relative overflow-hidden" style={{ minHeight: "60vh" }}>
+        {/* Background image — fills entire section */}
+        <ImageWithFallback
+          src={imageWide}
+          alt="Support guidance for adhesive application"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/30" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" aria-hidden />
+
+        {/* Text — frosted glass card */}
+        <div className="relative z-10 flex min-h-[inherit] items-center py-16">
+          <div className="site-container">
+            <div className="max-w-lg rounded-2xl border border-white/15 bg-black/50 p-8 backdrop-blur-md">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary mb-3">Support Center</p>
+              <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.5rem)] font-bold tracking-[-0.02em] text-white leading-tight">
+                Your Installation<br />Guide Starts Here
+              </h2>
+              <p className="mt-4 text-[15px] leading-[1.8] text-zinc-300">
+                Everything you need to install FIXONEX products correctly — from surface preparation to final finishing.
+              </p>
+            </div>
           </div>
         </div>
       </section>

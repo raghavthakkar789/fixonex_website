@@ -39,7 +39,6 @@ import {
   CountUp,
   LineReveal,
   SlideReveal,
-  ScaleReveal,
   FadeGroup,
   FadeGroupItem,
 } from "@/components/motion/Reveal";
@@ -761,40 +760,40 @@ export function HomeView() {
       </section>
 
       {/* ─── Testimonials ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-white">
-        <div aria-hidden className="pointer-events-none absolute right-[-8%] top-[-8%] h-[50%] w-[40%]" style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.07) 0%, transparent 70%)",
+      <section className="relative overflow-hidden bg-[#09090d]">
+        <div aria-hidden className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full" style={{
+          background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 70%)",
           filter: "blur(80px)",
         }} />
+        <div aria-hidden className="pointer-events-none absolute right-[-8%] bottom-0 h-[50%] w-[40%] rounded-full" style={{
+          background: "radial-gradient(circle, rgba(234,88,12,0.07) 0%, transparent 70%)",
+          filter: "blur(80px)",
+        }} />
+        <div aria-hidden className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" />
+        <div
+          aria-hidden
+          className="absolute left-[6%] right-[6%] top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)" }}
+        />
 
-        <div className="site-container section-pad-lg">
-          <Reveal className="mb-10">
-            <p className="eyebrow-label-muted mb-4">Social proof</p>
-            <h2 className="font-display font-bold text-zinc-900" style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
+        <div className="site-container section-pad-lg relative z-10">
+          <Reveal className="mb-12">
+            <p className="eyebrow-label mb-4" style={{ color: "var(--color-primary, #D32F2F)" }}>Social proof</p>
+            <h2 className="font-display font-bold text-white" style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
               Straight lines from partners.
             </h2>
           </Reveal>
 
-          <ScaleReveal delay={0.1}>
-            <TestimonialCard
-              {...testimonials[0]}
-              index={0}
-              animated={false}
-              featured
-              projectLabel={testimonialExtras[0].projectLabel}
-            />
-          </ScaleReveal>
-
-          <div className="mt-5 grid gap-5 md:grid-cols-2">
-            {testimonials.slice(1).map((item, i) => (
-              <ScaleReveal key={item.name} delay={0.1 + i * 0.1}>
-                <TestimonialCard
-                  {...item}
-                  animated={false}
-                  index={i + 1}
-                  projectLabel={testimonialExtras[i + 1].projectLabel}
-                />
-              </ScaleReveal>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {testimonials.map((item, i) => (
+              <TestimonialCard
+                key={item.name}
+                {...item}
+                index={i}
+                animated
+                featured={i === 0}
+                projectLabel={testimonialExtras[i]?.projectLabel}
+              />
             ))}
           </div>
         </div>

@@ -14,9 +14,11 @@ const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 function FooterColumn({
   children,
   delay = 0,
+  className,
 }: {
   children: React.ReactNode;
   delay?: number;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-16px", amount: 0.2 });
@@ -25,6 +27,7 @@ function FooterColumn({
   return (
     <motion.div
       ref={ref}
+      className={className}
       animate={reduced ? {} : { opacity: inView ? 1 : 0, y: inView ? 0 : 24 }}
       initial={{ opacity: 0, y: 24 }}
       transition={{ duration: 0.65, ease: easeExpo, delay }}
@@ -92,8 +95,8 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
 
           {/* Brand column */}
-          <FooterColumn delay={0}>
-            <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 lg:col-span-4 backdrop-blur-sm">
+          <FooterColumn delay={0} className="lg:col-span-4">
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm">
               <p className="font-display text-3xl font-bold tracking-tight text-white" style={{ letterSpacing: "-0.04em" }}>
                 {BRAND.name}
               </p>
@@ -126,8 +129,8 @@ export function Footer() {
           </FooterColumn>
 
           {/* Catalogue column */}
-          <FooterColumn delay={0.06}>
-            <nav aria-labelledby="footer-products-heading" className="lg:col-span-2">
+          <FooterColumn delay={0.06} className="lg:col-span-2">
+            <nav aria-labelledby="footer-products-heading">
               <p
                 id="footer-products-heading"
                 className="text-[10px] font-bold uppercase tracking-[0.26em] text-zinc-600 mb-6"
@@ -157,8 +160,8 @@ export function Footer() {
           </FooterColumn>
 
           {/* Explore column */}
-          <FooterColumn delay={0.1}>
-            <nav className="lg:col-span-2">
+          <FooterColumn delay={0.1} className="lg:col-span-2">
+            <nav>
               <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-zinc-600 mb-6">
                 Explore
               </p>
@@ -185,8 +188,8 @@ export function Footer() {
           </FooterColumn>
 
           {/* Contact column */}
-          <FooterColumn delay={0.14}>
-            <address className="not-italic lg:col-span-4">
+          <FooterColumn delay={0.14} className="lg:col-span-4">
+            <address className="not-italic">
               <p className="text-[10px] font-bold uppercase tracking-[0.26em] text-zinc-600 mb-6">
                 Contact
               </p>
