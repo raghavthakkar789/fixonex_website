@@ -3,15 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { motion, AnimatePresence } from "framer-motion";
-import { Check, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Phone, Youtube } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useReducedMotion } from "@/lib/useReducedMotion";
+import { selectControlClass } from "@/lib/ui-constants";
 
 type ContactFormValues = {
   fullName: string;
@@ -26,17 +25,13 @@ const inquiryOptions = ["Product Information", "Technical Guidance", "Dealer Inq
 export default function ContactPage() {
   const [isSubmitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const imageTall = "https://picsum.photos/200/300";
-  const reduced = useReducedMotion();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<ContactFormValues>({
-    defaultValues: {
-      inquiryType: inquiryOptions[0] ?? "General",
-    },
+    defaultValues: { inquiryType: inquiryOptions[0] ?? "General" },
   });
 
   const onSubmit = async () => {
@@ -56,150 +51,91 @@ export default function ContactPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
       />
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container mx-auto max-w-[680px] text-center">
-          <p className="section-eyebrow text-center">Contact Desk</p>
-          <p className="section-subtext mx-auto text-dark">
-            Whether you need product advice, want to place an order, or have a technical question — our team is ready to help.
-          </p>
-        </div>
-      </section>
-
-      <section className="section-pad section-flow-light">
-        <div className="site-container grid gap-12 lg:grid-cols-12">
-          <div className="surface-card p-8 lg:col-span-7 md:p-10">
-            <p className="section-eyebrow">Inquiry Form</p>
-            <h2 className="font-heading text-2xl font-semibold text-black sr-only">Contact form</h2>
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="thanks"
-                  initial={reduced ? false : { opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center py-10 text-center"
-                >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-accent-rose text-primary">
-                    <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden />
-                  </span>
-                  <p className="mt-6 text-lg font-semibold text-black">Thank you! We&apos;ll be in touch within 24 hours.</p>
-                  <Button type="button" variant="ghost" className="mt-6" onClick={() => setSubmitted(false)}>
-                    Send another message
-                  </Button>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  exit={reduced ? undefined : { opacity: 0 }}
-                  onSubmit={handleSubmit(onSubmit)}
-                  className="space-y-5"
-                >
-                  <div>
-                    <Label htmlFor="fullName">Full Name</Label>
-                    <Input id="fullName" {...register("fullName", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.fullName} />
-                    {errors.fullName ? <p className="mt-1 text-sm text-primary">{errors.fullName.message}</p> : null}
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+91 …"
-                      {...register("phone", { required: "Required" })}
-                      className="mt-1.5"
-                      aria-invalid={!!errors.phone}
-                    />
-                    {errors.phone ? <p className="mt-1 text-sm text-primary">{errors.phone.message}</p> : null}
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" {...register("email")} className="mt-1.5" />
-                  </div>
-                  <div>
-                    <Label htmlFor="inquiryType">Inquiry Type</Label>
-                    <select
-                      id="inquiryType"
-                      {...register("inquiryType", { required: true })}
-                      className="mt-1.5 flex h-12 w-full rounded-md border border-[#e5e0da] bg-white px-3 text-[15px] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-chip"
-                    >
-                      {inquiryOptions.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" rows={4} {...register("message", { required: "Required" })} className="mt-1.5" aria-invalid={!!errors.message} />
-                    {errors.message ? <p className="mt-1 text-sm text-primary">{errors.message.message}</p> : null}
-                  </div>
-                  <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="animate-spin" aria-hidden />
-                        Sending…
-                      </>
-                    ) : (
-                      "Send Message"
-                    )}
-                  </Button>
-                </motion.form>
-              )}
-            </AnimatePresence>
-          </div>
-
-          <aside className="surface-card p-8 lg:col-span-5">
-            <div className="relative mb-6 min-h-[220px] overflow-hidden rounded-md border border-light">
-              <ImageWithFallback src={imageTall} alt="FIXONEX consultation support" fill className="object-cover" />
+      <section className="section-flow-light">
+        <div className="site-container section-pad-lg grid gap-10 lg:grid-cols-2 lg:items-start">
+          <aside>
+            <p className="section-eyebrow">Contact desk</p>
+            <h2 className="mt-2 text-[clamp(1.8rem,4vw,2.8rem)] font-bold text-foreground">Speak with the FIXONEX team.</h2>
+            <p className="section-subtext mt-4">
+              Whether you need product advice, want to place an order, or have a technical question, our team is ready to help.
+            </p>
+            <div className="fx-image-placeholder mt-7 min-h-[280px]">
+              <ImageWithFallback src="https://picsum.photos/900/700" alt="FIXONEX consultation support" fill className="object-cover" />
             </div>
-            <p className="section-eyebrow">Reach Us Directly</p>
-            <ul className="mt-6 space-y-5 text-foreground">
-              <li className="flex gap-3">
-                <Phone className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                <a href="tel:+917383838632" className="font-medium hover:text-primary">
+            <div className="mt-6 space-y-2 text-sm">
+              <p>
+                <a href="tel:+917383838632" className="font-semibold text-primary hover:text-primary-dark">
                   +91 7383838632
                 </a>
-              </li>
-              <li className="flex gap-3">
-                <Mail className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                <a href="mailto:info@fixonex.com" className="font-medium hover:text-primary">
+              </p>
+              <p>
+                <a href="mailto:info@fixonex.com" className="font-semibold text-foreground hover:text-primary">
                   info@fixonex.com
                 </a>
-              </li>
-              <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                <span>SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat</span>
-              </li>
-            </ul>
-            <Button asChild size="lg" className="mt-8 w-full">
-              <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-5 w-5" aria-hidden />
-                Chat on WhatsApp
-              </Link>
-            </Button>
+              </p>
+              <p className="text-mid">SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat</p>
+              <Button asChild variant="outline" className="mt-2">
+                <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
+                  Chat on WhatsApp
+                </Link>
+              </Button>
+            </div>
           </aside>
-        </div>
-      </section>
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container">
-          <p className="text-center text-sm font-medium text-mid">Connect with us</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            {[
-              { href: "https://wa.me/917383838632", icon: MessageCircle, label: "WhatsApp" },
-              { href: "#", icon: Instagram, label: "Instagram" },
-              { href: "#", icon: Linkedin, label: "LinkedIn" },
-              { href: "#", icon: Youtube, label: "YouTube" },
-            ].map(({ href, icon: Icon, label }) => (
-              <Link
-                key={label}
-                href={href}
-                aria-label={label}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#e5e0da] bg-white text-[#6b6b6b] transition-colors hover:border-chip hover:text-primary"
-              >
-                <Icon className="h-5 w-5" />
-              </Link>
-            ))}
+          <div className="surface-card p-6 sm:p-8">
+            <p className="section-eyebrow">Inquiry form</p>
+            {submitted ? (
+              <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-4">
+                <p className="inline-flex items-center gap-2 text-green-700">
+                  <Check className="h-4 w-4" aria-hidden /> Thank you! We&apos;ll be in touch within 24 hours.
+                </p>
+                <Button type="button" variant="outline" className="mt-4" onClick={() => setSubmitted(false)}>
+                  Send another message
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-5">
+                <div>
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input id="fullName" {...register("fullName", { required: "Required" })} aria-invalid={!!errors.fullName} className="mt-1.5" />
+                  {errors.fullName ? <p className="mt-1 text-xs text-red-600">{errors.fullName.message}</p> : null}
+                </div>
+                <div>
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input id="phone" type="tel" placeholder="+91 …" {...register("phone", { required: "Required" })} aria-invalid={!!errors.phone} className="mt-1.5" />
+                  {errors.phone ? <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p> : null}
+                </div>
+                <div>
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" type="email" {...register("email")} className="mt-1.5" />
+                </div>
+                <div>
+                  <Label htmlFor="inquiryType">Inquiry Type</Label>
+                  <select id="inquiryType" {...register("inquiryType", { required: true })} className={`${selectControlClass} mt-1.5`}>
+                    {inquiryOptions.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="message">Message</Label>
+                  <Textarea id="message" rows={4} {...register("message", { required: "Required" })} aria-invalid={!!errors.message} className="mt-1.5" />
+                  {errors.message ? <p className="mt-1 text-xs text-red-600">{errors.message.message}</p> : null}
+                </div>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                      Sending...
+                    </>
+                  ) : (
+                    "Send Message"
+                  )}
+                </Button>
+              </form>
+            )}
           </div>
         </div>
       </section>

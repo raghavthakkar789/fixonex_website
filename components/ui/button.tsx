@@ -1,124 +1,51 @@
 "use client";
 
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-function composeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return (node: T | null) => {
-    for (const ref of refs) {
-      if (ref == null) continue;
-      if (typeof ref === "function") ref(node);
-      else (ref as React.MutableRefObject<T | null>).current = node;
-    }
-  };
-}
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 rounded-md font-semibold transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "border border-primary bg-primary text-white hover:bg-primary-hover",
+        primary: "border border-primary bg-primary text-white hover:bg-primary-hover",
+        secondary: "border border-border-strong bg-white text-foreground hover:bg-muted",
+        outline: "border border-border-strong bg-transparent text-foreground hover:bg-muted",
+        dark: "border border-[#2b2b2b] bg-[#2b2b2b] text-white hover:bg-black",
+        warm: "border border-terracotta bg-terracotta text-white hover:bg-terracotta-dark",
+        ghost: "text-foreground hover:bg-muted",
+        link: "h-auto p-0 text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        sm: "h-9 px-3 text-sm",
+        default: "h-10 px-4 text-sm",
+        lg: "h-12 px-6 text-base",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+);
 
-const variantClasses: Record<string, string> = {
-  default:
-    "border-transparent bg-primary text-primary-foreground shadow-cta hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-  primary:
-    "border-transparent bg-primary text-primary-foreground shadow-cta hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-  secondary:
-    "border border-border-strong bg-elevated text-foreground shadow-neo hover:shadow-neo-hover",
-  outline: "border border-border-strong bg-transparent text-foreground shadow-none hover:bg-secondary/60",
-  outlineNeutral: "border border-border-strong bg-transparent text-foreground hover:bg-elevated/80",
-  ghost: "group border-transparent bg-transparent text-foreground hover:bg-elevated/90",
-  link: "border-transparent px-0 text-primary underline-offset-4 hover:underline hover:text-primary-dark",
-  dark:
-    "border-transparent bg-secondary text-foreground shadow-neo hover:bg-secondary/95 active:shadow-neo-inset",
-  warm: "border border-border-strong bg-band-alt text-foreground shadow-neo hover:shadow-neo-hover",
-};
-
-const sizeClasses: Record<string, string> = {
-  default: "px-7 py-3.5",
-  sm: "px-5 py-2.5 text-sm",
-  md: "px-7 py-3.5",
-  lg: "px-9 py-[18px] text-base",
-  icon: "h-11 w-11 p-0",
-};
-
-const baseClasses =
-  "relative inline-flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-xl border font-sans text-[15px] font-semibold transition-[background-color,color,box-shadow,border-color,transform] duration-200 active:shadow-neo-inset disabled:pointer-events-none disabled:opacity-60 [&_svg]:size-4 [&_svg]:shrink-0";
-
-export type ButtonVariant = keyof typeof variantClasses | null | undefined;
-export type ButtonSize = keyof typeof sizeClasses | null | undefined;
-
-function buttonClassName(variant: ButtonVariant, size: ButtonSize, className?: string) {
-  const v = variant ?? "primary";
-  const s = size ?? "md";
-  return cn(baseClasses, variantClasses[v] ?? variantClasses.primary, sizeClasses[s] ?? sizeClasses.md, className);
-}
-
-function addRipple(clientX: number, clientY: number, node: HTMLElement, variant: string | null | undefined) {
-  const r = node.getBoundingClientRect();
-  const x = clientX - r.left;
-  const y = clientY - r.top;
-  const isPrimary = variant === "primary" || variant === "default";
-  const color = isPrimary ? "rgba(255,255,255,0.35)" : "rgba(43,43,43,0.14)";
-  const sp = document.createElement("span");
-  sp.setAttribute("aria-hidden", "true");
-  sp.className = "pointer-events-none absolute z-[1] rounded-full";
-  sp.style.cssText = `left:${x}px;top:${y}px;width:1px;height:1px;transform:translate(-50%,-50%) scale(0);opacity:0.4;background:${color};animation:fixonex-ripple 0.55s cubic-bezier(0.16,1,0.3,1) forwards;`;
-  node.appendChild(sp);
-  window.setTimeout(() => sp.remove(), 600);
-}
-
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, onClick, children, ...props }, ref) => {
-    const v = (variant ?? "primary") as string;
-    const isGhost = v === "ghost";
-    const classes = buttonClassName(variant, size, className);
-
-    if (asChild) {
-      const child = React.Children.only(children);
-      if (!React.isValidElement(child)) {
-        throw new Error("[Button] asChild expects exactly one valid React element.");
-      }
-      const childProps = child.props as {
-        className?: string;
-        onClick?: React.MouseEventHandler<Element>;
-        ref?: React.Ref<Element>;
-      };
-      const onMergedClick: React.MouseEventHandler = (e) => {
-        childProps.onClick?.(e);
-        if (e.defaultPrevented) return;
-        const node = e.currentTarget as HTMLElement;
-        addRipple(e.clientX, e.clientY, node, v);
-        (onClick as React.MouseEventHandler | undefined)?.(e);
-      };
-      return React.cloneElement(child, {
-        ...props,
-        className: cn(classes, childProps.className),
-        onClick: onMergedClick,
-        ref: composeRefs(ref as React.Ref<HTMLElement>, childProps.ref as React.Ref<HTMLElement>),
-      } as never);
-    }
-
-    return (
-      <button
-        type="button"
-        className={classes}
-        ref={ref}
-        onClick={(e) => {
-          addRipple(e.clientX, e.clientY, e.currentTarget, v);
-          onClick?.(e);
-        }}
-        {...props}
-      >
-        {children}
-        {isGhost && (
-          <span className="absolute bottom-1 left-0 h-px w-0 bg-current transition-all duration-300 group-hover:w-full" aria-hidden />
-        )}
-      </button>
-    );
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return <Comp ref={ref} className={cn(buttonVariants({ variant, size, className }))} {...props} />;
   },
 );
+
 Button.displayName = "Button";
 
-export { Button };
+export { Button, buttonVariants };
