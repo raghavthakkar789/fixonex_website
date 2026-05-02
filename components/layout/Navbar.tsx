@@ -1,30 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 import { mainNav } from "@/data/navigation";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 
-const routes = [{ href: "/", label: "Home" }, ...mainNav] as const;
-
-const navEase = [0.16, 1, 0.3, 1] as const;
+const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 function activeFor(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/* Three links shown in the center pill */
+const pillLinks = mainNav.slice(0, 3); // Products, About, Support
+
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 4);
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(total > 0 ? Math.min(y / total, 1) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -32,167 +40,199 @@ export function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
+    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
   useEffect(() => setOpen(false), [pathname]);
 
   return (
-    <header className={cn(
-      "relative sticky top-0 z-[100] transition-[backdrop-filter,box-shadow,border-color] duration-300",
-      "after:pointer-events-none after:absolute after:inset-x-8 after:-bottom-[1px] after:h-[2px] after:rounded-full after:opacity-0 after:[background:linear-gradient(90deg,transparent,#d32f2f,#ea580c,#0f766e,_transparent)] after:[box-shadow:0_0_32px_-4px_rgba(211,47,47,0.55)]",
-      scrolled ? "glass-panel border-b border-orange-950/12 bg-[rgba(251,251,251,0.9)] shadow-nav backdrop-blur-md after:opacity-100" : "glass-panel border-b border-transparent bg-white/[0.9] backdrop-blur-sm after:opacity-0",
-    )}>
-      <div className="site-container flex h-[4.125rem] max-md:h-[3.625rem] items-center gap-4">
-        <TransitionLink href="/" className="flex min-w-0 shrink-0 items-center gap-3" aria-label={`${BRAND.name} home`}>
-          <span className="relative h-9 w-[118px] overflow-hidden md:h-10 md:w-[128px]">
+    <header
+      className={cn(
+        "sticky top-0 z-[100] transition-all duration-400",
+        scrolled
+          ? "border-b border-zinc-200/50 bg-white/90 shadow-[0_2px_20px_rgba(0,0,0,0.05)] backdrop-blur-xl"
+          : "border-b border-transparent bg-white/70 backdrop-blur-md",
+      )}
+    >
+      {/* Top red accent line — appears on scroll */}
+      <motion.div
+        className="absolute left-0 right-0 top-0 h-[2px] pointer-events-none"
+        style={{ background: "linear-gradient(90deg, transparent 8%, #D32F2F 45%, #ea580c 55%, transparent 92%)" }}
+        animate={{ opacity: scrolled ? 1 : 0 }}
+        transition={{ duration: 0.35, ease: easeExpo }}
+      />
+
+      <div className="site-container flex h-16 items-center gap-6 max-md:h-14">
+
+        {/* ── Logo ── */}
+        <TransitionLink
+          href="/"
+          className="flex shrink-0 items-center gap-2.5"
+          aria-label={`${BRAND.name} home`}
+        >
+          <span className="relative h-8 w-[110px] overflow-hidden md:h-9 md:w-[120px]">
             <ImageWithFallback
               src="/images/misc/logo.png"
               alt={`${BRAND.name} logo`}
               fill
-              sizes="132px"
+              sizes="120px"
               className="object-contain object-left"
               reveal="none"
             />
           </span>
-          <span className="hidden min-w-0 flex-col leading-none lg:flex">
-            <span className="font-display text-lg font-semibold tracking-tight text-zinc-900">{BRAND.name}</span>
-            <span className="mt-1 text-[0.65rem] font-medium uppercase tracking-[0.26em] text-zinc-500">{BRAND.logoMotto}</span>
-          </span>
         </TransitionLink>
 
+        {/* ── Center pill nav ── */}
         <nav
-          className="mx-auto hidden min-w-0 flex-1 items-center justify-center lg:flex"
+          className="mx-auto hidden lg:flex"
           aria-label="Primary"
         >
-          <div className="glass-panel inline-flex flex-wrap justify-center gap-0.5 rounded-full border border-zinc-200/90 bg-zinc-50/72 p-[5px] shadow-soft ring-1 ring-white/[0.65] backdrop-blur-[4px]">
-            {routes.map((item) => {
+          <div className="flex items-center gap-1 rounded-full border border-zinc-200/60 bg-zinc-50/70 px-1.5 py-1.5 shadow-sm backdrop-blur-sm">
+            {pillLinks.map((item) => {
               const on = activeFor(pathname, item.href);
               return (
                 <TransitionLink
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-[0.82rem] py-2 text-[0.785rem] font-semibold transition-colors xl:px-[0.94rem]",
-                    on ? "text-zinc-950" : "text-zinc-500 hover:bg-white/85 hover:text-zinc-950",
+                    "relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-200",
+                    on ? "text-zinc-950" : "text-zinc-500 hover:text-zinc-800",
                   )}
                 >
-                  {on ? (
+                  {on && (
                     <motion.span
                       layoutId="nav-pill"
-                      className="absolute inset-0 -z-[1] rounded-full bg-gradient-to-br from-orange-100/93 via-orange-700/34 to-transparent shadow-inner ring-2 ring-orange-700/52"
-                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                      className="absolute inset-0 -z-[1] rounded-full bg-white shadow-sm ring-1 ring-zinc-200/70"
+                      transition={{ type: "spring", stiffness: 420, damping: 38 }}
                     />
-                  ) : null}
-                  <span>{item.label}</span>
+                  )}
+                  {item.label}
                 </TransitionLink>
               );
             })}
           </div>
         </nav>
 
-        <div className="ml-auto flex flex-shrink-0 items-center gap-1.5 sm:gap-2">
-          <TransitionLink
-            href="/why-fixonex"
-            className={cn(
-              "hidden rounded-full border border-zinc-200/92 bg-white px-[0.75rem] py-2 text-[0.76rem] font-semibold shadow-soft transition-colors sm:inline-flex",
-              activeFor(pathname, "/why-fixonex")
-                ? "border-orange-800/62 bg-orange-50/95 text-orange-950"
-                : "text-zinc-700 hover:border-orange-950/54 hover:bg-orange-50/55 hover:text-orange-950",
-            )}
-          >
-            Why FIXONEX
-          </TransitionLink>
-          <TransitionLink
-            href="/products"
-            className={cn(
-              "hidden rounded-full border border-zinc-200/92 bg-white px-[0.75rem] py-2 text-[0.76rem] font-semibold shadow-soft transition-colors sm:inline-flex md:min-w-[9.25rem] md:justify-center",
-              activeFor(pathname, "/products")
-                ? "border-orange-950/92 bg-gradient-to-br from-orange-900/[0.14] via-white to-orange-950/[0.14] text-orange-950"
-                : "text-zinc-800 hover:border-orange-950/74 hover:bg-orange-50/38 hover:text-orange-950",
-            )}
-          >
-            Catalogue
-          </TransitionLink>
-          <TransitionLink
-            href="/support"
-            className={cn(
-              "hidden rounded-full border border-zinc-200/92 bg-white px-[0.75rem] py-2 text-[0.76rem] font-semibold shadow-soft transition-colors md:inline-flex",
-              activeFor(pathname, "/support") ? "border-teal-950/92 bg-teal-50/[0.93] text-teal-950" : "text-zinc-700 hover:border-teal-800/92 hover:bg-teal-50/65 hover:text-teal-950",
-            )}
-          >
-            Support
-          </TransitionLink>
+        {/* ── Right side ── */}
+        <div className="ml-auto flex items-center gap-2">
+          {/* Ghost link for desktop */}
           <TransitionLink
             href="/contact"
-            className="hidden items-center justify-center rounded-full bg-gradient-to-br from-[#dc2626] via-[#c81e1e] to-[#9a3412] px-[0.94rem] py-2 text-[0.785rem] font-semibold text-white shadow-xl shadow-orange-950/40 ring-[3px] ring-orange-950/45 transition-[filter,transform] hover:-translate-y-0.5 hover:brightness-105 md:inline-flex"
+            className="hidden text-sm font-medium text-zinc-600 hover:text-zinc-900 transition-colors duration-200 lg:block"
           >
-            Get a quote
+            Contact
           </TransitionLink>
-          <motion.button
+
+          {/* Primary CTA */}
+          <motion.div
+            whileHover={reduced ? undefined : { scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18 }}
+          >
+            <TransitionLink
+              href="/contact"
+              className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary"
+            >
+              Get a quote
+            </TransitionLink>
+          </motion.div>
+
+          {/* Hamburger */}
+          <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex h-11 w-11 flex-col items-center justify-center rounded-full border border-zinc-200/90 bg-white text-zinc-900 lg:hidden"
+            className="ml-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200/70 bg-white text-zinc-700 lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? "Close navigation" : "Open navigation"}
-            whileTap={{ scale: 0.96 }}
-            transition={{ duration: 0.18, ease: navEase }}
+            aria-label={open ? "Close menu" : "Open menu"}
           >
             <motion.span
-              animate={open ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.32, ease: navEase }}
-              className="block h-[2px] w-5 rounded-full bg-current"
-            />
-            <motion.span
-              animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              className="mt-1.5 block h-[2px] w-5 rounded-full bg-current"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
-              transition={{ duration: 0.32, ease: navEase }}
-              className="mt-1.5 block h-[2px] w-5 rounded-full bg-current"
-            />
-          </motion.button>
+              className="flex h-full w-full flex-col items-center justify-center gap-[5px]"
+            >
+              <motion.span
+                animate={open ? { rotate: 45, y: 5 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.28, ease: easeExpo }}
+                className="block h-[1.5px] w-4 rounded-full bg-current"
+              />
+              <motion.span
+                animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                transition={{ duration: 0.18 }}
+                className="block h-[1.5px] w-4 rounded-full bg-current"
+              />
+              <motion.span
+                animate={open ? { rotate: -45, y: -5 } : { rotate: 0, y: 0 }}
+                transition={{ duration: 0.28, ease: easeExpo }}
+                className="block h-[1.5px] w-4 rounded-full bg-current"
+              />
+            </motion.span>
+          </button>
         </div>
       </div>
 
+      {/* Scroll progress bar */}
+      <motion.div
+        className="absolute bottom-0 left-0 h-[2px] origin-left pointer-events-none"
+        style={{
+          scaleX: scrollProgress,
+          background: "linear-gradient(90deg, #D32F2F, #ea580c)",
+        }}
+      />
+
+      {/* ── Mobile menu ── */}
       <AnimatePresence>
-        {open ? (
+        {open && (
           <motion.nav
             id="mobile-menu"
             key="mob"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: navEase }}
-            className="border-t border-zinc-200/90 bg-white/96 backdrop-blur-lg lg:hidden"
+            transition={{ duration: 0.32, ease: easeExpo }}
+            className="overflow-hidden border-t border-zinc-100 bg-white/98 backdrop-blur-xl lg:hidden"
           >
-            <div className="site-container grid gap-px py-5">
-              {routes.map((item) => (
-                <TransitionLink key={item.href} href={item.href} className="rounded-xl px-3 py-3.5 text-lg font-semibold text-zinc-800 hover:bg-zinc-50">
-                  {item.label}
-                </TransitionLink>
-              ))}
-              <div className="mt-4 grid grid-cols-1 gap-2 border-t border-zinc-200/80 pt-4 sm:grid-cols-2">
-                <TransitionLink href="/why-fixonex" className="rounded-xl border border-zinc-200/95 bg-white px-4 py-3 text-center text-sm font-semibold text-zinc-800 shadow-soft">
-                  Why FIXONEX
-                </TransitionLink>
-                <TransitionLink href="/products" className="rounded-xl border border-orange-900/62 bg-orange-50/75 px-4 py-3 text-center text-sm font-semibold text-orange-950">
-                  Catalogue
-                </TransitionLink>
-                <TransitionLink href="/support" className="rounded-xl border border-teal-900/72 bg-teal-50/75 px-4 py-3 text-center text-sm font-semibold text-teal-950 sm:col-span-2">
-                  Support library
-                </TransitionLink>
-                <TransitionLink href="/contact" className="rounded-xl bg-primary px-4 py-3 text-center font-semibold text-white shadow-lg sm:col-span-2">
+            <div className="site-container py-4">
+              <ul className="space-y-0.5">
+                {[{ href: "/", label: "Home" }, ...mainNav].map((item, i) => (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.28, ease: easeExpo }}
+                  >
+                    <TransitionLink
+                      href={item.href}
+                      className={cn(
+                        "flex items-center justify-between rounded-xl px-3 py-2.5 text-[15px] font-medium transition-colors",
+                        activeFor(pathname, item.href)
+                          ? "bg-zinc-100 text-zinc-950"
+                          : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900",
+                      )}
+                    >
+                      {item.label}
+                      {activeFor(pathname, item.href) && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      )}
+                    </TransitionLink>
+                  </motion.li>
+                ))}
+              </ul>
+
+              <motion.div
+                className="mt-3 border-t border-zinc-100 pt-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.28 }}
+              >
+                <TransitionLink
+                  href="/contact"
+                  className="block w-full rounded-xl bg-zinc-900 py-3 text-center text-sm font-semibold text-white hover:bg-primary transition-colors"
+                >
                   Get a quote
                 </TransitionLink>
-              </div>
+              </motion.div>
             </div>
           </motion.nav>
-        ) : null}
+        )}
       </AnimatePresence>
     </header>
   );

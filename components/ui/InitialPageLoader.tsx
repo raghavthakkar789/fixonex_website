@@ -6,143 +6,209 @@ import { BRAND } from "@/lib/brand";
 import { easings } from "@/lib/animations";
 
 const SEEN = "fixonex-initial-page-loader";
-const ease = easings.easeOutExpo as [number, number, number, number];
-const STAGGER = 0.06;
-const HOLD_EXTRA_MS = 2000;
-const POST_LINE_MS = 800 + 500 + HOLD_EXTRA_MS;
+const easeExpo = easings.easeOutExpo as [number, number, number, number];
+const easeInOut = easings.easeInOutExpo as [number, number, number, number];
 
+const LETTER_STAGGER = 0.055;
+const HOLD_EXTRA_MS = 1600;
 const isProd = process.env.NODE_ENV === "production";
 
-/**
- * Do not use Framer's `useReducedMotion()` here: it snapshots `prefers-reduced-motion`
- * once in `useState` and can stay out of sync with `matchMedia`, which hides the
- * entire loader via `return null` while `shouldSkipLoaderClient()` would still run.
- */
 function shouldSkipLoaderClient(): boolean {
   if (typeof window === "undefined") return true;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
   if (!isProd) return false;
   try {
     if (sessionStorage.getItem(SEEN) === "1") return true;
-  } catch {
-    // treat as not seen; may fail in private mode
-  }
+  } catch { /* private mode */ }
   return false;
 }
 
 export function InitialPageLoader() {
-  const [active, setActive] = useState(false);
-  const [line, setLine] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "entering" | "holding" | "exiting">("idle");
+  const [progressComplete, setProgressComplete] = useState(false);
   const w = BRAND.name;
   const n = w.length;
-  const textTime = n * STAGGER * 1000 + 200;
-  const lineTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const endTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lettersTime = n * LETTER_STAGGER * 1000 + 300;
+  const t1 = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const t2 = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const t3 = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useLayoutEffect(() => {
     if (shouldSkipLoaderClient()) return;
-    setActive(true);
+    setPhase("entering");
   }, []);
 
   useEffect(() => {
-    if (!active) {
-      setLine(false);
-      if (lineTimeoutRef.current) {
-        clearTimeout(lineTimeoutRef.current);
-        lineTimeoutRef.current = null;
-      }
-      if (endTimeoutRef.current) {
-        clearTimeout(endTimeoutRef.current);
-        endTimeoutRef.current = null;
-      }
-      return;
-    }
-    if (lineTimeoutRef.current) clearTimeout(lineTimeoutRef.current);
-    lineTimeoutRef.current = setTimeout(() => {
-      setLine(true);
-      lineTimeoutRef.current = null;
-    }, textTime);
+    if (phase !== "entering") return;
+    t1.current = setTimeout(() => {
+      setProgressComplete(true);
+    }, lettersTime + 200);
+    t2.current = setTimeout(() => {
+      setPhase("holding");
+    }, lettersTime + 600);
     return () => {
-      if (lineTimeoutRef.current) {
-        clearTimeout(lineTimeoutRef.current);
-        lineTimeoutRef.current = null;
-      }
+      if (t1.current) clearTimeout(t1.current);
+      if (t2.current) clearTimeout(t2.current);
     };
-  }, [active, textTime]);
+  }, [phase, lettersTime]);
 
   useEffect(() => {
-    if (!active || !line) {
-      if (endTimeoutRef.current) {
-        clearTimeout(endTimeoutRef.current);
-        endTimeoutRef.current = null;
-      }
-      return;
-    }
-    if (endTimeoutRef.current) clearTimeout(endTimeoutRef.current);
-    endTimeoutRef.current = setTimeout(() => {
+    if (phase !== "holding") return;
+    t3.current = setTimeout(() => {
       if (isProd) {
-        try {
-          sessionStorage.setItem(SEEN, "1");
-        } catch {
-          // ignore
-        }
+        try { sessionStorage.setItem(SEEN, "1"); } catch { /* ignore */ }
       }
-      setActive(false);
-      setLine(false);
-      endTimeoutRef.current = null;
-    }, POST_LINE_MS);
+      setPhase("exiting");
+    }, HOLD_EXTRA_MS);
     return () => {
-      if (endTimeoutRef.current) {
-        clearTimeout(endTimeoutRef.current);
-        endTimeoutRef.current = null;
-      }
+      if (t3.current) clearTimeout(t3.current);
     };
-  }, [active, line]);
+  }, [phase]);
+
+  const isActive = phase === "entering" || phase === "holding";
+  const isExiting = phase === "exiting";
 
   return (
-    <AnimatePresence>
-      {active ? (
+    <AnimatePresence mode="wait">
+      {(isActive || isExiting) ? (
         <motion.div
           key="ipl"
           role="presentation"
           aria-hidden
-          className="fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: "#C1B2A4" }}
-          initial={{ opacity: 1, scale: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
-          transition={{ duration: 0.5, ease }}
+          className="fixed inset-0 z-[300] overflow-hidden"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 1 }}
         >
-          <div className="flex flex-col items-center">
-            <div className="flex" aria-label={w}>
+          {/* Dark background panel that slides up on exit */}
+          <motion.div
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(160deg, #050508 0%, #0d0d14 40%, #12060a 100%)" }}
+            initial={{ y: 0 }}
+            animate={isExiting ? { y: "-100%" } : { y: 0 }}
+            transition={{ duration: 0.85, ease: easeInOut, delay: isExiting ? 0 : 0 }}
+          />
+
+          {/* Animated background orbs */}
+          {!isExiting && (
+            <>
+              <div
+                className="absolute -left-[15%] top-[-20%] h-[60%] w-[60%] rounded-full opacity-30"
+                style={{
+                  background: "radial-gradient(circle, rgba(211,47,47,0.7) 0%, transparent 70%)",
+                  filter: "blur(80px)",
+                  animation: "orbDrift 18s ease-in-out infinite",
+                }}
+              />
+              <div
+                className="absolute -right-[10%] bottom-[-15%] h-[50%] w-[50%] rounded-full opacity-20"
+                style={{
+                  background: "radial-gradient(circle, rgba(234,88,12,0.6) 0%, transparent 70%)",
+                  filter: "blur(100px)",
+                  animation: "orbDrift 24s ease-in-out infinite reverse",
+                }}
+              />
+              <div
+                className="absolute left-1/2 top-1/2 h-[30%] w-[40%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10"
+                style={{
+                  background: "radial-gradient(circle, rgba(13,148,136,0.8) 0%, transparent 70%)",
+                  filter: "blur(60px)",
+                }}
+              />
+            </>
+          )}
+
+          {/* Subtle grain texture */}
+          <div
+            className="grain-noise absolute inset-0 opacity-50 mix-blend-overlay pointer-events-none"
+            aria-hidden
+          />
+
+          {/* Center content */}
+          <motion.div
+            className="relative z-10 flex h-full flex-col items-center justify-center"
+            animate={isExiting ? { y: -40, opacity: 0 } : { y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, ease: easeExpo, delay: isExiting ? 0 : 0 }}
+          >
+            {/* Brand name — letters slide up from clip */}
+            <div className="flex items-end gap-0" aria-label={w}>
               {w.split("").map((ch, i) => (
-                <motion.span
-                  key={`${ch}-${i}`}
-                  className="font-heading text-type-headline font-semibold tracking-[-0.02em] text-foreground"
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: i * STAGGER, ease }}
-                >
-                  {ch}
-                </motion.span>
+                <div key={`${ch}-${i}`} className="overflow-hidden">
+                  <motion.span
+                    className="block font-display font-bold tracking-[-0.04em] text-white"
+                    style={{ fontSize: "clamp(2.8rem, 8vw, 5rem)", lineHeight: 1 }}
+                    initial={{ y: "110%", opacity: 0 }}
+                    animate={{ y: "0%", opacity: 1 }}
+                    transition={{
+                      duration: 0.65,
+                      delay: 0.1 + i * LETTER_STAGGER,
+                      ease: easeExpo,
+                    }}
+                  >
+                    {ch}
+                  </motion.span>
+                </div>
               ))}
             </div>
+
+            {/* Tagline */}
             <motion.p
-              className="mt-ds-3 text-center font-body text-type-caption font-normal uppercase tracking-[0.2em] text-muted-foreground"
-              initial={{ y: 12, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.45, delay: n * STAGGER + 0.12, ease }}
+              className="mt-4 text-center font-body text-[0.625rem] font-semibold uppercase tracking-[0.35em] text-white/45"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: n * LETTER_STAGGER + 0.3, ease: easeExpo }}
             >
               {BRAND.logoMotto}
             </motion.p>
-          </div>
-          <div className="mt-ds-6 h-0.5 w-ds-11 max-w-full overflow-hidden">
+
+            {/* Progress bar */}
+            <div className="mt-12 h-[1.5px] w-48 max-w-[200px] overflow-hidden rounded-full bg-white/10">
+              <motion.div
+                className="h-full origin-left rounded-full"
+                style={{ background: "linear-gradient(90deg, #D32F2F, #ea580c)" }}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: progressComplete ? 1 : 0 }}
+                transition={
+                  progressComplete
+                    ? { duration: 0.7, ease: easeExpo }
+                    : { duration: 0 }
+                }
+              />
+            </div>
+          </motion.div>
+
+          {/* Top decorative line */}
+          <motion.div
+            className="absolute left-[6%] right-[6%] top-0 h-px"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.7) 50%, transparent)" }}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.3, ease: easeExpo }}
+          />
+
+          {/* Bottom decorative line */}
+          <motion.div
+            className="absolute bottom-0 left-[6%] right-[6%] h-px"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(234,88,12,0.4) 50%, transparent)" }}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5, ease: easeExpo }}
+          />
+
+          {/* Corner marks */}
+          {[
+            "top-6 left-6 border-t border-l",
+            "top-6 right-6 border-t border-r",
+            "bottom-6 left-6 border-b border-l",
+            "bottom-6 right-6 border-b border-r",
+          ].map((pos, i) => (
             <motion.div
-              className="h-full w-full origin-left bg-primary"
-              initial={{ scaleX: 0 }}
-              animate={line ? { scaleX: 1 } : { scaleX: 0 }}
-              transition={line ? { duration: 0.8, ease } : { duration: 0 }}
+              key={pos}
+              className={`absolute h-5 w-5 ${pos} border-white/20`}
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: 0.4 + i * 0.06, ease: easeExpo }}
             />
-          </div>
+          ))}
         </motion.div>
       ) : null}
     </AnimatePresence>
