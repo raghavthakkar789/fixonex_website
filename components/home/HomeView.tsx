@@ -213,226 +213,93 @@ export function HomeView() {
   return (
     <>
       {/* ─── Hero ──────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden bg-[#050508] text-white flex flex-col">
-        {/* Background layers */}
-        <div aria-hidden className="grain-noise-heavy absolute inset-0 opacity-50 mix-blend-overlay pointer-events-none" />
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,8,0.1)_0%,rgba(5,5,8,0.6)_70%,rgba(5,5,8,0.98)_100%)] pointer-events-none" />
+      <section ref={heroRef} className="relative h-[100svh] w-full overflow-hidden text-white">
 
-        {/* Animated orbs */}
-        <motion.div
-          style={{ y: bgY, background: "radial-gradient(circle, rgba(211,47,47,0.45) 0%, transparent 65%)", filter: "blur(120px)" }}
-          aria-hidden
-          className="pointer-events-none absolute -left-[20%] top-[-15%] h-[70%] w-[70%] rounded-full"
+        {/* Image fills the entire section */}
+        <ImageWithFallback
+          src="/images/hero/hero-main.jpeg"
+          alt="FIXONEX tile adhesive on site"
+          fill
+          priority
+          reveal="none"
+          sizes="100vw"
+          className="object-cover object-center"
         />
-        <motion.div
-          style={{ y: fgY, background: "radial-gradient(circle, rgba(30,64,175,0.35) 0%, transparent 65%)", filter: "blur(100px)" }}
-          aria-hidden
-          className="pointer-events-none absolute right-[-12%] top-[5%] h-[55%] w-[50%] rounded-full"
-        />
-        <motion.div
-          style={{ y: bgY, background: "radial-gradient(circle, rgba(234,88,12,0.25) 0%, transparent 65%)", filter: "blur(110px)" }}
-          aria-hidden
-          className="pointer-events-none absolute -right-[10%] bottom-[-20%] h-[60%] w-[55%] rounded-full orb-drift-2"
-        />
-        <div aria-hidden className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent opacity-80" />
 
-        {/* Dot grid overlay */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.06]" style={{
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }} />
+        {/* Dark overlay — uniform base + stronger gradient for readability */}
+        <div aria-hidden className="absolute inset-0 bg-black/55" />
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
-        {/* Hero content */}
-        <motion.div
-          style={reduced ? {} : { opacity: heroOpacity, scale: heroScale }}
-          className="site-container relative flex flex-1 flex-col justify-center gap-12 py-24 lg:flex-row lg:items-center lg:gap-16 lg:py-0"
-        >
-          {/* Left column */}
-          <div className="flex-1 lg:max-w-[54%]">
-            {/* Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.7, ease: easeExpo, delay: 0.1 }}
-              className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/[0.08] px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-zinc-300 backdrop-blur-sm"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Industrial fixing systems
-            </motion.div>
+        {/* Text sits on top of the image, centred */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
 
-            {/* Headline — word-by-word clip reveal */}
-            <h1 className="font-display font-bold tracking-[-0.04em] text-white" style={{ fontSize: "clamp(2.6rem, 6.5vw, 4.5rem)", lineHeight: 1.04 }}>
-              <div className="overflow-hidden">
-                <motion.span
-                  className="block"
-                  initial={{ y: "110%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  transition={{ duration: 0.8, ease: easeExpo, delay: 0.25 }}
-                >
-                  Specification-grade
-                </motion.span>
-              </div>
-              <div className="overflow-hidden mt-1">
-                <motion.span
-                  className="block bg-gradient-to-r from-white via-orange-100/95 to-orange-400/90 bg-clip-text text-transparent"
-                  initial={{ y: "110%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  transition={{ duration: 0.8, ease: easeExpo, delay: 0.38 }}
-                >
-                  bonds that survive
-                </motion.span>
-              </div>
-              <div className="overflow-hidden mt-1">
-                <motion.span
-                  className="block bg-gradient-to-r from-orange-400/90 to-orange-200/80 bg-clip-text text-transparent"
-                  initial={{ y: "110%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  transition={{ duration: 0.8, ease: easeExpo, delay: 0.48 }}
-                >
-                  the pour.
-                </motion.span>
-              </div>
-            </h1>
-
-            {/* Subtext */}
-            <motion.p
-              className="mt-7 max-w-[46ch] text-[1.05rem] leading-relaxed text-zinc-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: easeExpo, delay: 0.58 }}
-            >
-              Tile adhesives and epoxy systems for teams who refuse ambiguity on site — clear grades, labelled batches, Ahmedabad-based engineering backing.
-            </motion.p>
-            <motion.p
-              className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            >
-              {BRAND.taglineHi.trim()}
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div
-              className="mt-10 flex flex-wrap gap-3"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeExpo, delay: 0.72 }}
-            >
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                <Button asChild size="lg" variant="primary" className="relative overflow-hidden rounded-full shadow-[0_8px_32px_rgba(211,47,47,0.5)] ring-2 ring-red-900/30">
-                  <TransitionLink href="/products" className="gap-2">
-                    Explore catalogue
-                    <ArrowRight className="h-4 w-4" aria-hidden />
-                  </TransitionLink>
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                <Button asChild variant="outline" size="lg" className="rounded-full border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white hover:border-white/50">
-                  <TransitionLink href="/contact">Book consultation</TransitionLink>
-                </Button>
-              </motion.div>
-            </motion.div>
-
-            {/* Stats with count-up */}
-            <motion.div
-              className="mt-12 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-white/10 pt-8 sm:grid-cols-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.85 }}
-            >
-              {stats.map(([k, label], i) => (
-                <div key={k} className="group">
-                  <dt className="overflow-hidden">
-                    <motion.span
-                      className="block font-display text-[2rem] font-bold tabular-nums text-white"
-                      initial={{ y: "60%", opacity: 0 }}
-                      animate={{ y: "0%", opacity: 1 }}
-                      transition={{ duration: 0.6, ease: easeExpo, delay: 0.9 + i * 0.07 }}
-                    >
-                      {k}
-                    </motion.span>
-                  </dt>
-                  <dd className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">{label}</dd>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Right column — hero image */}
-          <motion.div
-            className="relative flex-shrink-0 lg:w-[44%]"
-            initial={{ opacity: 0, x: 50, filter: "blur(12px)" }}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, ease: easeExpo, delay: 0.18 }}
-            style={{ y: fgY }}
+          {/* Label */}
+          <motion.p
+            className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-primary drop-shadow-md"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeExpo, delay: 0.2 }}
           >
-            <div className="relative isolate overflow-hidden rounded-3xl border border-white/15 bg-zinc-900 shadow-[0_32px_80px_rgba(0,0,0,0.6)] ring-1 ring-white/[0.08]">
-              {/* Shimmer border on hover */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 via-transparent to-white/5 z-10" />
+            High-Performance Tile Adhesives
+          </motion.p>
 
-              <div className="relative aspect-[4/3] w-full lg:aspect-[16/11] lg:min-h-[22rem]">
-                <ImageWithFallback
-                  src="/images/hero/hero-main.jpeg"
-                  alt="FIXONEX on-site tiling and fixation context"
-                  fill
-                  priority
-                  reveal="none"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 44vw"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-black/25" aria-hidden />
-              </div>
-
-              {/* Floating tag */}
-              <motion.div
-                className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-4 rounded-2xl border border-white/20 bg-black/65 px-5 py-3.5 backdrop-blur-md"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9, ease: easeExpo }}
+          {/* Headline */}
+          <h1 className="font-display font-black tracking-[-0.03em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]" style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1.05 }}>
+            <div className="overflow-hidden">
+              <motion.span
+                className="block text-white"
+                initial={{ y: "100%" }}
+                animate={{ y: "0%" }}
+                transition={{ duration: 0.75, ease: easeExpo, delay: 0.3 }}
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-200">Traceable batches · Site-first support</p>
-                <TransitionLink
-                  href={WHATSAPP_HREF}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="shrink-0 rounded-full bg-gradient-to-br from-teal-500 to-emerald-600 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-[0_4px_16px_rgba(13,148,136,0.4)] transition-all hover:brightness-110 hover:scale-105"
-                >
-                  WhatsApp
-                </TransitionLink>
-              </motion.div>
+                Built for Every Bond.
+              </motion.span>
             </div>
+            <div className="overflow-hidden">
+              <motion.span
+                className="block text-primary"
+                initial={{ y: "100%" }}
+                animate={{ y: "0%" }}
+                transition={{ duration: 0.75, ease: easeExpo, delay: 0.42 }}
+              >
+                Built for Every Site.
+              </motion.span>
+            </div>
+          </h1>
 
-            {/* Floating accent tag */}
-            <motion.div
-              className="absolute -right-4 -top-4 rounded-2xl border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-md hidden lg:block"
-              initial={{ opacity: 0, scale: 0.8, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: easeExpo, delay: 1.1 }}
-              style={{ animation: "fxFloat 5s ease-in-out infinite" }}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-100">IS 15477</p>
-              <p className="text-[9px] uppercase tracking-[0.14em] text-zinc-400 mt-0.5">India standard</p>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="relative z-10 flex justify-center pb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.3, duration: 0.5 }}
-        >
-          <motion.div
-            className="flex flex-col items-center gap-2"
-            animate={reduced ? {} : { y: [0, 8, 0] }}
-            transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, delay: 1.5 }}
+          {/* Subtitle */}
+          <motion.p
+            className="mt-6 max-w-[40ch] text-base leading-relaxed text-zinc-200 drop-shadow-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.56 }}
           >
-            <div className="h-8 w-[1px] bg-gradient-to-b from-white/50 to-transparent rounded-full" />
-            <p className="text-[9px] font-bold uppercase tracking-[0.28em] text-zinc-600">Scroll</p>
+            Certified adhesives &amp; epoxy grout systems engineered for Indian construction sites.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div
+            className="mt-8 flex flex-wrap justify-center gap-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeExpo, delay: 0.66 }}
+          >
+            <TransitionLink
+              href="/products"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-[0_8px_28px_rgba(211,47,47,0.5)] transition-all hover:bg-primary/90"
+            >
+              Explore Products <ArrowRight className="h-4 w-4" aria-hidden />
+            </TransitionLink>
+            <TransitionLink
+              href="/contact"
+              className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20"
+            >
+              Get in Touch
+            </TransitionLink>
           </motion.div>
-        </motion.div>
+
+        </div>
+
       </section>
 
       {/* ─── Value Pillars ──────────────────────────────────────────────────── */}
