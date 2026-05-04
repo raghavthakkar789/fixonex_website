@@ -4,6 +4,7 @@ import { MapPin, Phone, Mail, ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/brand";
+import { companyInfo } from "@/data/company";
 import { products } from "@/lib/data/products";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
@@ -206,9 +207,15 @@ export function Footer() {
               <ul className="space-y-5 text-[14px] leading-relaxed text-zinc-500">
                 <li className="flex gap-3 group">
                   <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zinc-400 group-hover:text-primary transition-colors duration-300" aria-hidden />
-                  <span className="group-hover:text-zinc-700 transition-colors duration-300">
-                    SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
-                  </span>
+                  <a
+                    href={companyInfo.mapsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${companyInfo.displayName} address in Google Maps`}
+                    className="group-hover:text-zinc-700 hover:text-primary hover:underline underline-offset-4 transition-colors duration-300"
+                  >
+                    {companyInfo.formattedAddress}
+                  </a>
                 </li>
                 <li className="flex items-center gap-3 group">
                   <Phone className="h-5 w-5 shrink-0 text-zinc-400 group-hover:text-primary transition-colors duration-300" aria-hidden />

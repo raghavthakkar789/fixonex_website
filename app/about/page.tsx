@@ -6,6 +6,7 @@ import { Building2, Gem, Headphones, ArrowRight, Star, CheckCircle2, Users, Awar
 import { PageHero } from "@/components/ui/PageHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
+import { companyInfo } from "@/data/company";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal, Stagger, StaggerItem, LineReveal, SlideReveal, CountUp } from "@/components/motion/Reveal";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
@@ -119,7 +120,7 @@ export default function AboutPage() {
                   className="rounded-2xl border border-zinc-200/70 bg-white p-4 text-center shadow-[0_2px_12px_rgba(0,0,0,0.04)]"
                 >
                   <p className="font-display text-3xl font-bold text-primary stat-number">
-                    <CountUp to={s.value} />{s.suffix}
+                    <CountUp value={String(s.value)} suffix={s.suffix} />
                   </p>
                   <p className="mt-1.5 text-[11px] font-medium text-zinc-500">{s.label}</p>
                 </motion.div>
@@ -276,10 +277,20 @@ export default function AboutPage() {
               <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
                 <div className="p-8 md:p-10 text-center">
                   <p className="eyebrow-label mx-auto mb-4">Company Information</p>
-                  <p className="font-display text-2xl font-bold text-zinc-950 tracking-tight">SWASTIK ENTERPRISES</p>
-                  <p className="mt-4 text-sm leading-relaxed text-zinc-500">
-                    FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
+                  <p className="font-display text-2xl font-bold text-zinc-950 tracking-tight">
+                    {companyInfo.displayName}
                   </p>
+                  <a
+                    href={companyInfo.mapsLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${companyInfo.displayName} address in Google Maps`}
+                    className="mt-4 inline-block text-sm leading-relaxed text-zinc-500 hover:text-primary hover:underline underline-offset-4 transition-colors"
+                  >
+                    {companyInfo.registeredAddress.line1}, {companyInfo.registeredAddress.line2},{" "}
+                    {companyInfo.registeredAddress.city}, {companyInfo.registeredAddress.state}{" "}
+                    {companyInfo.registeredAddress.postalCode}
+                  </a>
                   <div className="mt-6 flex flex-col items-center gap-2">
                     <a href="tel:+917383838632" className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
                       +91 7383838632

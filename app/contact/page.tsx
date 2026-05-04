@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { companyInfo } from "@/data/company";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -246,9 +247,19 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-400">Address</p>
-                      <p className="mt-0.5 text-sm text-zinc-600 leading-relaxed">
-                        SWASTIK ENTERPRISES, FF, Block-D,<br />Shop No. 102, Narayan Exotica,<br />Ahmedabad-380052, Gujarat
-                      </p>
+                      <a
+                        href={companyInfo.mapsLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${companyInfo.displayName} address in Google Maps`}
+                        className="mt-0.5 block text-sm text-zinc-600 leading-relaxed hover:text-primary hover:underline underline-offset-4 transition-colors"
+                      >
+                        {companyInfo.registeredAddress.line1},
+                        <br />
+                        {companyInfo.registeredAddress.line2}, {companyInfo.registeredAddress.city},
+                        <br />
+                        {companyInfo.registeredAddress.state} {companyInfo.registeredAddress.postalCode}
+                      </a>
                     </div>
                   </li>
                 </ul>
@@ -298,6 +309,58 @@ export default function ContactPage() {
               </div>
             </TiltCard>
           </motion.aside>
+        </div>
+      </section>
+
+      {/* ── Map — find us ──────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-white to-[#faf7f5]">
+        <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
+        <div className="site-container section-pad-md relative z-10">
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, ease: easeExpo }}
+          >
+            <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="eyebrow-label mb-3">Find Us</p>
+                <h2 className="font-display text-3xl font-bold tracking-tight text-zinc-950">
+                  Visit our showroom
+                </h2>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-500">
+                  {companyInfo.formattedAddress}
+                </p>
+              </div>
+              <motion.a
+                href={companyInfo.mapsLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Get directions to ${companyInfo.displayName} on Google Maps`}
+                className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(211,47,47,0.3)] transition-all hover:bg-primary/90 hover:shadow-[0_6px_24px_rgba(211,47,47,0.4)] sm:self-end"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <MapPin className="h-4 w-4" aria-hidden />
+                Get directions
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </motion.a>
+            </div>
+
+            <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
+              <div className="h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
+              <div className="relative h-[360px] w-full md:h-[440px]">
+                <iframe
+                  src={companyInfo.mapsEmbedUrl}
+                  title={`Map showing the location of ${companyInfo.displayName}`}
+                  className="absolute inset-0 h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+            </TiltCard>
+          </motion.div>
         </div>
       </section>
     </>
