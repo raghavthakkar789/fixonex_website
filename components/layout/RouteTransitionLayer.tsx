@@ -3,28 +3,27 @@
 import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
 import { easings } from "@/lib/animations";
 import { BRAND } from "@/lib/brand";
 
-const D_EXIT_MS = 380;
-const D_OVER_MS = 320;
+const D_EXIT_MS = 360;
+const D_OVER_MS = 310;
 
 const easeInOut = easings.easeInOutExpo as [number, number, number, number];
-const easeOut = easings.easeOutExpo as [number, number, number, number];
-const defOverlay = { bg: "#050508", wordmark: "#ffffff" as const };
+const easeOut   = easings.easeOutExpo   as [number, number, number, number];
 
 export function RouteTransitionLayer() {
-  const phase = useTransitionStore((s) => s.phase);
-  const pendingHref = useTransitionStore((s) => s.pendingHref);
-  const overlay = useTransitionStore((s) => s.overlay) ?? defOverlay;
-  const reset = useTransitionStore((s) => s.resetAfterNavigation);
-  const router = useRouter();
-  const pathname = usePathname();
-  const reduced = useReducedMotion();
-  const pushT = useRef<number | null>(null);
+  const phase        = useTransitionStore((s) => s.phase);
+  const pendingHref  = useTransitionStore((s) => s.pendingHref);
+  const reset        = useTransitionStore((s) => s.resetAfterNavigation);
+  const router       = useRouter();
+  const pathname     = usePathname();
+  const reduced      = useReducedMotion();
+  const pushT        = useRef<number | null>(null);
   const expectedPath = useRef<string | null>(null);
-  const prevPath = useRef(pathname);
+  const prevPath     = useRef(pathname);
 
   useEffect(() => {
     if (reduced) return;
@@ -38,22 +37,22 @@ export function RouteTransitionLayer() {
     }
     if (pushT.current) clearTimeout(pushT.current);
     pushT.current = window.setTimeout(() => {
-      if (useTransitionStore.getState().phase === 1 && useTransitionStore.getState().pendingHref) {
+      if (
+        useTransitionStore.getState().phase === 1 &&
+        useTransitionStore.getState().pendingHref
+      ) {
         const href = useTransitionStore.getState().pendingHref;
         if (href) router.push(href);
       }
     }, D_EXIT_MS);
-    return () => {
-      if (pushT.current) clearTimeout(pushT.current);
-    };
+    return () => { if (pushT.current) clearTimeout(pushT.current); };
   }, [phase, pendingHref, router, reduced]);
 
   useEffect(() => {
     if (reduced) return;
-    if (prevPath.current === pathname) return;
     const wasNav = useTransitionStore.getState().phase === 1;
-    const exp = expectedPath.current;
-    const match = exp == null || pathname === exp || pathname.startsWith(`${exp}/`);
+    const exp    = expectedPath.current;
+    const match  = exp == null || pathname === exp || pathname.startsWith(`${exp}/`);
     if (wasNav && match) {
       useTransitionStore.setState({ phase: 2 });
       document.documentElement.removeAttribute("data-page-exit");
@@ -72,52 +71,62 @@ export function RouteTransitionLayer() {
       initial={isEnter ? { y: "100%" } : { y: 0 }}
       animate={isEnter ? { y: 0 } : { y: "-100%" }}
       transition={{ duration: D_OVER_MS / 1000, ease: easeInOut }}
+      style={{ background: "linear-gradient(160deg,#ffffff 0%,#fdfcfb 55%,#faf7f5 100%)" }}
       onAnimationComplete={() => {
         if (useTransitionStore.getState().phase === 2) {
           reset();
           callNavigationResolve();
         }
       }}
-      style={{ background: overlay.bg === "#F5F5F5" ? "#050508" : overlay.bg }}
     >
-      {/* Gradient overlays */}
+      {/* Top red stripe */}
       <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(211,47,47,0.15) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="grain-noise absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none"
-        aria-hidden
+        className="absolute inset-x-0 top-0 h-[3px]"
+        style={{ background: "linear-gradient(90deg,transparent,#D32F2F 40%,#ea580c 60%,transparent)" }}
       />
 
-      {/* Wordmark */}
+      {/* Soft glow */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(211,47,47,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Corner brackets */}
+      {(["top-4 left-4 border-t-2 border-l-2",
+         "top-4 right-4 border-t-2 border-r-2",
+         "bottom-4 left-4 border-b-2 border-l-2",
+         "bottom-4 right-4 border-b-2 border-r-2"] as const
+      ).map((pos) => (
+        <div key={pos} className={`absolute h-5 w-5 ${pos} border-zinc-200`} />
+      ))}
+
+      {/* Logo only — pops in */}
       <motion.div
-        className="relative z-10 flex flex-col items-center gap-3"
-        initial={{ opacity: 0, scale: 0.92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.35, ease: easeOut, delay: 0.05 }}
+        className="relative z-10"
+        initial={{ opacity: 0, scale: 0.88, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: easeOut, delay: 0.04 }}
       >
-        <p
-          className="font-display font-bold tracking-[-0.04em] text-white"
-          style={{ fontSize: "clamp(1.75rem, 5vw, 2.5rem)" }}
-        >
-          {BRAND.name}
-        </p>
-        <motion.div
-          className="h-px w-16 origin-left rounded-full"
-          style={{ background: "linear-gradient(90deg, #D32F2F, #ea580c)" }}
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.5, ease: easeOut, delay: 0.15 }}
+        <Image
+          src="/images/misc/logo.png"
+          alt={BRAND.name}
+          width={180}
+          height={56}
+          className="h-14 w-auto object-contain"
         />
       </motion.div>
 
-      {/* Corner brackets */}
-      {["top-4 left-4 border-t border-l", "top-4 right-4 border-t border-r", "bottom-4 left-4 border-b border-l", "bottom-4 right-4 border-b border-r"].map((pos) => (
-        <div key={pos} className={`absolute h-4 w-4 ${pos} border-white/20`} />
-      ))}
+      {/* Bottom sweep bar */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 h-[3px] origin-left"
+        style={{ background: "linear-gradient(90deg,#D32F2F,#ea580c)" }}
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: isEnter ? 1 : 0 }}
+        transition={{ duration: D_OVER_MS / 1000, ease: easeInOut }}
+      />
     </motion.div>
   );
 }

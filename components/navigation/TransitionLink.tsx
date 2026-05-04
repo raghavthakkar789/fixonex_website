@@ -46,10 +46,16 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, InternalProps>(funct
 
       const here = new URL(window.location.href);
       if (u.pathname === here.pathname && u.search === here.search) {
+        // Hash-only: just scroll, no transition
         if (u.hash) {
           e.preventDefault();
           document.getElementById(u.hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
+          return;
         }
+        // Same page (no hash): play the transition then scroll to top
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        await go(href);
         return;
       }
 
