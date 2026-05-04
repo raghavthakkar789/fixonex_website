@@ -58,11 +58,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <ImageWithFallback
                 src={product.image}
                 alt={product.name}
-                width={product.dimensions?.width ?? 2655}
-                height={product.dimensions?.height ?? 4333}
+                fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
-                className="absolute inset-0 h-full w-full object-contain bg-[#F5F5F5]"
+                reveal="none"
+                className="object-contain"
                 placeholderClassName="bg-[#F5F5F5]"
               />
             </div>
