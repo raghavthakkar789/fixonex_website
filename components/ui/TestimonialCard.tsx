@@ -18,8 +18,8 @@ type TestimonialCardProps = {
 function initialsFromName(name: string) {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "?";
-  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return (parts[0]![0]! + parts[parts.length - 1]![0]!).toUpperCase();
 }
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -44,12 +44,12 @@ export function TestimonialCard({
             <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-500" strokeWidth={0} />
           ))}
         </div>
-        <Quote className="h-6 w-6 text-primary/30" aria-hidden />
+        <Quote className="h-6 w-6 text-violet-400/40" aria-hidden />
       </div>
 
       {/* Quote text */}
       <p className={cn(
-        "flex-1 leading-[1.75] text-zinc-300",
+        "flex-1 leading-[1.75] text-zinc-600",
         featured ? "text-[1.05rem]" : "text-[14px]",
       )}>
         &ldquo;{quote}&rdquo;
@@ -57,21 +57,21 @@ export function TestimonialCard({
 
       {/* Project label */}
       {projectLabel && (
-        <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-600">
+        <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400">
           {projectLabel}
         </p>
       )}
 
       {/* Divider */}
-      <div className="my-5 h-px w-full bg-white/[0.06]" aria-hidden />
+      <div className="my-5 h-px w-full bg-zinc-200/70" aria-hidden />
 
       {/* Author */}
       <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-orange-700 font-display text-sm font-bold text-white shadow-md">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-orange-600 font-display text-sm font-bold text-white shadow-md">
           {initialsFromName(name)}
         </span>
         <div>
-          <p className="font-display text-[14px] font-bold text-white">{name}</p>
+          <p className="font-display text-[14px] font-bold text-zinc-900">{name}</p>
           <p className="mt-0.5 text-[12px] text-zinc-500">{role}</p>
         </div>
       </div>
@@ -79,9 +79,9 @@ export function TestimonialCard({
   );
 
   const shellClass = cn(
-    "relative overflow-hidden rounded-2xl border border-white/8 bg-[#0f0f14] p-6 transition-all duration-300",
-    "hover:border-primary/25 hover:bg-[#141418]",
-    featured && "border-primary/20",
+    "relative overflow-hidden rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_2px_16px_rgba(0,0,0,0.05)] transition-all duration-300",
+    "hover:shadow-[0_12px_40px_rgba(0,0,0,0.09)] hover:border-violet-200/60",
+    featured && "border-violet-200/50 shadow-[0_4px_24px_rgba(124,58,237,0.08)]",
   );
 
   if (!animated) {

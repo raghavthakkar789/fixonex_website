@@ -2,18 +2,16 @@
 
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { useMemo, useRef, useState } from "react";
+// TiltCard imported from shared component
 import { AnimatePresence, motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
   ArrowRight,
-  ArrowUpRight,
   BookOpen,
-  Building2,
   ClipboardList,
   Grid3X3,
   Headset,
   HelpCircle,
   Layers,
-  MapPin,
   MessageCircle,
   Package,
   Palette,
@@ -43,6 +41,7 @@ import {
   FadeGroup,
   FadeGroupItem,
 } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/ui/TiltCard";
 
 const FAQ_PREVIEW = homeFaqs.slice(0, 6);
 const FAQ_CATEGORIES = [
@@ -56,29 +55,6 @@ const testimonialExtras = [
   { projectLabel: "Commercial podium decks" },
 ] as const;
 
-const projectPreviews = [
-  {
-    title: "Narayan Exotica retail build-out",
-    location: "Ahmedabad, Gujarat",
-    year: "2023",
-    category: "Commercial",
-    line: "Interior specification: wall and floor systems with matched epoxy joints for high daily traffic.",
-  },
-  {
-    title: "Jaipur facade remediation",
-    location: "Rajasthan",
-    year: "2024",
-    category: "Commercial",
-    line: "Exterior ceramic and stone with monsoon-tested adhesive cycles.",
-  },
-  {
-    title: "Commercial podium decks",
-    location: "Western India",
-    year: "2022",
-    category: "Industrial",
-    line: "Repeatable batch viscosity aligned to specification on large pours.",
-  },
-] as const;
 
 const productRange = [
   {
@@ -144,44 +120,6 @@ const stats = [
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const easeCirc: [number, number, number, number] = [0.0, 0.55, 0.45, 1];
 
-/* ─── Tilt card wrapper ──────────────────────────────────────────────────── */
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const reduced = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (reduced || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const x = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-    const y = -(e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
-    setTilt({ x: x * 6, y: y * 6 });
-  };
-
-  const handleMouseLeave = () => { setTilt({ x: 0, y: 0 }); setHovered(false); };
-  const handleMouseEnter = () => setHovered(true);
-
-  return (
-    <motion.div
-      ref={ref}
-      className={className}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
-      animate={{
-        rotateX: tilt.x,
-        rotateY: tilt.y,
-        scale: hovered ? 1.015 : 1,
-        z: hovered ? 30 : 0,
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 28, mass: 0.6 }}
-      style={{ transformStyle: "preserve-3d", perspective: 1200 }}
-    >
-      {children}
-    </motion.div>
-  );
-}
 
 export function HomeView() {
   const reduced = useReducedMotion();
@@ -574,93 +512,27 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* ─── Projects ───────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#faf5f0] via-[#fdf9f5] to-white">
-        <div aria-hidden className="pointer-events-none absolute right-[-10%] top-[-5%] h-[50%] w-[40%]" style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.06) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }} />
-
-        <div className="site-container section-pad-lg">
-          <div className="flex flex-wrap items-center justify-between gap-6 mb-12">
-            <Reveal>
-              <p className="eyebrow-label-muted mb-4">Deployments</p>
-              <h2 className="font-display font-bold text-zinc-950" style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
-                Stories from real slabs.
-              </h2>
-            </Reveal>
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-              <Button variant="warm" size="sm" asChild className="rounded-full shadow-sm hover:shadow-md font-semibold">
-                <TransitionLink href="/projects" className="gap-2">
-                  View projects <ArrowRight className="h-4 w-4" aria-hidden />
-                </TransitionLink>
-              </Button>
-            </motion.div>
-          </div>
-
-          <Stagger className="grid gap-6 md:grid-cols-3">
-            {projectPreviews.map((p, i) => (
-              <StaggerItem key={p.title}>
-                <TransitionLink
-                  href="/projects"
-                  className="group block h-full overflow-hidden rounded-3xl border border-zinc-200/60 bg-white shadow-[0_2px_16px_rgba(0,0,0,0.05)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.11)] transition-all duration-500"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-amber-50 via-orange-50 to-stone-100">
-                    <div className="absolute left-4 top-4 z-10 flex gap-2">
-                      <span className="rounded-full bg-gradient-to-br from-primary to-orange-900 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
-                        {p.category}
-                      </span>
-                      <span className="rounded-full bg-white/95 px-3 py-1 text-[10px] font-semibold text-zinc-800 shadow-sm">{p.year}</span>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" aria-hidden />
-                    {/* Scale image on hover */}
-                    <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.06]" style={{
-                      background: "linear-gradient(135deg, rgba(245,200,150,0.4) 0%, rgba(180,150,100,0.3) 100%)",
-                    }} />
-                    <Building2 className="absolute bottom-5 left-5 h-9 w-9 text-white/80" aria-hidden />
-                    <motion.div
-                      className="absolute bottom-5 right-5"
-                      whileHover={{ x: 2, y: -2 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ArrowUpRight className="h-8 w-8 text-white/70 group-hover:text-white transition-colors duration-300" aria-hidden />
-                    </motion.div>
-                  </div>
-                  <div className="p-6">
-                    <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 mb-2">
-                      <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden /> {p.location}
-                    </span>
-                    <p className="font-display text-lg font-semibold text-zinc-950 group-hover:text-primary transition-colors duration-300">{p.title}</p>
-                    <p className="mt-2 text-[14px] leading-relaxed text-zinc-500">{p.line}</p>
-                  </div>
-                </TransitionLink>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </div>
-      </section>
-
       {/* ─── Testimonials ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#09090d]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdf9ff] via-[#f8f5ff] to-[#f4f0ff]">
         <div aria-hidden className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full" style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)",
           filter: "blur(80px)",
         }} />
         <div aria-hidden className="pointer-events-none absolute right-[-8%] bottom-0 h-[50%] w-[40%] rounded-full" style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.07) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)",
           filter: "blur(80px)",
         }} />
-        <div aria-hidden className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
         <div
           aria-hidden
           className="absolute left-[6%] right-[6%] top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.3) 50%, transparent)" }}
         />
 
         <div className="site-container section-pad-lg relative z-10">
           <Reveal className="mb-12">
-            <p className="eyebrow-label mb-4" style={{ color: "var(--color-primary, #D32F2F)" }}>Social proof</p>
-            <h2 className="font-display font-bold text-white" style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
+            <p className="eyebrow-label mb-4">Social proof</p>
+            <h2 className="font-display font-bold text-zinc-950" style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
               Straight lines from partners.
             </h2>
           </Reveal>
@@ -769,32 +641,32 @@ export function HomeView() {
       </section>
 
       {/* ─── CTA ────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#050508] text-white">
-        {/* Animated orbs */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#fdfcfb] via-[#fff7f7] to-[#faf0f0]">
+        {/* Animated orbs — light mode */}
         <div aria-hidden className="pointer-events-none absolute -right-[20%] top-[-20%] h-[80%] w-[60%] orb-drift-2" style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.3) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 65%)",
           filter: "blur(100px)",
         }} />
         <div aria-hidden className="pointer-events-none absolute -left-[15%] bottom-[-20%] h-[70%] w-[55%]" style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.2) 0%, transparent 65%)",
+          background: "radial-gradient(circle, rgba(234,88,12,0.07) 0%, transparent 65%)",
           filter: "blur(100px)",
         }} />
-        <div aria-hidden className="grain-noise-heavy absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none" />
-        <div aria-hidden className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
+        <div aria-hidden className="pointer-events-none absolute left-[8%] right-[8%] top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
         <div className="site-container relative py-28 md:py-36">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <p className="eyebrow-label-muted mb-6 mx-auto" style={{ "--fx-brand": "rgba(255,255,255,0.4)" } as React.CSSProperties}>
-              <span className="inline-flex items-center gap-2.5 text-white/40">
-                <span className="h-[1px] w-6 bg-white/30" />
+            <p className="eyebrow-label-muted mb-6 mx-auto">
+              <span className="inline-flex items-center gap-2.5 text-zinc-400">
+                <span className="h-[1px] w-6 bg-zinc-300" />
                 Ready when logistics align
-                <span className="h-[1px] w-6 bg-white/30" />
+                <span className="h-[1px] w-6 bg-zinc-300" />
               </span>
             </p>
 
             <div className="overflow-hidden">
               <motion.h2
-                className="font-display font-bold text-white"
+                className="font-display font-bold text-zinc-950"
                 style={{ fontSize: "clamp(2.2rem, 5vw, 3.5rem)", lineHeight: 1.06, letterSpacing: "-0.04em" }}
                 initial={{ y: "60%", opacity: 0 }}
                 whileInView={{ y: "0%", opacity: 1 }}
@@ -806,7 +678,7 @@ export function HomeView() {
             </div>
 
             <motion.p
-              className="mt-6 text-[17px] leading-relaxed text-white/70"
+              className="mt-6 text-[17px] leading-relaxed text-zinc-500"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-5%" }}
@@ -823,12 +695,12 @@ export function HomeView() {
               transition={{ duration: 0.7, ease: easeExpo, delay: 0.25 }}
             >
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                <Button asChild size="lg" variant="secondary" className="rounded-full bg-white text-primary shadow-xl hover:bg-zinc-100">
+                <Button asChild size="lg" variant="primary" className="rounded-full shadow-[0_8px_28px_rgba(211,47,47,0.35)] hover:shadow-[0_12px_36px_rgba(211,47,47,0.5)]">
                   <TransitionLink href="/products">Explore catalogue</TransitionLink>
                 </Button>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ duration: 0.2 }}>
-                <Button size="lg" variant="outline" asChild className="rounded-full border-white/30 bg-transparent text-white hover:bg-white/10 hover:border-white/50 hover:text-white">
+                <Button size="lg" variant="outline" asChild className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary">
                   <TransitionLink href="/contact">Schedule call</TransitionLink>
                 </Button>
               </motion.div>
@@ -844,7 +716,7 @@ export function HomeView() {
               <motion.button
                 type="button"
                 onClick={() => setShowLazyRegistration((v) => !v)}
-                className="rounded-full border border-white/25 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70 transition-all hover:bg-white/10 hover:border-white/40 hover:text-white/90"
+                className="rounded-full border border-zinc-300 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500 transition-all hover:bg-zinc-50 hover:border-zinc-400 hover:text-zinc-700"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
               >
@@ -859,16 +731,16 @@ export function HomeView() {
                     animate={{ opacity: 1, y: 0, height: "auto" }}
                     exit={{ opacity: 0, y: 8, height: 0 }}
                     transition={{ duration: 0.35, ease: easeExpo }}
-                    className="mx-auto mt-5 grid max-w-xl gap-3 overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] p-4 backdrop-blur-md sm:grid-cols-[1fr_auto]"
+                    className="mx-auto mt-5 grid max-w-xl gap-3 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_4px_24px_rgba(0,0,0,0.06)] sm:grid-cols-[1fr_auto]"
                     onSubmit={(e) => e.preventDefault()}
                   >
                     <input
                       type="email"
                       required
                       placeholder="Work email for product release sheets"
-                      className="h-11 rounded-xl border border-white/20 bg-white/10 px-3 text-sm text-white placeholder:text-white/50 outline-none focus:border-white/50 focus:bg-white/15 transition-colors"
+                      className="h-11 rounded-xl border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-primary/40 focus:ring-2 focus:ring-primary/10 transition-colors"
                     />
-                    <Button type="submit" variant="secondary" className="h-11 min-w-[9rem] rounded-xl">
+                    <Button type="submit" variant="primary" className="h-11 min-w-[9rem] rounded-xl">
                       Join early list
                     </Button>
                   </motion.form>
@@ -880,7 +752,7 @@ export function HomeView() {
               href={WHATSAPP_HREF}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/25 px-7 py-3 text-sm font-semibold text-white/80 transition-all hover:bg-white/10 hover:border-white/40 hover:text-white"
+              className="mt-10 inline-flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white px-7 py-3 text-sm font-semibold text-zinc-600 shadow-sm transition-all hover:bg-zinc-50 hover:border-zinc-300 hover:text-zinc-900"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               initial={{ opacity: 0, y: 16 }}
@@ -895,7 +767,7 @@ export function HomeView() {
         </div>
 
         {/* Bottom line */}
-        <div aria-hidden className="pointer-events-none absolute bottom-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div aria-hidden className="pointer-events-none absolute bottom-0 left-[8%] right-[8%] h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent" />
       </section>
     </>
   );

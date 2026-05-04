@@ -58,15 +58,14 @@ export function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden border-t border-transparent bg-[#09090d] text-zinc-100"
+      className="relative overflow-hidden border-t border-zinc-200/60 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2] text-zinc-700"
     >
       {/* Top glow line */}
       <div
         aria-hidden
         className="absolute left-[6%] right-[6%] top-0 h-px"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.7) 50%, transparent)",
-          boxShadow: "0 0 20px rgba(211,47,47,0.3)",
+          background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)",
         }}
       />
 
@@ -75,7 +74,7 @@ export function Footer() {
         aria-hidden
         className="pointer-events-none absolute -left-[15%] top-[-10%] h-[60%] w-[50%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(211,47,47,0.05) 0%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
@@ -83,26 +82,26 @@ export function Footer() {
         aria-hidden
         className="pointer-events-none absolute -right-[10%] bottom-[-10%] h-[50%] w-[45%] rounded-full"
         style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.06) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(234,88,12,0.04) 0%, transparent 70%)",
           filter: "blur(80px)",
         }}
       />
 
-      {/* Grain noise */}
-      <div aria-hidden className="grain-noise absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none" />
+      {/* Dot grid */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
 
       <div className="site-container pb-14 pt-16 relative z-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
 
           {/* Brand column */}
           <FooterColumn delay={0} className="lg:col-span-4">
-            <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-6 backdrop-blur-sm">
-              <p className="font-display text-3xl font-bold tracking-tight text-white" style={{ letterSpacing: "-0.04em" }}>
+            <div className="rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
+              <p className="font-display text-3xl font-bold tracking-tight text-zinc-950" style={{ letterSpacing: "-0.04em" }}>
                 {BRAND.name}
               </p>
-              <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">{BRAND.logoMotto}</p>
-              <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-zinc-400">{BRAND.tagline}</p>
-              <p className="mt-2 max-w-xs text-[11px] text-zinc-600">{BRAND.taglineHi}</p>
+              <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">{BRAND.logoMotto}</p>
+              <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-zinc-500">{BRAND.tagline}</p>
+              <p className="mt-2 max-w-xs text-[11px] text-zinc-400">{BRAND.taglineHi}</p>
 
               {/* Social links */}
               <div className="mt-8 flex flex-wrap gap-2.5">
@@ -115,7 +114,7 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={s.label}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-zinc-400 transition-all duration-300 hover:border-primary/40 hover:bg-primary/15 hover:text-white"
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 transition-all duration-300 hover:border-primary/30 hover:bg-primary/5 hover:text-primary shadow-sm"
                       whileHover={reduced ? undefined : { scale: 1.08, y: -1 }}
                       whileTap={{ scale: 0.94 }}
                       transition={{ duration: 0.2, ease: easeExpo }}
@@ -133,7 +132,7 @@ export function Footer() {
             <nav aria-labelledby="footer-products-heading">
               <p
                 id="footer-products-heading"
-                className="text-[10px] font-bold uppercase tracking-[0.26em] text-zinc-600 mb-6"
+                className="text-[10px] font-bold uppercase tracking-[0.26em] text-zinc-400 mb-6"
               >
                 Catalogue
               </p>
@@ -148,9 +147,9 @@ export function Footer() {
                   >
                     <TransitionLink
                       href={p.href}
-                      className="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-250"
+                      className="group inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-primary transition-colors duration-250"
                     >
-                      <span className="h-px w-3 bg-zinc-700 group-hover:w-4 group-hover:bg-primary/70 transition-all duration-300 rounded" />
+                      <span className="h-px w-3 bg-zinc-300 group-hover:w-4 group-hover:bg-primary/70 transition-all duration-300 rounded" />
                       {p.label}
                     </TransitionLink>
                   </motion.li>
@@ -176,9 +175,9 @@ export function Footer() {
                   >
                     <TransitionLink
                       href={link.href}
-                      className="group inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors duration-250"
+                      className="group inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-primary transition-colors duration-250"
                     >
-                      <span className="h-px w-3 bg-zinc-700 group-hover:w-4 group-hover:bg-orange-500/70 transition-all duration-300 rounded" />
+                      <span className="h-px w-3 bg-zinc-300 group-hover:w-4 group-hover:bg-orange-500/70 transition-all duration-300 rounded" />
                       {link.label}
                     </TransitionLink>
                   </motion.li>
@@ -195,25 +194,25 @@ export function Footer() {
               </p>
               <ul className="space-y-5 text-[14px] leading-relaxed text-zinc-500">
                 <li className="flex gap-3 group">
-                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zinc-500 group-hover:text-primary transition-colors duration-300" aria-hidden />
-                  <span className="group-hover:text-zinc-300 transition-colors duration-300">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-zinc-400 group-hover:text-primary transition-colors duration-300" aria-hidden />
+                  <span className="group-hover:text-zinc-700 transition-colors duration-300">
                     SWASTIK ENTERPRISES, FF, Block-D, Shop No. 102, Narayan Exotica, Ahmedabad-380052, Gujarat
                   </span>
                 </li>
                 <li className="flex items-center gap-3 group">
-                  <Phone className="h-5 w-5 shrink-0 text-zinc-500 group-hover:text-primary transition-colors duration-300" aria-hidden />
+                  <Phone className="h-5 w-5 shrink-0 text-zinc-400 group-hover:text-primary transition-colors duration-300" aria-hidden />
                   <a
                     href="tel:+917383838632"
-                    className="hover:text-white transition-colors duration-250"
+                    className="hover:text-zinc-900 transition-colors duration-250"
                   >
                     +91 7383838632
                   </a>
                 </li>
                 <li className="flex items-center gap-3 group">
-                  <Mail className="h-5 w-5 shrink-0 text-zinc-500 group-hover:text-primary transition-colors duration-300" aria-hidden />
+                  <Mail className="h-5 w-5 shrink-0 text-zinc-400 group-hover:text-primary transition-colors duration-300" aria-hidden />
                   <a
                     href="mailto:info@fixonex.com"
-                    className="hover:text-white transition-colors duration-250"
+                    className="hover:text-zinc-900 transition-colors duration-250"
                   >
                     info@fixonex.com
                   </a>
@@ -224,13 +223,13 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-white/[0.07] pt-8">
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-zinc-200/70 pt-8">
           <div className="flex items-center gap-3">
-            <p className="text-[12px] text-zinc-600">
+            <p className="text-[12px] text-zinc-400">
               © {new Date().getFullYear()} {BRAND.name}
             </p>
-            <span className="text-zinc-700">·</span>
-            <p className="hidden text-[12px] text-zinc-700 sm:block">www.fixonex.com</p>
+            <span className="text-zinc-300">·</span>
+            <p className="hidden text-[12px] text-zinc-400 sm:block">www.fixonex.com</p>
           </div>
 
           <motion.div
@@ -239,7 +238,7 @@ export function Footer() {
           >
             <TransitionLink
               href="/contact"
-              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-zinc-300 hover:text-white transition-colors duration-250"
+              className="group inline-flex items-center gap-1.5 text-[13px] font-semibold text-zinc-500 hover:text-primary transition-colors duration-250"
             >
               Start a specification
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 duration-200" />

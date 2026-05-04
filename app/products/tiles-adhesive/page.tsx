@@ -41,24 +41,24 @@ export default function TilesAdhesiveHubPage() {
       />
 
       {/* ── Grade Cards ── */}
-      <section className="relative overflow-hidden bg-[#09090d] py-24">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8] py-24">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[50%] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 70%)", filter: "blur(80px)" }}
+          style={{ background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)", filter: "blur(80px)" }}
         />
-        <div className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" aria-hidden />
+        <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
         <div
           aria-hidden
           className="absolute left-[6%] right-[6%] top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.25) 50%, transparent)" }}
         />
         <div className="site-container relative z-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary mb-3">5 Grades</p>
-          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-0.02em] text-white leading-tight">
+          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-0.02em] text-zinc-950 leading-tight">
             The Complete Range
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-[1.8] text-zinc-400">
+          <p className="mt-4 max-w-xl text-[15px] leading-[1.8] text-zinc-500">
             All five grades comply with EN 12004 and IS 15477:2019. Select the grade that matches your tile format, substrate, and exposure — then click through for full specs, usage steps, and TDS.
           </p>
 
@@ -83,21 +83,16 @@ export default function TilesAdhesiveHubPage() {
       </section>
 
       {/* ── Grade comparison table ── */}
-      <section className="relative overflow-hidden bg-[#09090d] pb-24">
-        <div className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" aria-hidden />
-        <div
-          aria-hidden
-          className="absolute left-[6%] right-[6%] top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent)" }}
-        />
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2] py-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container relative z-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary mb-3">Grade Guide</p>
-          <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-white leading-tight mb-8">
+          <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-zinc-950 leading-tight mb-8">
             Which Grade Is Right for Me?
           </h2>
-          <div className="overflow-hidden rounded-2xl border border-white/8">
+          <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
             {/* Table header */}
-            <div className="grid grid-cols-4 gap-3 border-b border-white/8 bg-white/[0.04] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-zinc-500">
+            <div className="grid grid-cols-4 gap-3 border-b border-zinc-200/70 bg-zinc-50/80 px-6 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-zinc-500">
               <p>Product</p>
               <p>Grade</p>
               <p>Best For</p>
@@ -106,7 +101,7 @@ export default function TilesAdhesiveHubPage() {
             {gradeTable.map(([slug, name, grade, use, size], i) => (
               <div
                 key={slug}
-                className={`grid grid-cols-4 gap-3 border-b border-white/[0.06] px-6 py-4 text-sm last:border-b-0 ${i % 2 === 0 ? "bg-white/[0.02]" : "bg-transparent"}`}
+                className={`grid grid-cols-4 gap-3 border-b border-zinc-100 px-6 py-4 text-sm last:border-b-0 ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
               >
                 <Link
                   href={`/products/tiles-adhesive/${slug}`}
@@ -114,8 +109,8 @@ export default function TilesAdhesiveHubPage() {
                 >
                   {name}
                 </Link>
-                <p className="text-zinc-400">{grade}</p>
-                <p className="text-zinc-400">{use}</p>
+                <p className="text-zinc-600">{grade}</p>
+                <p className="text-zinc-600">{use}</p>
                 <p className="text-zinc-500">{size}</p>
               </div>
             ))}

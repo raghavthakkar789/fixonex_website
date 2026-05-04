@@ -174,7 +174,7 @@ export function Navbar() {
               >
                 <TransitionLink
                   href="/partner"
-                  className="rounded-xl bg-zinc-900 px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-primary"
+                  className="rounded-xl bg-primary px-4 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-primary/90"
                 >
                   Partnership
                 </TransitionLink>
@@ -239,7 +239,7 @@ export function Navbar() {
                             className={cn(
                               "flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[14px] font-medium transition-colors",
                               on
-                                ? "bg-zinc-950 text-white"
+                                ? "bg-primary text-white"
                                 : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900",
                             )}
                           >
