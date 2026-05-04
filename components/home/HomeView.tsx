@@ -516,16 +516,29 @@ export function HomeView() {
                 </motion.li>
               ))}
             </ul>
-            <motion.div
-              className="mt-10"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Button asChild variant="primary" size="lg" className="rounded-full shadow-[0_4px_20px_rgba(211,47,47,0.35)] hover:shadow-[0_6px_28px_rgba(211,47,47,0.5)] transition-shadow">
-                <TransitionLink href="/contact">Request specification support</TransitionLink>
-              </Button>
-            </motion.div>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Button asChild variant="primary" size="lg" className="rounded-full shadow-[0_4px_20px_rgba(211,47,47,0.35)] hover:shadow-[0_6px_28px_rgba(211,47,47,0.5)] transition-shadow">
+                  <TransitionLink href="/contact">Request specification support</TransitionLink>
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Button asChild variant="outline" size="lg" className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary">
+                  <TransitionLink href="/products#wizard">
+                    <Search className="mr-2 h-4 w-4" aria-hidden />
+                    Open product helper
+                  </TransitionLink>
+                </Button>
+              </motion.div>
+            </div>
           </SlideReveal>
 
           <SlideReveal direction="right" className="lg:sticky lg:top-32">

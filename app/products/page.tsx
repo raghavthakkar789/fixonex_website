@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
+import { ProductGuidanceWizard } from "@/components/products/ProductGuidanceWizard";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const productsHeroImage = "/images/hero/products-hero.png";
@@ -139,6 +140,24 @@ export default function ProductsPage() {
 
       {/* Product Cards */}
       <ProductsShowcaseRow />
+
+      {/* ── Product Guidance Wizard ── */}
+      <section id="wizard" className="scroll-mt-20 bg-zinc-50 py-20">
+        <div className="site-container">
+          <FadeIn>
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary mb-3">Product Helper</p>
+            <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-zinc-950 leading-tight max-w-2xl">
+              Answer a few prompts — get the right starting range.
+            </h2>
+            <p className="mt-3 max-w-xl text-[14px] text-zinc-500">
+              Not a substitute for datasheets or a FIXONEX advisor, but a fast orientation across our catalogue.
+            </p>
+          </FadeIn>
+          <div className="mt-10">
+            <ProductGuidanceWizard />
+          </div>
+        </div>
+      </section>
 
       {/* Selection Guide — dark */}
       <section className="relative overflow-hidden bg-[#09090d] py-24">
