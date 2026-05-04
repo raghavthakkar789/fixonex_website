@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { cn } from "@/lib/utils";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -14,15 +15,27 @@ type PageHeroProps = {
   breadcrumbs?: Crumb[];
   bannerLayoutId?: string;
   image?: string;
+  imageClassName?: string;
+  sectionClassName?: string;
+  contentClassName?: string;
 };
 
-export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayoutId, image }: PageHeroProps) {
+export function PageHero({
+  label,
+  title,
+  subtitle,
+  breadcrumbs = [],
+  bannerLayoutId,
+  image,
+  imageClassName,
+  sectionClassName,
+  contentClassName,
+}: PageHeroProps) {
   const reduced = useReducedMotion();
 
   return (
     <motion.section
-      className="relative overflow-hidden"
-      style={{ minHeight: "22rem" }}
+      className={cn("relative min-h-[22rem] overflow-hidden bg-[#111111] lg:min-h-[26rem]", sectionClassName)}
       layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}
     >
       {/* Background image */}
@@ -33,7 +46,7 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
         priority
         reveal="none"
         sizes="100vw"
-        className="object-cover object-center"
+        className={cn("object-cover object-center", imageClassName)}
       />
 
       {/* Overlays — same treatment as home hero */}
@@ -41,7 +54,7 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
       {/* Content */}
-      <div className="site-container relative z-10 flex min-h-[22rem] flex-col justify-center py-16 sm:min-h-[22rem] lg:min-h-[26rem] lg:py-20">
+      <div className={cn("site-container relative z-10 flex min-h-[22rem] flex-col justify-center py-16 sm:min-h-[22rem] lg:min-h-[26rem] lg:py-20", contentClassName)}>
 
         {/* Breadcrumbs */}
         {breadcrumbs.length > 0 && (

@@ -58,13 +58,15 @@ export default function SupportPage() {
 
   return (
     <>
-      <PageHero
-        label="Support"
-        title="Help & Support"
-        subtitle="Your installation guide starts here."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
-        image="https://picsum.photos/seed/fixonex-support/1600/900"
-      />
+      <div className="mb-8 md:mb-12">
+        <PageHero
+          label="Support"
+          title="Help & Support"
+          subtitle="Your installation guide starts here."
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
+          image="https://picsum.photos/seed/fixonex-support/1600/900"
+        />
+      </div>
 
       <section className="relative overflow-hidden" style={{ minHeight: "60vh" }}>
         {/* Background image — fills entire section */}

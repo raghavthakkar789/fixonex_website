@@ -8,6 +8,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const productsHeroImage = "/images/hero/products-hero.png";
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -43,13 +44,18 @@ const steps = [
 export default function ProductsPage() {
   return (
     <>
-      <PageHero
-        label="Products"
-        title="Our Products"
-        subtitle="Engineered adhesion for every surface and application — from interior ceramics to exterior facades."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
-        image="/images/hero/hero-main.jpeg"
-      />
+      <div className="mb-8 md:mb-12">
+        <PageHero
+          label="Products"
+          title="Our Products"
+          subtitle="Engineered adhesion for every surface and application — from interior ceramics to exterior facades."
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
+          image={productsHeroImage}
+          imageClassName="object-contain object-center md:object-right"
+          sectionClassName="min-h-[34rem] bg-[#1a1713] md:min-h-[40rem] lg:min-h-[46rem]"
+          contentClassName="min-h-[34rem] md:min-h-[40rem] lg:min-h-[46rem]"
+        />
+      </div>
 
       {/* System Overview — dark */}
       <section className="relative overflow-hidden bg-[#09090d] py-24">

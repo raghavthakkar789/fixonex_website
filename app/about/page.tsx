@@ -57,13 +57,15 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageHero
-        label="About"
-        title="About FIXONEX"
-        subtitle="Trusted expertise in tile installation solutions — built on a decade of industry knowledge."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        image="https://picsum.photos/seed/fixonex-about/1600/900"
-      />
+      <div className="mb-8 md:mb-12">
+        <PageHero
+          label="About"
+          title="About FIXONEX"
+          subtitle="Trusted expertise in tile installation solutions — built on a decade of industry knowledge."
+          breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+          image="https://picsum.photos/seed/fixonex-about/1600/900"
+        />
+      </div>
 
       {/* ── Our Story — full-bleed image with blur text box ── */}
       <section className="relative overflow-hidden" style={{ minHeight: "85vh" }}>
