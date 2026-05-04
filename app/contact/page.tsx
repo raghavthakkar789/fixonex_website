@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Phone, Youtube, ArrowRight, Send } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -32,10 +33,11 @@ export default function ContactPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<ContactFormValues>({
-    defaultValues: { inquiryType: inquiryOptions[0] ?? "General" },
+    defaultValues: { inquiryType: inquiryOptions[0] ?? "General", phone: "" },
   });
 
   const onSubmit = async () => {
@@ -132,13 +134,25 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <Label htmlFor="phone" className="text-zinc-700 font-semibold text-[13px]">Phone Number</Label>
-                          <Input
-                            id="phone"
-                            type="tel"
-                            placeholder="+91 …"
-                            {...register("phone", { required: "Required" })}
-                            className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50 focus:border-primary/40 focus:ring-primary/10 transition-colors"
-                            aria-invalid={!!errors.phone}
+                          <Controller
+                            control={control}
+                            name="phone"
+                            rules={{ required: "Required" }}
+                            render={({ field }) => (
+                              <PhoneInput
+                                id="phone"
+                                name={field.name}
+                                value={field.value || ""}
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                                placeholder="98765 43210"
+                                required
+                                aria-invalid={!!errors.phone}
+                                className="mt-1.5"
+                                triggerClassName="rounded-l-xl border-zinc-200 bg-zinc-50/50"
+                                inputClassName="rounded-r-xl border-zinc-200 bg-zinc-50/50 focus-visible:border-primary/40 focus-visible:ring-primary/10"
+                              />
+                            )}
                           />
                           {errors.phone && <p className="mt-1 text-xs text-primary">{errors.phone.message}</p>}
                         </div>

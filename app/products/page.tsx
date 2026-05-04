@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { ArrowRight, Layers, Grid3X3, Shield, CheckCircle2 } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
-import { ProductGuidanceWizard } from "@/components/products/ProductGuidanceWizard";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Reveal, Stagger, StaggerItem, LineReveal } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -157,29 +156,6 @@ export default function ProductsPage() {
 
       {/* Product Cards */}
       <ProductsShowcaseRow />
-
-      {/* ── Product Guidance Wizard — light ── */}
-      <section id="wizard" className="scroll-mt-20 relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-br from-[#f0fdf9] via-[#f5f5f5] to-[#eef8ff]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute right-0 top-0 h-[60%] w-[45%] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(13,148,136,0.07) 0%, transparent 70%)", filter: "blur(80px)" }}
-        />
-        <div className="site-container section-pad-lg relative z-10">
-          <FadeIn>
-            <p className="eyebrow-label mb-4">Product Helper</p>
-            <h2 className="font-display font-bold text-zinc-950" style={{ fontSize: "clamp(1.75rem, 3vw, 2.5rem)", letterSpacing: "-0.04em", lineHeight: 1.1 }}>
-              Answer a few prompts — get the right starting range.
-            </h2>
-            <p className="mt-3 max-w-xl text-[14px] text-zinc-500">
-              Not a substitute for datasheets or a FIXONEX advisor, but a fast orientation across our catalogue.
-            </p>
-          </FadeIn>
-          <div className="mt-10">
-            <ProductGuidanceWizard />
-          </div>
-        </div>
-      </section>
 
       {/* ── Selection Guide — light version ── */}
       <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#faf7f5] to-white">

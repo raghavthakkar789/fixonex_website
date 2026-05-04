@@ -22,6 +22,32 @@ function PathColorSync() {
   return null;
 }
 
+function ScrollResetOnRouteChange() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash) return;
+    const reset = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+    reset();
+    const id = window.requestAnimationFrame(reset);
+    return () => window.cancelAnimationFrame(id);
+  }, [pathname]);
+
+  return null;
+}
+
 function BreadcrumbTrail({ pathname }: { pathname: string }) {
   if (pathname === "/") return null;
   const clean = pathname.split("?")[0]?.split("#")[0] ?? pathname;
@@ -64,6 +90,7 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
   return (
     <LenisRafProvider>
       <PathColorSync />
+      <ScrollResetOnRouteChange />
       <PageLoadProgressBar />
       <ScrollProgressIndicator />
       <RouteTransitionLayer />

@@ -1,12 +1,13 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Loader2, Network, Package, Shield, TrendingUp, ArrowRight, CheckCircle2, Send } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -74,8 +75,8 @@ const stats = [
 export default function PartnerPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { register, handleSubmit, reset } = useForm<DealerForm>({
-    defaultValues: { businessType: businessTypes[0] },
+  const { register, handleSubmit, control, reset } = useForm<DealerForm>({
+    defaultValues: { businessType: businessTypes[0], phone: "" },
   });
 
   const onSubmit = async () => {
@@ -260,7 +261,25 @@ export default function PartnerPage() {
                       <div className="grid gap-5 sm:grid-cols-2">
                         <div>
                           <Label htmlFor="phone" className="text-zinc-700 font-semibold text-[13px]">Phone</Label>
-                          <Input id="phone" type="tel" {...register("phone", { required: true })} className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50" />
+                          <Controller
+                            control={control}
+                            name="phone"
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                              <PhoneInput
+                                id="phone"
+                                name={field.name}
+                                value={field.value || ""}
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                                placeholder="98765 43210"
+                                required
+                                className="mt-1.5"
+                                triggerClassName="rounded-l-xl border-zinc-200 bg-zinc-50/50"
+                                inputClassName="rounded-r-xl border-zinc-200 bg-zinc-50/50"
+                              />
+                            )}
+                          />
                         </div>
                         <div>
                           <Label htmlFor="city" className="text-zinc-700 font-semibold text-[13px]">City / Region</Label>

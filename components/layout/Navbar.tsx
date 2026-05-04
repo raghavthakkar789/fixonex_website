@@ -3,15 +3,13 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { FileDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { CatalogRequestButton } from "@/components/layout/CatalogRequestButton";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const CATALOG_PDF_URL = "/FIXONEX%20E-CATALOG%20%20BY%20EAGLE%20EYE.pdf";
 
 function activeFor(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -22,6 +20,7 @@ const pillLinks = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
+  { href: "/services", label: "Service" },
   { href: "/why-fixonex", label: "Why FIXONEX" },
   { href: "/support", label: "Support" },
 ];
@@ -140,22 +139,10 @@ export function Navbar() {
 
             {/* ── Right side ── */}
             <div className="ml-auto flex shrink-0 items-center gap-2">
-              {/* Catalog PDF — visible on every viewport.
+              {/* Catalog gate — visible on every viewport. Captures lead details, then opens the PDF.
                   Desktop: sits between the pill nav (last item: Support) and Contact.
                   Mobile/tablet: Contact + Partnership are hidden, so this lands directly left of the hamburger. */}
-              <motion.a
-                href={CATALOG_PDF_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={reduced ? undefined : { scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.15 }}
-                className="inline-flex items-center gap-1.5 rounded-xl bg-primary px-3 py-1.5 text-[12px] font-semibold text-white shadow-sm ring-1 ring-primary/20 transition-colors hover:bg-primary/90 lg:mr-4 lg:px-8 lg:py-2 lg:text-[13px]"
-                aria-label="Open FIXONEX product catalog (PDF)"
-              >
-                <FileDown className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                <span>Catalog</span>
-              </motion.a>
+              <CatalogRequestButton />
 
               {/* Contact — desktop only */}
               <TransitionLink

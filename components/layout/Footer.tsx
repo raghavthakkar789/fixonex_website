@@ -6,6 +6,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { BRAND } from "@/lib/brand";
 import { products } from "@/lib/data/products";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { socialLinks } from "@/data/social";
 import { socialIconMap } from "@/lib/social-icons";
 
@@ -96,12 +97,22 @@ export function Footer() {
           {/* Brand column */}
           <FooterColumn delay={0} className="lg:col-span-4">
             <div className="rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
-              <p className="font-display text-3xl font-bold tracking-tight text-zinc-950" style={{ letterSpacing: "-0.04em" }}>
-                {BRAND.name}
-              </p>
-              <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">{BRAND.logoMotto}</p>
-              <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-zinc-500">{BRAND.tagline}</p>
-              <p className="mt-2 max-w-xs text-[11px] text-zinc-400">{BRAND.taglineHi}</p>
+              <TransitionLink
+                href="/"
+                aria-label={`${BRAND.name} home`}
+                className="relative block h-12 w-[180px] overflow-hidden md:h-14 md:w-[200px]"
+              >
+                <ImageWithFallback
+                  src="/images/misc/logo.png"
+                  alt={`${BRAND.name} logo`}
+                  fill
+                  sizes="200px"
+                  className="object-contain object-left"
+                  reveal="none"
+                />
+              </TransitionLink>
+              <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-zinc-600">{BRAND.tagline}</p>
+              <p className="mt-1.5 max-w-xs text-[12px] italic text-zinc-400">{BRAND.taglineHi}</p>
 
               {/* Social links */}
               <div className="mt-8 flex flex-wrap gap-2.5">

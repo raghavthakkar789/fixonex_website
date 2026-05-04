@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
@@ -71,11 +72,11 @@ export function DealerInquiryForm() {
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="dealer-phone">Phone</Label>
-          <Input
+          <PhoneInput
             id="dealer-phone"
-            type="tel"
+            name="phone"
             value={form.phone}
-            onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+            onChange={(v) => setForm((f) => ({ ...f, phone: v }))}
             required
           />
         </div>

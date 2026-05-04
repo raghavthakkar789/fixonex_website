@@ -199,7 +199,6 @@ fixonex_website/
 | `/company-info` | `/about` | `app/company-info/page.tsx` |
 | `/connect` | `/contact` | `app/connect/page.tsx` |
 | `/how-to-use` | `/support` | `app/how-to-use/page.tsx` |
-| `/services` | `/about` | `app/services/page.tsx` |
 | `/testimonials` | `/` | `app/testimonials/page.tsx` |
 | `/projects` | `/` | `app/projects/page.tsx` |
 | `/book-consultation` | `/contact` | `app/book-consultation/page.tsx` |

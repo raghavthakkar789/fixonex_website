@@ -470,7 +470,7 @@ export function HomeView() {
                 transition={{ duration: 0.2 }}
               >
                 <Button asChild variant="outline" size="lg" className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary">
-                  <TransitionLink href="/products#wizard">
+                  <TransitionLink href="/services#wizard">
                     <Search className="mr-2 h-4 w-4" aria-hidden />
                     Open product helper
                   </TransitionLink>

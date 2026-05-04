@@ -26,7 +26,7 @@ export function StickyHelpButton() {
             whileTap={{ scale: 0.96 }}
           >
             <TransitionLink
-              href="/products#wizard"
+              href="/services#wizard"
               aria-label="Open product guidance helper"
               className={cn(
                 "fx-float relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900 text-white shadow-[0_4px_20px_rgba(0,0,0,0.25)] transition-colors hover:bg-primary md:h-[3rem] md:w-[3rem]",
