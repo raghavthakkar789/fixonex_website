@@ -63,6 +63,7 @@ export default function SupportPage() {
         title="Help & Support"
         subtitle="Your installation guide starts here."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
+        image="https://picsum.photos/seed/fixonex-support/1600/900"
       />
 
       <section className="relative overflow-hidden" style={{ minHeight: "60vh" }}>

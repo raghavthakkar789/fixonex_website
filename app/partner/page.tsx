@@ -78,6 +78,7 @@ export default function PartnerPage() {
         title="Partner with FIXONEX"
         subtitle="Join our growing network of dealers and distributors. Competitive margins, full support, and a brand that delivers."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner" }]}
+        image="https://picsum.photos/seed/fixonex-partner/1600/900"
       />
 
       {/* Intro */}

@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -12,57 +13,41 @@ type PageHeroProps = {
   subtitle: string;
   breadcrumbs?: Crumb[];
   bannerLayoutId?: string;
+  image?: string;
 };
 
-export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayoutId }: PageHeroProps) {
+export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayoutId, image }: PageHeroProps) {
   const reduced = useReducedMotion();
 
   return (
     <motion.section
-      className="relative overflow-hidden bg-[#09090d]"
+      className="relative overflow-hidden"
+      style={{ minHeight: "22rem" }}
       layoutId={!reduced && bannerLayoutId ? bannerLayoutId : undefined}
     >
-      {/* Gradient orbs */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-[10%] top-[-30%] h-[70%] w-[50%] rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.18) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-[5%] bottom-[-20%] h-[50%] w-[40%] rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.1) 0%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
+      {/* Background image */}
+      <ImageWithFallback
+        src={image ?? "/images/hero/hero-main.jpeg"}
+        alt=""
+        fill
+        priority
+        reveal="none"
+        sizes="100vw"
+        className="object-cover object-center"
       />
 
-      {/* Top glow line */}
-      <div
-        aria-hidden
-        className="absolute left-[6%] right-[6%] top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.6) 50%, transparent)" }}
-      />
+      {/* Overlays — same treatment as home hero */}
+      <div aria-hidden className="absolute inset-0 bg-black/55" />
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
-      {/* Grain */}
-      <div aria-hidden className="grain-noise absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none" />
+      {/* Content */}
+      <div className="site-container relative z-10 flex min-h-[22rem] flex-col justify-center py-16 sm:min-h-[22rem] lg:min-h-[26rem] lg:py-20">
 
-      {/* Bottom border */}
-      <div
-        aria-hidden
-        className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%)" }}
-      />
-
-      <div className="site-container relative z-10 flex min-h-[18rem] flex-col justify-center py-16 sm:min-h-[22rem] lg:min-h-[24rem] lg:py-20">
         {/* Breadcrumbs */}
         {breadcrumbs.length > 0 && (
           <motion.nav
             aria-label="Breadcrumb"
-            className="mb-6 flex flex-wrap items-center gap-2 text-[12px] text-zinc-600"
+            className="mb-6 flex flex-wrap items-center gap-2 text-[12px] text-white/50"
             initial={reduced ? false : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: easeExpo }}
@@ -70,14 +55,14 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
             {breadcrumbs.map((crumb, index) => (
               <span key={`${crumb.label}-${index}`} className="inline-flex items-center gap-2">
                 {crumb.href ? (
-                  <TransitionLink href={crumb.href} className="transition-colors duration-200 hover:text-zinc-300">
+                  <TransitionLink href={crumb.href} className="transition-colors duration-200 hover:text-white">
                     {crumb.label}
                   </TransitionLink>
                 ) : (
-                  <span className="text-zinc-400">{crumb.label}</span>
+                  <span className="text-white/70">{crumb.label}</span>
                 )}
                 {index < breadcrumbs.length - 1 && (
-                  <span className="text-zinc-700" aria-hidden>›</span>
+                  <span className="text-white/30" aria-hidden>›</span>
                 )}
               </span>
             ))}
@@ -86,7 +71,7 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
 
         {/* Label */}
         <motion.p
-          className="mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-primary"
+          className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-primary drop-shadow-md"
           initial={reduced ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.05, ease: easeExpo }}
@@ -94,10 +79,10 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
           {label}
         </motion.p>
 
-        {/* Title — clip reveal per word */}
+        {/* Title */}
         <div className="overflow-hidden">
           <motion.h1
-            className="max-w-4xl font-display text-[clamp(2.2rem,5vw,3.75rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white"
+            className="max-w-4xl font-display text-[clamp(2.2rem,5vw,3.75rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
             initial={reduced ? false : { y: "100%", opacity: 0 }}
             animate={{ y: "0%", opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.1, ease: easeExpo }}
@@ -108,7 +93,7 @@ export function PageHero({ label, title, subtitle, breadcrumbs = [], bannerLayou
 
         {/* Subtitle */}
         <motion.p
-          className="mt-5 max-w-2xl text-[15px] leading-relaxed text-zinc-400"
+          className="mt-5 max-w-2xl text-[15px] leading-relaxed text-zinc-200 drop-shadow-md"
           initial={reduced ? false : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.22, ease: easeExpo }}

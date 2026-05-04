@@ -62,6 +62,7 @@ export default function AboutPage() {
         title="About FIXONEX"
         subtitle="Trusted expertise in tile installation solutions — built on a decade of industry knowledge."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
+        image="https://picsum.photos/seed/fixonex-about/1600/900"
       />
 
       {/* ── Our Story — full-bleed image with blur text box ── */}

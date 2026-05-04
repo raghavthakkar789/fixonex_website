@@ -48,6 +48,7 @@ export default function ProductsPage() {
         title="Our Products"
         subtitle="Engineered adhesion for every surface and application — from interior ceramics to exterior facades."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
+        image="/images/hero/hero-main.jpeg"
       />
 
       {/* System Overview — dark */}

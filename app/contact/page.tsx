@@ -52,6 +52,7 @@ export default function ContactPage() {
         title="Contact & Consultation"
         subtitle="Whether you need product advice, want to place an order, or have a technical question — our team is ready to help."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
+        image="https://picsum.photos/seed/fixonex-contact/1600/900"
       />
 
       {/* Main form + info */}

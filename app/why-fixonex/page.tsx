@@ -88,6 +88,7 @@ export default function WhyFixonexPage() {
         title="The Smarter Choice for Tile Installation"
         subtitle="Performance-proven adhesives backed by a decade of expertise, international standards, and genuine technical support."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Why FIXONEX" }]}
+        image="https://picsum.photos/seed/fixonex-why/1600/900"
       />
 
       {/* Intro + Stats */}
