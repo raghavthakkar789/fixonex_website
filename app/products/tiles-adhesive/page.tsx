@@ -1,17 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, Building2, Home, Layers, Mountain, RefreshCw, Waves } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
-import { Button } from "@/components/ui/button";
-import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { ProductCard } from "@/components/ui/ProductCard";
 import { getTileAdhesiveProducts } from "@/lib/data/products";
 
-const cardMeta: Record<string, { code: string; shortName: string; useCase: string }> = {
-  "fix-111": { code: "C1T", shortName: "FIX 111", useCase: "Interior ceramic wall and floor." },
-  "fix-222": { code: "C2T", shortName: "FIX 222", useCase: "Interior ceramic and vitrified tiles." },
-  "fix-333": { code: "C2TE", shortName: "FIX 333", useCase: "Large format tiles, marble, granite." },
-  "fix-444": { code: "C2TES1", shortName: "FIX 444", useCase: "Exterior walls and natural stone." },
-  "fix-555": { code: "C2TES2", shortName: "FIX 555", useCase: "Pools, porcelain, and tile on tile." },
-};
+const easeExpo = [0.16, 1, 0.3, 1];
 
 const useCases = [
   { icon: Home, title: "Interior ceramic bathroom wall", recommendation: "FIX 111", href: "/products/tiles-adhesive/fix-111" },
@@ -22,130 +15,154 @@ const useCases = [
   { icon: RefreshCw, title: "Tile over existing tiles", recommendation: "FIX 555 or PU FIXO-999", href: "/products/tiles-adhesive/fix-555" },
 ] as const;
 
+const gradeTable = [
+  ["fix-111", "FIX 111", "C1T · Type-1", "Interior ceramic wall and floor", "20 kg"],
+  ["fix-222", "FIX 222", "C2T · Type-2", "Interior ceramic and vitrified tiles", "20 kg"],
+  ["fix-333", "FIX 333", "C2TE · Type-3", "Large format tiles, marble, granite", "20 kg"],
+  ["fix-444", "FIX 444", "C2TES1 · Type-4", "Exterior walls, large format, natural stone", "20 kg"],
+  ["fix-555", "FIX 555", "C2TES2 · Type-5", "Exterior, porcelain, swimming pools, tile on tile", "20 kg"],
+];
+
 export default function TilesAdhesiveHubPage() {
   const family = getTileAdhesiveProducts();
 
   return (
     <>
       <PageHero
-        label="Products"
-        title="Tiles Adhesive"
-        subtitle="From standard ceramic interiors to exterior facades and swimming pools — find the right grade for your project."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: "Tiles Adhesive" }]}
+        label="Tile Adhesives"
+        title="Tiles Adhesive Range"
+        subtitle="Five certified grades — C1T through C2TES2 — engineered for every tile type, substrate, and exposure condition."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: "Tiles Adhesive" },
+        ]}
+        image="/images/hero/hero-main.jpeg"
       />
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container max-w-[980px]">
-          <h2 className="font-heading text-3xl font-semibold text-black">The Complete Tiles Adhesive Range</h2>
-          <p className="mt-5 text-base leading-[1.8] text-dark">
-            FIXONEX offers five certified tile adhesive grades, each engineered for a specific level of performance. Whether you are fixing standard ceramics on an interior wall or installing
-            large-format natural stone on an exterior facade, there is a FIXONEX adhesive designed for that exact demand. All five products comply with EN12004 and IS 15477:2019.
+      {/* ── Grade Cards ── */}
+      <section className="relative overflow-hidden bg-[#09090d] py-24">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[50%] rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 70%)", filter: "blur(80px)" }}
+        />
+        <div className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" aria-hidden />
+        <div
+          aria-hidden
+          className="absolute left-[6%] right-[6%] top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)" }}
+        />
+        <div className="site-container relative z-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary mb-3">5 Grades</p>
+          <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-bold tracking-[-0.02em] text-white leading-tight">
+            The Complete Range
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-[1.8] text-zinc-400">
+            All five grades comply with EN 12004 and IS 15477:2019. Select the grade that matches your tile format, substrate, and exposure — then click through for full specs, usage steps, and TDS.
           </p>
-        </div>
-      </section>
 
-      <section className="section-pad section-flow-light">
-        <div className="site-container">
-          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-5 lg:overflow-visible">
-            {family.map((product) => {
-              const meta = cardMeta[product.subSlug ?? ""];
-              return (
-                <article
-                  key={product.slug}
-                  className="surface-card group min-w-[260px] snap-start p-5 lg:min-w-0"
-                >
-                  <div className="relative -mx-5 -mt-5 mb-4 h-[240px] overflow-hidden rounded-t-md bg-[#F5F5F5]">
-                    <ImageWithFallback
-                      src={product.image}
-                      alt={product.name}
-                      width={product.dimensions?.width ?? 2655}
-                      height={product.dimensions?.height ?? 4333}
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="absolute inset-0 h-full w-full object-contain bg-[#F5F5F5]"
-                      placeholderClassName="bg-[#F5F5F5]"
-                    />
-                  </div>
-                  <div className="mb-4 h-1 w-full rounded-sm bg-transparent transition-colors group-hover:bg-chip" />
-                  <span className="inline-flex rounded-pill bg-chip/30 px-2.5 py-1 text-[11px] font-semibold text-dark">{meta?.code ?? product.badge}</span>
-                  <h3 className="mt-3 font-heading text-xl font-semibold text-foreground">{meta?.shortName ?? product.name}</h3>
-                  <p className="mt-2 min-h-[42px] text-sm text-mid">{meta?.useCase ?? product.applicationShort}</p>
-                  <Link href={`/products/tiles-adhesive/${product.subSlug}`} className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                    View Details <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container">
-          <h2 className="font-heading text-3xl font-semibold text-black">Which Grade Do You Need</h2>
-          <div className="overflow-x-auto rounded-md border border-border">
-            <div className="min-w-[760px] overflow-hidden">
-              <div className="grid grid-cols-4 gap-3 bg-foreground px-4 py-3 text-xs font-semibold uppercase tracking-wide text-white md:px-6 md:text-sm">
-                <p>Product</p>
-                <p>Type</p>
-                <p>Best For</p>
-                <p>Size</p>
-              </div>
-              {[
-                ["fix-111", "FIX 111", "C1T Type-1", "Interior ceramic wall and floor", "20kg"],
-                ["fix-222", "FIX 222", "C2T Type-2", "Interior ceramic and vitrified tiles", "20kg"],
-                ["fix-333", "FIX 333", "C2TE Type-3", "Large format tiles, marble, granite, interior and exterior", "20kg"],
-                ["fix-444", "FIX 444", "C2TES1 Type-4", "Exterior walls, large format, natural stone", "20kg"],
-                ["fix-555", "FIX 555", "C2TES2 Type-5", "Exterior, porcelain, swimming pools, tile on tile", "20kg"],
-              ].map((row, i) => (
-                <div key={row[0]} className={`grid grid-cols-4 gap-3 border-t border-[#e5e0da] px-4 py-4 md:px-6 ${i % 2 ? "bg-muted" : "bg-white"}`}>
-                  <Link href={`/products/tiles-adhesive/${row[0]}`} className="border-l-[3px] border-chip pl-3 text-sm font-semibold text-primary hover:underline">
-                    {row[1]}
-                  </Link>
-                  <p className="text-sm text-foreground">{row[2]}</p>
-                  <p className="text-sm text-foreground">{row[3]}</p>
-                  <p className="text-sm text-foreground">{row[4]}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad section-flow-light">
-        <div className="site-container">
-          <h2 className="font-heading text-3xl font-semibold text-foreground">Not Sure Which Type to Use</h2>
-          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {useCases.map((item) => (
-              <article key={item.title} className="surface-card p-5">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <item.icon className="h-6 w-6 text-terracotta" />
-                    <p className="mt-3 text-sm font-medium text-foreground">{item.title}</p>
-                  </div>
-                  <Link href={item.href} className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                    {item.recommendation} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </article>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {family.map((p, i) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                name={p.name}
+                slug={`tiles-adhesive/${p.subSlug}`}
+                badge={p.badge}
+                standard={p.standard}
+                applicationShort={p.applicationShort}
+                sizesLine={p.sizesLine}
+                image={p.image}
+                dimensions={p.dimensions}
+                index={i}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-primary py-6">
-        <p className="site-container text-center text-sm font-semibold text-white md:text-base">
-          All FIXONEX Tile Adhesives are certified to EN12004 and IS 15477:2019.
-        </p>
+      {/* ── Grade comparison table ── */}
+      <section className="relative overflow-hidden bg-[#09090d] pb-24">
+        <div className="grain-noise absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none" aria-hidden />
+        <div
+          aria-hidden
+          className="absolute left-[6%] right-[6%] top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 50%, transparent)" }}
+        />
+        <div className="site-container relative z-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary mb-3">Grade Guide</p>
+          <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-white leading-tight mb-8">
+            Which Grade Is Right for Me?
+          </h2>
+          <div className="overflow-hidden rounded-2xl border border-white/8">
+            {/* Table header */}
+            <div className="grid grid-cols-4 gap-3 border-b border-white/8 bg-white/[0.04] px-6 py-3 text-[11px] font-bold uppercase tracking-[0.1em] text-zinc-500">
+              <p>Product</p>
+              <p>Grade</p>
+              <p>Best For</p>
+              <p>Size</p>
+            </div>
+            {gradeTable.map(([slug, name, grade, use, size], i) => (
+              <div
+                key={slug}
+                className={`grid grid-cols-4 gap-3 border-b border-white/[0.06] px-6 py-4 text-sm last:border-b-0 ${i % 2 === 0 ? "bg-white/[0.02]" : "bg-transparent"}`}
+              >
+                <Link
+                  href={`/products/tiles-adhesive/${slug}`}
+                  className="border-l-2 border-primary/60 pl-3 font-semibold text-primary hover:text-primary/80 transition-colors"
+                >
+                  {name}
+                </Link>
+                <p className="text-zinc-400">{grade}</p>
+                <p className="text-zinc-400">{use}</p>
+                <p className="text-zinc-500">{size}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-[13px] text-zinc-500">
+            All FIXONEX tile adhesives are certified to EN 12004 and IS 15477:2019.
+          </p>
+        </div>
       </section>
 
-      <section className="section-pad section-flow-secondary">
-        <div className="site-container mx-auto max-w-[760px] surface-card p-10 text-center">
-          <h2 className="font-heading text-3xl font-semibold text-black">Get Help Choosing the Right Grade</h2>
-          <p className="mt-3 text-base text-dark">Our team can guide you based on your tile type, surface, and project conditions.</p>
-          <Button asChild className="mt-7" variant="primary">
-            <Link href="/contact">Contact Team</Link>
-          </Button>
+      {/* ── Use-case quick finder ── */}
+      <section className="relative overflow-hidden bg-white py-24">
+        <div className="site-container">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary mb-3">Quick Finder</p>
+          <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-zinc-950 leading-tight mb-8">
+            Not Sure Which Grade?
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {useCases.map((item) => (
+              <Link
+                key={item.title}
+                href={item.href}
+                className="group flex items-start justify-between gap-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 transition-all duration-200 hover:border-primary/30 hover:bg-white hover:shadow-sm"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <item.icon className="h-4 w-4" aria-hidden />
+                  </div>
+                  <p className="text-[14px] font-medium text-zinc-700 leading-snug">{item.title}</p>
+                </div>
+                <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary whitespace-nowrap">
+                  {item.recommendation}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
+      </section>
+
+      {/* ── CTA ── */}
+      <section className="bg-primary py-8 text-center">
+        <p className="site-container text-sm font-semibold text-white md:text-base">
+          Need a documented recommendation?{" "}
+          <Link href="/contact" className="underline underline-offset-2 hover:text-white/80 transition-colors">
+            Contact our experts →
+          </Link>
+        </p>
       </section>
     </>
   );
