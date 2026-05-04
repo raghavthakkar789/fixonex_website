@@ -68,7 +68,8 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
       <ScrollProgressIndicator />
       <RouteTransitionLayer />
       <Navbar />
-      <BreadcrumbTrail pathname={pathname} />
+      {/* Spacer so fixed navbar doesn't overlap content */}
+      <div className="h-14 md:h-16" aria-hidden />
       <main
         id="main-content"
         tabIndex={-1}
