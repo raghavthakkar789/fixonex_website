@@ -60,6 +60,7 @@ export function ImageWithFallback({
       className={className}
       style={style}
       onError={() => setHasError(true)}
+      onLoad={onDone}
       onLoadingComplete={onDone}
     />
   ) : null;
@@ -119,6 +120,7 @@ export function ImageWithFallback({
             className={className}
             style={style}
             onError={() => setHasError(true)}
+            onLoad={onDone}
             onLoadingComplete={onDone}
           />
         </motion.div>

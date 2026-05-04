@@ -26,6 +26,7 @@ import { Button } from "@/components/ui/button";
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
+import { productImageUrls } from "@/data/product-images";
 import { homeFaqs } from "@/lib/data/home-faqs";
 import { testimonials } from "@/lib/data/testimonials";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -87,7 +88,7 @@ const productRange = [
     desc: "Five certified grades — interior to heavy industrial.",
     href: "/products",
     techHref: "/products/tiles-adhesive",
-    image: "/images/products/fix-111.png",
+    image: productImageUrls.fix111,
     accent: "from-rose-500/20 to-orange-400/10",
   },
   {
@@ -97,7 +98,7 @@ const productRange = [
     desc: "Stain-resistant, broad colour palette, pool to kitchen.",
     href: "/products",
     techHref: "/products/epoxy-grout",
-    image: "/images/products/epoxy-grout.png",
+    image: productImageUrls.epoxyGrout,
     accent: "from-teal-500/20 to-emerald-400/10",
   },
   {
@@ -107,7 +108,7 @@ const productRange = [
     desc: "Block mortar, ancillary lines & cleaners — coordinated.",
     href: "/products",
     techHref: "/products/tiles-adhesive/fix-555",
-    image: "/images/products/block-mortar.png",
+    image: productImageUrls.blockMortar,
     accent: "from-blue-500/20 to-indigo-400/10",
   },
 ] as const;

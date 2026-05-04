@@ -15,6 +15,7 @@ export interface ProductColorOption {
 export interface ProductSku {
   /** Primary product name / code shown as heading */
   name: string;
+  image?: string;
   /** e.g. Type 1, grey */
   variant?: string;
   standards?: string;
@@ -30,6 +31,7 @@ export interface ProductSku {
 export interface ProductCategory {
   slug: ProductCategorySlug;
   title: string;
+  image?: string;
   shortDescription: string;
   description: string;
   idealUseCases: string[];
