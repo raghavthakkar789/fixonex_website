@@ -312,7 +312,7 @@ const PRODUCTS = {
     grade: "Polyurethane",
     badge: "PU Adhesive",
     application: "Glass, metal, wood, tile-on-tile, and non-porous specialty substrates.",
-    href: "/products",
+    href: "/products/pu-fixo-999",
     image: "/images/products/pu-fixo-999.png",
   },
 } as const;

@@ -53,7 +53,7 @@ function getCompanions(a: GuidanceAnswers): Companion[] {
     out.push({
       name: "Tile Cleaners",
       desc: "Compatible surface maintenance",
-      href: "/products",
+      href: "/products/tile-cleaner",
       image: "/images/products/tile-cleaner.png",
     });
   }
@@ -62,7 +62,7 @@ function getCompanions(a: GuidanceAnswers): Companion[] {
     out.push({
       name: "Tile Spacers",
       desc: "Precise joint width on any format",
-      href: "/products",
+      href: "/products/tile-spacer",
       image: "/images/products/tile-spacer.png",
     });
   }
@@ -236,7 +236,11 @@ export function ProductGuidanceWizard() {
                 </p>
 
                 {/* Primary product card */}
-                <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+                <TransitionLink
+                  href={result.href}
+                  className="group block rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  aria-label={`View ${result.name} product page`}
+                >
                   <div className="flex gap-4">
                     <div className="relative h-[88px] w-[72px] shrink-0 overflow-hidden rounded-xl bg-zinc-100">
                       <ImageWithFallback
@@ -250,7 +254,7 @@ export function ProductGuidanceWizard() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-display text-[1.35rem] font-bold leading-none text-zinc-950">
+                        <span className="font-display text-[1.35rem] font-bold leading-none text-zinc-950 transition-colors group-hover:text-primary">
                           {result.name}
                         </span>
                         <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
@@ -262,11 +266,12 @@ export function ProductGuidanceWizard() {
                         {result.application}
                       </p>
                     </div>
+                    <ArrowRight className="mt-1 h-4 w-4 shrink-0 text-zinc-300 transition-all group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden />
                   </div>
                   <div className="mt-3 border-t border-zinc-100 pt-3">
                     <p className="text-[12px] leading-relaxed text-zinc-500">{result.rationale}</p>
                   </div>
-                </div>
+                </TransitionLink>
 
                 {/* Companion products */}
                 {companions.length > 0 && (
