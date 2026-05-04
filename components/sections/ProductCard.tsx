@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { ProductCategory } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { cta } from "@/lib/ui-constants";
 
@@ -15,14 +16,27 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="group flex h-full min-w-0 flex-col overflow-hidden">
       <CardHeader className="space-y-2.5 p-4 sm:p-5 md:p-6">
-        <MediaPlaceholder
-          tone="editorial"
-          aspect="card"
-          className="w-full"
-          label={product.title}
-          sublabel="Category visual — swap for range photography."
-          decorative
-        />
+        {product.image ? (
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-[#F5F5F5] shadow-[0_22px_60px_-20px_rgba(17,17,17,0.14)] ring-1 ring-inset ring-foreground/[0.04]">
+            <ImageWithFallback
+              src={product.image}
+              alt={product.heroImageAlt}
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-contain p-4"
+              placeholderClassName="bg-[#F5F5F5]"
+            />
+          </div>
+        ) : (
+          <MediaPlaceholder
+            tone="editorial"
+            aspect="card"
+            className="w-full"
+            label={product.title}
+            sublabel="Category visual — swap for range photography."
+            decorative
+          />
+        )}
         <CardTitle className="text-lg text-foreground sm:text-xl">{product.title}</CardTitle>
         {bestFor ? (
           <p className="text-[0.625rem] font-bold uppercase leading-snug tracking-[0.12em] text-subhead">

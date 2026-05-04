@@ -1,10 +1,12 @@
 import type { ProductCategory } from "@/types";
+import { productImageUrls } from "@/data/product-images";
 
 export const productCategories: ProductCategory[] = [
   {
     slug: "tile-adhesives",
     familySlug: "tilesAdhesive",
     title: "Tile adhesives",
+    image: productImageUrls.fix111,
     shortDescription:
       "FIXONEX bonds tile and stone properly — from simple indoor floors to large tiles, outdoor walls, and wet areas. Pick the grade that matches the job, not guesswork.",
     description:
@@ -35,6 +37,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "FIX (C1T) 111",
+        image: productImageUrls.fix111,
         familySlug: "tiles-adhesive",
         subSlug: "fix-111",
         dimensions: { width: 2655, height: 4333 },
@@ -46,6 +49,7 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2T) 222",
+        image: productImageUrls.fix222,
         familySlug: "tiles-adhesive",
         subSlug: "fix-222",
         dimensions: { width: 2655, height: 4333 },
@@ -57,6 +61,7 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TE) 333",
+        image: productImageUrls.fix333,
         familySlug: "tiles-adhesive",
         subSlug: "fix-333",
         dimensions: { width: 2655, height: 4333 },
@@ -68,6 +73,7 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TES1) 444",
+        image: productImageUrls.fix444,
         familySlug: "tiles-adhesive",
         subSlug: "fix-444",
         dimensions: { width: 2655, height: 4333 },
@@ -79,6 +85,7 @@ export const productCategories: ProductCategory[] = [
       },
       {
         name: "FIX (C2TES2) 555",
+        image: productImageUrls.fix555,
         familySlug: "tiles-adhesive",
         subSlug: "fix-555",
         dimensions: { width: 2655, height: 4333 },
@@ -93,6 +100,7 @@ export const productCategories: ProductCategory[] = [
   {
     slug: "block-joining-mortar",
     title: "Block joining mortar",
+    image: productImageUrls.blockMortar,
     shortDescription:
       "FIXONEX thin-bed mortar for AAC and cellular concrete blocks — neat courses, solid joints, and less rework on fast-moving sites.",
     description:
@@ -119,6 +127,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Block joining mortar",
+        image: productImageUrls.blockMortar,
         dimensions: { width: 2655, height: 4333 },
         application: "Thin-bed joints for AAC and cellular concrete blocks, indoor and outdoor walls.",
         size: "40 kg",
@@ -134,6 +143,7 @@ export const productCategories: ProductCategory[] = [
   {
     slug: "pu-products",
     title: "PU FIXO-999",
+    image: productImageUrls.puFixo999,
     shortDescription:
       "FIXONEX PU FIXO-999 — two-part PU adhesive for panels, metal, glass, and other difficult surfaces that cement-based adhesives can’t handle.",
     description:
@@ -160,6 +170,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "PU FIXO-999",
+        image: productImageUrls.puFixo999,
         dimensions: { width: 3962, height: 3611 },
         variant: "Type 5 — R2TE",
         standards: "EN 12004: R2TE | IS 15477:2019",
@@ -172,6 +183,7 @@ export const productCategories: ProductCategory[] = [
   {
     slug: "epoxy-grout",
     title: "Epoxy grout",
+    image: productImageUrls.epoxyGrout,
     shortDescription:
       "FIXONEX epoxy grout — strong, stain-resistant joints for kitchens, shops, clinics, and pools. Easy to clean and stays looking good when installed right.",
     description:
@@ -221,6 +233,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Epoxy grout (3-part)",
+        image: productImageUrls.epoxyGrout,
         dimensions: { width: 3883, height: 3817 },
         variant: "Stain-free system",
         application: "Floors, walls, pool areas, and busy spaces that need resilient joints.",
@@ -231,6 +244,7 @@ export const productCategories: ProductCategory[] = [
   {
     slug: "tile-cleaners",
     title: "Tile cleaner",
+    image: productImageUrls.tileCleaner,
     shortDescription:
       "FIXONEX tile cleaner — clean tile and stone without attacking the finish — everyday and deep clean when diluted as directed.",
     description:
@@ -257,6 +271,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Tile cleaner",
+        image: productImageUrls.tileCleaner,
         dimensions: { width: 2562, height: 5273 },
         extras: [
           "Removes stains",
@@ -271,6 +286,7 @@ export const productCategories: ProductCategory[] = [
   {
     slug: "tile-spacers",
     title: "Tile spacers",
+    image: productImageUrls.tileSpacer,
     shortDescription:
       "FIXONEX tile spacers — precision spacers for consistent joints when fixing tiles and stone — 2 mm through 10 mm, white and yellow.",
     description:
@@ -297,6 +313,7 @@ export const productCategories: ProductCategory[] = [
     skus: [
       {
         name: "Tile spacers",
+        image: productImageUrls.tileSpacer,
         application: "For fixing tiles and stones with proper, consistent joint spacing.",
         extras: ["Colours: white, yellow"],
       },
