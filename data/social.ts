@@ -1,32 +1,29 @@
 /**
  * EDIT HERE: Public social and messaging URLs for FIXONEX.
- * Replace example.com links with your official profiles.
+ * The order in this array drives the rendered order of social buttons
+ * everywhere they appear (footer, contact page, etc.).
  */
 import type { SocialLink } from "@/types";
 
 export const socialLinks: SocialLink[] = [
   {
-    id: "instagram",
-    label: "Instagram",
-    href: "https://www.instagram.com/fixonex",
-    icon: "instagram",
-  },
-  {
     id: "linkedin",
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/fixonex",
+    // Profile not published yet — button is rendered but non-interactive.
+    href: "#",
     icon: "linkedin",
+    disabled: true,
   },
   {
-    id: "youtube",
-    label: "YouTube",
-    href: "https://www.youtube.com/@fixonex",
-    icon: "youtube",
+    id: "instagram",
+    label: "Instagram",
+    href: "https://www.instagram.com/fixonex_?igsh=NGQxcHJhaXFyajh3",
+    icon: "instagram",
   },
   {
     id: "facebook",
     label: "Facebook",
-    href: "https://www.facebook.com/fixonex",
+    href: "https://www.facebook.com/share/1EHmmDMJmq/",
     icon: "facebook",
   },
   {

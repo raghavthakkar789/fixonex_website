@@ -78,7 +78,10 @@ export interface SocialLink {
   label: string;
   href: string;
   /** Lucide icon name key */
-  icon: "instagram" | "linkedin" | "youtube" | "facebook" | "whatsapp";
+  icon: "instagram" | "linkedin" | "facebook" | "whatsapp";
+  /** When true, the icon button is rendered but non-interactive
+   *  (e.g. a profile that hasn't been published yet). */
+  disabled?: boolean;
 }
 
 export type HelpEnvironment = "indoor" | "outdoor";

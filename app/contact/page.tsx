@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Instagram, Linkedin, Loader2, Mail, MapPin, MessageCircle, Phone, Youtube, ArrowRight, Send } from "lucide-react";
+import { Check, Loader2, Mail, MapPin, MessageCircle, Phone, ArrowRight, Send } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,18 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { companyInfo } from "@/data/company";
+import { socialLinks } from "@/data/social";
+import { socialIconMap } from "@/lib/social-icons";
+
+/** Per-platform hover tint for the "Follow Us" socials row. Keyed by
+ *  the central `SocialLink.id` so visual treatment stays in sync with the
+ *  ordering defined in `data/social.ts`. */
+const socialHoverTint: Record<string, string> = {
+  linkedin: "hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700",
+  instagram: "hover:bg-pink-50 hover:border-pink-200 hover:text-pink-700",
+  facebook: "hover:bg-sky-50 hover:border-sky-200 hover:text-sky-700",
+  whatsapp: "hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700",
+};
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -85,7 +97,7 @@ export default function ContactPage() {
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
               {/* Card header stripe */}
               <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-500" />
-              <div className="p-8 md:p-10">
+              <div className="relative z-10 p-8 md:p-10">
                 <p className="eyebrow-label mb-3">Inquiry Form</p>
                 <h2 className="font-display text-2xl font-bold text-zinc-950 mb-8">Send us a message</h2>
 
@@ -222,7 +234,7 @@ export default function ContactPage() {
             {/* Direct contact */}
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
               <div className="h-1 bg-gradient-to-r from-teal-500 to-emerald-500" />
-              <div className="p-7">
+              <div className="relative z-10 p-7">
                 <p className="eyebrow-label mb-5">Reach Us Directly</p>
                 <ul className="space-y-5">
                   {[
@@ -288,24 +300,37 @@ export default function ContactPage() {
             {/* Socials */}
             <TiltCard className="rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-400 mb-4">Follow Us</p>
-              <div className="flex flex-wrap gap-3">
-                {[
-                  { href: "https://wa.me/917383838632", icon: MessageCircle, label: "WhatsApp", color: "hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700" },
-                  { href: "#", icon: Instagram, label: "Instagram", color: "hover:bg-pink-50 hover:border-pink-200 hover:text-pink-700" },
-                  { href: "#", icon: Linkedin, label: "LinkedIn", color: "hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700" },
-                  { href: "#", icon: Youtube, label: "YouTube", color: "hover:bg-red-50 hover:border-red-200 hover:text-red-600" },
-                ].map(({ href, icon: Icon, label, color }) => (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-500 transition-all duration-300 ${color}`}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </motion.a>
-                ))}
+              <div className="relative z-10 flex flex-wrap gap-3">
+                {socialLinks.map((s) => {
+                  const Icon = socialIconMap[s.icon];
+                  if (s.disabled) {
+                    return (
+                      <span
+                        key={s.id}
+                        role="link"
+                        aria-disabled="true"
+                        aria-label={`${s.label} — coming soon`}
+                        title={`${s.label} — coming soon`}
+                        className="inline-flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50 text-zinc-400"
+                      >
+                        <Icon className="h-4 w-4" aria-hidden />
+                      </span>
+                    );
+                  }
+                  const tint = socialHoverTint[s.id] ?? "hover:bg-zinc-50";
+                  return (
+                    <a
+                      key={s.id}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className={`relative z-10 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-500 transition-all duration-300 hover:scale-110 hover:-translate-y-0.5 active:scale-95 ${tint}`}
+                    >
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </a>
+                  );
+                })}
               </div>
             </TiltCard>
           </motion.aside>

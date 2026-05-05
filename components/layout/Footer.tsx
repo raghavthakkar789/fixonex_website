@@ -119,6 +119,20 @@ export function Footer() {
               <div className="mt-8 flex flex-wrap gap-2.5">
                 {socialLinks.map((s) => {
                   const Icon = socialIconMap[s.icon];
+                  if (s.disabled) {
+                    return (
+                      <span
+                        key={s.id}
+                        role="link"
+                        aria-disabled="true"
+                        aria-label={`${s.label} — coming soon`}
+                        title={`${s.label} — coming soon`}
+                        className="inline-flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-full border border-dashed border-zinc-200 bg-zinc-50 text-zinc-400 shadow-sm"
+                      >
+                        <Icon className="h-[17px] w-[17px]" aria-hidden />
+                      </span>
+                    );
+                  }
                   return (
                     <motion.a
                       key={s.id}

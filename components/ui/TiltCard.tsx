@@ -48,7 +48,19 @@ export function TiltCard({
       transition={{ type: "spring", stiffness: 300, damping: 28, mass: 0.6 }}
       style={{ transformStyle: "preserve-3d", perspective: 1200 }}
     >
-      {children}
+      {/* Nudge content forward in 3D space so anchors, buttons, and inputs stay
+          reliably clickable under preserve-3d + rotate transforms (Safari /
+          Chrome quirk without this layer). */}
+      <div
+        className="h-full w-full min-h-0"
+        style={{
+          transform: "translateZ(42px)",
+          transformStyle: "preserve-3d",
+          backfaceVisibility: "hidden",
+        }}
+      >
+        {children}
+      </div>
     </motion.div>
   );
 }
