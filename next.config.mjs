@@ -9,6 +9,19 @@ const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
+  },
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "framer-motion",
+      "@radix-ui/react-accordion",
+    ],
+  },
   /** Point to the main project root so Turbopack can find node_modules (worktree support). */
   outputFileTracingRoot: path.join(__dirname, "..", "..", "..", ".."),
   /** Turbopack root must match outputFileTracingRoot. */

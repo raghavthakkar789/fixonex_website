@@ -1,9 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { PageHero } from "@/components/ui/PageHero";
-import { ProductGuidanceWizard } from "@/components/products/ProductGuidanceWizard";
+
+const ProductGuidanceWizard = dynamic(
+  () =>
+    import("@/components/products/ProductGuidanceWizard").then((m) => m.ProductGuidanceWizard),
+  {
+    loading: () => (
+      <div
+        className="min-h-[280px] rounded-xl border border-zinc-200/60 bg-zinc-50/80"
+        aria-busy
+        aria-label="Loading product helper"
+      />
+    ),
+  },
+);
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const serviceHeroImage = "/images/hero/products-hero.png";

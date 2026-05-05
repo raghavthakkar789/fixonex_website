@@ -7,6 +7,7 @@ import Image from "next/image";
 import { BRAND } from "@/lib/brand";
 import { easings } from "@/lib/animations";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
+import { pathnameKeysEqual } from "@/lib/utils";
 
 /**
  * Module-level guard so the splash only plays ONCE per page-load lifecycle on
@@ -21,7 +22,7 @@ const easeExpo = easings.easeOutExpo as [number, number, number, number];
 const easeInOut = easings.easeInOutExpo as [number, number, number, number];
 
 /** How long the splash holds on a hard reload before exiting. */
-const RELOAD_HOLD_MS = 1300;
+const RELOAD_HOLD_MS = 700;
 /** How long after the loader appears before we push the new route. */
 const NAV_PUSH_DELAY_MS = 360;
 /** Duration of the fade-out exit. */
@@ -104,10 +105,9 @@ export function InitialPageLoader() {
     if (reducedRef.current) return;
     if (source !== "navigation" || phase !== "active") return;
     const exp = expectedPath.current;
-    // Strict equality only: `/products` must not match `/products/tiles-adhesive/...` or
-    // in-product breadcrumbs and the nav bar "Products" link never finish routing.
-    const matched = exp == null || pathname === exp;
-    if (matched) {
+    if (exp == null || exp === "") return;
+    // `trailingSlash: true` → usePathname is `/x/` but URL#pathname from links is often `/x`
+    if (pathnameKeysEqual(pathname, exp)) {
       useTransitionStore.setState({ phase: 2 });
       setPhase("exiting");
     }

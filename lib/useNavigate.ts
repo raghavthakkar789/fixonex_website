@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { useTransitionStore } from "@/lib/transitionStore";
+import { pathnameKeysEqual } from "@/lib/utils";
 
 /**
  * All internal client navigations that should use the page transition
@@ -13,19 +14,35 @@ export function useAppNavigate() {
   return useCallback(
     (href: string) => {
       if (typeof window === "undefined") return Promise.resolve();
-      const path = new URL(href, window.location.origin).pathname;
-      if (path === window.location.pathname && href.split("#")[0] === window.location.pathname + (window.location.search || "")) {
-        if (href.includes("#")) {
-          const id = href.split("#")[1];
+
+      let dest: URL;
+      try {
+        dest = new URL(href, window.location.origin);
+      } catch {
+        return Promise.resolve();
+      }
+
+      const hereSearch = window.location.search || "";
+      const samePathAndSearch =
+        pathnameKeysEqual(dest.pathname, window.location.pathname) && dest.search === hereSearch;
+
+      if (samePathAndSearch) {
+        if (dest.hash) {
+          const id = dest.hash.slice(1);
           document.getElementById(id ?? "")?.scrollIntoView({ behavior: "smooth" });
         }
         return Promise.resolve();
       }
+
       if (/^(https?:|mailto:|tel:)/.test(href)) {
         window.location.assign(href);
         return Promise.resolve();
       }
-      return startNavigation(href.startsWith("/") ? href : `/${href}`);
+
+      const pathWithQsHash = `${dest.pathname}${dest.search}${dest.hash}`;
+      const internal =
+        pathWithQsHash.startsWith("/") ? pathWithQsHash : `/${pathWithQsHash}`;
+      return startNavigation(internal);
     },
     [startNavigation],
   );
