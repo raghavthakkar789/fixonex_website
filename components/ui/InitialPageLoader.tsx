@@ -104,7 +104,9 @@ export function InitialPageLoader() {
     if (reducedRef.current) return;
     if (source !== "navigation" || phase !== "active") return;
     const exp = expectedPath.current;
-    const matched = exp == null || pathname === exp || pathname.startsWith(`${exp}/`);
+    // Strict equality only: `/products` must not match `/products/tiles-adhesive/...` or
+    // in-product breadcrumbs and the nav bar "Products" link never finish routing.
+    const matched = exp == null || pathname === exp;
     if (matched) {
       useTransitionStore.setState({ phase: 2 });
       setPhase("exiting");

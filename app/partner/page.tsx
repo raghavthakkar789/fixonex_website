@@ -179,7 +179,7 @@ export default function PartnerPage() {
               >
                 <TiltCard className="min-w-[140px] rounded-3xl border border-zinc-200/70 bg-white p-6 text-center shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
                   <p className="font-display text-4xl font-bold text-primary stat-number tracking-tight">
-                    <CountUp to={s.value} />{s.suffix}
+                    <CountUp value={String(s.value)} />{s.suffix}
                   </p>
                   <p className="mt-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-zinc-500">{s.label}</p>
                 </TiltCard>

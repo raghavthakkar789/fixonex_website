@@ -3,6 +3,7 @@ import { ArrowRight, Building2, Home, Layers, Mountain, RefreshCw, Waves } from 
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { getTileAdhesiveProducts } from "@/lib/data/products";
+import { getHomeHeroImageForTileAdhesiveLine } from "@/data/home-hero-slides";
 
 const easeExpo = [0.16, 1, 0.3, 1];
 
@@ -37,7 +38,7 @@ export default function TilesAdhesiveHubPage() {
           { label: "Products", href: "/products" },
           { label: "Tiles Adhesive" },
         ]}
-        image="/images/hero/hero-main.jpeg"
+        image={getHomeHeroImageForTileAdhesiveLine()}
       />
 
       {/* ── Grade Cards ── */}

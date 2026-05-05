@@ -8,6 +8,7 @@ import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BackToGuidanceLink } from "@/components/products/BackToGuidanceLink";
 import { getTileAdhesiveBySubSlug, getTileAdhesiveProducts } from "@/lib/data/products";
+import { getHomeHeroImageForTileAdhesiveLine } from "@/data/home-hero-slides";
 
 const familyTabs = [
   { subSlug: "fix-111", label: "FIX 111" },
@@ -46,6 +47,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
         label={product.badge}
         title={product.name}
         subtitle={product.applicationShort}
+        image={getHomeHeroImageForTileAdhesiveLine()}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Products", href: "/products" },

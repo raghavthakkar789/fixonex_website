@@ -1,9 +1,9 @@
 "use client";
 
 import { TransitionLink } from "@/components/navigation/TransitionLink";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 // TiltCard imported from shared component
-import { AnimatePresence, motion, useScroll, useTransform, useInView } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
@@ -43,6 +43,7 @@ import {
 } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
+import { HomeHeroCarousel } from "@/components/home/HomeHeroCarousel";
 
 const FAQ_PREVIEW = homeFaqs.slice(0, 6);
 const FAQ_CATEGORIES = [
@@ -127,16 +128,6 @@ export function HomeView() {
   const [faqQuery, setFaqQuery] = useState("");
   const [faqExpanded, setFaqExpanded] = useState(false);
   const [showLazyRegistration, setShowLazyRegistration] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  const bgY = useTransform(heroScroll, [0, 1], reduced ? [0, 0] : [0, 100]);
-  const fgY = useTransform(heroScroll, [0, 1], reduced ? [0, 0] : [0, -50]);
-  const heroOpacity = useTransform(heroScroll, [0, 0.7], [1, 0]);
-  const heroScale = useTransform(heroScroll, [0, 0.7], [1, 0.96]);
 
   const faqFiltered = useMemo(() => {
     const q = faqQuery.trim().toLowerCase();
@@ -152,95 +143,7 @@ export function HomeView() {
 
   return (
     <>
-      {/* ─── Hero ──────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative h-[100svh] w-full overflow-hidden text-white">
-
-        {/* Image fills the entire section */}
-        <ImageWithFallback
-          src="/images/hero/hero-main.jpeg"
-          alt="FIXONEX tile adhesive on site"
-          fill
-          priority
-          reveal="none"
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-
-        {/* Dark overlay — uniform base + stronger gradient for readability */}
-        <div aria-hidden className="absolute inset-0 bg-black/55" />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
-
-        {/* Text sits on top of the image, centred */}
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-4 text-center">
-
-          {/* Label */}
-          <motion.p
-            className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-primary drop-shadow-md"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeExpo, delay: 0.2 }}
-          >
-            High-Performance Tile Adhesives
-          </motion.p>
-
-          {/* Headline */}
-          <h1 className="font-display font-black tracking-[-0.03em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]" style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1.05 }}>
-            <div className="overflow-hidden">
-              <motion.span
-                className="block text-white"
-                initial={{ y: "100%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 0.75, ease: easeExpo, delay: 0.3 }}
-              >
-                Built for Every Bond.
-              </motion.span>
-            </div>
-            <div className="overflow-hidden">
-              <motion.span
-                className="block text-primary"
-                initial={{ y: "100%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 0.75, ease: easeExpo, delay: 0.42 }}
-              >
-                Built for Every Site.
-              </motion.span>
-            </div>
-          </h1>
-
-          {/* Subtitle */}
-          <motion.p
-            className="mt-6 max-w-[40ch] text-base leading-relaxed text-zinc-200 drop-shadow-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.56 }}
-          >
-            Certified adhesives &amp; epoxy grout systems engineered for Indian construction sites.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            className="mt-8 flex flex-wrap justify-center gap-3"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: easeExpo, delay: 0.66 }}
-          >
-            <TransitionLink
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-[0_8px_28px_rgba(211,47,47,0.5)] transition-all hover:bg-primary/90"
-            >
-              Explore Products <ArrowRight className="h-4 w-4" aria-hidden />
-            </TransitionLink>
-            <TransitionLink
-              href="/contact"
-              className="inline-flex items-center rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20"
-            >
-              Get in Touch
-            </TransitionLink>
-          </motion.div>
-
-        </div>
-
-      </section>
+      <HomeHeroCarousel />
 
       {/* ─── Value Pillars ──────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b border-zinc-200/50 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">

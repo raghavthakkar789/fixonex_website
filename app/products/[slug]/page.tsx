@@ -8,6 +8,7 @@ import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BackToGuidanceLink } from "@/components/products/BackToGuidanceLink";
+import { getHomeHeroImageForCatalogSlug } from "@/data/home-hero-slides";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -38,6 +39,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           ? "h-[280px] md:h-[340px] lg:h-[400px]"
           : "h-[320px] md:h-[380px] lg:h-[460px]";
 
+  const pageHeroImage = getHomeHeroImageForCatalogSlug(slug);
+
   return (
     <>
       <BackToGuidanceLink />
@@ -47,6 +50,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         subtitle={product.applicationShort}
         bannerLayoutId={`product-hero-${slug}`}
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Products", href: "/products" }, { label: product.name }]}
+        image={pageHeroImage}
       />
 
       <section className="section-pad section-flow-light">

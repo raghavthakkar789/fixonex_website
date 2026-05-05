@@ -374,7 +374,7 @@ export const products: CatalogProduct[] = [
     name: "Tile Spacer",
     type: "2 mm – 10 mm",
     badge: "Tile Spacer",
-    standard: "Layout accessory",
+    standard: "Layout accessory\n - 2 mm to 10 mm sizes",
     applicationShort: "White & yellow spacers — 2 mm through 10 mm sizes.",
     application:
       "Precision spacers for consistent joint width when fixing tiles and stone — sizes from 2 mm to 10 mm in white and yellow for visibility on varied beds.",
