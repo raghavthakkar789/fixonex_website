@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80">
+  <!-- ISO wordmark — red background, white text, authentic style -->
+  <rect width="160" height="80" rx="6" fill="#CC0000"/>
+  <!-- ISO letters -->
+  <!-- I -->
+  <rect x="22" y="18" width="10" height="44" rx="2" fill="white"/>
+  <!-- S -->
+  <path d="M46 18 Q38 18 38 30 Q38 40 52 40 Q66 40 66 52 Q66 62 56 62 L38 62" fill="none" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- O -->
+  <ellipse cx="96" cy="40" rx="20" ry="24" fill="none" stroke="white" stroke-width="10"/>
+  <!-- Tagline -->
+  <text x="130" y="34" text-anchor="middle" fill="white" font-size="8.5" font-weight="700" font-family="Arial,sans-serif" letter-spacing="0.5">INTER</text>
+  <text x="130" y="44" text-anchor="middle" fill="white" font-size="8.5" font-weight="700" font-family="Arial,sans-serif" letter-spacing="0.5">NATIONAL</text>
+  <text x="130" y="54" text-anchor="middle" fill="white" font-size="8.5" font-weight="700" font-family="Arial,sans-serif" letter-spacing="0.5">STANDARD</text>
+</svg>

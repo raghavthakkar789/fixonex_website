@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 100">
+  <!-- CE Mark — Conformité Européenne — exact EU spec proportions -->
+  <rect width="140" height="100" rx="6" fill="white"/>
+  <!-- C letter — precise arc -->
+  <path d="
+    M 58 18
+    A 30 30 0 1 0 58 82
+    L 52 76
+    A 24 24 0 1 1 52 24
+    Z
+  " fill="#003399"/>
+  <!-- E letter -->
+  <!-- E top bar -->
+  <rect x="68" y="18" width="34" height="10" rx="2" fill="#003399"/>
+  <!-- E mid bar -->
+  <rect x="68" y="45" width="28" height="10" rx="2" fill="#003399"/>
+  <!-- E bottom bar -->
+  <rect x="68" y="72" width="34" height="10" rx="2" fill="#003399"/>
+  <!-- E vertical -->
+  <rect x="68" y="18" width="10" height="64" rx="0" fill="#003399"/>
+</svg>
