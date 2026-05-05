@@ -7,7 +7,7 @@ import {
   BadgeCheck, Leaf, Phone, Award
 } from "lucide-react";
 import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { companyInfo } from "@/data/company";
@@ -62,12 +62,13 @@ const excellencePoints = [
 export default function AboutPage() {
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="about"
         label="About"
-        title="About FIXONEX"
+        titleLine1="About"
+        titleLine2="FIXONEX"
         subtitle="Explore our premium adhesives and grout systems — built for flawless tile installations."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        image="https://picsum.photos/seed/fixonex-about/1600/900"
       />
 
       {/* ── Who We Are ── */}

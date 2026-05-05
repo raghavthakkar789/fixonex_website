@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Loader2, Network, Package, Shield, TrendingUp, ArrowRight, CheckCircle2, Send } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/PhoneInput";
@@ -89,12 +89,13 @@ export default function PartnerPage() {
 
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="partner"
         label="Partners"
-        title="Partner with FIXONEX"
+        titleLine1="Partner"
+        titleLine2="With FIXONEX"
         subtitle="Join our growing network of dealers and distributors. Competitive margins, full support, and a brand that delivers."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Partner" }]}
-        image="https://picsum.photos/seed/fixonex-partner/1600/900"
       />
 
       {/* ── Intro + Benefits — split ── */}

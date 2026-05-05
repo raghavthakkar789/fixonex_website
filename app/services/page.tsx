@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { PageHero } from "@/components/ui/PageHero";
 import { Layers, Clock, Shield } from "lucide-react";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 
 const TileAdhesiveSelector = dynamic(
   () =>
@@ -22,6 +23,7 @@ const TileAdhesiveSelector = dynamic(
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const serviceHeroImage = "/images/hero/products-hero.png";
+const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const FEATURES = [
   {
@@ -62,13 +64,13 @@ function FadeIn({
 export default function ServicePage() {
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="service"
         label="Service"
-        title="Service"
+        titleLine1="Service"
+        titleLine2="Guidance"
         subtitle="A guided helper that points you to the right FIXONEX product for your application — fast, free, and field-tested."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Service" }]}
-        image={serviceHeroImage}
-        imageClassName="object-contain object-center md:object-right"
       />
 
       {/* ── Product Guidance ────────────────────────────────────────────── */}

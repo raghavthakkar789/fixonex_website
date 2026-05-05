@@ -7,7 +7,7 @@ import {
   ShieldCheck, Handshake, Star, BadgeCheck, Zap, Building2, Home
 } from "lucide-react";
 import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -87,12 +87,13 @@ const experiencePoints = [
 export default function WhyFixonexPage() {
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="why"
         label="Why FIXONEX"
-        title="Choose FIXONEX for Expert Solutions, Superior Products & Unmatched Quality"
+        titleLine1="Why"
+        titleLine2="FIXONEX"
         subtitle="A decade of tile industry expertise, internationally certified formulations, and genuine technical support — all in one trusted system."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Why FIXONEX" }]}
-        image="/images/hero/hero-main.jpeg"
       />
 
       {/* ── Quality & Expertise Combined ── */}

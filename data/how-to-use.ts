@@ -4,6 +4,17 @@ export type HowToGuideSection = {
   paragraphs: string[];
 };
 
+/** Shared hero art paths for `/support/guides/[id]` (see `public/images/hero/`). */
+export const guideHeroImages = {
+  main: "/images/hero/hero-main.jpeg",
+  adhesive: "/images/hero/Tiles-adhesive-heroimage.jpeg",
+  epoxy: "/images/hero/Epoxy grouting-heroimage.jpeg",
+  block: "/images/hero/block-joining-montar-heroimage.jpeg",
+  cleaner: "/images/hero/tileCleaner-heroImage.jpeg",
+  spacer: "/images/hero/tilesSpacer-heroImage.jpeg",
+  pu: "/images/hero/pu-fixo-999-heroimage.png",
+} as const;
+
 /** Article-style how-to entries used on Support (written help; optional media can be added later per guide). */
 export interface HowToGuideEntry {
   id: string;
@@ -16,6 +27,8 @@ export interface HowToGuideEntry {
     | "safety"
     | "stone"
     | "glass-block";
+  /** Hero background for the guide detail page. */
+  heroImage: string;
   /** Full article body for `/support/guides/[id]`. */
   sections: HowToGuideSection[];
   /** Optional closing bullets. */
@@ -29,6 +42,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "How to achieve a homogeneous mix, manage open time on warm days, and avoid over-retempering on site.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Why the first mix sets the tone",
@@ -70,6 +84,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Why notch size matters for large-format tile and how to verify transfer to the back of the tile.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Notch depth and tile geometry",
@@ -105,6 +120,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Joint packing, wash timing, and protection of adjacent trades during grout cure windows.",
     category: "grout",
+    heroImage: guideHeroImages.epoxy,
     sections: [
       {
         heading: "Staging before you open the pail",
@@ -146,6 +162,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Working in teams, pot life awareness, and safe handling during application.",
     category: "grout",
+    heroImage: guideHeroImages.epoxy,
     sections: [
       {
         heading: "Epoxy is a system, not a hurry-up cement grout",
@@ -181,6 +198,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Balancing grout cure protection with timely haze removal using FIXONEX cleaners.",
     category: "cleaning",
+    heroImage: guideHeroImages.cleaner,
     sections: [
       {
         heading: "Haze is timing as much as chemistry",
@@ -216,6 +234,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Baseline site safety expectations when mixing powders, using epoxies, or applying PU systems.",
     category: "safety",
+    heroImage: guideHeroImages.main,
     sections: [
       {
         heading: "PPE and posture",
@@ -250,6 +269,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Moisture, strength, flatness, and cure stage — the checks that stop tile from bonding to a slab that is still busy drying or moving.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Strength, cure, and a surface that accepts bond",
@@ -285,6 +305,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Sound existing tile, keyed surfaces, interface with drains, and adhesive choice for overlays — without pretending every old floor is a suitable substrate.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Survey the existing assembly",
@@ -320,6 +341,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Where soft joints belong, how they relate to big rooms and facades, and why grout colour never replaces structural accommodation.",
     category: "adhesives",
+    heroImage: guideHeroImages.spacer,
     sections: [
       {
         heading: "What movement joints are for",
@@ -355,6 +377,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Cure windows, compatibility, flood testing, and not turning a membrane into a confused sandwich of half-dry layers.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "System not coincidence",
@@ -390,6 +413,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Bag storage, winter pours, summer open time — environmental discipline so the product in the wall matches the product in the lab test.",
     category: "adhesives",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Warehouse to truck to site",
@@ -425,6 +449,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Two-part FIXONEX PU needs exact metering — especially on walls and detail lines where rework hurts.",
     category: "adhesives",
+    heroImage: guideHeroImages.pu,
     sections: [
       {
         heading: "Ratio and mix integrity",
@@ -460,6 +485,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Consistent bed thickness, perpend alignment, and protecting fresh work from weather so walls read plumb when finishes arrive.",
     category: "adhesives",
+    heroImage: guideHeroImages.block,
     sections: [
       {
         heading: "Mix and staging on vertical work",
@@ -495,6 +521,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Why nominal joint width matters for large tile, grout performance, and how wedges interact with flatness tolerances.",
     category: "adhesives",
+    heroImage: guideHeroImages.spacer,
     sections: [
       {
         heading: "Joint width is a system input",
@@ -529,6 +556,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Why translucent stone punishes grey cement, how moisture transport shows as staining, and when a wall sample saves a contract.",
     category: "stone",
+    heroImage: guideHeroImages.adhesive,
     sections: [
       {
         heading: "Colour of the adhesive matters",
@@ -564,6 +592,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Kitchens, healthcare, and industrial floors where daily chemistry is harsher than household detergent — plan grout class and maintenance together.",
     category: "grout",
+    heroImage: guideHeroImages.epoxy,
     sections: [
       {
         heading: "List the actual cleaners in use",
@@ -598,6 +627,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "Sequence adhesive cure, grout cure, flood scheduling, and chemical startup so the tank does not earn its water prematurely.",
     category: "grout",
+    heroImage: guideHeroImages.epoxy,
     sections: [
       {
         heading: "Documentation stack",
@@ -632,6 +662,7 @@ export const howToGuides: HowToGuideEntry[] = [
     description:
       "How to request declarations, lot tracking, and coherent submittals so site receives what the design assumed.",
     category: "safety",
+    heroImage: guideHeroImages.main,
     sections: [
       {
         heading: "What belongs in a submittal",
