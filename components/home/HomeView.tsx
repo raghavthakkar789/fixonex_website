@@ -42,6 +42,7 @@ import {
   FadeGroupItem,
 } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
 
 const FAQ_PREVIEW = homeFaqs.slice(0, 6);
 const FAQ_CATEGORIES = [
@@ -511,6 +512,9 @@ export function HomeView() {
           </SlideReveal>
         </div>
       </section>
+
+      {/* ─── Certifications Marquee ─────────────────────────────────────────── */}
+      <CertificationsMarquee />
 
       {/* ─── Testimonials ───────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdf9ff] via-[#f8f5ff] to-[#f4f0ff]">

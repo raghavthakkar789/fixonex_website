@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 100">
+  <!-- IGBC — Indian Green Building Council -->
+  <rect width="160" height="100" rx="6" fill="white"/>
+  <!-- Building silhouette in green -->
+  <rect x="12" y="55" width="20" height="28" rx="2" fill="#2d8a4e"/>
+  <rect x="36" y="40" width="20" height="43" rx="2" fill="#1a6b3c"/>
+  <rect x="60" y="50" width="20" height="33" rx="2" fill="#2d8a4e"/>
+  <!-- Ground line -->
+  <line x1="8" y1="83" x2="88" y2="83" stroke="#1a6b3c" stroke-width="2"/>
+  <!-- Leaf/sun arc above buildings -->
+  <path d="M 18 40 Q 50 10 82 40" fill="none" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+  <!-- Leaf at the top -->
+  <path d="M 50 8 Q 62 2 58 16 Q 44 22 50 8Z" fill="#66BB6A"/>
+  <!-- IGBC text -->
+  <text x="124" y="48" text-anchor="middle" fill="#1a6b3c" font-size="22" font-weight="900" font-family="Arial,sans-serif" letter-spacing="1">IGBC</text>
+  <line x1="95" y1="55" x2="153" y2="55" stroke="#4CAF50" stroke-width="1.5"/>
+  <text x="124" y="67" text-anchor="middle" fill="#4CAF50" font-size="7.5" font-weight="700" font-family="Arial,sans-serif" letter-spacing="1">MEMBER</text>
+  <text x="124" y="78" text-anchor="middle" fill="#888" font-size="6" font-family="Arial,sans-serif" letter-spacing="0.5">GREEN BUILDING COUNCIL</text>
+</svg>

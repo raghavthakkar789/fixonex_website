@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 100">
+  <!-- IAF — International Accreditation Forum -->
+  <rect width="180" height="100" rx="6" fill="white"/>
+  <!-- Globe -->
+  <circle cx="48" cy="50" r="36" fill="none" stroke="#003087" stroke-width="3"/>
+  <!-- Longitude lines -->
+  <ellipse cx="48" cy="50" rx="18" ry="36" fill="none" stroke="#003087" stroke-width="1.5"/>
+  <ellipse cx="48" cy="50" rx="30" ry="36" fill="none" stroke="#4477cc" stroke-width="0.8"/>
+  <!-- Latitude lines -->
+  <line x1="12" y1="50" x2="84" y2="50" stroke="#003087" stroke-width="1.5"/>
+  <line x1="16" y1="32" x2="80" y2="32" stroke="#4477cc" stroke-width="0.8"/>
+  <line x1="16" y1="68" x2="80" y2="68" stroke="#4477cc" stroke-width="0.8"/>
+  <!-- IAF text -->
+  <text x="130" y="42" text-anchor="middle" fill="#003087" font-size="26" font-weight="900" font-family="Arial,sans-serif" letter-spacing="2">IAF</text>
+  <line x1="96" y1="50" x2="165" y2="50" stroke="#003087" stroke-width="1.5"/>
+  <text x="130" y="63" text-anchor="middle" fill="#003087" font-size="7" font-weight="700" font-family="Arial,sans-serif" letter-spacing="0.8">MEMBER · MLA</text>
+  <text x="130" y="74" text-anchor="middle" fill="#888" font-size="6" font-family="Arial,sans-serif">MULTILATERAL RECOGNITION</text>
+  <text x="130" y="83" text-anchor="middle" fill="#888" font-size="6" font-family="Arial,sans-serif">ARRANGEMENT</text>
+</svg>

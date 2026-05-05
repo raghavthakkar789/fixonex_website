@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <!-- Make in India — saffron lion made from gears motif -->
+  <rect width="200" height="100" rx="6" fill="white"/>
+  <!-- Lion body (simplified gear-lion silhouette in saffron) -->
+  <!-- Head -->
+  <circle cx="60" cy="32" r="18" fill="#FF6600"/>
+  <!-- Mane spikes (gear teeth) -->
+  <polygon points="60,10 64,18 56,18" fill="#FF6600"/>
+  <polygon points="78,16 74,23 70,17" fill="#FF6600"/>
+  <polygon points="84,32 76,34 76,30" fill="#FF6600"/>
+  <polygon points="78,48 73,42 69,46" fill="#FF6600"/>
+  <polygon points="42,16 46,23 50,17" fill="#FF6600"/>
+  <polygon points="36,32 44,34 44,30" fill="#FF6600"/>
+  <polygon points="42,48 47,42 51,46" fill="#FF6600"/>
+  <!-- Face detail -->
+  <circle cx="54" cy="30" r="4" fill="white"/>
+  <circle cx="66" cy="30" r="4" fill="white"/>
+  <circle cx="54" cy="30" r="2" fill="#333"/>
+  <circle cx="66" cy="30" r="2" fill="#333"/>
+  <!-- Nose -->
+  <ellipse cx="60" cy="38" rx="4" ry="2.5" fill="white"/>
+  <!-- Body -->
+  <rect x="44" y="48" width="32" height="22" rx="4" fill="#FF6600"/>
+  <!-- Legs -->
+  <rect x="44" y="66" width="10" height="20" rx="3" fill="#FF6600"/>
+  <rect x="58" y="66" width="10" height="20" rx="3" fill="#FF6600"/>
+  <!-- Gear details on body -->
+  <circle cx="60" cy="58" r="6" fill="white" opacity="0.3"/>
+  <!-- Tail -->
+  <path d="M76 54 Q90 44 88 60 Q86 70 80 66" fill="none" stroke="#FF6600" stroke-width="6" stroke-linecap="round"/>
+  <!-- Text -->
+  <text x="130" y="44" text-anchor="middle" fill="#FF6600" font-size="14" font-weight="900" font-family="Arial,sans-serif" letter-spacing="1">MAKE IN</text>
+  <text x="130" y="62" text-anchor="middle" fill="#FF6600" font-size="14" font-weight="900" font-family="Arial,sans-serif" letter-spacing="1">INDIA</text>
+  <line x1="100" y1="70" x2="165" y2="70" stroke="#FF6600" stroke-width="1.5"/>
+</svg>

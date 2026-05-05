@@ -9,8 +9,12 @@ const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  /** Prefer this repo when another lockfile exists higher in the directory tree (e.g. user home). */
-  outputFileTracingRoot: path.join(__dirname),
+  /** Point to the main project root so Turbopack can find node_modules (worktree support). */
+  outputFileTracingRoot: path.join(__dirname, "..", "..", "..", ".."),
+  /** Turbopack root must match outputFileTracingRoot. */
+  turbopack: {
+    root: path.join(__dirname, "..", "..", "..", ".."),
+  },
   /**
    * Avoids dev-only UI that can interact badly with the App Router client manifest
    * (see Next devtools segment explorer). Pages still work; build is unchanged.
