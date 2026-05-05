@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { evaluateHelpSelection } from "@/data/help-recommendations";
 import type {
   HelpEnvironment,
@@ -155,12 +155,12 @@ export function RecommendationWizard() {
                 if (!p) return null;
                 return (
                   <li key={slug}>
-                    <Link
+                    <TransitionLink
                       href={`/products/${slug}`}
                       className="font-semibold text-foreground underline underline-offset-2 hover:text-subhead focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
                       {p.title}
-                    </Link>
+                    </TransitionLink>
                   </li>
                 );
               })}
@@ -171,7 +171,7 @@ export function RecommendationWizard() {
             they say something different.
           </p>
           <Button asChild className="w-full" size="default">
-            <Link href="/contact">{cta.contact}</Link>
+            <TransitionLink href="/contact">{cta.contact}</TransitionLink>
           </Button>
         </CardContent>
       </Card>

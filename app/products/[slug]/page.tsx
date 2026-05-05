@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { notFound, redirect } from "next/navigation";
 import { Check } from "lucide-react";
 import { products, getCatalogProduct } from "@/lib/data/products";
@@ -164,7 +164,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <h2 className="font-heading text-2xl font-semibold text-dark">Need Help?</h2>
           <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
           <Button asChild className="mt-6" variant="primary">
-            <Link href="/contact">Get guidance</Link>
+            <TransitionLink href="/contact">Get guidance</TransitionLink>
           </Button>
         </div>
       </section>

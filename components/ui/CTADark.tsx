@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -19,13 +19,13 @@ export function CTADark({ headline, subtext }: CTADarkProps) {
         <p className="mt-4 text-base leading-relaxed text-mid">{subtext}</p>
         <div className="mt-9 flex flex-wrap justify-center gap-3 sm:gap-4">
           <Button asChild size="lg" variant="outline" className="gap-2">
-            <Link href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
+            <a href="https://wa.me/917383838632" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={18} aria-hidden />
               WhatsApp
-            </Link>
+            </a>
           </Button>
           <Button asChild size="lg" variant="primary">
-            <Link href="/contact">Book consultation</Link>
+            <TransitionLink href="/contact">Book consultation</TransitionLink>
           </Button>
         </div>
       </div>

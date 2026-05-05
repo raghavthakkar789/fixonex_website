@@ -167,32 +167,76 @@ export function Navbar() {
                 </TransitionLink>
               </motion.div>
 
-              {/* Hamburger — mobile/tablet only */}
+              {/* Hamburger — mobile/tablet only.
+                  "Compass reticle → X" toggle: four short pill arms arranged
+                  as a + sign with a centre gap (closed). On open they slide
+                  to the centre and rotate ±45° simultaneously to lock into
+                  a tight X. A faint outer ring fades in on open to reinforce
+                  the reticle motif. */}
               <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-600 transition-colors hover:bg-zinc-100 lg:hidden"
+                className="group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-700 transition-colors hover:border-primary/30 hover:bg-white hover:text-primary lg:hidden"
                 aria-expanded={open}
                 aria-controls="mobile-menu"
                 aria-label={open ? "Close menu" : "Open menu"}
               >
-                <motion.span className="flex h-full w-full flex-col items-center justify-center gap-[4.5px]">
-                  <motion.span
-                    animate={open ? { rotate: 45, y: 4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.25, ease: easeExpo }}
-                    className="block h-[1.5px] w-3.5 rounded-full bg-current"
-                  />
-                  <motion.span
-                    animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                    transition={{ duration: 0.15 }}
-                    className="block h-[1.5px] w-3.5 rounded-full bg-current"
-                  />
-                  <motion.span
-                    animate={open ? { rotate: -45, y: -4.5 } : { rotate: 0, y: 0 }}
-                    transition={{ duration: 0.25, ease: easeExpo }}
-                    className="block h-[1.5px] w-3.5 rounded-full bg-current"
-                  />
-                </motion.span>
+                {/* Outer reticle ring — fades in on open */}
+                <motion.span
+                  aria-hidden
+                  className="pointer-events-none absolute h-5 w-5 rounded-full border border-current"
+                  initial={false}
+                  animate={{
+                    opacity: open ? 0.35 : 0,
+                    scale: open ? 1 : 0.7,
+                    rotate: open ? 90 : 0,
+                  }}
+                  transition={{ duration: 0.4, ease: easeExpo }}
+                />
+
+                {/* Soft red glow behind the icon on open */}
+                <motion.span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-xl"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 50% 50%, rgba(211,47,47,0.14), transparent 70%)",
+                  }}
+                  animate={{ opacity: open ? 1 : 0 }}
+                  transition={{ duration: 0.25, ease: easeExpo }}
+                />
+
+                <span className="relative flex h-full w-full items-center justify-center">
+                  {[
+                    // Each arm: pill drawn vertically by default. `closedRot`
+                    // is its resting angle when the menu is closed (forming
+                    // the + reticle). `openRot` is the angle it locks to
+                    // when open. `cx/cy` are the closed-state offsets from
+                    // centre, which animate to (0,0) so arms converge.
+                    { cx: 0, cy: -4.5, closedRot: 0, openRot: 45 },   // N
+                    { cx: 0, cy: 4.5, closedRot: 0, openRot: 45 },    // S → overlaps with N to make ↘ diagonal
+                    { cx: 4.5, cy: 0, closedRot: 90, openRot: -45 },  // E
+                    { cx: -4.5, cy: 0, closedRot: 90, openRot: -45 }, // W → overlaps with E to make ↙ diagonal
+                  ].map((arm, i) => (
+                    <motion.span
+                      key={i}
+                      aria-hidden
+                      className="absolute block rounded-full bg-current"
+                      style={{ width: 1.75, height: 7 }}
+                      initial={false}
+                      animate={
+                        open
+                          ? { x: 0, y: 0, rotate: arm.openRot, scaleY: 1.55 }
+                          : { x: arm.cx, y: arm.cy, rotate: arm.closedRot, scaleY: 1 }
+                      }
+                      transition={{
+                        duration: 0.42,
+                        ease: easeExpo,
+                        delay: i * 0.035,
+                      }}
+                    />
+                  ))}
+                </span>
               </button>
             </div>
           </div>

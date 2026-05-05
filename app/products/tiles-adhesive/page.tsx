@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ArrowRight, Building2, Home, Layers, Mountain, RefreshCw, Waves } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
@@ -103,12 +103,12 @@ export default function TilesAdhesiveHubPage() {
                 key={slug}
                 className={`grid grid-cols-4 gap-3 border-b border-zinc-100 px-6 py-4 text-sm last:border-b-0 ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
               >
-                <Link
+                <TransitionLink
                   href={`/products/tiles-adhesive/${slug}`}
                   className="border-l-2 border-primary/60 pl-3 font-semibold text-primary hover:text-primary/80 transition-colors"
                 >
                   {name}
-                </Link>
+                </TransitionLink>
                 <p className="text-zinc-600">{grade}</p>
                 <p className="text-zinc-600">{use}</p>
                 <p className="text-zinc-500">{size}</p>
@@ -130,7 +130,7 @@ export default function TilesAdhesiveHubPage() {
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {useCases.map((item) => (
-              <Link
+              <TransitionLink
                 key={item.title}
                 href={item.href}
                 className="group flex items-start justify-between gap-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 transition-all duration-200 hover:border-primary/30 hover:bg-white hover:shadow-sm"
@@ -144,7 +144,7 @@ export default function TilesAdhesiveHubPage() {
                 <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-bold text-primary whitespace-nowrap">
                   {item.recommendation}
                 </span>
-              </Link>
+              </TransitionLink>
             ))}
           </div>
         </div>
@@ -154,9 +154,9 @@ export default function TilesAdhesiveHubPage() {
       <section className="bg-primary py-8 text-center">
         <p className="site-container text-sm font-semibold text-white md:text-base">
           Need a documented recommendation?{" "}
-          <Link href="/contact" className="underline underline-offset-2 hover:text-white/80 transition-colors">
+          <TransitionLink href="/contact" className="underline underline-offset-2 hover:text-white/80 transition-colors">
             Contact our experts →
-          </Link>
+          </TransitionLink>
         </p>
       </section>
     </>

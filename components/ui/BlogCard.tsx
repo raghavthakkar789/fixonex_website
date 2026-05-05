@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ArrowRight } from "lucide-react";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 
@@ -29,9 +29,9 @@ export function BlogCard({ title, excerpt, category, image, readTime, href }: Bl
         <p className="line-clamp-2 text-sm text-mid">{excerpt}</p>
         <div className="mt-4 flex items-center justify-between">
           <span className="text-xs text-mid">{readTime}</span>
-          <Link href={href} className="inline-flex items-center gap-1 text-sm font-semibold text-red">
+          <TransitionLink href={href} className="inline-flex items-center gap-1 text-sm font-semibold text-red">
             Read guide <ArrowRight size={16} />
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </article>

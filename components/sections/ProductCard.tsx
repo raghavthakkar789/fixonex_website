@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ArrowRight } from "lucide-react";
 import type { ProductCategory } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,13 +49,13 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="mt-auto flex flex-1 flex-col p-4 pt-0 sm:p-5 sm:pt-0 md:p-6">
         <p className="text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>
-        <Link
+        <TransitionLink
           href={`/products/${product.slug}`}
           className="mt-5 inline-flex items-center gap-2 text-sm font-bold tracking-tight text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline sm:mt-6"
         >
           {cta.viewRange}
           <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-industrial group-hover:translate-x-0.5" />
-        </Link>
+        </TransitionLink>
       </CardContent>
     </Card>
   );

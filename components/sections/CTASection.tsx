@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +76,7 @@ export function CTASection({
           )}
         >
           <Button asChild size="lg" className="w-full sm:w-auto sm:min-w-[10.5rem]">
-            <Link href={primaryHref}>{primaryLabel}</Link>
+            <TransitionLink href={primaryHref}>{primaryLabel}</TransitionLink>
           </Button>
           {secondaryHref && secondaryLabel && (
             <Button
@@ -89,7 +89,7 @@ export function CTASection({
                   "border-border-strong text-foreground hover:bg-elevated/80 hover:text-foreground focus-visible:ring-offset-secondary",
               )}
             >
-              <Link href={secondaryHref}>{secondaryLabel}</Link>
+              <TransitionLink href={secondaryHref}>{secondaryLabel}</TransitionLink>
             </Button>
           )}
         </div>

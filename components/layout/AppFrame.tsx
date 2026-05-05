@@ -8,9 +8,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { StickyHelpButton } from "@/components/layout/StickyHelpButton";
+import { InitialPageLoader } from "@/components/ui/InitialPageLoader";
 import { PageLoadProgressBar } from "@/components/ui/PageLoadProgressBar";
 import { ScrollProgressIndicator } from "@/components/ui/ScrollProgressIndicator";
-import { RouteTransitionLayer } from "@/components/layout/RouteTransitionLayer";
 import { PageTransitionWrapper } from "@/components/ui/PageTransitionWrapper";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 
@@ -89,11 +89,11 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
 
   return (
     <LenisRafProvider>
+      <InitialPageLoader />
       <PathColorSync />
       <ScrollResetOnRouteChange />
       <PageLoadProgressBar />
       <ScrollProgressIndicator />
-      <RouteTransitionLayer />
       <Navbar />
       {/* Spacer so fixed navbar doesn't overlap content */}
       <div className="h-14 md:h-16" aria-hidden />

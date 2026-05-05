@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,18 +34,18 @@ export function SupportLibraryGrid({ guides }: { guides: SupportGuide[] }) {
             <CardHeader className="pb-2 pt-4 sm:pt-5">
               <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-subhead sm:text-xs">{g.category}</p>
               <CardTitle className="text-base sm:text-lg">
-                <Link
+                <TransitionLink
                   href={`/support/guides/${g.id}`}
                   className="text-foreground transition-colors hover:text-subhead focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   {g.title}
-                </Link>
+                </TransitionLink>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
               <p>{g.excerpt}</p>
               <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
-                <Link href={`/support/guides/${g.id}`}>{cta.openGuide}</Link>
+                <TransitionLink href={`/support/guides/${g.id}`}>{cta.openGuide}</TransitionLink>
               </Button>
               {g.relatedProductSlugs.length > 0 ? (
                 <div>
@@ -55,9 +55,9 @@ export function SupportLibraryGrid({ guides }: { guides: SupportGuide[] }) {
                       const p = getProductBySlug(slug);
                       return (
                         <li key={slug}>
-                          <Link href={`/products/${slug}`} className={proseInlineLinkClass}>
+                          <TransitionLink href={`/products/${slug}`} className={proseInlineLinkClass}>
                             {p?.title ?? slug}
-                          </Link>
+                          </TransitionLink>
                         </li>
                       );
                     })}

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
@@ -44,10 +44,10 @@ export function Hero({ introBelow }: HeroProps) {
             </p>
             <div className="mt-7 flex w-full max-w-md flex-col gap-3 sm:mt-9 sm:max-w-none sm:flex-row sm:items-center sm:gap-3 md:mt-10">
               <Button asChild size="lg" className="w-full sm:w-auto">
-                <Link href="/products">{cta.viewProducts}</Link>
+                <TransitionLink href="/products">{cta.viewProducts}</TransitionLink>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-                <Link href="/products#product-guidance">{cta.guidance}</Link>
+                <TransitionLink href="/products#product-guidance">{cta.guidance}</TransitionLink>
               </Button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { notFound } from "next/navigation";
 import { PageBanner } from "@/components/sections/PageBanner";
 import { PageSection } from "@/components/layout/PageSection";
@@ -51,9 +51,9 @@ export default async function SupportGuideArticlePage({ params }: Props) {
       />
       <PageSection size="narrow" spacing="default" className="border-0 bg-gradient-to-b from-background to-muted/20">
         <nav className="mb-6 text-sm text-muted-foreground sm:mb-10" aria-label="Breadcrumb">
-          <Link href="/support#guides" className={proseInlineLinkClass}>
+          <TransitionLink href="/support#guides" className={proseInlineLinkClass}>
             Support
-          </Link>
+          </TransitionLink>
           <span className="mx-2 text-border" aria-hidden>
             /
           </span>
@@ -102,12 +102,12 @@ export default async function SupportGuideArticlePage({ params }: Props) {
                   const p = getProductBySlug(slug);
                   return (
                     <li key={slug}>
-                      <Link
+                      <TransitionLink
                         href={`/products/${slug}`}
                         className="inline-flex min-h-9 items-center rounded-md border border-border bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:border-foreground hover:bg-muted"
                       >
                         {p?.title ?? slug}
-                      </Link>
+                      </TransitionLink>
                     </li>
                   );
                 })}
@@ -117,13 +117,13 @@ export default async function SupportGuideArticlePage({ params }: Props) {
 
           <div className="mt-10 flex flex-col gap-2.5 border-t border-border/70 pt-7 sm:mt-14 sm:flex-row sm:flex-wrap sm:gap-3 sm:border-border/80 sm:pt-9">
             <Button asChild variant="outline" size="default">
-              <Link href="/support#guides">{cta.allGuides}</Link>
+              <TransitionLink href="/support#guides">{cta.allGuides}</TransitionLink>
             </Button>
             <Button asChild variant="outline" size="default">
-              <Link href="/support/#faq">{cta.faq}</Link>
+              <TransitionLink href="/support/#faq">{cta.faq}</TransitionLink>
             </Button>
             <Button asChild className="sm:ml-auto" size="default">
-              <Link href="/contact">{cta.contact}</Link>
+              <TransitionLink href="/contact">{cta.contact}</TransitionLink>
             </Button>
           </div>
         </article>

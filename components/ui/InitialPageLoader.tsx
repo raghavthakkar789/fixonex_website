@@ -2,143 +2,197 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { BRAND } from "@/lib/brand";
 import { easings } from "@/lib/animations";
+import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
 
+/**
+ * Module-level guard so the splash only plays ONCE per page-load lifecycle on
+ * hard refresh. A full page reload re-evaluates this module → resets to
+ * `false` → splash shows again. Internal client-side route changes leave it
+ * `true`, but they trigger the same loader through the navigation flow below
+ * (driven by the transition store).
+ */
 let _hasShownLoader = false;
 
-const easeExpo  = easings.easeOutExpo   as [number, number, number, number];
+const easeExpo = easings.easeOutExpo as [number, number, number, number];
 const easeInOut = easings.easeInOutExpo as [number, number, number, number];
 
-const HOLD_MS = 600;
+/** How long the splash holds on a hard reload before exiting. */
+const RELOAD_HOLD_MS = 1300;
+/** How long after the loader appears before we push the new route. */
+const NAV_PUSH_DELAY_MS = 360;
+/** Duration of the fade-out exit. */
+const EXIT_MS = 500;
 
-function shouldSkip(): boolean {
-  if (typeof window === "undefined") return true;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
-  return _hasShownLoader;
-}
-
-type Phase = "idle" | "entering" | "holding" | "exiting";
+type Phase = "active" | "exiting" | "done";
+type Source = "initial" | "navigation";
 
 export function InitialPageLoader() {
-  const [phase, setPhase]     = useState<Phase>("idle");
-  const [barFull, setBarFull] = useState(false);
-  const t1 = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const t2 = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const t3 = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Start ACTIVE so the splash paints immediately on hard refresh / hydration.
+  // The layout effect below reconciles this for repeat in-session mounts and
+  // reduced-motion users.
+  const [phase, setPhase] = useState<Phase>("active");
+  const [source, setSource] = useState<Source>("initial");
+
+  const reducedRef = useRef(false);
+  const expectedPath = useRef<string | null>(null);
+  const pushTimer = useRef<number | null>(null);
+  const exitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const doneTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const storePhase = useTransitionStore((s) => s.phase);
+  const pendingHref = useTransitionStore((s) => s.pendingHref);
+  const resetStore = useTransitionStore((s) => s.resetAfterNavigation);
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   useLayoutEffect(() => {
-    if (shouldSkip()) return;
+    if (typeof window === "undefined") return;
+    reducedRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedRef.current || _hasShownLoader) {
+      setPhase("done");
+      return;
+    }
     _hasShownLoader = true;
-    setPhase("entering");
   }, []);
 
+  // Initial-load auto-exit: hold for RELOAD_HOLD_MS, then start fading out.
   useEffect(() => {
-    if (phase !== "entering") return;
-    t1.current = setTimeout(() => setBarFull(true),    400);
-    t2.current = setTimeout(() => setPhase("holding"), 900);
-    return () => { clearTimeout(t1.current!); clearTimeout(t2.current!); };
-  }, [phase]);
+    if (source !== "initial" || phase !== "active") return;
+    exitTimer.current = setTimeout(() => setPhase("exiting"), RELOAD_HOLD_MS);
+    return () => {
+      if (exitTimer.current) clearTimeout(exitTimer.current);
+    };
+  }, [source, phase]);
 
+  // Navigation-trigger: when the transition store says a navigation is pending,
+  // raise the loader (interrupting any in-flight initial-load timer) and
+  // schedule the actual `router.push`.
   useEffect(() => {
-    if (phase !== "holding") return;
-    t3.current = setTimeout(() => setPhase("exiting"), HOLD_MS);
-    return () => clearTimeout(t3.current!);
-  }, [phase]);
+    if (reducedRef.current) return;
+    if (storePhase !== 1 || !pendingHref) return;
 
-  const isActive  = phase === "entering" || phase === "holding";
-  const isExiting = phase === "exiting";
+    setSource("navigation");
+    setPhase("active");
+
+    try {
+      const u = new URL(pendingHref, window.location.origin);
+      expectedPath.current = u.pathname;
+    } catch {
+      expectedPath.current = pendingHref;
+    }
+
+    if (pushTimer.current) window.clearTimeout(pushTimer.current);
+    pushTimer.current = window.setTimeout(() => {
+      const state = useTransitionStore.getState();
+      if (state.phase === 1 && state.pendingHref) {
+        router.push(state.pendingHref);
+      }
+    }, NAV_PUSH_DELAY_MS);
+
+    return () => {
+      if (pushTimer.current) window.clearTimeout(pushTimer.current);
+    };
+  }, [storePhase, pendingHref, router]);
+
+  // When the pathname catches up to the navigation target, begin the exit.
+  useEffect(() => {
+    if (reducedRef.current) return;
+    if (source !== "navigation" || phase !== "active") return;
+    const exp = expectedPath.current;
+    const matched = exp == null || pathname === exp || pathname.startsWith(`${exp}/`);
+    if (matched) {
+      useTransitionStore.setState({ phase: 2 });
+      setPhase("exiting");
+    }
+  }, [pathname, source, phase]);
+
+  // Final cleanup once the exit fade has played.
+  useEffect(() => {
+    if (phase !== "exiting") return;
+    doneTimer.current = setTimeout(() => {
+      if (source === "navigation") {
+        resetStore();
+        callNavigationResolve();
+      }
+      expectedPath.current = null;
+      setPhase("done");
+    }, EXIT_MS);
+    return () => {
+      if (doneTimer.current) clearTimeout(doneTimer.current);
+    };
+  }, [phase, source, resetStore]);
+
+  // Lock body scroll while the splash covers the page so the user can't
+  // scroll the underlying content during the brief hold.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (phase === "done") return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [phase]);
 
   return (
-    <AnimatePresence mode="wait">
-      {(isActive || isExiting) && (
+    <AnimatePresence>
+      {phase !== "done" && (
         <motion.div
           key="ipl"
           role="presentation"
           aria-hidden
-          className="fixed inset-0 z-[300] overflow-hidden"
+          className="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-white"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: phase === "exiting" ? 0 : 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: EXIT_MS / 1000, ease: easeInOut }}
         >
-          {/* Split-door exit — top half up, bottom half down */}
+          {/* Logo — uses `fill` with an aspect-ratio-locked parent (400:120)
+              to match the source asset and avoid Next.js Image aspect warnings. */}
           <motion.div
-            className="absolute inset-x-0 top-0 h-1/2"
-            style={{ background: "linear-gradient(180deg,#ffffff 0%,#fdfcfb 100%)" }}
-            animate={isExiting ? { y: "-100%" } : { y: 0 }}
-            transition={{ duration: 0.7, ease: easeInOut, delay: 0.08 }}
-          />
-          <motion.div
-            className="absolute inset-x-0 bottom-0 h-1/2"
-            style={{ background: "linear-gradient(0deg,#ffffff 0%,#fdfcfb 100%)" }}
-            animate={isExiting ? { y: "100%" } : { y: 0 }}
-            transition={{ duration: 0.7, ease: easeInOut, delay: 0.08 }}
-          />
-
-          {/* Soft red glow behind logo */}
-          <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(211,47,47,0.07) 0%, transparent 70%)",
-            }}
-          />
-
-          {/* Top red stripe */}
-          <motion.div
-            className="absolute inset-x-0 top-0 h-[3px]"
-            style={{ background: "linear-gradient(90deg,transparent,#D32F2F 40%,#ea580c 60%,transparent)" }}
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.9, ease: easeExpo, delay: 0.05 }}
-          />
-
-          {/* Corner brackets */}
-          {(["top-5 left-5 border-t-2 border-l-2",
-             "top-5 right-5 border-t-2 border-r-2",
-             "bottom-5 left-5 border-b-2 border-l-2",
-             "bottom-5 right-5 border-b-2 border-r-2"] as const
-          ).map((pos, i) => (
-            <motion.div
-              key={pos}
-              className={`absolute h-6 w-6 ${pos} border-zinc-200`}
-              initial={{ opacity: 0, scale: 0.3 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4, delay: 0.1 + i * 0.05, ease: easeExpo }}
-            />
-          ))}
-
-          {/* Centre — logo only */}
-          <motion.div
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center"
-            animate={isExiting ? { opacity: 0, scale: 0.94 } : { opacity: 1, scale: 1 }}
-            transition={{ duration: 0.28, ease: easeExpo }}
+            initial={{ opacity: 0, scale: 0.92, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: easeExpo }}
+            className="relative h-28 w-[280px] sm:h-32 sm:w-[320px] md:h-36 md:w-[360px] lg:h-44 lg:w-[440px]"
           >
-            {/* Logo — scale + fade in */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.82, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: easeExpo, delay: 0.1 }}
-            >
-              <Image
-                src="/images/misc/logo.png"
-                alt={BRAND.name}
-                width={220}
-                height={68}
-                priority
-                className="h-16 w-auto object-contain"
-              />
-            </motion.div>
-
-            {/* Progress bar */}
-            <div className="mt-10 h-[2px] w-32 overflow-hidden rounded-full bg-zinc-100">
-              <motion.div
-                className="h-full origin-left rounded-full"
-                style={{ background: "linear-gradient(90deg,#D32F2F,#ea580c)" }}
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: barFull ? 1 : 0 }}
-                transition={barFull ? { duration: 0.55, ease: easeExpo } : { duration: 0 }}
-              />
-            </div>
+            <Image
+              src="/images/misc/logo.png"
+              alt={BRAND.name}
+              fill
+              priority
+              sizes="(min-width: 1024px) 440px, (min-width: 768px) 360px, (min-width: 640px) 320px, 280px"
+              className="object-contain"
+            />
           </motion.div>
+
+          {/* Loading animation — indeterminate sliding bar BELOW the logo */}
+          <motion.div
+            className="relative mt-10 h-[3px] w-48 overflow-hidden rounded-full bg-zinc-100 sm:mt-12 sm:w-56 md:w-64"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: easeExpo, delay: 0.25 }}
+          >
+            <motion.div
+              className="absolute inset-y-0 w-1/3 rounded-full"
+              style={{ background: "linear-gradient(90deg, #D32F2F, #ea580c)" }}
+              animate={{ x: ["-110%", "320%"] }}
+              transition={{ duration: 1.15, ease: easeInOut, repeat: Infinity }}
+            />
+          </motion.div>
+
+          <motion.p
+            className="mt-4 text-[11px] font-semibold uppercase tracking-[0.32em] text-zinc-400"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, ease: easeExpo, delay: 0.35 }}
+          >
+            Loading
+          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -23,9 +23,9 @@ export function FeatureCard({ icon: Icon, title, description, href, className }:
 
   if (href) {
     return (
-      <Link href={href} className="group block">
+      <TransitionLink href={href} className="group block">
         {content}
-      </Link>
+      </TransitionLink>
     );
   }
   return content;

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
@@ -10,7 +10,7 @@ export default function NotFound() {
         The link may be old or mistyped. Use the menu above or return home to keep browsing.
       </p>
       <Button asChild className="mt-10" size="lg">
-        <Link href="/">Back to home</Link>
+        <TransitionLink href="/">Back to home</TransitionLink>
       </Button>
     </div>
   );

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
 
 type CTALightProps = {
@@ -17,10 +17,10 @@ export function CTALight({ headline, subtext }: CTALightProps) {
         <p className="mx-auto mt-5 max-w-2xl text-base leading-[1.65] text-mid">{subtext}</p>
         <div className="mt-9 flex flex-wrap justify-center gap-3 sm:gap-4">
           <Button asChild size="lg" variant="outline">
-            <Link href="/products">Explore Products</Link>
+            <TransitionLink href="/products">Explore Products</TransitionLink>
           </Button>
           <Button asChild size="lg" variant="primary">
-            <Link href="/contact">Contact Us</Link>
+            <TransitionLink href="/contact">Contact Us</TransitionLink>
           </Button>
         </div>
       </div>

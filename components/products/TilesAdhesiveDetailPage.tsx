@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,13 +27,13 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
       <div className="border-b border-border bg-elevated">
         <div className="site-container overflow-x-auto py-3 text-[13px] text-mid">
           <div className="min-w-max whitespace-nowrap">
-          <Link href="/products" className="transition-colors hover:text-black">
+          <TransitionLink href="/products" className="transition-colors hover:text-black">
             Products
-          </Link>
+          </TransitionLink>
           <span className="mx-2 text-terracotta">›</span>
-          <Link href="/products/tiles-adhesive" className="transition-colors hover:text-black">
+          <TransitionLink href="/products/tiles-adhesive" className="transition-colors hover:text-black">
             Tiles Adhesive
-          </Link>
+          </TransitionLink>
           <span className="mx-2 text-terracotta">›</span>
           <span>{product.name.replace(/[()]/g, "")}</span>
           </div>
@@ -58,7 +58,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
             {familyTabs.map((tab) => {
               const active = tab.subSlug === subSlug;
               return (
-                <Link
+                <TransitionLink
                   key={tab.subSlug}
                   href={`/products/tiles-adhesive/${tab.subSlug}`}
                   className={`inline-flex border-b-2 py-4 text-sm font-semibold transition-colors ${
@@ -66,7 +66,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
                   }`}
                 >
                   {tab.label}
-                </Link>
+                </TransitionLink>
               );
             })}
           </div>
@@ -165,7 +165,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
           <h2 className="font-heading text-2xl font-semibold text-dark">Need Help?</h2>
           <p className="mt-3 text-base">Our team can validate adhesive class, exposure, and compatibility with your tile system.</p>
           <Button asChild className="mt-6" variant="primary">
-            <Link href="/contact">Get guidance</Link>
+            <TransitionLink href="/contact">Get guidance</TransitionLink>
           </Button>
         </div>
       </section>
