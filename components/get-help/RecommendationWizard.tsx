@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { asideMicroHeadingClass, cta } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
+import { hrefForProductCategorySlug } from "@/lib/product-routes";
 
 const steps = [
   { id: "environment", title: "Where is the installation?" },
@@ -156,7 +157,7 @@ export function RecommendationWizard() {
                 return (
                   <li key={slug}>
                     <TransitionLink
-                      href={`/products/${slug}`}
+                      href={hrefForProductCategorySlug(slug)}
                       className="font-semibold text-foreground underline underline-offset-2 hover:text-subhead focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
                       {p.title}

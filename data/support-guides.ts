@@ -10,6 +10,8 @@ export type SupportGuide = {
   title: string;
   excerpt: string;
   category: string;
+  /** Background for the guide detail hero (`PageHero`). */
+  heroImage: string;
   /** Related product range slugs for deep links from product pages */
   relatedProductSlugs: string[];
   sections: HowToGuideSection[];
@@ -70,6 +72,7 @@ export const supportGuides: SupportGuide[] = howToGuides.map((g) => {
     title: g.title,
     excerpt: g.description,
     category: categoryLabels[g.category] ?? g.category,
+    heroImage: g.heroImage,
     relatedProductSlugs: related[g.id] ?? [],
     sections: g.sections,
     takeaways: g.takeaways,

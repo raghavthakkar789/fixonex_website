@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle, BookOpen, ArrowRight, CheckCircle2, ChevronDown, Search } from "lucide-react";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Button } from "@/components/ui/button";
 import { supportFaqs } from "@/lib/data/support-faqs";
@@ -73,12 +73,13 @@ export default function SupportPage() {
 
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="support"
         label="Support"
-        title="Help & Support"
+        titleLine1="Help"
+        titleLine2="& Support"
         subtitle="Everything you need to install FIXONEX products correctly — from surface preparation to final finishing."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Support" }]}
-        image="https://picsum.photos/seed/fixonex-support/1600/900"
       />
 
       {/* ── Installation Timeline ── */}

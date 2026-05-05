@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Loader2, Mail, MapPin, MessageCircle, Phone, ArrowRight, Send } from "lucide-react";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/PhoneInput";
@@ -63,12 +63,13 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="contact"
         label="Contact"
-        title="Contact & Consultation"
+        titleLine1="Contact"
+        titleLine2="Consultation"
         subtitle="Whether you need product advice, want to place an order, or have a technical question — our team is ready to help."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
-        image="https://picsum.photos/seed/fixonex-contact/1600/900"
       />
 
       {/* Main form + info */}

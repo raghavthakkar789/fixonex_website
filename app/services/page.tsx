@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { PageHero } from "@/components/ui/PageHero";
+import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
 
 const ProductGuidanceWizard = dynamic(
   () =>
@@ -20,7 +20,6 @@ const ProductGuidanceWizard = dynamic(
 );
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const serviceHeroImage = "/images/hero/products-hero.png";
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,13 +40,13 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 export default function ServicePage() {
   return (
     <>
-      <PageHero
+      <CinematicMotionHero
+        variant="service"
         label="Service"
-        title="Service"
+        titleLine1="Service"
+        titleLine2="Guidance"
         subtitle="A guided helper that points you to the right FIXONEX product for your application — fast, free, and field-tested."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Service" }]}
-        image={serviceHeroImage}
-        imageClassName="object-contain object-center md:object-right"
       />
 
       {/* ── Product Guidance Wizard ── */}

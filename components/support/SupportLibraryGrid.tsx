@@ -8,6 +8,7 @@ import { getProductBySlug } from "@/data/products";
 import type { SupportGuide } from "@/data/support-guides";
 import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { cta, proseInlineLinkClass } from "@/lib/ui-constants";
+import { hrefForProductCategorySlug } from "@/lib/product-routes";
 
 const INITIAL_COUNT = 6;
 const LOAD_MORE_COUNT = 4;
@@ -55,7 +56,7 @@ export function SupportLibraryGrid({ guides }: { guides: SupportGuide[] }) {
                       const p = getProductBySlug(slug);
                       return (
                         <li key={slug}>
-                          <TransitionLink href={`/products/${slug}`} className={proseInlineLinkClass}>
+                          <TransitionLink href={hrefForProductCategorySlug(slug)} className={proseInlineLinkClass}>
                             {p?.title ?? slug}
                           </TransitionLink>
                         </li>
