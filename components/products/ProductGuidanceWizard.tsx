@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
@@ -28,7 +28,42 @@ import {
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const TOTAL = guidanceQuestions.length; // 4
 
+/** Per-tab key for the wizard's progress + answers. Cleared on tab close
+ *  so cross-session privacy stays intact, but preserved while the visitor
+ *  hops between the wizard and recommended product pages. */
+const STORAGE_KEY = "fixonex:product-guidance-state:v1";
+
 type PartialAnswers = Partial<GuidanceAnswers>;
+
+type StoredWizardState = {
+  answers: PartialAnswers;
+  activeStep: number;
+};
+
+/** Append `from=guidance` so the destination product page can render a
+ *  "Back to Product Guidance" link that returns to the wizard section. */
+function withGuidanceFlag(href: string): string {
+  const sep = href.includes("?") ? "&" : "?";
+  return `${href}${sep}from=guidance`;
+}
+
+function readStoredState(): StoredWizardState | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<StoredWizardState> | null;
+    if (!parsed || typeof parsed !== "object") return null;
+    const answers = (parsed.answers && typeof parsed.answers === "object" ? parsed.answers : {}) as PartialAnswers;
+    const activeStep =
+      typeof parsed.activeStep === "number" && Number.isFinite(parsed.activeStep)
+        ? Math.max(0, Math.min(TOTAL, parsed.activeStep))
+        : 0;
+    return { answers, activeStep };
+  } catch {
+    return null;
+  }
+}
 
 /* ── Companion product logic ─────────────────────────────────── */
 interface Companion {
@@ -94,6 +129,35 @@ const valueProps = [
 export function ProductGuidanceWizard() {
   const [activeStep, setActiveStep] = useState(0); // next unlocked question index
   const [answers, setAnswers] = useState<PartialAnswers>({});
+  // Guard the persist effect until we've attempted a one-time hydrate from
+  // sessionStorage — otherwise the initial empty render would clobber any
+  // saved selections before they are restored.
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    const stored = readStoredState();
+    if (stored) {
+      setAnswers(stored.answers);
+      setActiveStep(stored.activeStep);
+    }
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    if (typeof window === "undefined") return;
+    try {
+      const isEmpty = activeStep === 0 && Object.keys(answers).length === 0;
+      if (isEmpty) {
+        window.sessionStorage.removeItem(STORAGE_KEY);
+      } else {
+        const payload: StoredWizardState = { answers, activeStep };
+        window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      }
+    } catch {
+      // Storage may be unavailable (private mode, quota); fail silently.
+    }
+  }, [answers, activeStep, hydrated]);
 
   function select(stepIndex: number, field: keyof GuidanceAnswers, value: string) {
     const next: PartialAnswers = { ...answers, [field]: value };
@@ -108,6 +172,13 @@ export function ProductGuidanceWizard() {
   function reset() {
     setAnswers({});
     setActiveStep(0);
+    if (typeof window !== "undefined") {
+      try {
+        window.sessionStorage.removeItem(STORAGE_KEY);
+      } catch {
+        // ignore
+      }
+    }
   }
 
   const allAnswered =
@@ -237,7 +308,7 @@ export function ProductGuidanceWizard() {
 
                 {/* Primary product card */}
                 <TransitionLink
-                  href={result.href}
+                  href={withGuidanceFlag(result.href)}
                   className="group block rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all duration-200 hover:border-primary/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   aria-label={`View ${result.name} product page`}
                 >
@@ -283,7 +354,7 @@ export function ProductGuidanceWizard() {
                       {companions.map((c) => (
                         <TransitionLink
                           key={c.name}
-                          href={c.href}
+                          href={withGuidanceFlag(c.href)}
                           className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-3.5 py-3 transition-all duration-200 hover:border-primary/30 hover:shadow-sm"
                         >
                           <div className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg bg-zinc-100">
@@ -312,7 +383,7 @@ export function ProductGuidanceWizard() {
                 {/* CTAs */}
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   <TransitionLink
-                    href={result.href}
+                    href={withGuidanceFlag(result.href)}
                     className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary/90"
                   >
                     View Product

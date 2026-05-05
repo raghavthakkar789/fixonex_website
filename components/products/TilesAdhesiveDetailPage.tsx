@@ -6,6 +6,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { BackToGuidanceLink } from "@/components/products/BackToGuidanceLink";
 import { getTileAdhesiveBySubSlug, getTileAdhesiveProducts } from "@/lib/data/products";
 
 const familyTabs = [
@@ -24,6 +25,7 @@ export function TilesAdhesiveDetailPage({ subSlug }: { subSlug: string }) {
 
   return (
     <>
+      <BackToGuidanceLink />
       <div className="border-b border-border bg-elevated">
         <div className="site-container overflow-x-auto py-3 text-[13px] text-mid">
           <div className="min-w-max whitespace-nowrap">

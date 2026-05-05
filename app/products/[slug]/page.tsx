@@ -7,6 +7,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CTADark } from "@/components/ui/CTADark";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { BackToGuidanceLink } from "@/components/products/BackToGuidanceLink";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -39,6 +40,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <>
+      <BackToGuidanceLink />
       <PageHero
         label={product.badge}
         title={product.name}
