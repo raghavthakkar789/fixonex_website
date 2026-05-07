@@ -46,7 +46,6 @@ export function InitialPageLoader() {
 
   const storePhase = useTransitionStore((s) => s.phase);
   const pendingHref = useTransitionStore((s) => s.pendingHref);
-  const resetStore = useTransitionStore((s) => s.resetAfterNavigation);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -74,11 +73,7 @@ export function InitialPageLoader() {
   // raise the loader (interrupting any in-flight initial-load timer) and
   // schedule the actual `router.push`.
   useEffect(() => {
-    if (reducedRef.current) return;
     if (storePhase !== 1 || !pendingHref) return;
-
-    setSource("navigation");
-    setPhase("active");
 
     try {
       const u = new URL(pendingHref, window.location.origin);
@@ -87,13 +82,22 @@ export function InitialPageLoader() {
       expectedPath.current = pendingHref;
     }
 
+    if (!reducedRef.current) {
+      setSource("navigation");
+      setPhase("active");
+    } else {
+      setSource("navigation");
+    }
+
+    const delay = reducedRef.current ? 0 : NAV_PUSH_DELAY_MS;
+
     if (pushTimer.current) window.clearTimeout(pushTimer.current);
     pushTimer.current = window.setTimeout(() => {
       const state = useTransitionStore.getState();
       if (state.phase === 1 && state.pendingHref) {
         router.push(state.pendingHref);
       }
-    }, NAV_PUSH_DELAY_MS);
+    }, delay);
 
     return () => {
       if (pushTimer.current) window.clearTimeout(pushTimer.current);
@@ -102,15 +106,23 @@ export function InitialPageLoader() {
 
   // When the pathname catches up to the navigation target, begin the exit.
   useEffect(() => {
-    if (reducedRef.current) return;
-    if (source !== "navigation" || phase !== "active") return;
+    if (source !== "navigation") return;
     const exp = expectedPath.current;
     if (exp == null || exp === "") return;
-    // `trailingSlash: true` → usePathname is `/x/` but URL#pathname from links is often `/x`
-    if (pathnameKeysEqual(pathname, exp)) {
-      useTransitionStore.setState({ phase: 2 });
-      setPhase("exiting");
+    if (!pathnameKeysEqual(pathname, exp)) return;
+
+    useTransitionStore.setState({ phase: 2 });
+
+    if (reducedRef.current) {
+      useTransitionStore.getState().resetAfterNavigation();
+      callNavigationResolve();
+      expectedPath.current = null;
+      setSource("initial");
+      return;
     }
+
+    if (phase !== "active") return;
+    setPhase("exiting");
   }, [pathname, source, phase]);
 
   // Final cleanup once the exit fade has played.
@@ -118,7 +130,7 @@ export function InitialPageLoader() {
     if (phase !== "exiting") return;
     doneTimer.current = setTimeout(() => {
       if (source === "navigation") {
-        resetStore();
+        useTransitionStore.getState().resetAfterNavigation();
         callNavigationResolve();
       }
       expectedPath.current = null;
@@ -127,7 +139,7 @@ export function InitialPageLoader() {
     return () => {
       if (doneTimer.current) clearTimeout(doneTimer.current);
     };
-  }, [phase, source, resetStore]);
+  }, [phase, source]);
 
   // Lock body scroll while the splash covers the page so the user can't
   // scroll the underlying content during the brief hold.

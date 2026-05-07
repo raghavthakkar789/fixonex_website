@@ -10,6 +10,7 @@ import { Reveal, Stagger, StaggerItem, LineReveal, SlideReveal } from "@/compone
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { cta } from "@/lib/ui-constants";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const productsHeroImage = "/images/hero/products-hero.png";
@@ -134,8 +135,8 @@ export default function ProductsPage() {
 
                   <div className="mt-8 flex flex-wrap gap-3 border-t border-zinc-100 pt-8">
                     <Button asChild variant="primary" className="rounded-full shadow-[0_4px_16px_rgba(211,47,47,0.28)]">
-                      <TransitionLink href="/services" className="inline-flex items-center gap-2">
-                        Product helper
+                      <TransitionLink href="/services#product-guidance" className="inline-flex items-center gap-2">
+                        {cta.guidance}
                         <ArrowRight className="h-4 w-4" aria-hidden />
                       </TransitionLink>
                     </Button>

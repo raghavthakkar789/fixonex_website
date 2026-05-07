@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useTransitionStore } from "@/lib/transitionStore";
-import { LenisRafProvider } from "@/components/providers/LenisRafProvider";
+import { LenisRafProvider, useLenisScrollToTop } from "@/components/providers/LenisRafProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
@@ -24,6 +24,7 @@ function PathColorSync() {
 
 function ScrollResetOnRouteChange() {
   const pathname = usePathname();
+  const lenisScrollToTop = useLenisScrollToTop();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -36,6 +37,7 @@ function ScrollResetOnRouteChange() {
     if (typeof window === "undefined") return;
     if (window.location.hash) return;
     const reset = () => {
+      lenisScrollToTop();
       window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
@@ -43,7 +45,7 @@ function ScrollResetOnRouteChange() {
     reset();
     const id = window.requestAnimationFrame(reset);
     return () => window.cancelAnimationFrame(id);
-  }, [pathname]);
+  }, [pathname, lenisScrollToTop]);
 
   return null;
 }

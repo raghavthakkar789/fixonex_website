@@ -83,25 +83,3 @@ export interface SocialLink {
    *  (e.g. a profile that hasn't been published yet). */
   disabled?: boolean;
 }
-
-export type HelpEnvironment = "indoor" | "outdoor";
-export type HelpMoisture = "dry" | "wet" | "immersed";
-export type HelpTileSize = "small" | "medium" | "large" | "heavy";
-export type HelpMaterial =
-  | "ceramic-porcelain"
-  | "natural-stone"
-  | "glass-block"
-  | "mixed";
-
-export interface HelpRecommendationRule {
-  id: string;
-  match: Partial<{
-    environment: HelpEnvironment;
-    moisture: HelpMoisture;
-    tileSize: HelpTileSize;
-    material: HelpMaterial;
-  }>;
-  productSlugs: ProductCategorySlug[];
-  headline: string;
-  rationale: string;
-}

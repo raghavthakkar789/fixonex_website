@@ -10,6 +10,7 @@ import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cn } from "@/lib/utils";
 
 const CATALOG_PDF_URL = "/FIXONEX%20E-CATALOG%20%20BY%20EAGLE%20EYE.pdf";
@@ -79,8 +80,8 @@ export function CatalogRequestButton() {
       setErrorMessage("Please enter a contact number.");
       return;
     }
-    if (!/^[0-9+\-()\s]{7,}$/.test(phone)) {
-      setErrorMessage("Please enter a valid contact number.");
+    if (!isTenDigitNationalNumber(phone)) {
+      setErrorMessage(PHONE_EXACTLY_TEN_DIGITS_MESSAGE);
       return;
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {

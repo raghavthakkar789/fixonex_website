@@ -1,9 +1,24 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactNode,
+} from "react";
 import Lenis from "lenis";
 
 type Props = { children: ReactNode };
+
+const LenisScrollContext = createContext<(() => void) | null>(null);
+
+/** Snap Lenis to top after route changes (avoids stuck scroll until full reload). */
+export function useLenisScrollToTop() {
+  return useContext(LenisScrollContext) ?? (() => {});
+}
 
 /** Approximates cubic-bezier(0.16, 1, 0.3, 1) — avoids extra deps */
 function easeOutExpoLike(t: number) {
@@ -15,6 +30,14 @@ function easeOutExpoLike(t: number) {
  * runtime stays smaller and main-thread work is easier to schedule.
  */
 export function LenisRafProvider({ children }: Props) {
+  const lenisRef = useRef<Lenis | null>(null);
+
+  const scrollToTop = useCallback(() => {
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  }, []);
+
+  const scrollValue = useMemo(() => scrollToTop, [scrollToTop]);
+
   useEffect(() => {
     let cancelled = false;
     let rafId = 0;
@@ -37,12 +60,12 @@ export function LenisRafProvider({ children }: Props) {
         duration: 1.2,
         easing: (t) => easeOutExpoLike(t),
       });
+      lenisRef.current = lenisInstance;
       runLoop(lenisInstance);
     };
 
     let schedule: "idle" | "timeout" = "idle";
 
-    // After first paint / when the browser is idle — keeps TTI and first interaction snappier.
     if (typeof requestIdleCallback !== "undefined") {
       idleId = requestIdleCallback(start, { timeout: 380 });
       schedule = "idle";
@@ -60,9 +83,11 @@ export function LenisRafProvider({ children }: Props) {
       }
       cancelAnimationFrame(rafId);
       lenisInstance?.destroy();
-      lenisInstance = null;
+      lenisRef.current = null;
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <LenisScrollContext.Provider value={scrollValue}>{children}</LenisScrollContext.Provider>
+  );
 }

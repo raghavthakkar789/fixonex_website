@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { Loader2, Network, Package, Shield, TrendingUp, ArrowRight, CheckCircle2, Send } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/PhoneInput";
@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal, Stagger, StaggerItem, SlideReveal, LineReveal, CountUp } from "@/components/motion/Reveal";
+import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -75,7 +76,13 @@ const stats = [
 export default function PartnerPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const { register, handleSubmit, control, reset } = useForm<DealerForm>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<DealerForm>({
     defaultValues: { businessType: businessTypes[0], phone: "" },
   });
 
@@ -89,8 +96,7 @@ export default function PartnerPage() {
 
   return (
     <>
-      <CinematicMotionHero
-        variant="partner"
+      <SimplePageHero
         label="Partners"
         titleLine1="Partner"
         titleLine2="With FIXONEX"
@@ -265,7 +271,13 @@ export default function PartnerPage() {
                           <Controller
                             control={control}
                             name="phone"
-                            rules={{ required: true }}
+                            rules={{
+                              validate: (v) => {
+                                const s = (v || "").trim();
+                                if (!s) return "Required";
+                                return isTenDigitNationalNumber(s) || PHONE_EXACTLY_TEN_DIGITS_MESSAGE;
+                              },
+                            }}
                             render={({ field }) => (
                               <PhoneInput
                                 id="phone"
@@ -275,12 +287,16 @@ export default function PartnerPage() {
                                 onBlur={field.onBlur}
                                 placeholder="98765 43210"
                                 required
+                                aria-invalid={!!errors.phone}
                                 className="mt-1.5"
                                 triggerClassName="rounded-l-xl border-zinc-200 bg-zinc-50/50"
                                 inputClassName="rounded-r-xl border-zinc-200 bg-zinc-50/50"
                               />
                             )}
                           />
+                          {errors.phone && (
+                            <p className="mt-1 text-xs text-primary">{errors.phone.message}</p>
+                          )}
                         </div>
                         <div>
                           <Label htmlFor="city" className="text-zinc-700 font-semibold text-[13px]">City / Region</Label>

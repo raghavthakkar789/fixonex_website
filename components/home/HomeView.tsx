@@ -29,6 +29,7 @@ import { homeFaqs } from "@/lib/data/home-faqs";
 import { testimonials } from "@/lib/data/testimonials";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { cn } from "@/lib/utils";
+import { cta } from "@/lib/ui-constants";
 import {
   Reveal,
   Stagger,
@@ -374,9 +375,9 @@ export function HomeView() {
                 transition={{ duration: 0.2 }}
               >
                 <Button asChild variant="outline" size="lg" className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary">
-                  <TransitionLink href="/services#wizard">
+                  <TransitionLink href="/services#product-guidance">
                     <Search className="mr-2 h-4 w-4" aria-hidden />
-                    Open product helper
+                    {cta.guidance}
                   </TransitionLink>
                 </Button>
               </motion.div>

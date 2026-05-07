@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cta, formStackClass, formTitleClass } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,10 @@ export function DealerInquiryForm() {
     setErrorMessage("");
     if (!form.businessName.trim() || !form.contactPerson.trim() || !form.phone.trim() || !form.email.trim()) {
       setErrorMessage("Please fill in business name, contact, phone, and email.");
+      return;
+    }
+    if (!isTenDigitNationalNumber(form.phone)) {
+      setErrorMessage(PHONE_EXACTLY_TEN_DIGITS_MESSAGE);
       return;
     }
     setStatus("submitting");

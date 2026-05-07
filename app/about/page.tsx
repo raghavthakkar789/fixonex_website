@@ -7,7 +7,7 @@ import {
   BadgeCheck, Leaf, Phone, Award
 } from "lucide-react";
 import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { companyInfo } from "@/data/company";
@@ -62,8 +62,7 @@ const excellencePoints = [
 export default function AboutPage() {
   return (
     <>
-      <CinematicMotionHero
-        variant="about"
+      <SimplePageHero
         label="About"
         titleLine1="About"
         titleLine2="FIXONEX"

@@ -1,22 +1,24 @@
 "use client";
 
 /**
- * TileAdhesiveSelector — Product Guidance Widget
+ * Tile adhesive selector — used under **Product guidance** on the Service page.
  *
- * 5 sequential steps (Ardex Endura–inspired). One step open at a time.
- * Changing any answer clears all subsequent answers (rollback).
- * Result appears ONLY after all 5 steps answered.
- * Right panel: credibility content while answering → recommendation when done.
+ * Sequential steps; each answered step stays expanded so choices can be changed
+ * directly (later answers reset when an earlier answer changes).
+ * Right panel: rich credibility + system essentials until complete; then recommendation.
  */
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CheckCircle2, RotateCcw, ChevronRight, ArrowRight,
   MapPin, Layers, Grid3X3, Maximize2, Blocks,
-  Award, Users, ShieldCheck, Zap, ChevronDown,
+  Award, Users, ShieldCheck, Zap, Sparkles,
+  Droplets, Package,
 } from "lucide-react";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
+import { cn } from "@/lib/utils";
+import { panelEditorialClass } from "@/lib/ui-constants";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -41,6 +43,8 @@ interface Answers {
 }
 
 const STEP_ORDER: (keyof Answers)[] = ["area", "type", "tile", "tileSize", "substrate"];
+
+const STEP_SHORT_LABELS = ["Area", "Type", "Tile", "Size", "Base"] as const;
 
 /* ─── Step 1 — Area ──────────────────────────────────────────────────────── */
 const AREA_OPTIONS: { id: AreaId; label: string }[] = [
@@ -196,6 +200,61 @@ function getCompanions(a: Required<Answers>): Companion[] {
   return COMPANIONS.filter((c) => c.always || (c.id === "epoxy-grout" && needsEpoxy));
 }
 
+/** Partial answers — patterns where epoxy is commonly paired. */
+function epoxyLikelyFromPartial(a: Answers): boolean {
+  return (
+    a.type === "swimming-pool" ||
+    a.type === "commercial" ||
+    a.area === "exterior-floor" ||
+    a.area === "exterior-wall" ||
+    a.substrate === "gypsum-board"
+  );
+}
+
+const COMPANION_UI: {
+  id: Companion["id"];
+  name: string;
+  short: string;
+  href: string;
+  Icon: typeof Layers;
+}[] = [
+  {
+    id: "epoxy-grout",
+    name: "Epoxy Grout",
+    short: "Stain-resistant, hygienic joints for pools, exteriors, and demanding wet areas.",
+    href: "/products/epoxy-grout",
+    Icon: Layers,
+  },
+  {
+    id: "tile-cleaner",
+    name: "Tile Cleaner",
+    short: "Post-install haze removal and a showroom-grade finish.",
+    href: "/products/tile-cleaner",
+    Icon: Droplets,
+  },
+  {
+    id: "tile-spacer",
+    name: "Tile Spacer",
+    short: "Uniform joints from mosaic modules to large-format slabs.",
+    href: "/products/tile-spacer",
+    Icon: Package,
+  },
+];
+
+const CRED_PILLARS = [
+  {
+    title: "Spec-grade formulations",
+    body: "Polymer-modified mortars engineered for real sites — humidity, deflection, and open time included.",
+  },
+  {
+    title: "Clear grade ladder",
+    body: "C1T through C2TES2 so architects, dealers, and site teams stay aligned end to end.",
+  },
+  {
+    title: "Technical backup",
+    body: "Unusual stone, hybrid build-ups, or warranty paperwork — we help before you lock the BOQ.",
+  },
+] as const;
 /* ─── Recommendation matrix ──────────────────────────────────────────────── */
 type FullAnswers = Required<Answers>;
 
@@ -274,75 +333,160 @@ const CRED_STATS = [
   { icon: Zap,         value: "5 Steps",       label: "To your right product"  },
 ] as const;
 
-function CredibilityPanel() {
+function CredibilityPanel({ answers }: { answers: Answers }) {
+  const epoxyHint = epoxyLikelyFromPartial(answers);
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-gradient-to-br from-white via-zinc-50/50 to-teal-50/[0.35] p-6 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.2)] sm:p-7">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-12 top-24 h-40 w-40 rounded-full bg-primary/[0.07] blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-8 -top-8 h-28 w-28 rounded-full bg-teal-400/10 blur-2xl"
+      />
+
       {/* Headline */}
-      <div>
-        <p className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-400">
-          Why FIXONEX
-        </p>
-        <h3 className="mt-2 font-display text-[1.35rem] font-bold leading-snug text-zinc-900"
-          style={{ letterSpacing: "-0.03em" }}>
-          India's field-tested tile adhesive — certified, graded, proven.
+      <div className="relative">
+        <p className="eyebrow-label text-[10px] text-subhead">Why FIXONEX</p>
+        <h3
+          className="mt-2 font-display text-[1.35rem] font-bold leading-snug text-zinc-900 sm:text-[1.45rem]"
+          style={{ letterSpacing: "-0.03em" }}
+        >
+          Built for installers who can&apos;t afford callbacks.
         </h3>
-        <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">
-          Answer five questions and we'll pinpoint the exact FIXONEX grade for
-          your substrate, area type, and tile format — aligned to IS 15477:2019.
+        <p className="mt-2 text-[13px] leading-relaxed text-zinc-600">
+          Finish the steps on the left — your recommended FIX grade appears here, with{" "}
+          <span className="font-semibold text-zinc-800">IS 15477:2019</span> as the
+          backbone. Until then, use this panel to see how we work and what pairs with every
+          serious tile job.
         </p>
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="relative grid grid-cols-2 gap-2.5 sm:gap-3">
         {CRED_STATS.map(({ icon: Icon, value, label }) => (
           <div
             key={label}
-            className="flex flex-col gap-1.5 rounded-xl border border-zinc-200/70 bg-white px-4 py-3 shadow-[0_1px_4px_rgba(0,0,0,0.04)]"
+            className="flex flex-col gap-1.5 rounded-xl border border-zinc-200/80 bg-white/95 px-3.5 py-3 shadow-sm backdrop-blur-sm sm:px-4"
           >
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-primary/8 text-primary">
-              <Icon className="h-3.5 w-3.5" aria-hidden />
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Icon className="h-4 w-4" aria-hidden />
             </span>
-            <p className="font-display text-[15px] font-black leading-tight text-zinc-900">{value}</p>
+            <p className="font-display text-[15px] font-bold leading-tight text-zinc-900">{value}</p>
             <p className="text-[10px] font-medium leading-tight text-zinc-500">{label}</p>
           </div>
         ))}
       </div>
 
+      {/* Pillars */}
+      <div className="relative space-y-3 rounded-2xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm">
+        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
+          What teams trust
+        </p>
+        <ul className="space-y-3">
+          {CRED_PILLARS.map((row) => (
+            <li key={row.title} className="flex gap-3">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+              <div>
+                <p className="text-[12px] font-bold text-zinc-800">{row.title}</p>
+                <p className="mt-0.5 text-[11px] leading-relaxed text-zinc-500">{row.body}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Companion products — always visible */}
+      <div className="relative space-y-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
+            System essentials
+          </p>
+          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
+            Often paired
+          </span>
+        </div>
+        <div className="space-y-2">
+          {COMPANION_UI.map(({ id, name, short, href, Icon }) => {
+            const isEpoxy = id === "epoxy-grout";
+            const highlight = isEpoxy && epoxyHint;
+            return (
+              <TransitionLink
+                key={id}
+                href={`${href}?from=guidance`}
+                className={cn(
+                  "group flex gap-3 rounded-xl border px-3.5 py-3 shadow-sm transition-all",
+                  highlight
+                    ? "border-primary/35 bg-primary/[0.06] hover:border-primary/50"
+                    : "border-zinc-200/85 bg-white/95 hover:border-primary/25 hover:shadow-md",
+                )}
+              >
+                <span
+                  className={cn(
+                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+                    highlight ? "bg-primary/15 text-primary" : "bg-zinc-100 text-zinc-600 group-hover:bg-primary/10 group-hover:text-primary",
+                  )}
+                >
+                  <Icon className="h-[18px] w-[18px]" aria-hidden />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-[12px] font-bold text-zinc-900">{name}</p>
+                    {highlight ? (
+                      <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-primary">
+                        Likely for your answers
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-snug text-zinc-500">{short}</p>
+                </div>
+                <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-zinc-300 group-hover:text-primary" aria-hidden />
+              </TransitionLink>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Certification strip */}
-      <div className="rounded-xl border border-primary/15 bg-primary/[0.03] px-4 py-3">
-        <p className="text-[11px] font-semibold leading-relaxed text-zinc-600">
-          Every recommendation follows{" "}
-          <span className="font-black text-primary">IS Code IS 15477:2019</span>
-          {" "}— the Indian Standard for cementitious tile adhesives. Consult our
-          technical team for complex specifications.
+      <div className="relative rounded-xl border border-primary/25 bg-gradient-to-r from-primary/[0.06] to-transparent px-4 py-3.5">
+        <p className="text-[11px] font-medium leading-relaxed text-zinc-700">
+          Every guided grade maps to{" "}
+          <span className="font-semibold text-primary">IS 15477:2019</span> —
+          India&apos;s reference for cementitious tile adhesives. Sample pulls, pull-off
+          tests, and site mock-ups are available through our technical desk.
         </p>
       </div>
 
       {/* Quote */}
-      <div className="relative pl-4">
-        <div className="absolute inset-y-0 left-0 w-[3px] rounded-full bg-gradient-to-b from-primary to-primary/20" />
-        <p className="text-[12px] italic leading-relaxed text-zinc-500">
-          "The right adhesive grade is not optional — it's the difference between
-          a 25-year installation and a 3-year callback."
+      <div className="relative rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-4 py-3">
+        <p className="text-[12px] italic leading-relaxed text-zinc-600">
+          &ldquo;We don&apos;t guess the grade — we match substrate movement, tile mass, and
+          exposure so the system survives monsoon, thermal cycling, and real foot
+          traffic.&rdquo;
         </p>
-        <p className="mt-1 text-[10px] font-bold text-zinc-400">FIXONEX Technical Team</p>
+        <p className="mt-2 text-[10px] font-semibold text-zinc-500">FIXONEX Applications Team</p>
       </div>
 
       {/* CTA */}
       <TransitionLink
         href="/contact"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-[13px] font-bold text-zinc-700 shadow-sm transition-all hover:border-primary/30 hover:text-primary"
+        className="relative inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-[13px] font-bold text-zinc-800 shadow-sm transition-all hover:border-primary/35 hover:bg-zinc-50 hover:text-primary"
       >
-        Talk to a FIXONEX Expert <ArrowRight className="h-4 w-4" />
+        Talk to an expert <ArrowRight className="h-4 w-4" aria-hidden />
       </TransitionLink>
     </div>
   );
 }
 
 /* ─── Result panel (right panel complete state) ──────────────────────────── */
-function ResultPanel({ productKey, companions }: {
+function ResultPanel({
+  productKey,
+  suggestedCompanionIds,
+}: {
   productKey: ProductKey;
-  companions: Companion[];
+  suggestedCompanionIds: Set<string>;
 }) {
   const p = PRODUCTS[productKey];
   return (
@@ -350,77 +494,124 @@ function ResultPanel({ productKey, companions }: {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease }}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-5"
     >
-      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-zinc-400">
-        Recommended Product
-      </p>
+      <div className="flex items-center gap-2">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <Sparkles className="h-4 w-4" aria-hidden />
+        </span>
+        <div>
+          <p className="eyebrow-label text-[10px] text-subhead">Your recommendation</p>
+          <p className="text-[13px] font-semibold text-zinc-800">Best match for your answers</p>
+        </div>
+      </div>
 
       {/* Main product card */}
       <div
-        className="relative overflow-hidden rounded-2xl border"
-        style={{ borderColor: `${p.color}35`, background: p.bg, boxShadow: `0 4px 28px ${p.color}18` }}
+        className="relative overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.35)]"
+        style={{
+          borderColor: `${p.color}40`,
+          background: `linear-gradient(145deg, ${p.bg} 0%, white 52%, ${p.bg} 100%)`,
+          boxShadow: `0 20px 48px -28px ${p.color}50, 0 1px 0 rgba(255,255,255,0.6) inset`,
+        }}
       >
-        <div className="h-[3px]" style={{ background: `linear-gradient(90deg,${p.color},${p.color}80)` }} />
-        <div className="p-5">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-6 top-0 h-32 w-32 rounded-full opacity-[0.35] blur-3xl"
+          style={{ background: p.color }}
+        />
+        <div className="h-1 w-full" style={{ background: `linear-gradient(90deg,${p.color},${p.color}55,transparent)` }} />
+        <div className="relative p-5 sm:p-6">
           <span
-            className="mb-3 inline-block rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.18em]"
-            style={{ background: `${p.color}18`, color: p.color }}
+            className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
+            style={{ background: `${p.color}20`, color: p.color }}
           >
-            Recommended
+            <CheckCircle2 className="h-3 w-3" aria-hidden />
+            Recommended grade
           </span>
-          <p className="font-display text-[28px] font-black leading-none" style={{ color: p.color }}>
+          <p className="font-display text-[1.75rem] font-bold leading-none tracking-tight sm:text-[2rem]" style={{ color: p.color }}>
             {p.name}
           </p>
-          <p className="mt-1 text-[11px] font-semibold tracking-wide" style={{ color: `${p.color}99` }}>
-            {p.grade}
-          </p>
+          <p className="mt-1.5 text-xs font-semibold tracking-wide text-zinc-600">{p.grade}</p>
           <p className="mt-3 text-[13px] leading-relaxed text-zinc-600">{p.tagline}</p>
-          <p className="mt-2 text-[10px] text-zinc-400">IS Code IS 15477:2019 compliant</p>
+          <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200/80 bg-white/70 px-2.5 py-1 text-[10px] font-medium text-zinc-500 backdrop-blur-sm">
+            <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
+            IS 15477:2019 aligned
+          </p>
           <TransitionLink
             href={`${p.href}?from=guidance`}
-            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-bold text-white transition-all hover:opacity-90"
-            style={{ background: p.color }}
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg transition-[transform,box-shadow] hover:scale-[1.01] hover:shadow-xl active:scale-[0.99]"
+            style={{ background: p.color, boxShadow: `0 12px 28px -8px ${p.color}88` }}
           >
-            View Full Product Details <ChevronRight className="h-4 w-4" />
+            View product details <ChevronRight className="h-4 w-4" aria-hidden />
           </TransitionLink>
         </div>
       </div>
 
-      {/* Companion products */}
-      {companions.length > 0 && (
-        <div>
-          <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400">
-            Complete Your System
-          </p>
-          <div className="space-y-2">
-            {companions.map((c) => (
+      {/* Companion products — always list all three; highlight when rule suggests */}
+      <div>
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
+          Complete your system
+        </p>
+        <div className="space-y-2">
+          {COMPANION_UI.map(({ id, name, short, href, Icon }) => {
+            const matched = suggestedCompanionIds.has(id);
+            const isEpoxy = id === "epoxy-grout";
+            return (
               <TransitionLink
-                key={c.id}
-                href={`${c.href}?from=guidance`}
-                className="group flex items-center gap-3 rounded-xl border border-zinc-200/80 bg-white px-4 py-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all hover:border-primary/25 hover:shadow-[0_2px_12px_rgba(0,0,0,0.07)]"
+                key={id}
+                href={`${href}?from=guidance`}
+                className={cn(
+                  "group flex items-start gap-3 rounded-xl border px-4 py-3.5 shadow-sm transition-all hover:-translate-y-px hover:shadow-md",
+                  matched
+                    ? "border-primary/30 bg-primary/[0.04] hover:border-primary/45"
+                    : isEpoxy
+                      ? "border-dashed border-zinc-300/90 bg-zinc-50/80 hover:border-primary/25"
+                      : "border-zinc-200/90 bg-white hover:border-primary/30",
+                )}
               >
+                <span
+                  className={cn(
+                    "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+                    matched ? "bg-primary/12 text-primary" : "bg-zinc-100 text-zinc-500 group-hover:bg-primary/10 group-hover:text-primary",
+                  )}
+                >
+                  <Icon className="h-4 w-4" aria-hidden />
+                </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[12px] font-bold text-zinc-800 group-hover:text-primary transition-colors">{c.name}</p>
-                  <p className="text-[11px] leading-tight text-zinc-500">{c.desc}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-[12px] font-bold text-zinc-800 transition-colors group-hover:text-primary">
+                      {name}
+                    </p>
+                    {matched ? (
+                      <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-primary">
+                        Suggested
+                      </span>
+                    ) : isEpoxy ? (
+                      <span className="rounded-md bg-zinc-200/80 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
+                        Optional
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-0.5 text-[11px] leading-snug text-zinc-500">{short}</p>
                 </div>
-                <ChevronRight className="h-4 w-4 shrink-0 text-zinc-300 transition-colors group-hover:text-primary" />
+                <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-zinc-300 transition-colors group-hover:text-primary" aria-hidden />
               </TransitionLink>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      )}
+      </div>
 
       {/* IS code + consult */}
-      <div className="flex items-center justify-between rounded-xl border border-zinc-100 bg-zinc-50/70 px-4 py-3">
-        <p className="text-[11px] text-zinc-500">
-          Per <span className="font-semibold text-zinc-700">IS 15477:2019</span>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/90 px-4 py-3">
+        <p className="text-[11px] text-zinc-600">
+          Based on <span className="font-semibold text-zinc-800">IS 15477:2019</span>
         </p>
         <TransitionLink
           href="/contact"
-          className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:underline"
+          className="inline-flex items-center gap-1 text-[11px] font-bold text-primary underline-offset-2 hover:underline"
         >
-          Need help? <ArrowRight className="h-3 w-3" />
+          Questions? Contact us <ArrowRight className="h-3 w-3" aria-hidden />
         </TransitionLink>
       </div>
     </motion.div>
@@ -435,23 +626,35 @@ function OptionBtn({
     <motion.button
       type="button"
       onClick={onClick}
-      whileTap={{ scale: 0.97 }}
-      className={[
-        "group relative flex w-full flex-col gap-0.5 rounded-xl border px-4 py-3 text-left transition-all duration-150",
+      whileTap={{ scale: 0.985 }}
+      className={cn(
+        "group relative flex w-full flex-col gap-0.5 rounded-xl border px-4 py-3.5 text-left transition-all duration-200",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2",
         selected
-          ? "border-primary bg-primary text-white shadow-[0_2px_16px_rgba(211,47,47,0.22)]"
-          : "border-zinc-200 bg-white text-zinc-700 hover:border-primary/50 hover:bg-primary/[0.03] hover:text-primary",
-      ].join(" ")}
+          ? "border-primary/90 bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] text-zinc-900 shadow-[0_0_0_1px_rgba(211,47,47,0.12),0_8px_24px_-12px_rgba(211,47,47,0.25)]"
+          : "border-zinc-200/90 bg-white text-zinc-800 hover:border-primary/45 hover:bg-zinc-50/80 hover:shadow-sm",
+      )}
     >
-      <span className="flex items-center justify-between gap-2">
+      <span className="flex items-start justify-between gap-2">
         <span className="text-[13px] font-semibold leading-snug">{label}</span>
-        {selected && <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden />}
+        <span
+          className={cn(
+            "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors",
+            selected
+              ? "border-primary bg-primary text-white"
+              : "border-zinc-200 bg-white group-hover:border-primary/40",
+          )}
+        >
+          {selected ? <CheckCircle2 className="h-3 w-3" aria-hidden /> : null}
+        </span>
       </span>
       {sub && (
-        <span className={[
-          "text-[11px] leading-tight",
-          selected ? "text-white/65" : "text-zinc-400 group-hover:text-primary/60",
-        ].join(" ")}>
+        <span
+          className={cn(
+            "text-[11px] leading-snug",
+            selected ? "text-zinc-600" : "text-zinc-500 group-hover:text-zinc-600",
+          )}
+        >
           {sub}
         </span>
       )}
@@ -467,6 +670,7 @@ export function TileAdhesiveSelector() {
   const isDone        = answeredCount === STEP_ORDER.length;
   const resultKey     = isDone ? recommend(answers as FullAnswers) : null;
   const companions    = isDone ? getCompanions(answers as FullAnswers) : [];
+  const suggestedCompanionIds = new Set(companions.map((c) => c.id));
 
   /** Pick an answer; clear all subsequent answers. */
   function pick<K extends keyof Answers>(key: K, value: Answers[K]) {
@@ -478,18 +682,6 @@ export function TileAdhesiveSelector() {
         if (prev[k] !== undefined) (next as Record<string, unknown>)[k] = prev[k];
       }
       (next as Record<string, unknown>)[key] = value;
-      return next;
-    });
-  }
-
-  /** Reopen a completed step: keep answers up to (but not including) that step. */
-  function reopen(stepIdx: number) {
-    setAnswers((prev) => {
-      const next: Answers = {};
-      for (let i = 0; i < stepIdx; i++) {
-        const k = STEP_ORDER[i];
-        if (prev[k] !== undefined) (next as Record<string, unknown>)[k] = prev[k];
-      }
       return next;
     });
   }
@@ -518,49 +710,92 @@ export function TileAdhesiveSelector() {
   ];
 
   return (
-    <div className="relative">
+    <div
+      className={cn(
+        panelEditorialClass,
+        "relative overflow-hidden",
+        "shadow-[0_28px_80px_-48px_rgba(0,0,0,0.28)] ring-1 ring-zinc-200/30",
+      )}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent"
+      />
 
       {/* ── Top bar ── */}
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-[12px] text-zinc-500">
-          Recommendations per{" "}
-          <span className="font-semibold text-zinc-700">IS Code IS 15477:2019</span>
-        </p>
+      <div className="relative mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200/80 bg-zinc-50/80 px-3.5 py-2 text-[11px] font-medium text-zinc-600 backdrop-blur-sm">
+          <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
+          <span>
+            Aligned with{" "}
+            <span className="font-semibold text-zinc-800">IS 15477:2019</span>
+          </span>
+        </div>
         <AnimatePresence>
           {answeredCount > 0 && (
             <motion.button
-              type="button" onClick={reset}
-              initial={{ opacity: 0, x: 6 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 6 }}
+              type="button"
+              onClick={reset}
+              initial={{ opacity: 0, x: 6 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 6 }}
               transition={{ duration: 0.2, ease }}
-              className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white px-3.5 py-1.5 text-[12px] font-semibold text-zinc-500 shadow-sm transition-all hover:border-primary/40 hover:text-primary"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-[12px] font-semibold text-zinc-600 shadow-sm transition-all hover:border-primary/35 hover:text-primary"
             >
-              <RotateCcw className="h-3.5 w-3.5" /> Clear All
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden />
+              Start over
             </motion.button>
           )}
         </AnimatePresence>
       </div>
 
-      {/* ── Progress bar ── */}
-      <div className="mb-8 flex gap-1.5">
-        {steps.map((s, i) => {
-          const done   = answers[s.key] !== undefined;
-          const active = i === answeredCount;
-          return (
-            <div key={s.key} className="flex min-w-0 flex-1 flex-col gap-1">
-              <div className={[
-                "h-1 w-full rounded-full transition-all duration-500",
-                done ? "bg-primary" : active ? "bg-primary/30" : "bg-zinc-200",
-              ].join(" ")} />
-              <p className={[
-                "hidden truncate text-[9px] font-bold uppercase tracking-[0.12em] sm:block",
-                done || active ? "text-primary" : "text-zinc-400",
-              ].join(" ")}>
-                {["Area", "Type", "Tile", "Size", "Substrate"][i]}
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      {/* ── Stepper ── */}
+      <nav aria-label="Your selection steps" className="relative mb-8">
+        <div className="flex w-full items-center">
+          {steps.map((step, i) => {
+            const done = answers[step.key] !== undefined;
+            const active = i === answeredCount;
+            const StepIcon = step.Icon;
+            return (
+              <Fragment key={step.key}>
+                {i > 0 && (
+                  <div
+                    className={cn(
+                      "mb-5 h-[3px] min-w-[4px] flex-1 rounded-full transition-colors duration-500 sm:mb-6",
+                      answers[steps[i - 1].key] !== undefined ? "bg-primary" : "bg-zinc-100",
+                    )}
+                    aria-hidden
+                  />
+                )}
+                <div className="flex shrink-0 flex-col items-center gap-1 sm:gap-1.5">
+                  <span
+                    className={cn(
+                      "flex h-8 w-8 items-center justify-center rounded-xl border-2 transition-all duration-300 sm:h-9 sm:w-9",
+                      done && "border-primary bg-primary text-white shadow-md shadow-primary/20",
+                      active && !done && "border-primary bg-primary/[0.07] text-primary shadow-sm",
+                      !done && !active && "border-zinc-200 bg-white text-zinc-300",
+                    )}
+                  >
+                    {done ? (
+                      <CheckCircle2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden />
+                    ) : (
+                      <StepIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden />
+                    )}
+                  </span>
+                  <span
+                    className={cn(
+                      "max-w-[4.25rem] text-center text-[8px] font-bold uppercase leading-tight tracking-wide text-zinc-400 sm:max-w-[5rem] sm:text-[9px]",
+                      (done || active) && "text-zinc-800",
+                    )}
+                  >
+                    {STEP_SHORT_LABELS[i]}
+                  </span>
+                </div>
+              </Fragment>
+            );
+          })}
+        </div>
+      </nav>
 
       {/* ── Two-column body ── */}
       <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start xl:grid-cols-[1fr_380px]">
@@ -571,6 +806,7 @@ export function TileAdhesiveSelector() {
             const prevAnswered = idx === 0 || answers[STEP_ORDER[idx - 1]] !== undefined;
             const isAnswered   = answers[step.key] !== undefined;
             const isActive     = prevAnswered && !isAnswered;
+            const showOptions  = isAnswered || isActive;
 
             // Don't render steps whose parent hasn't been answered yet
             if (!prevAnswered && !isAnswered) return null;
@@ -594,90 +830,82 @@ export function TileAdhesiveSelector() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.35, ease }}
-                className={[
+                className={cn(
                   "overflow-hidden rounded-2xl border transition-all duration-300",
-                  isActive
-                    ? "border-primary/20 bg-white shadow-[0_2px_20px_rgba(0,0,0,0.06)]"
-                    : isAnswered
-                      ? "border-zinc-200/50 bg-zinc-50/50"
-                      : "border-zinc-200/40 bg-zinc-50/30 opacity-60",
-                ].join(" ")}
+                  isActive &&
+                    "border-primary/30 bg-white shadow-[0_8px_40px_-16px_rgba(211,47,47,0.15),0_2px_12px_rgba(0,0,0,0.04)] ring-1 ring-primary/10",
+                  isAnswered && !isActive && "border-zinc-200/60 bg-white shadow-sm ring-1 ring-zinc-200/40",
+                  !isActive && !isAnswered && "border-zinc-200/40 bg-zinc-50/30 opacity-60",
+                )}
               >
-                {/* Header — clickable on answered steps to re-select */}
-                <button
-                  type="button"
-                  onClick={() => isAnswered && reopen(idx)}
-                  disabled={!isAnswered && !isActive}
-                  className={[
-                    "flex w-full items-center gap-3 px-5 py-3.5 text-left",
-                    isAnswered ? "cursor-pointer hover:bg-zinc-50/80" : "cursor-default",
-                  ].join(" ")}
-                  aria-expanded={isActive}
+                <div
+                  className={cn(
+                    "flex w-full items-center gap-3 px-4 py-3.5 text-left sm:px-5 sm:py-4",
+                  )}
                 >
-                  {/* Circle number */}
-                  <span className={[
-                    "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-black transition-all duration-300",
-                    isAnswered
-                      ? "bg-primary text-white"
-                      : isActive
-                        ? "border-2 border-primary/50 bg-primary/8 text-primary"
-                        : "bg-zinc-200 text-zinc-400",
-                  ].join(" ")}>
-                    {isAnswered
-                      ? <CheckCircle2 className="h-3.5 w-3.5" aria-hidden />
-                      : <span>{idx + 1}</span>}
+                  <span
+                    className={cn(
+                      "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border text-[10px] font-bold transition-all duration-300 sm:h-9 sm:w-9",
+                      isAnswered && "border-primary bg-primary text-white shadow-sm",
+                      isActive &&
+                        !isAnswered &&
+                        "border-primary/45 bg-primary/10 text-primary",
+                      !isAnswered && !isActive && "border-zinc-200 bg-white text-zinc-400",
+                    )}
+                  >
+                    {isAnswered ? (
+                      <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden />
+                    ) : isActive ? (
+                      <step.Icon className="h-4 w-4 shrink-0" aria-hidden />
+                    ) : (
+                      <span>{idx + 1}</span>
+                    )}
                   </span>
 
                   <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
                     <div className="min-w-0">
-                      <p className={[
-                        "text-[13px] font-bold leading-tight",
-                        isAnswered ? "text-zinc-500" : isActive ? "text-zinc-900" : "text-zinc-400",
-                      ].join(" ")}>
+                      <p
+                        className={cn(
+                          "text-[13px] font-bold leading-tight sm:text-sm",
+                          isAnswered && "text-zinc-700",
+                          isActive && "text-zinc-900",
+                          !isActive && !isAnswered && "text-zinc-400",
+                        )}
+                      >
                         {step.question}
                       </p>
                       {isActive && (
-                        <p className="mt-0.5 text-[11px] text-zinc-400">{step.desc}</p>
+                        <p className="mt-1 text-[11px] leading-snug text-zinc-500">{step.desc}</p>
+                      )}
+                      {isAnswered && !isActive && (
+                        <p className="mt-1 text-[10px] font-medium text-zinc-400">
+                          Change your choice anytime — later steps update automatically.
+                        </p>
                       )}
                     </div>
-                    <div className="flex shrink-0 items-center gap-1.5">
-                      {selectedLabel && (
-                        <span className="rounded-lg bg-primary/8 px-2.5 py-0.5 text-[11px] font-bold text-primary">
-                          {selectedLabel}
-                        </span>
-                      )}
-                      {isAnswered && (
-                        <ChevronDown className="h-3.5 w-3.5 text-zinc-400" aria-hidden />
-                      )}
+                    {selectedLabel ? (
+                      <span className="shrink-0 rounded-lg bg-primary/8 px-2.5 py-0.5 text-[11px] font-bold text-primary">
+                        {selectedLabel}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
+                {showOptions ? (
+                  <div className="border-t border-zinc-100/90 bg-zinc-50/30 px-3 pb-4 pt-3 sm:px-4">
+                    <div className={cn("grid gap-2.5", colsCls)}>
+                      {step.options.map((opt) => (
+                        <OptionBtn
+                          key={opt.id}
+                          label={opt.label}
+                          sub={"sub" in opt ? (opt as { sub?: string }).sub : undefined}
+                          selected={answers[step.key] === opt.id}
+                          onClick={() => pick(step.key, opt.id as Answers[typeof step.key])}
+                        />
+                      ))}
                     </div>
                   </div>
-                </button>
-
-                {/* Options — only when active */}
-                <AnimatePresence initial={false}>
-                  {isActive && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.28, ease }}
-                    >
-                      <div className="border-t border-zinc-100 px-4 pb-4 pt-3">
-                        <div className={`grid gap-2 ${colsCls}`}>
-                          {step.options.map((opt) => (
-                            <OptionBtn
-                              key={opt.id}
-                              label={opt.label}
-                              sub={"sub" in opt ? (opt as { sub?: string }).sub : undefined}
-                              selected={answers[step.key] === opt.id}
-                              onClick={() => pick(step.key, opt.id as Answers[typeof step.key])}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                ) : null}
               </motion.div>
             );
           })}
@@ -693,7 +921,7 @@ export function TileAdhesiveSelector() {
                 transition={{ duration: 0.4, ease }}
                 className="block lg:hidden pt-2"
               >
-                <ResultPanel productKey={resultKey} companions={companions} />
+                <ResultPanel productKey={resultKey} suggestedCompanionIds={suggestedCompanionIds} />
               </motion.div>
             )}
           </AnimatePresence>
@@ -710,7 +938,7 @@ export function TileAdhesiveSelector() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease }}
               >
-                <ResultPanel productKey={resultKey} companions={companions} />
+                <ResultPanel productKey={resultKey} suggestedCompanionIds={suggestedCompanionIds} />
               </motion.div>
             ) : (
               <motion.div
@@ -720,13 +948,19 @@ export function TileAdhesiveSelector() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3, ease }}
               >
-                <CredibilityPanel />
+                <CredibilityPanel answers={answers} />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-
       </div>
+
+      {/* Same credibility column on small screens — desktop uses sticky aside above */}
+      {!resultKey ? (
+        <div className="mt-8 lg:hidden">
+          <CredibilityPanel answers={answers} />
+        </div>
+      ) : null}
     </div>
   );
 }

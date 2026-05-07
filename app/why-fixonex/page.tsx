@@ -7,7 +7,7 @@ import {
   ShieldCheck, Handshake, Star, BadgeCheck, Zap, Building2, Home
 } from "lucide-react";
 import { CertificationsMarquee } from "@/components/ui/CertificationsMarquee";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -87,8 +87,7 @@ const experiencePoints = [
 export default function WhyFixonexPage() {
   return (
     <>
-      <CinematicMotionHero
-        variant="why"
+      <SimplePageHero
         label="Why FIXONEX"
         titleLine1="Why"
         titleLine2="FIXONEX"

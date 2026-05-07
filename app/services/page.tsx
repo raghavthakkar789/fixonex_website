@@ -3,9 +3,8 @@
 import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { PageHero } from "@/components/ui/PageHero";
 import { Layers, Clock, Shield } from "lucide-react";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 
 const TileAdhesiveSelector = dynamic(
   () =>
@@ -22,8 +21,6 @@ const TileAdhesiveSelector = dynamic(
 );
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const serviceHeroImage = "/images/hero/products-hero.png";
-const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const FEATURES = [
   {
@@ -64,8 +61,7 @@ function FadeIn({
 export default function ServicePage() {
   return (
     <>
-      <CinematicMotionHero
-        variant="service"
+      <SimplePageHero
         label="Service"
         titleLine1="Service"
         titleLine2="Guidance"
@@ -73,9 +69,9 @@ export default function ServicePage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Service" }]}
       />
 
-      {/* ── Product Guidance ────────────────────────────────────────────── */}
+      {/* ── Product guidance (tile adhesive selector) ───────────────────── */}
       <section
-        id="wizard"
+        id="product-guidance"
         className="scroll-mt-20 relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-br from-[#f8f9ff] via-white to-[#f0fdf9]"
       >
         {/* Background glow */}
@@ -100,7 +96,7 @@ export default function ServicePage() {
 
           {/* Header */}
           <FadeIn className="mb-10">
-            <p className="eyebrow-label mb-4">Product Helper</p>
+            <p className="eyebrow-label mb-4">Product guidance</p>
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-xl">
                 <h2

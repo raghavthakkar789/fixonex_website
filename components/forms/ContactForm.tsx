@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
 import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cta, formStackClass, formTitleClass, selectControlClass } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +37,10 @@ export function ContactForm() {
     setErrorMessage("");
     if (!form.inquiryType || !form.name.trim() || !form.phone.trim() || !form.email.trim() || !form.message.trim()) {
       setErrorMessage("Please choose an inquiry type and fill in name, phone, email, and message.");
+      return;
+    }
+    if (!isTenDigitNationalNumber(form.phone)) {
+      setErrorMessage(PHONE_EXACTLY_TEN_DIGITS_MESSAGE);
       return;
     }
     setStatus("submitting");

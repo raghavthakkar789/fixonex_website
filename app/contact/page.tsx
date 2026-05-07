@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Loader2, Mail, MapPin, MessageCircle, Phone, ArrowRight, Send } from "lucide-react";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/PhoneInput";
@@ -16,6 +16,7 @@ import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { companyInfo } from "@/data/company";
 import { socialLinks } from "@/data/social";
 import { socialIconMap } from "@/lib/social-icons";
+import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 
 /** Per-platform hover tint for the "Follow Us" socials row. Keyed by
  *  the central `SocialLink.id` so visual treatment stays in sync with the
@@ -63,8 +64,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <CinematicMotionHero
-        variant="contact"
+      <SimplePageHero
         label="Contact"
         titleLine1="Contact"
         titleLine2="Consultation"
@@ -151,7 +151,13 @@ export default function ContactPage() {
                           <Controller
                             control={control}
                             name="phone"
-                            rules={{ required: "Required" }}
+                            rules={{
+                              validate: (v) => {
+                                const s = (v || "").trim();
+                                if (!s) return "Required";
+                                return isTenDigitNationalNumber(s) || PHONE_EXACTLY_TEN_DIGITS_MESSAGE;
+                              },
+                            }}
                             render={({ field }) => (
                               <PhoneInput
                                 id="phone"

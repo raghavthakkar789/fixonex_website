@@ -47,7 +47,7 @@ export function Hero({ introBelow }: HeroProps) {
                 <TransitionLink href="/products">{cta.viewProducts}</TransitionLink>
               </Button>
               <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-                <TransitionLink href="/products#product-guidance">{cta.guidance}</TransitionLink>
+                <TransitionLink href="/services#product-guidance">{cta.guidance}</TransitionLink>
               </Button>
             </div>
           </div>

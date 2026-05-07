@@ -65,11 +65,11 @@ fixonex_website/
 │   │                             # StickyGetHelp, StickyHelpButton, LenisProvider,
 │   │                             # InitialLoader, CursorFollower, PageSection, ContentSplit
 │   ├── sections/                 # Hero, PageBanner, CTASection, ProductCard, SocialLinksGrid, SectionHeading
-│   ├── home/HomeView.tsx         # Full composed Home page view
-│   ├── products/                 # ProductGridWithFilter, ProductGuidanceSection, TilesAdhesiveDetailPage
+│   ├── home/                     # HomeView; TileAdhesiveSelector (Product guidance on /services)
+│   ├── products/                 # ProductGridWithFilter, BackToGuidanceLink,
+│   │                             # ProductsShowcaseRow, TilesAdhesiveDetailPage
 │   ├── forms/                    # ContactForm, DealerInquiryForm, form-feedback
 │   ├── faq/                      # FaqAccordion, FaqWithFilters
-│   ├── get-help/                 # RecommendationWizard
 │   ├── support/                  # SupportLibraryGrid
 │   ├── content/                  # Expandable{Section,Paragraphs,BulletList,Answer}
 │   ├── media/                    # MediaPlaceholder
@@ -88,7 +88,6 @@ fixonex_website/
 │   ├── testimonials.ts           # Testimonial quotes
 │   ├── projects.ts               # Project gallery entries
 │   ├── founders.ts               # Founder profiles
-│   ├── help-recommendations.ts   # Rules for RecommendationWizard
 │   ├── how-to-use.ts             # Step-by-step guides
 │   └── support-guides.ts         # Support article index
 ├── lib/
@@ -215,7 +214,7 @@ All use `<ClientRedirect />` (`components/legacy/ClientRedirect.tsx`). `next.con
 - Structured product catalog (category + SKU) with filter + related items
 - Deep-linked tile-adhesive detail pages (FIX 111 → FIX 555 / C1T → C2TES2)
 - Surface-to-product selection guide tables
-- `RecommendationWizard` (rule-driven adhesive suggestions)
+- **Product guidance** on `/services#product-guidance`: tile adhesive selector (`components/home/TileAdhesiveSelector.tsx`)
 - Support hub: installation timeline, load-more guide/FAQ lists, in-page `#faq` anchor
 - Client-validated contact + dealer forms with success/error UI (`react-hook-form`)
 - Legacy URL compatibility via `ClientRedirect` + `next.config` redirects
@@ -289,7 +288,6 @@ npm run lint      # ESLint
   - `data/faqs.ts` + `lib/data/faqs.ts` + `lib/data/home-faqs.ts` + `lib/data/support-faqs.ts` → FAQ content
   - `lib/data/testimonials.ts` + `lib/data/team.ts` → social proof and people
   - `data/support-guides.ts` + `data/how-to-use.ts` → support articles and steps
-  - `data/help-recommendations.ts` → rules for `RecommendationWizard`
   - `data/company.ts` + `data/social.ts` + `data/navigation.ts` → contact, social, nav
 - **Forms:** `components/forms/ContactForm.tsx` and `DealerInquiryForm.tsx` validate via `react-hook-form` and call `mockSubmitForm()` (simulated latency, always succeeds). Swap with a Server Action or Route Handler to integrate real email / CRM.
 - **Static generation:** `generateStaticParams()` in `app/products/[slug]/page.tsx` and `app/support/guides/[id]/page.tsx` pre-renders all detail pages at build time.
@@ -320,9 +318,9 @@ npm run lint      # ESLint
 
 ### Feature components
 - `components/products/ProductGridWithFilter` — category filter
-- `components/products/ProductGuidanceSection` — quick-select surface→product matrix
+- `components/products/BackToGuidanceLink` — link back to `/services#product-guidance`
 - `components/products/TilesAdhesiveDetailPage` — shared renderer for FIX 111–555
-- `components/get-help/RecommendationWizard` — rule-driven adhesive picker
+- `components/home/TileAdhesiveSelector` — tile adhesive steps (embedded under Product guidance on `/services`)
 - `components/support/SupportLibraryGrid`
 - `components/faq/{FaqAccordion,FaqWithFilters}`
 - `components/content/{ExpandableSection,ExpandableParagraphs,ExpandableBulletList,ExpandableAnswer}`

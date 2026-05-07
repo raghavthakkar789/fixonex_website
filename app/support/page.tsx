@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle, BookOpen, ArrowRight, CheckCircle2, ChevronDown, Search } from "lucide-react";
-import { CinematicMotionHero } from "@/components/heroes/CinematicMotionHero";
+import { SimplePageHero } from "@/components/ui/SimplePageHero";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { Button } from "@/components/ui/button";
 import { supportFaqs } from "@/lib/data/support-faqs";
@@ -73,8 +73,7 @@ export default function SupportPage() {
 
   return (
     <>
-      <CinematicMotionHero
-        variant="support"
+      <SimplePageHero
         label="Support"
         titleLine1="Help"
         titleLine2="& Support"
