@@ -14,7 +14,22 @@
       "WebFetch(domain:www.ardexendura.com)",
       "WebFetch(domain:webcache.googleusercontent.com)",
       "WebSearch",
-      "WebFetch(domain:web.archive.org)"
+      "WebFetch(domain:web.archive.org)",
+      "WebFetch(domain:de.pinterest.com)",
+      "Bash(until grep *)",
+      "WebFetch(domain:assets.pinterest.com)",
+      "Bash(ffmpeg -version)",
+      "PowerShell(Get-Command ffmpeg -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command python3 -ErrorAction SilentlyContinue)",
+      "Bash(mkdir -p /tmp/pinframes)",
+      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4')",
+      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -vf fps=2,scale=640:-1 -q:v 4 /tmp/pinframes/f_%02d.jpg)",
+      "Bash(cygpath -w /tmp/pinframes/f_01.jpg)",
+      "Bash(rm -f /tmp/pinframes/g_*.jpg)",
+      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -ss 5.5 -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -t 7 -vf fps=5,crop=540:540:705:200,scale=400:400 -q:v 3 /tmp/pinframes/g_%02d.jpg)",
+      "Bash(rm -f /tmp/pinframes/h_*.jpg)",
+      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -ss 5.4 -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -t 6.5 -vf fps=8,crop=700:700:620:295,scale=420:420 -q:v 3 /tmp/pinframes/h_%02d.jpg)"
     ]
   }
 }
