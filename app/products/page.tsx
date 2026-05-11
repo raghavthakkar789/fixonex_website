@@ -2,14 +2,13 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight, Layers, Grid3X3, Shield, CheckCircle2 } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
-import { Reveal, Stagger, StaggerItem, LineReveal, SlideReveal } from "@/components/motion/Reveal";
+import { Reveal, LineReveal } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { cta } from "@/lib/ui-constants";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -40,16 +39,10 @@ const guidanceRows: [string, string, string][] = [
   ["AAC Block Joints", "Block Joining Mortar", "from-amber-500/15 to-yellow-400/10"],
 ];
 
-const steps = [
-  { n: "01", title: "Choose your tile type", text: "Match substrate, format, and exposure before selecting grade.", icon: Grid3X3, color: "from-rose-500 to-orange-500" },
-  { n: "02", title: "Match the adhesive grade", text: "Step from C1T through C2TES2 — or PU for specialty bonds.", icon: Layers, color: "from-teal-500 to-emerald-500" },
-  { n: "03", title: "Finish with epoxy grout", text: "20+ colours for durable, stain-resistant joints.", icon: Shield, color: "from-blue-500 to-indigo-500" },
-];
-
 const overviewBullets = [
-  "Interior ceramics through large-format porcelain, stone, and immersed builds.",
-  "Certified cementitious grades (C1T–C2TES2) plus PU FIXO-999 for approved specialty bonds.",
-  "Epoxy grout, block mortar, spacers, and cleaners — one coherent fixing system.",
+  "Adhesives for ceramics, porcelain, stone, and demanding sites.",
+  "Grouts and ancillaries that pair with the same range.",
+  "Specs and support when you need a clear pick.",
 ];
 
 export default function ProductsPage() {
@@ -64,7 +57,7 @@ export default function ProductsPage() {
         imageClassName="object-contain object-center md:object-right"
       />
 
-      {/* ── Product Overview — system narrative + timeline ── */}
+      {/* ── Product Overview ── */}
       <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf8f6] to-[#f3f1ee]">
         <div
           aria-hidden
@@ -86,120 +79,45 @@ export default function ProductsPage() {
         />
 
         <div className="site-container section-pad-lg relative z-10">
-          <Reveal className="max-w-3xl">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <p className="eyebrow-label mb-4">Product Overview</p>
             <h2
               className="font-display font-bold text-zinc-950"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.1rem)", letterSpacing: "-0.04em", lineHeight: 1.08 }}
+              style={{ fontSize: "clamp(1.85rem, 3.5vw, 2.65rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}
             >
-              One system. Every substrate. Site-proven bonds.
+              Adhesives, grouts, and extras — in one range.
             </h2>
-            <LineReveal className="mt-6 mb-6 max-w-md bg-gradient-to-r from-primary/40 via-orange-400/50 to-transparent" delay={0.12} />
-            <p className="max-w-2xl text-[16px] leading-[1.75] text-zinc-600">
-              FIXONEX is built as a connected range — adhesives, grout, ancillaries, and guidance — so teams can specify
-              and install with fewer gaps between what&apos;s on the drawing and what gets trowelled on site.
+            <LineReveal
+              className="mx-auto mt-5 mb-5 max-w-sm bg-gradient-to-r from-primary/40 via-orange-400/50 to-transparent"
+              delay={0.12}
+            />
+            <p className="text-[15px] leading-relaxed text-zinc-600">
+              Pick what fits your site; details live on each product page and TDS.
             </p>
+
+            <ul className="mx-auto mt-8 max-w-md space-y-3 text-left sm:mt-10">
+              {overviewBullets.map((line) => (
+                <li key={line} className="flex gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <CheckCircle2 className="h-3.5 w-3.5" aria-hidden strokeWidth={2.5} />
+                  </span>
+                  <span className="text-[14px] leading-snug text-zinc-600">{line}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Button asChild variant="primary" className="rounded-full shadow-[0_4px_16px_rgba(211,47,47,0.28)]">
+                <TransitionLink href="/services#product-guidance" className="inline-flex items-center gap-2">
+                  {cta.guidance}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </TransitionLink>
+              </Button>
+              <Button asChild variant="outline" className="rounded-full border-zinc-300 bg-white/80">
+                <TransitionLink href="/products/tiles-adhesive">Tile adhesive range</TransitionLink>
+              </Button>
+            </div>
           </Reveal>
-
-          <div className="mt-14 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-12 lg:items-stretch">
-            <SlideReveal direction="left" className="lg:col-span-5">
-              <div className="relative h-full overflow-hidden rounded-[1.75rem] border border-zinc-200/80 bg-white/90 shadow-[0_8px_40px_rgba(0,0,0,0.06)] backdrop-blur-sm">
-                <div
-                  aria-hidden
-                  className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-primary via-orange-500 to-teal-500"
-                />
-                <div className="relative p-8 md:p-9">
-                  <p className="font-display text-lg font-bold text-zinc-950">Why specify as a system?</p>
-                  <p className="mt-2 text-[13px] font-medium uppercase tracking-[0.12em] text-zinc-400">
-                    Compatibility · traceability · support
-                  </p>
-                  <ul className="mt-8 space-y-5">
-                    {overviewBullets.map((line) => (
-                      <li key={line} className="flex gap-3.5">
-                        <span className="mt-1.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                          <CheckCircle2 className="h-3.5 w-3.5" aria-hidden strokeWidth={2.5} />
-                        </span>
-                        <span className="text-[14px] leading-[1.7] text-zinc-600">{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-10 flex flex-wrap gap-3">
-                    <span className="inline-flex items-center rounded-xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-2 text-[12px] font-bold tracking-wide text-zinc-800">
-                      EN 12004
-                    </span>
-                    <span className="inline-flex items-center rounded-xl border border-zinc-200/90 bg-zinc-50/90 px-4 py-2 text-[12px] font-bold tracking-wide text-zinc-800">
-                      IS 15477:2019
-                    </span>
-                  </div>
-
-                  <div className="mt-8 flex flex-wrap gap-3 border-t border-zinc-100 pt-8">
-                    <Button asChild variant="primary" className="rounded-full shadow-[0_4px_16px_rgba(211,47,47,0.28)]">
-                      <TransitionLink href="/services#product-guidance" className="inline-flex items-center gap-2">
-                        {cta.guidance}
-                        <ArrowRight className="h-4 w-4" aria-hidden />
-                      </TransitionLink>
-                    </Button>
-                    <Button asChild variant="outline" className="rounded-full border-zinc-300 bg-white/80">
-                      <TransitionLink href="/products/tiles-adhesive">Tile adhesive range</TransitionLink>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </SlideReveal>
-
-            <SlideReveal direction="right" delay={0.06} className="lg:col-span-7">
-              <div className="relative h-full rounded-[1.75rem] border border-zinc-200/70 bg-white/70 p-1 shadow-[0_6px_32px_rgba(0,0,0,0.05)] backdrop-blur-sm md:p-1.5">
-                <div className="rounded-[1.55rem] bg-gradient-to-br from-zinc-50/80 via-white to-[#faf8f6] p-6 md:p-8">
-                  <div className="flex flex-wrap items-end justify-between gap-4 border-b border-zinc-200/60 pb-6">
-                    <div>
-                      <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">Workflow</p>
-                      <p className="mt-1.5 font-display text-xl font-bold text-zinc-950">From selection to joint finish</p>
-                    </div>
-                    <p className="max-w-[220px] text-[12px] leading-relaxed text-zinc-500">
-                      Three moves that keep most projects aligned before the first bag is opened.
-                    </p>
-                  </div>
-
-                  <div className="relative mt-8 space-y-0 md:mt-10">
-                    <div
-                      aria-hidden
-                      className="absolute left-[22px] top-3 bottom-3 w-px bg-gradient-to-b from-primary/50 via-zinc-200 to-teal-500/40 md:left-[26px]"
-                    />
-                    <Stagger className="space-y-5 md:space-y-6">
-                      {steps.map((s) => (
-                        <StaggerItem key={s.n}>
-                          <div className="relative flex gap-5 md:gap-6">
-                            <div className="relative z-[1] flex shrink-0 flex-col items-center">
-                              <span
-                                className={cn(
-                                  "flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg md:h-14 md:w-14",
-                                  s.color,
-                                )}
-                              >
-                                <s.icon className="h-5 w-5 text-white md:h-6 md:w-6" aria-hidden />
-                              </span>
-                            </div>
-                            <TiltCard className="group min-w-0 flex-1 rounded-2xl border border-zinc-200/80 bg-white px-5 py-4 shadow-[0_2px_14px_rgba(0,0,0,0.04)] transition-shadow duration-300 hover:border-primary/20 hover:shadow-[0_12px_32px_rgba(211,47,47,0.08)] md:px-6 md:py-5">
-                              <div className="flex flex-wrap items-start justify-between gap-2">
-                                <p className="font-display text-[17px] font-bold text-zinc-950 transition-colors duration-300 group-hover:text-primary md:text-lg">
-                                  {s.title}
-                                </p>
-                                <span className="font-display text-2xl font-black leading-none text-zinc-100 transition-colors duration-300 group-hover:text-primary/15 md:text-3xl">
-                                  {s.n}
-                                </span>
-                              </div>
-                              <p className="mt-2 text-[13px] leading-[1.65] text-zinc-500 md:text-[14px]">{s.text}</p>
-                            </TiltCard>
-                          </div>
-                        </StaggerItem>
-                      ))}
-                    </Stagger>
-                  </div>
-                </div>
-              </div>
-            </SlideReveal>
-          </div>
         </div>
       </section>
 

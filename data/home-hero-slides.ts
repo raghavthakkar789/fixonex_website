@@ -1,6 +1,7 @@
 /**
  * Home hero carousel slides — backgrounds live under `public/images/hero/`.
  * Order: brand first, then each product line (tiles, epoxy, block, PU, cleaner, spacer).
+ * PU FIXO-999 slide object is kept in a block comment below when paused from the carousel.
  */
 
 export type HomeHeroSlide = {
@@ -42,7 +43,7 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
   },
   {
     id: "epoxy-grout",
-    image: "/images/hero/Epoxy grouting-heroimage.jpeg",
+    image: "/images/hero/Epoxy grouting-heroimage.png",
     imageAlt: "FIXONEX epoxy grout",
     eyebrow: "Epoxy grout",
     titleLine1: "Stain-tough joints. Designer colours.",
@@ -58,9 +59,10 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
     description: "Factory-mixed mortar for cellular and lightweight block walls — fast build, plumb lines, 40 kg packs.",
     primaryCta: { label: "View block mortar", href: "/products/block-joining-mortar" },
   },
+  /* PU FIXO-999 — temporarily out of home hero carousel (keep object for easy restore)
   {
     id: "pu-fixo-999",
-    /* Same asset as product pages — full packshot reads reliably in hero with PU-only framing */
+    // Same asset as product pages — full packshot reads reliably in hero with PU-only framing
     image: "/images/products/pu-fixo-999.png",
     imageAlt: "PU FIXO-999 two-part polyurethane adhesive",
     eyebrow: "PU FIXO-999",
@@ -68,6 +70,7 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
     description: "Two-part PU for metal, wood, approved tile-on-tile, and specialty substrates when cementitious isn’t specified — 5 kg kit.",
     primaryCta: { label: "View PU FIXO-999", href: "/products/pu-fixo-999" },
   },
+  */
   {
     id: "tile-cleaner",
     image: "/images/hero/tileCleaner-heroImage.jpeg",
@@ -105,7 +108,11 @@ function heroSlideImageById(slideId: string): string | undefined {
 export function getHomeHeroImageForCatalogSlug(slug: string): string | undefined {
   const slideId = CATALOG_SLUG_TO_HERO_SLIDE_ID[slug];
   if (!slideId) return undefined;
-  return heroSlideImageById(slideId);
+  const fromCarousel = heroSlideImageById(slideId);
+  if (fromCarousel) return fromCarousel;
+  /* Slide may be commented out of HOME_HERO_SLIDES but catalog PageHero still needs the asset */
+  if (slug === "pu-fixo-999") return "/images/products/pu-fixo-999.png";
+  return undefined;
 }
 
 /** Same background as the home carousel “Tile adhesives” slide — hub + all FIX 111–555 detail routes. */

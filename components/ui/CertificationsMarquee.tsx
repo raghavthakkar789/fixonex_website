@@ -15,23 +15,23 @@ import Image from "next/image";
 
 /* ─── Cert entries ────────────────────────────────────────────────────────── */
 const certs = [
-  { id: "isi",           src: "/images/certs/isi.svg",           alt: "ISI Mark — Bureau of Indian Standards",          w: 64,  h: 64  },
-  { id: "iso",           src: "/images/certs/iso.svg",           alt: "ISO Certified",                                  w: 100, h: 50  },
-  { id: "make-in-india", src: "/images/certs/make-in-india.svg", alt: "Make in India",                                  w: 120, h: 60  },
-  { id: "igbc",          src: "/images/certs/igbc.svg",          alt: "IGBC Member — Indian Green Building Council",    w: 96,  h: 60  },
-  { id: "ce",            src: "/images/certs/ce.svg",            alt: "CE Mark — Conformité Européenne",                w: 84,  h: 60  },
-  { id: "iaf",           src: "/images/certs/iaf.svg",           alt: "IAF Member — Multilateral Recognition Arrangement", w: 108, h: 56 },
+  { id: "isi",           src: "/images/certs/ISI_logo.png",           alt: "ISI Mark — Bureau of Indian Standards",          w: 64,  h: 64  },
+  { id: "iso",           src: "/images/certs/ISO_logo.png",           alt: "ISO Certified",                                  w: 100, h: 50  },
+  { id: "make-in-india", src: "/images/certs/MakeInIndia.png", alt: "Make in India",                                  w: 120, h: 60  },
+  { id: "igbc",          src: "/images/certs/IGBC_logo.jpeg",          alt: "IGBC Member — Indian Green Building Council",    w: 96,  h: 60  },
+  { id: "ce",            src: "/images/certs/CE_logo.png",            alt: "CE Mark — Conformité Européenne",                w: 84,  h: 60  },
+  { id: "iaf",           src: "/images/certs/IAF_logo.png",           alt: "IAF Member — Multilateral Recognition Arrangement", w: 108, h: 56 },
 ] as const;
 
-/* duplicate 4× so the loop is seamlessly long */
-const track = [...certs, ...certs, ...certs, ...certs];
+/** One loop duration; smaller = faster (linear scroll covers same distance). */
+const SCROLL_SECONDS = 5;
 
 /* ─── Component ───────────────────────────────────────────────────────────── */
 export function CertificationsMarquee() {
   return (
     <section
       aria-label="Certifications and standards"
-      className="relative flex h-[148px] items-stretch overflow-hidden border-y border-zinc-200/70 bg-white"
+      className="relative flex h-[172px] items-stretch overflow-hidden border-y border-zinc-200/70 bg-white"
     >
       {/* ── Left label column ─────────────────────────────────────────────── */}
       <div className="relative z-10 flex w-[200px] shrink-0 items-center justify-center border-r border-zinc-200/70 bg-white px-8">
@@ -61,26 +61,34 @@ export function CertificationsMarquee() {
           style={{ background: "linear-gradient(to left, white, transparent)" }}
         />
 
-        {/* Scroll track */}
+        {/* Scroll track: two identical inner rows + pr-16 = gap seam so translateX(-50%) loops cleanly */}
         <div
-          className="flex h-full items-center gap-16 cert-scroll-track"
-          style={{ animation: "certScroll 9s linear infinite" }}
+          className="cert-scroll-track flex h-full w-max flex-nowrap items-center will-change-transform"
+          style={{ animation: `certScroll ${SCROLL_SECONDS}s linear infinite` }}
           onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = "paused")}
           onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = "running")}
         >
-          {track.map((cert, i) => (
+          {[0, 1].map((dup) => (
             <div
-              key={`${cert.id}-${i}`}
-              className="shrink-0 flex items-center justify-center opacity-75 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+              key={dup}
+              className="flex shrink-0 items-center gap-16 pr-16"
+              aria-hidden={dup === 1 ? true : undefined}
             >
-              <Image
-                src={cert.src}
-                alt={cert.alt}
-                width={cert.w}
-                height={cert.h}
-                className="h-20 w-auto object-contain"
-                draggable={false}
-              />
+              {certs.map((cert) => (
+                <div
+                  key={`${dup}-${cert.id}`}
+                  className="flex shrink-0 items-center justify-center opacity-75 transition-opacity duration-300 grayscale hover:opacity-100 hover:grayscale-0"
+                >
+                  <Image
+                    src={cert.src}
+                    alt={cert.alt}
+                    width={cert.w}
+                    height={cert.h}
+                    className="h-24 w-auto object-contain"
+                    draggable={false}
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -90,7 +98,7 @@ export function CertificationsMarquee() {
       <style>{`
         @keyframes certScroll {
           from { transform: translateX(0); }
-          to   { transform: translateX(calc(-100% / 4)); }
+          to   { transform: translateX(-50%); }
         }
       `}</style>
     </section>

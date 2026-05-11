@@ -8,7 +8,7 @@ export type HowToGuideSection = {
 export const guideHeroImages = {
   main: "/images/hero/hero-main.jpeg",
   adhesive: "/images/hero/Tiles-adhesive-heroimage.jpeg",
-  epoxy: "/images/hero/Epoxy grouting-heroimage.jpeg",
+  epoxy: "/images/hero/Epoxy grouting-heroimage.png",
   block: "/images/hero/block-joining-montar-heroimage.jpeg",
   cleaner: "/images/hero/tileCleaner-heroImage.jpeg",
   spacer: "/images/hero/tilesSpacer-heroImage.jpeg",
