@@ -6,15 +6,21 @@
  * Sequential steps; each answered step stays expanded so choices can be changed
  * directly (later answers reset when an earlier answer changes).
  * Right panel: rich credibility + system essentials until complete; then recommendation.
+ *
+ * Flow:
+ *   Q1 Area → Q2 Type of Area (Dry/Wet/Submerged) → Q3 Tile or Stone Type
+ *   → Q4 Tile Size (depends on tile) → Q5 Substrate
+ * Every step's option list is derived from prior answers; later answers reset
+ * automatically when an earlier answer changes.
  */
 
 import { Fragment, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   CheckCircle2, RotateCcw, ChevronRight, ArrowRight,
   MapPin, Layers, Grid3X3, Maximize2, Blocks,
-  Award, Users, ShieldCheck, Zap, Sparkles,
-  Droplets, Package,
+  ShieldCheck, Sparkles,
 } from "lucide-react";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { cn } from "@/lib/utils";
@@ -24,15 +30,27 @@ const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ─── Types ───────────────────────────────────────────────────────────────── */
 type AreaId      = "interior-floor" | "interior-wall" | "exterior-floor" | "exterior-wall";
-type TypeId      = "residential" | "commercial" | "swimming-pool";
-type TileId      = "ceramic" | "vitrified-porcelain" | "marble" | "natural-stone" | "mosaic";
-type TileSizeId  = "small" | "large";
+type TypeId      = "dry-area" | "wet-area" | "submerged-area";
+type TileId      =
+  | "ceramic"
+  | "vitrified"
+  | "granite-marble"
+  | "engineered-stone"
+  | "glass-mosaic"
+  | "chemical-resistant";
+type TileSizeId  =
+  | "s-300"
+  | "s-600"
+  | "s-600x1200"
+  | "s-1200"
+  | "s-above-1200"
+  | "s-sheets";
 type SubstrateId =
-  | "concrete"
-  | "sand-cement-screed"
-  | "sand-cement-plaster"
-  | "gypsum-board"
-  | "existing-tiles";
+  | "cement-plaster"
+  | "cement-concrete"
+  | "tile-on-tile"
+  | "wood-metal"
+  | "others";
 
 interface Answers {
   area?:      AreaId;
@@ -55,79 +73,83 @@ const AREA_OPTIONS: { id: AreaId; label: string }[] = [
 ];
 
 /* ─── Step 2 — Type of Area ──────────────────────────────────────────────── */
-const TYPE_BY_AREA: Record<AreaId, { id: TypeId; label: string }[]> = {
-  "interior-floor": [
-    { id: "residential",   label: "Residential"   },
-    { id: "commercial",    label: "Commercial"    },
-    { id: "swimming-pool", label: "Swimming Pool" },
-  ],
-  "interior-wall": [
-    { id: "residential",   label: "Residential"   },
-    { id: "commercial",    label: "Commercial"    },
-    { id: "swimming-pool", label: "Swimming Pool" },
-  ],
-  "exterior-floor": [
-    { id: "residential",   label: "Residential"   },
-    { id: "commercial",    label: "Commercial"    },
-    { id: "swimming-pool", label: "Swimming Pool" },
-  ],
-  "exterior-wall": [
-    { id: "residential", label: "Residential" },
-    { id: "commercial",  label: "Commercial"  },
-  ],
-};
+/** Same three options regardless of area — branching happens at the tile step. */
+const TYPE_OPTIONS: { id: TypeId; label: string; sub?: string }[] = [
+  { id: "dry-area",       label: "Dry Area",       sub: "Bedrooms, living, hallways" },
+  { id: "wet-area",       label: "Wet Area",       sub: "Bathrooms, kitchens, balconies" },
+  { id: "submerged-area", label: "Submerged Area", sub: "Pools, water tanks, fountains" },
+];
 
 /* ─── Step 3 — Tile / Stone Type ─────────────────────────────────────────── */
-const ALL_TILES: { id: TileId; label: string }[] = [
-  { id: "ceramic",             label: "Ceramic"              },
-  { id: "vitrified-porcelain", label: "Vitrified / Porcelain" },
-  { id: "marble",              label: "Marble"               },
-  { id: "natural-stone",       label: "Natural Stone"        },
-  { id: "mosaic",              label: "Mosaic"               },
-];
+const TILE_LABEL: Record<TileId, string> = {
+  "ceramic":            "Ceramic Tile",
+  "vitrified":          "Vitrified Tile",
+  "granite-marble":     "Granite / Marble",
+  "engineered-stone":   "Engineered Stone",
+  "glass-mosaic":       "Glass Mosaic Tile",
+  "chemical-resistant": "Chemical Resistant Tile",
+};
 
-function getTileOptions(_area: AreaId, type: TypeId) {
-  return type === "swimming-pool"
-    ? ALL_TILES.filter((t) => t.id !== "marble")
-    : ALL_TILES;
+function getTileOptions(area: AreaId, type: TypeId): { id: TileId; label: string }[] {
+  const isExterior = area === "exterior-floor" || area === "exterior-wall";
+
+  if (isExterior) {
+    if (type === "dry-area") {
+      return (["vitrified", "granite-marble", "engineered-stone"] as TileId[])
+        .map((id) => ({ id, label: TILE_LABEL[id] }));
+    }
+    if (type === "wet-area") {
+      return (["vitrified", "granite-marble"] as TileId[])
+        .map((id) => ({ id, label: TILE_LABEL[id] }));
+    }
+    // submerged
+    return [{ id: "glass-mosaic", label: TILE_LABEL["glass-mosaic"] }];
+  }
+
+  // interior floor or wall
+  if (type === "dry-area") {
+    return (["ceramic", "vitrified", "granite-marble", "engineered-stone"] as TileId[])
+      .map((id) => ({ id, label: TILE_LABEL[id] }));
+  }
+  // wet or submerged — same list for interior per spec
+  return (["vitrified", "glass-mosaic", "granite-marble", "chemical-resistant"] as TileId[])
+    .map((id) => ({ id, label: TILE_LABEL[id] }));
 }
 
-/* ─── Step 4 — Tile Size ─────────────────────────────────────────────────── */
-const TILE_SIZE_OPTIONS: { id: TileSizeId; label: string; sub: string }[] = [
-  { id: "small", label: "Less than 600 × 600 mm", sub: "Standard format" },
-  { id: "large", label: "600 × 600 mm & above",   sub: "Large / slim format" },
-];
+/* ─── Step 4 — Tile Size (depends on tile) ───────────────────────────────── */
+type TileSizeOption = { id: TileSizeId; label: string; sub?: string };
 
-/* ─── Step 5 — Substrate ─────────────────────────────────────────────────── */
-function getSubstrateOptions(area: AreaId, type: TypeId): { id: SubstrateId; label: string }[] {
-  if (type === "swimming-pool") {
-    return [
-      { id: "concrete",       label: "Concrete"       },
-      { id: "existing-tiles", label: "Existing Tiles" },
-    ];
+const SIZE_UPTO_600:        TileSizeOption = { id: "s-600",        label: "Upto 600 × 600 mm",   sub: "≈ 2 ft × 2 ft"      };
+const SIZE_UPTO_600x1200:   TileSizeOption = { id: "s-600x1200",   label: "Upto 600 × 1200 mm",  sub: "≈ 2 ft × 4 ft"      };
+const SIZE_UPTO_1200:       TileSizeOption = { id: "s-1200",       label: "Upto 1200 × 1200 mm", sub: "≈ 4 ft × 4 ft"      };
+const SIZE_ABOVE_1200:      TileSizeOption = { id: "s-above-1200", label: "Above 1200 × 1200 mm", sub: "Large / slab format" };
+const SIZE_UPTO_300:        TileSizeOption = { id: "s-300",        label: "Upto 300 × 300 mm",   sub: "≈ 1 ft × 1 ft"      };
+const SIZE_SHEETS:          TileSizeOption = { id: "s-sheets",     label: "Sheets",              sub: "Mosaic sheet format" };
+
+function getTileSizeOptions(tile: TileId): TileSizeOption[] {
+  switch (tile) {
+    case "vitrified":
+    case "granite-marble":
+      return [SIZE_UPTO_600, SIZE_UPTO_600x1200, SIZE_UPTO_1200, SIZE_ABOVE_1200];
+    case "ceramic":
+      return [SIZE_UPTO_300];
+    case "engineered-stone":
+      return [SIZE_UPTO_1200, SIZE_ABOVE_1200];
+    case "glass-mosaic":
+      return [SIZE_SHEETS];
+    case "chemical-resistant":
+      return [SIZE_UPTO_600, SIZE_UPTO_1200];
   }
-  const isFloor = area === "interior-floor" || area === "exterior-floor";
-  if (isFloor) {
-    return [
-      { id: "concrete",           label: "Concrete"           },
-      { id: "sand-cement-screed", label: "Sand Cement Screed" },
-      { id: "existing-tiles",     label: "Existing Tiles"     },
-    ];
-  }
-  if (area === "interior-wall") {
-    return [
-      { id: "concrete",            label: "Concrete / Block Work" },
-      { id: "sand-cement-plaster", label: "Sand Cement Plaster"   },
-      { id: "gypsum-board",        label: "Gypsum Board"          },
-      { id: "existing-tiles",      label: "Existing Tiles"        },
-    ];
-  }
-  return [
-    { id: "concrete",            label: "Concrete / Block Work" },
-    { id: "sand-cement-plaster", label: "Sand Cement Plaster"   },
-    { id: "existing-tiles",      label: "Existing Tiles"        },
-  ];
 }
+
+/* ─── Step 5 — Substrate (same 5 options always) ─────────────────────────── */
+const SUBSTRATE_OPTIONS: { id: SubstrateId; label: string; sub?: string }[] = [
+  { id: "cement-plaster",  label: "Cementitious — Plaster / Screed", sub: "Sand-cement plaster or screed bed" },
+  { id: "cement-concrete", label: "Cementitious — Concrete",         sub: "Block work or cured concrete" },
+  { id: "tile-on-tile",    label: "Tile on Tile",                    sub: "Existing tiled surface" },
+  { id: "wood-metal",      label: "Wood / Metal",                    sub: "Plywood, MDF, steel, or composite" },
+  { id: "others",          label: "Others",                          sub: "Speciality or non-standard base" },
+];
 
 /* ─── Products ───────────────────────────────────────────────────────────── */
 type ProductKey = "fix-111" | "fix-222" | "fix-333" | "fix-444" | "fix-555";
@@ -135,32 +157,37 @@ const GRADE_ORDER: ProductKey[] = ["fix-111", "fix-222", "fix-333", "fix-444", "
 
 const PRODUCTS: Record<ProductKey, {
   name: string; grade: string; tagline: string;
-  color: string; bg: string; href: string;
+  color: string; bg: string; href: string; image: string;
 }> = {
   "fix-111": {
     name: "FIX 111", grade: "C1T · Type-1", color: "#d97706", bg: "#fffbeb",
     tagline: "Standard polymer-modified adhesive for interior ceramic wall and floor tiles.",
     href: "/products/tiles-adhesive/fix-111",
+    image: "/images/products/fix-111.png",
   },
   "fix-222": {
     name: "FIX 222", grade: "C2T · Type-2", color: "#2563eb", bg: "#eff6ff",
     tagline: "Improved-adhesion mortar for interior ceramic and vitrified tile systems.",
     href: "/products/tiles-adhesive/fix-222",
+    image: "/images/products/fix-222.png",
   },
   "fix-333": {
     name: "FIX 333", grade: "C2TE · Type-3", color: "#059669", bg: "#ecfdf5",
     tagline: "Enhanced deformable adhesive for large-format tiles, marble, and granite.",
     href: "/products/tiles-adhesive/fix-333",
+    image: "/images/products/fix-333.png",
   },
   "fix-444": {
     name: "FIX 444", grade: "C2TES1 · Type-4", color: "#7c3aed", bg: "#f5f3ff",
     tagline: "High-performance adhesive for exterior walls and natural stone cladding.",
     href: "/products/tiles-adhesive/fix-444",
+    image: "/images/products/fix-444.png",
   },
   "fix-555": {
     name: "FIX 555", grade: "C2TES2 · Type-5", color: "#dc2626", bg: "#fef2f2",
     tagline: "Maximum-deformability adhesive for swimming pools, exteriors, and tile-on-tile.",
     href: "/products/tiles-adhesive/fix-555",
+    image: "/images/products/fix-555.png",
   },
 };
 
@@ -190,25 +217,21 @@ const COMPANIONS: Companion[] = [
   },
 ];
 
-function getCompanions(a: Required<Answers>): Companion[] {
-  const needsEpoxy =
-    a.type === "swimming-pool" ||
-    a.type === "commercial" ||
-    a.area === "exterior-floor" ||
-    a.area === "exterior-wall" ||
-    a.substrate === "gypsum-board";
-  return COMPANIONS.filter((c) => c.always || (c.id === "epoxy-grout" && needsEpoxy));
-}
-
 /** Partial answers — patterns where epoxy is commonly paired. */
 function epoxyLikelyFromPartial(a: Answers): boolean {
   return (
-    a.type === "swimming-pool" ||
-    a.type === "commercial" ||
+    a.type === "wet-area" ||
+    a.type === "submerged-area" ||
     a.area === "exterior-floor" ||
     a.area === "exterior-wall" ||
-    a.substrate === "gypsum-board"
+    a.tile === "chemical-resistant" ||
+    a.substrate === "tile-on-tile"
   );
+}
+
+function getCompanions(a: Required<Answers>): Companion[] {
+  const needsEpoxy = epoxyLikelyFromPartial(a);
+  return COMPANIONS.filter((c) => c.always || (c.id === "epoxy-grout" && needsEpoxy));
 }
 
 const COMPANION_UI: {
@@ -216,271 +239,73 @@ const COMPANION_UI: {
   name: string;
   short: string;
   href: string;
-  Icon: typeof Layers;
+  image: string;
 }[] = [
   {
     id: "epoxy-grout",
     name: "Epoxy Grout",
     short: "Stain-resistant, hygienic joints for pools, exteriors, and demanding wet areas.",
     href: "/products/epoxy-grout",
-    Icon: Layers,
+    image: "/images/products/epoxy-grout.png",
   },
   {
     id: "tile-cleaner",
     name: "Tile Cleaner",
     short: "Post-install haze removal and a showroom-grade finish.",
     href: "/products/tile-cleaner",
-    Icon: Droplets,
+    image: "/images/products/tile-cleaner.png",
   },
   {
     id: "tile-spacer",
     name: "Tile Spacer",
     short: "Uniform joints from mosaic modules to large-format slabs.",
     href: "/products/tile-spacer",
-    Icon: Package,
+    image: "/images/products/tile-spacer.png",
   },
 ];
 
-const CRED_PILLARS = [
-  {
-    title: "Spec-grade formulations",
-    body: "Polymer-modified mortars engineered for real sites — humidity, deflection, and open time included.",
-  },
-  {
-    title: "Clear grade ladder",
-    body: "C1T through C2TES2 so architects, dealers, and site teams stay aligned end to end.",
-  },
-  {
-    title: "Technical backup",
-    body: "Unusual stone, hybrid build-ups, or warranty paperwork — we help before you lock the BOQ.",
-  },
-] as const;
 /* ─── Recommendation matrix ──────────────────────────────────────────────── */
 type FullAnswers = Required<Answers>;
 
-function upgrade(k: ProductKey): ProductKey {
-  const i = GRADE_ORDER.indexOf(k);
-  return i < GRADE_ORDER.length - 1 ? GRADE_ORDER[i + 1] : k;
-}
-
-function baseRecommend(a: FullAnswers): ProductKey {
-  const { area, type, tile, substrate } = a;
-  if (substrate === "existing-tiles") return "fix-555";
-  if (type === "swimming-pool")       return "fix-555";
-
-  const isInterior = area === "interior-floor" || area === "interior-wall";
-  if (isInterior) {
-    if (type === "residential") {
-      if (tile === "ceramic")             return "fix-111";
-      if (tile === "vitrified-porcelain") return "fix-222";
-      if (tile === "marble")              return "fix-333";
-      if (tile === "natural-stone")       return "fix-333";
-      if (tile === "mosaic")              return "fix-222";
-    }
-    if (type === "commercial") {
-      if (tile === "ceramic")             return "fix-222";
-      if (tile === "vitrified-porcelain") return "fix-333";
-      if (tile === "marble")              return "fix-333";
-      if (tile === "natural-stone")       return "fix-444";
-      if (tile === "mosaic")              return "fix-333";
-    }
-  }
-  if (area === "exterior-floor") {
-    if (type === "residential") {
-      if (tile === "ceramic")             return "fix-222";
-      if (tile === "vitrified-porcelain") return "fix-333";
-      if (tile === "marble")              return "fix-444";
-      if (tile === "natural-stone")       return "fix-444";
-      if (tile === "mosaic")              return "fix-333";
-    }
-    if (type === "commercial") {
-      if (tile === "ceramic")             return "fix-333";
-      if (tile === "vitrified-porcelain") return "fix-444";
-      if (tile === "marble")              return "fix-444";
-      if (tile === "natural-stone")       return "fix-444";
-      if (tile === "mosaic")              return "fix-444";
-    }
-  }
-  if (area === "exterior-wall") {
-    if (type === "residential") {
-      if (tile === "ceramic")             return "fix-333";
-      if (tile === "vitrified-porcelain") return "fix-444";
-      if (tile === "marble")              return "fix-444";
-      if (tile === "natural-stone")       return "fix-444";
-      if (tile === "mosaic")              return "fix-333";
-    }
-    if (type === "commercial") {
-      if (tile === "ceramic")             return "fix-333";
-      if (tile === "vitrified-porcelain") return "fix-444";
-      if (tile === "marble")              return "fix-444";
-      if (tile === "natural-stone")       return "fix-555";
-      if (tile === "mosaic")              return "fix-444";
-    }
-  }
-  return "fix-222";
-}
-
+/**
+ * Map full answers to a FIX grade.
+ *
+ * Hard rules (always cap at the top):
+ *   - Tile on tile  → FIX 555
+ *   - Submerged     → FIX 555
+ *
+ * Otherwise compute a 0..4 level by stacking bumps:
+ *   tile base + exterior + wet + size + substrate, clamped to [0,4].
+ */
 function recommend(a: FullAnswers): ProductKey {
-  const base = baseRecommend(a);
-  return a.tileSize === "large" ? upgrade(base) : base;
+  if (a.substrate === "tile-on-tile") return "fix-555";
+  if (a.type === "submerged-area")    return "fix-555";
+
+  let level: number;
+  switch (a.tile) {
+    case "ceramic":            level = 0; break;
+    case "vitrified":          level = 1; break;
+    case "granite-marble":     level = 2; break;
+    case "engineered-stone":   level = 2; break;
+    case "glass-mosaic":       level = 2; break;
+    case "chemical-resistant": level = 3; break;
+  }
+
+  if (a.area === "exterior-floor" || a.area === "exterior-wall") level += 1;
+  if (a.type === "wet-area") level += 1;
+
+  if (a.substrate === "wood-metal") level = Math.max(level, 3);
+  if (a.substrate === "others")     level += 1;
+
+  if (a.tileSize === "s-600x1200")   level += 1;
+  if (a.tileSize === "s-1200")        level += 1;
+  if (a.tileSize === "s-above-1200")  level += 2;
+
+  level = Math.max(0, Math.min(4, level));
+  return GRADE_ORDER[level];
 }
 
-/* ─── Credibility panel (right panel empty state) ────────────────────────── */
-const CRED_STATS = [
-  { icon: Award,       value: "IS 15477:2019", label: "Certified standard"     },
-  { icon: ShieldCheck, value: "5 Grades",      label: "C1T through C2TES2"     },
-  { icon: Users,       value: "1,000+",        label: "Projects across India"  },
-  { icon: Zap,         value: "5 Steps",       label: "To your right product"  },
-] as const;
-
-function CredibilityPanel({ answers }: { answers: Answers }) {
-  const epoxyHint = epoxyLikelyFromPartial(answers);
-
-  return (
-    <div className="relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-zinc-200/60 bg-gradient-to-br from-white via-zinc-50/50 to-teal-50/[0.35] p-6 shadow-[0_20px_50px_-28px_rgba(0,0,0,0.2)] sm:p-7">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-12 top-24 h-40 w-40 rounded-full bg-primary/[0.07] blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-8 -top-8 h-28 w-28 rounded-full bg-teal-400/10 blur-2xl"
-      />
-
-      {/* Headline */}
-      <div className="relative">
-        <p className="eyebrow-label text-[10px] text-subhead">Why FIXONEX</p>
-        <h3
-          className="mt-2 font-display text-[1.35rem] font-bold leading-snug text-zinc-900 sm:text-[1.45rem]"
-          style={{ letterSpacing: "-0.03em" }}
-        >
-          Built for installers who can&apos;t afford callbacks.
-        </h3>
-        <p className="mt-2 text-[13px] leading-relaxed text-zinc-600">
-          Finish the steps on the left — your recommended FIX grade appears here, with{" "}
-          <span className="font-semibold text-zinc-800">IS 15477:2019</span> as the
-          backbone. Until then, use this panel to see how we work and what pairs with every
-          serious tile job.
-        </p>
-      </div>
-
-      {/* Stats grid */}
-      <div className="relative grid grid-cols-2 gap-2.5 sm:gap-3">
-        {CRED_STATS.map(({ icon: Icon, value, label }) => (
-          <div
-            key={label}
-            className="flex flex-col gap-1.5 rounded-xl border border-zinc-200/80 bg-white/95 px-3.5 py-3 shadow-sm backdrop-blur-sm sm:px-4"
-          >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <Icon className="h-4 w-4" aria-hidden />
-            </span>
-            <p className="font-display text-[15px] font-bold leading-tight text-zinc-900">{value}</p>
-            <p className="text-[10px] font-medium leading-tight text-zinc-500">{label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Pillars */}
-      <div className="relative space-y-3 rounded-2xl border border-zinc-200/70 bg-white/80 p-4 shadow-sm">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
-          What teams trust
-        </p>
-        <ul className="space-y-3">
-          {CRED_PILLARS.map((row) => (
-            <li key={row.title} className="flex gap-3">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-              <div>
-                <p className="text-[12px] font-bold text-zinc-800">{row.title}</p>
-                <p className="mt-0.5 text-[11px] leading-relaxed text-zinc-500">{row.body}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Companion products — always visible */}
-      <div className="relative space-y-2.5">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-400">
-            System essentials
-          </p>
-          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-zinc-500">
-            Often paired
-          </span>
-        </div>
-        <div className="space-y-2">
-          {COMPANION_UI.map(({ id, name, short, href, Icon }) => {
-            const isEpoxy = id === "epoxy-grout";
-            const highlight = isEpoxy && epoxyHint;
-            return (
-              <TransitionLink
-                key={id}
-                href={`${href}?from=guidance`}
-                className={cn(
-                  "group flex gap-3 rounded-xl border px-3.5 py-3 shadow-sm transition-all",
-                  highlight
-                    ? "border-primary/35 bg-primary/[0.06] hover:border-primary/50"
-                    : "border-zinc-200/85 bg-white/95 hover:border-primary/25 hover:shadow-md",
-                )}
-              >
-                <span
-                  className={cn(
-                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-                    highlight ? "bg-primary/15 text-primary" : "bg-zinc-100 text-zinc-600 group-hover:bg-primary/10 group-hover:text-primary",
-                  )}
-                >
-                  <Icon className="h-[18px] w-[18px]" aria-hidden />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-[12px] font-bold text-zinc-900">{name}</p>
-                    {highlight ? (
-                      <span className="rounded-md bg-primary/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-primary">
-                        Likely for your answers
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-0.5 text-[11px] leading-snug text-zinc-500">{short}</p>
-                </div>
-                <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-zinc-300 group-hover:text-primary" aria-hidden />
-              </TransitionLink>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Certification strip */}
-      <div className="relative rounded-xl border border-primary/25 bg-gradient-to-r from-primary/[0.06] to-transparent px-4 py-3.5">
-        <p className="text-[11px] font-medium leading-relaxed text-zinc-700">
-          Every guided grade maps to{" "}
-          <span className="font-semibold text-primary">IS 15477:2019</span> —
-          India&apos;s reference for cementitious tile adhesives. Sample pulls, pull-off
-          tests, and site mock-ups are available through our technical desk.
-        </p>
-      </div>
-
-      {/* Quote */}
-      <div className="relative rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-4 py-3">
-        <p className="text-[12px] italic leading-relaxed text-zinc-600">
-          &ldquo;We don&apos;t guess the grade — we match substrate movement, tile mass, and
-          exposure so the system survives monsoon, thermal cycling, and real foot
-          traffic.&rdquo;
-        </p>
-        <p className="mt-2 text-[10px] font-semibold text-zinc-500">FIXONEX Applications Team</p>
-      </div>
-
-      {/* CTA */}
-      <TransitionLink
-        href="/contact"
-        className="relative inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-[13px] font-bold text-zinc-800 shadow-sm transition-all hover:border-primary/35 hover:bg-zinc-50 hover:text-primary"
-      >
-        Talk to an expert <ArrowRight className="h-4 w-4" aria-hidden />
-      </TransitionLink>
-    </div>
-  );
-}
-
-/* ─── Result panel (right panel complete state) ──────────────────────────── */
+/* ─── Result panel — rendered below the steps once everything is answered ─ */
 function ResultPanel({
   productKey,
   suggestedCompanionIds,
@@ -506,7 +331,7 @@ function ResultPanel({
         </div>
       </div>
 
-      {/* Main product card */}
+      {/* Main product card — image aside the text */}
       <div
         className="relative overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.35)]"
         style={{
@@ -522,22 +347,42 @@ function ResultPanel({
         />
         <div className="h-1 w-full" style={{ background: `linear-gradient(90deg,${p.color},${p.color}55,transparent)` }} />
         <div className="relative p-5 sm:p-6">
-          <span
-            className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
-            style={{ background: `${p.color}20`, color: p.color }}
-          >
-            <CheckCircle2 className="h-3 w-3" aria-hidden />
-            Recommended grade
-          </span>
-          <p className="font-display text-[1.75rem] font-bold leading-none tracking-tight sm:text-[2rem]" style={{ color: p.color }}>
-            {p.name}
-          </p>
-          <p className="mt-1.5 text-xs font-semibold tracking-wide text-zinc-600">{p.grade}</p>
-          <p className="mt-3 text-[13px] leading-relaxed text-zinc-600">{p.tagline}</p>
-          <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200/80 bg-white/70 px-2.5 py-1 text-[10px] font-medium text-zinc-500 backdrop-blur-sm">
-            <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
-            IS 15477:2019 aligned
-          </p>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
+            {/* Product image */}
+            <div
+              className="relative mx-auto h-32 w-32 shrink-0 overflow-hidden rounded-xl border border-white/70 bg-white/75 p-2.5 shadow-[0_8px_20px_-12px_rgba(0,0,0,0.18)] backdrop-blur-sm sm:mx-0 sm:h-40 sm:w-40"
+              style={{ boxShadow: `0 14px 28px -18px ${p.color}66, 0 1px 0 rgba(255,255,255,0.7) inset` }}
+            >
+              <Image
+                src={p.image}
+                alt={p.name}
+                fill
+                sizes="(min-width: 640px) 160px, 128px"
+                className="object-contain"
+              />
+            </div>
+
+            {/* Text content */}
+            <div className="min-w-0 flex-1">
+              <span
+                className="mb-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider"
+                style={{ background: `${p.color}20`, color: p.color }}
+              >
+                <CheckCircle2 className="h-3 w-3" aria-hidden />
+                Recommended grade
+              </span>
+              <p className="font-display text-[1.75rem] font-bold leading-none tracking-tight sm:text-[2rem]" style={{ color: p.color }}>
+                {p.name}
+              </p>
+              <p className="mt-1.5 text-xs font-semibold tracking-wide text-zinc-600">{p.grade}</p>
+              <p className="mt-3 text-[13px] leading-relaxed text-zinc-600">{p.tagline}</p>
+              <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200/80 bg-white/70 px-2.5 py-1 text-[10px] font-medium text-zinc-500 backdrop-blur-sm">
+                <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
+                IS 15477:2019 aligned
+              </p>
+            </div>
+          </div>
+
           <TransitionLink
             href={`${p.href}?from=guidance`}
             className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg transition-[transform,box-shadow] hover:scale-[1.01] hover:shadow-xl active:scale-[0.99]"
@@ -554,7 +399,7 @@ function ResultPanel({
           Complete your system
         </p>
         <div className="space-y-2">
-          {COMPANION_UI.map(({ id, name, short, href, Icon }) => {
+          {COMPANION_UI.map(({ id, name, short, href, image }) => {
             const matched = suggestedCompanionIds.has(id);
             const isEpoxy = id === "epoxy-grout";
             return (
@@ -572,11 +417,19 @@ function ResultPanel({
               >
                 <span
                   className={cn(
-                    "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
-                    matched ? "bg-primary/12 text-primary" : "bg-zinc-100 text-zinc-500 group-hover:bg-primary/10 group-hover:text-primary",
+                    "relative mt-0.5 h-14 w-14 shrink-0 overflow-hidden rounded-lg border p-1.5 transition-colors",
+                    matched
+                      ? "border-primary/25 bg-white"
+                      : "border-zinc-200/80 bg-white group-hover:border-primary/25",
                   )}
                 >
-                  <Icon className="h-4 w-4" aria-hidden />
+                  <Image
+                    src={image}
+                    alt={name}
+                    fill
+                    sizes="56px"
+                    className="object-contain"
+                  />
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
@@ -688,10 +541,13 @@ export function TileAdhesiveSelector() {
 
   function reset() { setAnswers({}); }
 
-  // Derived option lists (only computed when needed)
-  const typeOptions      = answers.area ? TYPE_BY_AREA[answers.area] : [];
+  // Derived option lists — re-derived on every render from current answers.
+  // Changing any earlier answer clears later answers via pick(), so this is
+  // always consistent with the partial state shown on screen.
+  const typeOptions      = answers.area ? TYPE_OPTIONS : [];
   const tileOptions      = answers.area && answers.type ? getTileOptions(answers.area, answers.type) : [];
-  const substrateOptions = answers.area && answers.type ? getSubstrateOptions(answers.area, answers.type) : [];
+  const tileSizeOptions  = answers.tile ? getTileSizeOptions(answers.tile) : [];
+  const substrateOptions = answers.tileSize ? SUBSTRATE_OPTIONS : [];
 
   type StepDef = {
     key:      keyof Answers;
@@ -702,11 +558,11 @@ export function TileAdhesiveSelector() {
   };
 
   const steps: StepDef[] = [
-    { key: "area",      question: "Select Area",               desc: "Where will the tiles be installed?",     Icon: MapPin,    options: AREA_OPTIONS      },
-    { key: "type",      question: "Select Type of Area",       desc: "What is the nature of the space?",       Icon: Layers,    options: typeOptions        },
-    { key: "tile",      question: "Select Tile or Stone Type", desc: "What material are your tiles?",          Icon: Grid3X3,   options: tileOptions        },
-    { key: "tileSize",  question: "Select Tile Size",          desc: "What is the tile format size?",          Icon: Maximize2, options: TILE_SIZE_OPTIONS  },
-    { key: "substrate", question: "Select Substrate",          desc: "What is the base surface?",              Icon: Blocks,    options: substrateOptions   },
+    { key: "area",      question: "Select Area",               desc: "Where will the tiles be installed?",                        Icon: MapPin,    options: AREA_OPTIONS      },
+    { key: "type",      question: "Select Type of Area",       desc: "Will the space stay dry, get wet, or be fully submerged?",  Icon: Layers,    options: typeOptions       },
+    { key: "tile",      question: "Select Tile or Stone Type", desc: "Which material are you installing?",                        Icon: Grid3X3,   options: tileOptions       },
+    { key: "tileSize",  question: "Select Tile Size",          desc: "Pick the tile format — sizes shown match the chosen material.", Icon: Maximize2, options: tileSizeOptions   },
+    { key: "substrate", question: "Select Substrate",          desc: "What is the base surface you are tiling onto?",             Icon: Blocks,    options: substrateOptions  },
   ];
 
   return (
@@ -797,10 +653,8 @@ export function TileAdhesiveSelector() {
         </div>
       </nav>
 
-      {/* ── Two-column body ── */}
-      <div className="grid gap-6 lg:grid-cols-[1fr_340px] lg:items-start xl:grid-cols-[1fr_380px]">
-
-        {/* Left — steps accordion */}
+      {/* ── Body — single column ── */}
+      <div>
         <div className="space-y-2.5">
           {steps.map((step, idx) => {
             const prevAnswered = idx === 0 || answers[STEP_ORDER[idx - 1]] !== undefined;
@@ -819,6 +673,7 @@ export function TileAdhesiveSelector() {
 
             const n = step.options.length;
             const colsCls =
+              n === 1 ? "grid-cols-1" :
               n <= 2 ? "grid-cols-2" :
               n === 3 ? "grid-cols-2 sm:grid-cols-3" :
               n === 5 ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5" :
@@ -910,57 +765,27 @@ export function TileAdhesiveSelector() {
             );
           })}
 
-          {/* ── Inline result (mobile — below steps) ── */}
-          <AnimatePresence>
-            {resultKey && (
-              <motion.div
-                key="mobile-result"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease }}
-                className="block lg:hidden pt-2"
-              >
-                <ResultPanel productKey={resultKey} suggestedCompanionIds={suggestedCompanionIds} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* Right — sticky panel */}
-        <div className="hidden lg:block lg:sticky lg:top-8">
-          <AnimatePresence mode="wait">
-            {resultKey ? (
-              <motion.div
-                key="result"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease }}
-              >
-                <ResultPanel productKey={resultKey} suggestedCompanionIds={suggestedCompanionIds} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="cred"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease }}
-              >
-                <CredibilityPanel answers={answers} />
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
       </div>
 
-      {/* Same credibility column on small screens — desktop uses sticky aside above */}
-      {!resultKey ? (
-        <div className="mt-8 lg:hidden">
-          <CredibilityPanel answers={answers} />
-        </div>
-      ) : null}
+      {/* ── Result — appears below the steps once every question is answered ── */}
+      <AnimatePresence>
+        {resultKey && (
+          <motion.div
+            key="result"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.5, ease }}
+            className="mt-10 border-t border-zinc-200/70 pt-8 sm:mt-12 sm:pt-10"
+          >
+            <ResultPanel
+              productKey={resultKey}
+              suggestedCompanionIds={suggestedCompanionIds}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

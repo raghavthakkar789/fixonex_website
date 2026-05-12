@@ -29,7 +29,8 @@
       "Bash(rm -f /tmp/pinframes/g_*.jpg)",
       "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -ss 5.5 -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -t 7 -vf fps=5,crop=540:540:705:200,scale=400:400 -q:v 3 /tmp/pinframes/g_%02d.jpg)",
       "Bash(rm -f /tmp/pinframes/h_*.jpg)",
-      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -ss 5.4 -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -t 6.5 -vf fps=8,crop=700:700:620:295,scale=420:420 -q:v 3 /tmp/pinframes/h_%02d.jpg)"
+      "Bash(/c/Users/bhavy/AppData/Roaming/Python/Python314/site-packages/imageio_ffmpeg/binaries/ffmpeg-win-x86_64-v7.1.exe -hide_banner -loglevel error -ss 5.4 -i '/c/Users/bhavy/OneDrive/Videos/Captures/Motion inspiration - Logo Animation - Google Chrome 2026-05-11 16-46-17.mp4' -t 6.5 -vf fps=8,crop=700:700:620:295,scale=420:420 -q:v 3 /tmp/pinframes/h_%02d.jpg)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/)"
     ]
   }
 }
