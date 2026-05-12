@@ -70,7 +70,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, onClick, children, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, onClick, children, type = "button", ...props }, ref) => {
     const v = (variant ?? "primary") as string;
     const isGhost = v === "ghost";
     const classes = buttonClassName(variant, size, className);
@@ -102,7 +102,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <button
-        type="button"
+        type={type}
         className={classes}
         ref={ref}
         onClick={(e) => {

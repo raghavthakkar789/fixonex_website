@@ -17,6 +17,7 @@ import { companyInfo } from "@/data/company";
 import { socialLinks } from "@/data/social";
 import { socialIconMap } from "@/lib/social-icons";
 import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
+import { submitContactWeb3Form } from "@/lib/web3forms";
 
 /** Per-platform hover tint for the "Follow Us" socials row. Keyed by
  *  the central `SocialLink.id` so visual treatment stays in sync with the
@@ -43,6 +44,7 @@ const inquiryOptions = ["Product Information", "Technical Guidance", "Dealer Inq
 export default function ContactPage() {
   const [isSubmitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const reduced = useReducedMotion();
   const {
     register,
@@ -54,12 +56,23 @@ export default function ContactPage() {
     defaultValues: { inquiryType: inquiryOptions[0] ?? "General", phone: "" },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: ContactFormValues) => {
+    setSubmitError(null);
     setSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 900));
+    const result = await submitContactWeb3Form({
+      fullName: data.fullName.trim(),
+      email: data.email.trim(),
+      phone: data.phone.trim(),
+      inquiryType: data.inquiryType,
+      message: data.message.trim(),
+    });
     setSubmitting(false);
+    if (!result.ok) {
+      setSubmitError(result.message);
+      return;
+    }
     setSubmitted(true);
-    reset();
+    reset({ inquiryType: inquiryOptions[0] ?? "General", phone: "" });
   };
 
   return (
@@ -122,7 +135,10 @@ export default function ContactPage() {
                       <p className="mt-2 text-sm text-zinc-500">We&apos;ll be in touch within 24 hours.</p>
                       <button
                         type="button"
-                        onClick={() => setSubmitted(false)}
+                        onClick={() => {
+                          setSubmitted(false);
+                          setSubmitError(null);
+                        }}
                         className="mt-6 text-sm font-medium text-primary hover:underline"
                       >
                         Send another message
@@ -182,9 +198,17 @@ export default function ContactPage() {
                         <Input
                           id="email"
                           type="email"
-                          {...register("email")}
+                          {...register("email", {
+                            required: "Required",
+                            pattern: {
+                              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                              message: "Enter a valid email address",
+                            },
+                          })}
                           className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50 focus:border-primary/40 focus:ring-primary/10 transition-colors"
+                          aria-invalid={!!errors.email}
                         />
+                        {errors.email && <p className="mt-1 text-xs text-primary">{errors.email.message}</p>}
                       </div>
                       <div>
                         <Label htmlFor="inquiryType" className="text-zinc-700 font-semibold text-[13px]">Inquiry Type</Label>
@@ -209,6 +233,11 @@ export default function ContactPage() {
                         />
                         {errors.message && <p className="mt-1 text-xs text-primary">{errors.message.message}</p>}
                       </div>
+                      {submitError ? (
+                        <p className="rounded-xl border border-red-200 bg-red-50/90 px-3 py-2 text-sm text-red-800" role="alert">
+                          {submitError}
+                        </p>
+                      ) : null}
                       <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
                         <Button
                           type="submit"

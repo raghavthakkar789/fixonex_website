@@ -7,7 +7,8 @@ import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert, FormSuccessPanel } from "@/components/forms/form-feedback";
-import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { type FormStatus } from "@/lib/form-submit";
+import { submitPartnershipWeb3Form } from "@/lib/web3forms";
 import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cta, formStackClass, formTitleClass } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,7 @@ export function DealerInquiryForm() {
     e.preventDefault();
     setErrorMessage("");
     if (!form.businessName.trim() || !form.contactPerson.trim() || !form.phone.trim() || !form.email.trim()) {
-      setErrorMessage("Please fill in business name, contact, phone, and email.");
+      setErrorMessage("Please fill in firm name, contact, phone, and email.");
       return;
     }
     if (!isTenDigitNationalNumber(form.phone)) {
@@ -39,7 +40,15 @@ export function DealerInquiryForm() {
       return;
     }
     setStatus("submitting");
-    const res = await mockSubmitForm({ form: "dealer", ...form });
+    const res = await submitPartnershipWeb3Form({
+      businessName: form.businessName,
+      contactPerson: form.contactPerson,
+      phone: form.phone,
+      email: form.email,
+      cityState: form.cityState,
+      businessType: form.businessType,
+      message: form.message,
+    });
     setStatus(res.ok ? "success" : "error");
     if (res.ok) setForm(initial);
     else setErrorMessage("Something went wrong. Please try again or contact us directly.");
@@ -55,7 +64,7 @@ export function DealerInquiryForm() {
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="dealer-business">Business name</Label>
+          <Label htmlFor="dealer-business">Firm name</Label>
           <Input
             id="dealer-business"
             value={form.businessName}

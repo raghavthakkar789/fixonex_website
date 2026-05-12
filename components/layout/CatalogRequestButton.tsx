@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/PhoneInput";
 import { Button } from "@/components/ui/button";
 import { FormErrorAlert } from "@/components/forms/form-feedback";
-import { mockSubmitForm, type FormStatus } from "@/lib/form-submit";
+import { type FormStatus } from "@/lib/form-submit";
+import { submitCatalogRequestWeb3Form } from "@/lib/web3forms";
 import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cn } from "@/lib/utils";
 
@@ -90,7 +91,7 @@ export function CatalogRequestButton() {
     }
 
     setStatus("submitting");
-    const res = await mockSubmitForm({ form: "catalog-request", name, phone, email });
+    const res = await submitCatalogRequestWeb3Form({ name, phone, email });
     if (!res.ok) {
       setStatus("error");
       setErrorMessage("Something went wrong. Please try again.");

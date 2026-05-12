@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal, Stagger, StaggerItem, SlideReveal, LineReveal, CountUp } from "@/components/motion/Reveal";
 import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
+import { submitPartnershipWeb3Form } from "@/lib/web3forms";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -20,6 +21,7 @@ type DealerForm = {
   businessName: string;
   contactName: string;
   phone: string;
+  email: string;
   city: string;
   businessType: string;
   message: string;
@@ -76,6 +78,7 @@ const stats = [
 export default function PartnerPage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -83,15 +86,46 @@ export default function PartnerPage() {
     reset,
     formState: { errors },
   } = useForm<DealerForm>({
-    defaultValues: { businessType: businessTypes[0], phone: "" },
+    defaultValues: {
+      businessName: "",
+      contactName: "",
+      phone: "",
+      email: "",
+      city: "",
+      message: "",
+      businessType: businessTypes[0],
+    },
   });
 
-  const onSubmit = async () => {
+  const defaultAfterSubmit = (): DealerForm => ({
+    businessType: businessTypes[0],
+    phone: "",
+    email: "",
+    businessName: "",
+    contactName: "",
+    city: "",
+    message: "",
+  });
+
+  const onSubmit = async (data: DealerForm) => {
+    setSubmitError(null);
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 800));
+    const result = await submitPartnershipWeb3Form({
+      businessName: data.businessName.trim(),
+      contactPerson: data.contactName.trim(),
+      phone: data.phone.trim(),
+      email: data.email.trim(),
+      cityState: data.city.trim(),
+      businessType: data.businessType,
+      message: (data.message ?? "").trim(),
+    });
     setSubmitting(false);
+    if (!result.ok) {
+      setSubmitError(result.message);
+      return;
+    }
     setSubmitted(true);
-    reset();
+    reset(defaultAfterSubmit());
   };
 
   return (
@@ -244,7 +278,14 @@ export default function PartnerPage() {
                       </motion.span>
                       <p className="mt-6 font-display text-xl font-bold text-zinc-950">Inquiry Received!</p>
                       <p className="mt-2 text-sm text-zinc-500">Our team will reach out to you shortly to discuss the partnership.</p>
-                      <button type="button" onClick={() => setSubmitted(false)} className="mt-6 text-sm font-medium text-primary hover:underline">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSubmitted(false);
+                          setSubmitError(null);
+                        }}
+                        className="mt-6 text-sm font-medium text-primary hover:underline"
+                      >
                         Submit another inquiry
                       </button>
                     </motion.div>
@@ -252,17 +293,38 @@ export default function PartnerPage() {
                     <motion.form
                       key="form"
                       exit={{ opacity: 0 }}
-                      onSubmit={handleSubmit(onSubmit)}
+                      id="partner-inquiry-form"
+                      noValidate
+                      onSubmit={handleSubmit(
+                        onSubmit,
+                        () => setSubmitError("Please complete every required field above."),
+                      )}
                       className="space-y-5"
                     >
                       <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                          <Label htmlFor="biz" className="text-zinc-700 font-semibold text-[13px]">Business Name</Label>
-                          <Input id="biz" {...register("businessName", { required: true })} className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50" />
+                          <Label htmlFor="biz" className="text-zinc-700 font-semibold text-[13px]">Firm name</Label>
+                          <Input
+                            id="biz"
+                            {...register("businessName", { required: "Firm name is required" })}
+                            className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50"
+                            aria-invalid={!!errors.businessName}
+                          />
+                          {errors.businessName && (
+                            <p className="mt-1 text-xs text-primary">{errors.businessName.message}</p>
+                          )}
                         </div>
                         <div>
                           <Label htmlFor="contact" className="text-zinc-700 font-semibold text-[13px]">Contact Person</Label>
-                          <Input id="contact" {...register("contactName", { required: true })} className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50" />
+                          <Input
+                            id="contact"
+                            {...register("contactName", { required: "Contact person is required" })}
+                            className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50"
+                            aria-invalid={!!errors.contactName}
+                          />
+                          {errors.contactName && (
+                            <p className="mt-1 text-xs text-primary">{errors.contactName.message}</p>
+                          )}
                         </div>
                       </div>
                       <div className="grid gap-5 sm:grid-cols-2">
@@ -286,7 +348,6 @@ export default function PartnerPage() {
                                 onChange={field.onChange}
                                 onBlur={field.onBlur}
                                 placeholder="98765 43210"
-                                required
                                 aria-invalid={!!errors.phone}
                                 className="mt-1.5"
                                 triggerClassName="rounded-l-xl border-zinc-200 bg-zinc-50/50"
@@ -300,8 +361,34 @@ export default function PartnerPage() {
                         </div>
                         <div>
                           <Label htmlFor="city" className="text-zinc-700 font-semibold text-[13px]">City / Region</Label>
-                          <Input id="city" {...register("city", { required: true })} className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50" />
+                          <Input
+                            id="city"
+                            {...register("city", { required: "City or region is required" })}
+                            className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50"
+                            aria-invalid={!!errors.city}
+                          />
+                          {errors.city && <p className="mt-1 text-xs text-primary">{errors.city.message}</p>}
                         </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="partner-email" className="text-zinc-700 font-semibold text-[13px]">
+                          Email
+                        </Label>
+                        <Input
+                          id="partner-email"
+                          type="email"
+                          autoComplete="email"
+                          {...register("email", {
+                            required: "Email is required",
+                            pattern: {
+                              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                              message: "Enter a valid email address",
+                            },
+                          })}
+                          className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50"
+                          aria-invalid={!!errors.email}
+                        />
+                        {errors.email && <p className="mt-1 text-xs text-primary">{errors.email.message}</p>}
                       </div>
                       <div>
                         <Label htmlFor="type" className="text-zinc-700 font-semibold text-[13px]">Current Business Type</Label>
@@ -319,7 +406,15 @@ export default function PartnerPage() {
                         <Label htmlFor="msg" className="text-zinc-700 font-semibold text-[13px]">Message / Additional Info</Label>
                         <Textarea id="msg" rows={4} {...register("message")} className="mt-1.5 rounded-xl border-zinc-200 bg-zinc-50/50" />
                       </div>
-                      <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+                      {submitError ? (
+                        <p
+                          className="rounded-xl border border-red-200 bg-red-50/90 px-3 py-2 text-sm text-red-800"
+                          role="alert"
+                        >
+                          {submitError}
+                        </p>
+                      ) : null}
+                      <div className="pt-1">
                         <Button
                           type="submit"
                           size="lg"
@@ -333,7 +428,7 @@ export default function PartnerPage() {
                             <><Send className="h-4 w-4" aria-hidden /><span>Submit Inquiry</span></>
                           )}
                         </Button>
-                      </motion.div>
+                      </div>
                     </motion.form>
                   )}
                 </AnimatePresence>
