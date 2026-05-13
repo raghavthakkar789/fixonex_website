@@ -42,7 +42,7 @@ export default function TilesAdhesiveHubPage() {
       />
 
       {/* ── Grade Cards ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8] py-24">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8] section-pad-lg">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[50%] rounded-full"
@@ -84,7 +84,7 @@ export default function TilesAdhesiveHubPage() {
       </section>
 
       {/* ── Grade comparison table ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2] py-20">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2] section-pad-md">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container relative z-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary mb-3">Grade Guide</p>
@@ -123,7 +123,7 @@ export default function TilesAdhesiveHubPage() {
       </section>
 
       {/* ── Use-case quick finder ── */}
-      <section className="relative overflow-hidden bg-white py-24">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-white section-pad-lg">
         <div className="site-container">
           <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-primary mb-3">Quick Finder</p>
           <h2 className="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-bold tracking-[-0.02em] text-zinc-950 leading-tight mb-8">

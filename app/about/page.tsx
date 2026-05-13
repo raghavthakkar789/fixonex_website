@@ -341,7 +341,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Closing quote ── */}
-      <section className="bg-white py-20 text-center">
+      <section className="bg-white section-pad-md text-center">
         <div className="site-container">
           <FadeIn>
             <p className="font-display font-bold tracking-tight text-zinc-950" style={{ fontSize: "clamp(1.75rem,4vw,2.75rem)" }}>

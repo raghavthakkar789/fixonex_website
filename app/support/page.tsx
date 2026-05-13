@@ -286,7 +286,7 @@ export default function SupportPage() {
       </section>
 
       {/* ── Still need help ── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#fdfcfb] to-white py-20 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#fdfcfb] to-white section-pad-md text-center">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container relative z-10 mx-auto max-w-[560px]">
           <Reveal>
