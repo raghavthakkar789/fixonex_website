@@ -17,6 +17,10 @@ import { Button } from "@/components/ui/button";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
+/** Hero strip imagery — files under `public/images/WhyFixonex/` */
+const WHY_IMG_DECADE = "/images/WhyFixonex/A_Decade_of_Expertise.jpeg";
+const WHY_IMG_ADHESIVE = "/images/WhyFixonex/Why_Adhesive.jpeg";
+
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -138,10 +142,10 @@ export default function WhyFixonexPage() {
           </SlideReveal>
 
           <SlideReveal direction="right">
-            <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.1)] aspect-[3/4]">
+            <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.1)] aspect-[2/3]">
               <ImageWithFallback
-                src="https://picsum.photos/seed/fixonex-expertise/800/1200"
-                alt="FIXONEX tile installation expertise"
+                src={WHY_IMG_DECADE}
+                alt="A decade of FIXONEX tile industry expertise"
                 fill
                 className="object-cover object-center transition-transform duration-700 hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -227,10 +231,10 @@ export default function WhyFixonexPage() {
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-lg relative z-10 grid gap-14 lg:grid-cols-2 lg:items-center">
           <SlideReveal direction="left">
-            <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.1)] aspect-[4/3]">
+            <div className="relative overflow-hidden rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.1)] aspect-square">
               <ImageWithFallback
-                src="https://picsum.photos/seed/fixonex-built/1200/900"
-                alt="FIXONEX quality manufacturing"
+                src={WHY_IMG_ADHESIVE}
+                alt="Why FIXONEX — premium tile adhesive systems"
                 fill
                 className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 50vw"
