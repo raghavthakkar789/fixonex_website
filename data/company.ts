@@ -9,11 +9,11 @@ export const companyInfo = {
   legalName: "FIXONEX",
 
   /** Brand display name shown on the About / Contact pages */
-  displayName: "Simero Ceramics",
+  displayName: "Swastik Entireprice",
 
   /** Trading / registered location */
   registeredAddress: {
-    line1: "Simero Ceramics, 1487, Sarkhej - Gandhinagar Hwy",
+    line1: "Swastik Entireprice, 1487, Sarkhej - Gandhinagar Hwy",
     line2: "Gota",
     city: "Ahmedabad",
     state: "Gujarat",
@@ -23,7 +23,7 @@ export const companyInfo = {
 
   /** Single-line, comma-separated address suitable for footer / inline usage */
   formattedAddress:
-    "Simero Ceramics, 1487, Sarkhej - Gandhinagar Hwy, Gota, Ahmedabad, Gujarat 382481",
+    "Swastik Entireprice, 1487, Sarkhej - Gandhinagar Hwy, Gota, Ahmedabad, Gujarat 382481",
 
   phone: "+91 73838 38632",
 
