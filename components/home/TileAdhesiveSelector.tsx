@@ -152,8 +152,21 @@ const SUBSTRATE_OPTIONS: { id: SubstrateId; label: string; sub?: string }[] = [
 ];
 
 /* ─── Products ───────────────────────────────────────────────────────────── */
-type ProductKey = "fix-111" | "fix-222" | "fix-333" | "fix-444" | "fix-555";
-const GRADE_ORDER: ProductKey[] = ["fix-111", "fix-222", "fix-333", "fix-444", "fix-555"];
+/** Cementitious SKU keys + PU when substrate mandates two-part polyurethane (catalog alignment). */
+type ProductKey =
+  | "fix-111"
+  | "fix-222"
+  | "fix-333"
+  | "fix-444"
+  | "fix-555"
+  | "pu-fixo-999";
+const GRADE_ORDER: Exclude<ProductKey, "pu-fixo-999">[] = [
+  "fix-111",
+  "fix-222",
+  "fix-333",
+  "fix-444",
+  "fix-555",
+];
 
 const PRODUCTS: Record<ProductKey, {
   name: string; grade: string; tagline: string;
@@ -188,6 +201,16 @@ const PRODUCTS: Record<ProductKey, {
     tagline: "Maximum-deformability adhesive for swimming pools, exteriors, and tile-on-tile.",
     href: "/products/tiles-adhesive/fix-555",
     image: "/images/products/fix-555.png",
+  },
+  "pu-fixo-999": {
+    name: "PU FIXO-999",
+    grade: "Two-component PU thin-set · R2TE",
+    color: "#6b21a8",
+    bg: "#faf5ff",
+    tagline:
+      "Specialty two-part PU adhesive for tiling on plywood, MDF, bare metal, and other engineered backgrounds — per TDS and project approval.",
+    href: "/products/pu-fixo-999",
+    image: "/images/products/pu-fixo-999.png",
   },
 };
 
@@ -268,18 +291,33 @@ const COMPANION_UI: {
 type FullAnswers = Required<Answers>;
 
 /**
- * Map full answers to a FIX grade.
+ * Map full answers to a catalog product. Uses every input in combination:
  *
- * Hard rules (always cap at the top):
- *   - Tile on tile  → FIX 555
- *   - Submerged     → FIX 555
+ * Priority branches (substrate / exposure):
+ *   - Wood / Metal → PU FIXO-999 (catalog PU backgrounds).
+ *   - Tile-on-tile → FIX 555.
+ *   - Submerged area → FIX 555.
  *
- * Otherwise compute a 0..4 level by stacking bumps:
- *   tile base + exterior + wet + size + substrate, clamped to [0,4].
+ * Otherwise build a cementitious index 0..4 from weighted factors — all additive before clamp:
+ *   - Tile/stone category (base demand)
+ *   - Exterior exposure (+1): sun/weather façade or outdoor context
+ *   - Traffic / shear (+1): interior or exterior floors vs walls only
+ *   - Cementitious substrate (+1 cured concrete/block vs plaster/screed — except dry interior
+ *     wall + ceramic only)
+ *   - Wet area (+1): frequent water, not submerged
+ *   - Specialty / unsure base (+1): “Others” substrate
+ *   - Format (+1 … +2): large modules (600×1200, 1200 sq, slabs)
+ *
+ * Constraints:
+ *   - Any exterior wall or exterior floor: index ≥ FIX 444 (catalog façade / exposed floors).
+ *
+ * SKU alignment (applications in `lib/data/products`):
+ *   - FIX 111 / 222 … through 555 stepping with demand; submerged & overlay stay at FIX 555.
  */
 function recommend(a: FullAnswers): ProductKey {
+  if (a.substrate === "wood-metal") return "pu-fixo-999";
   if (a.substrate === "tile-on-tile") return "fix-555";
-  if (a.type === "submerged-area")    return "fix-555";
+  if (a.type === "submerged-area") return "fix-555";
 
   let level: number;
   switch (a.tile) {
@@ -292,14 +330,28 @@ function recommend(a: FullAnswers): ProductKey {
   }
 
   if (a.area === "exterior-floor" || a.area === "exterior-wall") level += 1;
+
+  /** Floors carry higher in-service shear — distinct from walls for the same room & tile. */
+  if (a.area === "interior-floor" || a.area === "exterior-floor") level += 1;
+
+  /** Dense / structural cement bases — +1 vs plaster/screed unless lightest ceramic wall case. */
+  const skipConcreteBump =
+    a.substrate !== "cement-concrete"
+      ? false
+      : (a.area === "interior-wall" && a.type === "dry-area" && a.tile === "ceramic");
+  if (a.substrate === "cement-concrete" && !skipConcreteBump) level += 1;
+
   if (a.type === "wet-area") level += 1;
 
-  if (a.substrate === "wood-metal") level = Math.max(level, 3);
-  if (a.substrate === "others")     level += 1;
+  if (a.substrate === "others") level += 1;
 
-  if (a.tileSize === "s-600x1200")   level += 1;
-  if (a.tileSize === "s-1200")        level += 1;
-  if (a.tileSize === "s-above-1200")  level += 2;
+  if (a.tileSize === "s-600x1200") level += 1;
+  if (a.tileSize === "s-1200") level += 1;
+  if (a.tileSize === "s-above-1200") level += 2;
+
+  if (a.area === "exterior-floor" || a.area === "exterior-wall") {
+    level = Math.max(level, 3);
+  }
 
   level = Math.max(0, Math.min(4, level));
   return GRADE_ORDER[level];
@@ -378,7 +430,9 @@ function ResultPanel({
               <p className="mt-3 text-[13px] leading-relaxed text-zinc-600">{p.tagline}</p>
               <p className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-zinc-200/80 bg-white/70 px-2.5 py-1 text-[10px] font-medium text-zinc-500 backdrop-blur-sm">
                 <ShieldCheck className="h-3.5 w-3.5 text-primary" aria-hidden />
-                IS 15477:2019 aligned
+                {productKey === "pu-fixo-999"
+                  ? "Follow PU TDS mixing, priming & approved backgrounds."
+                  : "IS 15477:2019 aligned"}
               </p>
             </div>
           </div>
@@ -458,7 +512,15 @@ function ResultPanel({
       {/* IS code + consult */}
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-zinc-200/80 bg-zinc-50/90 px-4 py-3">
         <p className="text-[11px] text-zinc-600">
-          Based on <span className="font-semibold text-zinc-800">IS 15477:2019</span>
+          {productKey === "pu-fixo-999" ? (
+            <>
+              Cementitious adhesives assume stable cement backgrounds — PU when the catalogue specifies polyurethane fixing.
+            </>
+          ) : (
+            <>
+              Based on <span className="font-semibold text-zinc-800">IS 15477:2019</span>
+            </>
+          )}
         </p>
         <TransitionLink
           href="/contact"

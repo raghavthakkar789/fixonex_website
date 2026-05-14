@@ -2,8 +2,10 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Lottie from "lottie-react";
 import { usePathname, useRouter } from "next/navigation";
 import { easings } from "@/lib/animations";
+import loadingDotsBw from "@/data/lottie/loading-dots-bw.json";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
 import { pathnameKeysEqual } from "@/lib/utils";
 
@@ -27,15 +29,8 @@ const EXIT_MS = 550;
 type Phase = "active" | "exiting" | "done";
 type Source = "initial" | "navigation";
 
-/* White-theme palette — deepened for stronger presence */
-const COLOR_BG = "#FAFAF9";    // site background
-const COLOR_FAINT = "#B8B0A6"; // deeper faint — was #D4CCC2
-const COLOR_MUTED = "#6B6158"; // brand muted
-const COLOR_BRIGHT = "#0F0D0B"; // near-black with a warm brand tint — was #2C2622
-
-/* Arc geometry — the visible mark is ~60px on mobile, ~72px on desktop */
-const R = 28;
-const C = 2 * Math.PI * R; // circumference
+/** Pure white shell; Lottie uses black dots only. */
+const LOADER_BG = "#ffffff";
 
 export function InitialPageLoader() {
   // Start ACTIVE so the splash paints immediately on hard refresh / hydration.
@@ -168,132 +163,23 @@ export function InitialPageLoader() {
           role="presentation"
           aria-hidden
           className="fixed inset-0 z-[300] flex items-center justify-center"
-          style={{ background: COLOR_BG }}
+          style={{ background: LOADER_BG }}
           initial={{ opacity: 1 }}
           animate={{ opacity: isExiting ? 0 : 1 }}
           transition={{ duration: EXIT_MS / 1000, ease: easeInOut }}
         >
           <motion.div
-            className="flex flex-col items-center gap-7 sm:gap-9 md:gap-10"
-            initial={{ opacity: 0, scale: 0.88 }}
+            className="flex w-full max-w-[min(92vw,520px)] flex-col items-center justify-center px-6"
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: easeExpo }}
+            transition={{ duration: 0.45, ease: easeExpo }}
           >
-            {/* Mark — many small motions layered into one canvas */}
-            <svg
-              viewBox="-46 -46 92 92"
-              className="h-40 w-40 sm:h-48 sm:w-48 md:h-56 md:w-56"
+            <Lottie
+              className="aspect-[1920/1080] w-full max-h-[min(40vh,280px)] [&_svg]:!bg-transparent"
+              animationData={loadingDotsBw}
+              loop
               aria-hidden
-            >
-              <defs>
-                <linearGradient id="ipl-arc" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor={COLOR_BRIGHT} stopOpacity={0} />
-                  <stop offset="55%" stopColor={COLOR_BRIGHT} stopOpacity={0.3} />
-                  <stop offset="100%" stopColor={COLOR_BRIGHT} stopOpacity={1} />
-                </linearGradient>
-              </defs>
-
-              {/* (1) Outermost dashed ring — slow counter-rotation */}
-              <motion.circle
-                cx={0}
-                cy={0}
-                r={38}
-                fill="none"
-                stroke={COLOR_FAINT}
-                strokeWidth={0.5}
-                strokeDasharray="0.5 4"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 9, ease: "linear", repeat: Infinity }}
-                style={{ transformOrigin: "0 0" }}
-              />
-
-              {/* (2) Four cardinal tick marks — pulse in sequence */}
-              {[0, 90, 180, 270].map((deg, i) => (
-                <motion.line
-                  key={`tick-${deg}`}
-                  x1={0}
-                  y1={-33}
-                  x2={0}
-                  y2={-41}
-                  stroke={COLOR_BRIGHT}
-                  strokeWidth={0.9}
-                  strokeLinecap="round"
-                  transform={`rotate(${deg})`}
-                  animate={{ opacity: [0.25, 1, 0.25] }}
-                  transition={{
-                    duration: 1.8,
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    delay: i * 0.22,
-                  }}
-                />
-              ))}
-
-              {/* (3) Two outward ripples — staggered so one is always traveling */}
-              {[0, 1.1].map((delay, i) => (
-                <motion.circle
-                  key={`ripple-${i}`}
-                  cx={0}
-                  cy={0}
-                  r={6}
-                  fill="none"
-                  stroke={COLOR_BRIGHT}
-                  strokeWidth={0.6}
-                  initial={{ scale: 0.6, opacity: 0 }}
-                  animate={{ scale: [0.6, 4.4], opacity: [0.55, 0] }}
-                  transition={{
-                    duration: 2.2,
-                    ease: "easeOut",
-                    repeat: Infinity,
-                    delay: 0.4 + delay,
-                  }}
-                />
-              ))}
-
-              {/* (4) Main faint ring */}
-              <circle
-                cx={0}
-                cy={0}
-                r={R}
-                fill="none"
-                stroke={COLOR_FAINT}
-                strokeWidth={1.25}
-              />
-
-              {/* (5) Rotating gradient arc — covers ~70% of the ring */}
-              <motion.circle
-                cx={0}
-                cy={0}
-                r={R}
-                fill="none"
-                stroke="url(#ipl-arc)"
-                strokeWidth={1.75}
-                strokeLinecap="round"
-                strokeDasharray={`${C * 0.7} ${C}`}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1.4, ease: "linear", repeat: Infinity }}
-                style={{ transformOrigin: "0 0" }}
-              />
-
-              {/* (6) Two tiny orbital dots on an inner radius, opposite sides */}
-              <motion.g
-                animate={{ rotate: -360 }}
-                transition={{ duration: 2.6, ease: "linear", repeat: Infinity }}
-                style={{ transformOrigin: "0 0" }}
-              >
-                <circle cx={18} cy={0} r={1.4} fill={COLOR_BRIGHT} />
-                <circle cx={-18} cy={0} r={1.4} fill={COLOR_BRIGHT} />
-              </motion.g>
-
-              {/* (7) Tiny breathing core */}
-              <motion.g
-                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.55, 1] }}
-                transition={{ duration: 1.6, ease: "easeInOut", repeat: Infinity }}
-                style={{ transformOrigin: "0 0" }}
-              >
-                <circle cx={0} cy={0} r={2.25} fill={COLOR_BRIGHT} />
-              </motion.g>
-            </svg>
+            />
           </motion.div>
         </motion.div>
       )}

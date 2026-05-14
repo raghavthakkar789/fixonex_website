@@ -326,12 +326,12 @@ export default function WhyFixonexPage() {
         </div>
       </section>
 
-      {/* ── CTA card ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      {/* ── CTA card (plain surface — TiltCard’s 3D transform breaks nested link hit-testing here) ── */}
+      <section className="relative isolate z-[1] overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>
-            <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
+            <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)] transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.095)]">
               <div className="p-8 md:p-12 text-center">
                 <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-orange-500 shadow-lg mb-6">
                   <Star className="h-7 w-7 text-white" aria-hidden />
@@ -343,22 +343,18 @@ export default function WhyFixonexPage() {
                   Explore our full range of certified tile adhesives and grout systems, or contact our technical team to discuss your project requirements.
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-4">
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button asChild variant="primary" className="rounded-full shadow-[0_4px_16px_rgba(211,47,47,0.3)]">
-                      <TransitionLink href="/products" className="inline-flex items-center gap-2">
-                        Explore Products <ArrowRight className="h-4 w-4" aria-hidden />
-                      </TransitionLink>
-                    </Button>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                    <Button asChild variant="outline" className="rounded-full border-zinc-300">
-                      <TransitionLink href="/contact">Get Started</TransitionLink>
-                    </Button>
-                  </motion.div>
+                  <Button asChild variant="primary" className="rounded-full shadow-[0_4px_16px_rgba(211,47,47,0.3)]">
+                    <TransitionLink href="/products" className="inline-flex items-center gap-2">
+                      Explore Products <ArrowRight className="h-4 w-4" aria-hidden />
+                    </TransitionLink>
+                  </Button>
+                  <Button asChild variant="outline" className="rounded-full border-zinc-300">
+                    <TransitionLink href="/contact">Get Started</TransitionLink>
+                  </Button>
                 </div>
               </div>
               <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-400" />
-            </TiltCard>
+            </div>
           </FadeIn>
         </div>
       </section>
