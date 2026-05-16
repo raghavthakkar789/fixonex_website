@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { BRAND } from "@/lib/brand";
+import { LOGO_DRIVE_URL } from "@/data/google-drive-media";
 import { cn } from "@/lib/utils";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -299,10 +300,11 @@ function HeroStage({
               }}
             >
               <Image
-                src="/images/misc/logo.png"
+                src={LOGO_DRIVE_URL}
                 alt={`${BRAND.name} logo`}
                 fill
                 priority
+                referrerPolicy="no-referrer"
                 className="object-contain"
                 sizes="(min-width: 1024px) 260px, 220px"
               />

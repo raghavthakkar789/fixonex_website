@@ -8,6 +8,7 @@ import { BRAND } from "@/lib/brand";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { CatalogRequestButton } from "@/components/layout/CatalogRequestButton";
+import { LOGO_DRIVE_URL } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -94,7 +95,7 @@ export function Navbar() {
             >
               <span className="relative h-7 w-[100px] overflow-hidden md:h-8 md:w-[110px]">
                 <ImageWithFallback
-                  src="/images/misc/logo.png"
+                  src={LOGO_DRIVE_URL}
                   alt={`${BRAND.name} logo`}
                   fill
                   sizes="110px"

@@ -1,12 +1,19 @@
-import dynamic from "next/dynamic";
+import { HomeView } from "@/components/home/HomeView";
+import { HOME_HERO_SLIDES } from "@/data/home-hero-slides";
 
-const HomeView = dynamic(
-  () => import("@/components/home/HomeView").then((m) => m.HomeView),
-  {
-    loading: () => <div className="min-h-[100svh] bg-zinc-950" aria-hidden />,
-  },
-);
+const lcpHeroImage = HOME_HERO_SLIDES[0]?.image;
 
+/**
+ * Eager home shell (no `dynamic()`): keeps LCP hero in the first paint path and
+ * allows an early preload for the first carousel slide.
+ */
 export default function HomePage() {
-  return <HomeView />;
+  return (
+    <>
+      {lcpHeroImage ? (
+        <link rel="preload" href={lcpHeroImage} as="image" fetchPriority="high" />
+      ) : null}
+      <HomeView />
+    </>
+  );
 }

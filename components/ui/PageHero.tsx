@@ -5,13 +5,14 @@ import { useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
-import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /** Matches the home hero asset when a page does not pass `image`. */
-const DEFAULT_PAGE_HERO_IMAGE = "/images/hero/hero-main.jpeg";
+const DEFAULT_PAGE_HERO_IMAGE = HERO_DRIVE_IMAGES.heroMain;
 
 type Crumb = { label: string; href?: string };
 type PageHeroProps = {

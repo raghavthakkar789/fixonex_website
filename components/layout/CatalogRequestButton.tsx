@@ -13,8 +13,9 @@ import { type FormStatus } from "@/lib/form-submit";
 import { submitCatalogRequestWeb3Form } from "@/lib/web3forms";
 import { isTenDigitNationalNumber, PHONE_EXACTLY_TEN_DIGITS_MESSAGE } from "@/lib/phone-validation";
 import { cn } from "@/lib/utils";
+import { CATALOG_DRIVE_SHARE, driveFileViewUrl } from "@/data/google-drive-media";
 
-const CATALOG_PDF_URL = "/FIXONEX%20E-CATALOG%20%20BY%20EAGLE%20EYE.pdf";
+const CATALOG_VIEW_URL = driveFileViewUrl(CATALOG_DRIVE_SHARE);
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -23,7 +24,7 @@ const initial = { name: "", phone: "", email: "" };
 /**
  * Navbar catalog CTA. Opens a lightweight gate form that captures
  * name + phone (required) and email (optional) before opening the
- * FIXONEX e-catalog PDF in a new tab.
+ * FIXONEX e-catalog (Google Drive) in a new tab.
  */
 export function CatalogRequestButton() {
   const reduced = useReducedMotion();
@@ -100,7 +101,7 @@ export function CatalogRequestButton() {
 
     setStatus("success");
     if (typeof window !== "undefined") {
-      window.open(CATALOG_PDF_URL, "_blank", "noopener,noreferrer");
+      window.open(CATALOG_VIEW_URL, "_blank", "noopener,noreferrer");
     }
     window.setTimeout(() => {
       setOpen(false);

@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { easings } from "@/lib/animations";
 import loadingDotsBw from "@/data/lottie/loading-dots-bw.json";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
-import { pathnameKeysEqual } from "@/lib/utils";
+import { pathnameKeysEqual, cn } from "@/lib/utils";
 
 /**
  * Module-level guard so the splash only plays ONCE per page-load lifecycle on
@@ -162,7 +162,10 @@ export function InitialPageLoader() {
           key="ipl"
           role="presentation"
           aria-hidden
-          className="fixed inset-0 z-[300] flex items-center justify-center"
+          className={cn(
+            "fixed inset-0 z-[300] flex items-center justify-center",
+            isExiting && "pointer-events-none",
+          )}
           style={{ background: LOADER_BG }}
           initial={{ opacity: 1 }}
           animate={{ opacity: isExiting ? 0 : 1 }}

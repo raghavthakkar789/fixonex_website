@@ -36,7 +36,13 @@ const nextConfig = {
   /** Static export for GitHub Pages (no Node server). */
   output: "export",
   trailingSlash: true,
-  images: { unoptimized: true },
+  images: {
+    unoptimized: true,
+    remotePatterns: [
+      { protocol: "https", hostname: "drive.google.com", pathname: "/**" },
+      { protocol: "https", hostname: "lh3.googleusercontent.com", pathname: "/**" },
+    ],
+  },
   async redirects() {
     return [
       { source: "/products/fix-111", destination: "/products/tiles-adhesive/fix-111", permanent: true },

@@ -25,6 +25,7 @@ import {
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { cn } from "@/lib/utils";
 import { panelEditorialClass } from "@/lib/ui-constants";
+import { PRODUCT_DRIVE_IMAGES } from "@/data/google-drive-media";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -176,31 +177,31 @@ const PRODUCTS: Record<ProductKey, {
     name: "FIX 111", grade: "C1T · Type-1", color: "#d97706", bg: "#fffbeb",
     tagline: "Standard polymer-modified adhesive for interior ceramic wall and floor tiles.",
     href: "/products/tiles-adhesive/fix-111",
-    image: "/images/products/fix-111.png",
+    image: PRODUCT_DRIVE_IMAGES["fix-111"],
   },
   "fix-222": {
     name: "FIX 222", grade: "C2T · Type-2", color: "#2563eb", bg: "#eff6ff",
     tagline: "Improved-adhesion mortar for interior ceramic and vitrified tile systems.",
     href: "/products/tiles-adhesive/fix-222",
-    image: "/images/products/fix-222.png",
+    image: PRODUCT_DRIVE_IMAGES["fix-222"],
   },
   "fix-333": {
     name: "FIX 333", grade: "C2TE · Type-3", color: "#059669", bg: "#ecfdf5",
     tagline: "Enhanced deformable adhesive for large-format tiles, marble, and granite.",
     href: "/products/tiles-adhesive/fix-333",
-    image: "/images/products/fix-333.png",
+    image: PRODUCT_DRIVE_IMAGES["fix-333"],
   },
   "fix-444": {
     name: "FIX 444", grade: "C2TES1 · Type-4", color: "#7c3aed", bg: "#f5f3ff",
     tagline: "High-performance adhesive for exterior walls and natural stone cladding.",
     href: "/products/tiles-adhesive/fix-444",
-    image: "/images/products/fix-444.png",
+    image: PRODUCT_DRIVE_IMAGES["fix-444"],
   },
   "fix-555": {
     name: "FIX 555", grade: "C2TES2 · Type-5", color: "#dc2626", bg: "#fef2f2",
     tagline: "Maximum-deformability adhesive for swimming pools, exteriors, and tile-on-tile.",
     href: "/products/tiles-adhesive/fix-555",
-    image: "/images/products/fix-555.png",
+    image: PRODUCT_DRIVE_IMAGES["fix-555"],
   },
   "pu-fixo-999": {
     name: "PU FIXO-999",
@@ -210,7 +211,7 @@ const PRODUCTS: Record<ProductKey, {
     tagline:
       "Specialty two-part PU adhesive for tiling on plywood, MDF, bare metal, and other engineered backgrounds — per TDS and project approval.",
     href: "/products/pu-fixo-999",
-    image: "/images/products/pu-fixo-999.png",
+    image: PRODUCT_DRIVE_IMAGES["pu-fixo-999"],
   },
 };
 
@@ -269,21 +270,21 @@ const COMPANION_UI: {
     name: "Epoxy Grout",
     short: "Stain-resistant, hygienic joints for pools, exteriors, and demanding wet areas.",
     href: "/products/epoxy-grout",
-    image: "/images/products/epoxy-grout.png",
+    image: PRODUCT_DRIVE_IMAGES["epoxy-grout"],
   },
   {
     id: "tile-cleaner",
     name: "Tile Cleaner",
     short: "Post-install haze removal and a showroom-grade finish.",
     href: "/products/tile-cleaner",
-    image: "/images/products/tile-cleaner.png",
+    image: PRODUCT_DRIVE_IMAGES["tile-cleaner"],
   },
   {
     id: "tile-spacer",
     name: "Tile Spacer",
     short: "Uniform joints from mosaic modules to large-format slabs.",
     href: "/products/tile-spacer",
-    image: "/images/products/tile-spacer.png",
+    image: PRODUCT_DRIVE_IMAGES["tile-spacer"],
   },
 ];
 
@@ -410,6 +411,8 @@ function ResultPanel({
                 alt={p.name}
                 fill
                 sizes="(min-width: 640px) 160px, 128px"
+                loading="eager"
+                referrerPolicy="no-referrer"
                 className="object-contain"
               />
             </div>
@@ -482,6 +485,8 @@ function ResultPanel({
                     alt={name}
                     fill
                     sizes="56px"
+                    loading="eager"
+                    referrerPolicy="no-referrer"
                     className="object-contain"
                   />
                 </span>

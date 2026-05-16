@@ -10,6 +10,7 @@ import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { socialLinks } from "@/data/social";
 import { socialIconMap } from "@/lib/social-icons";
+import { LOGO_DRIVE_URL } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -104,7 +105,7 @@ export function Footer() {
                 className="relative block h-12 w-[180px] overflow-hidden md:h-14 md:w-[200px]"
               >
                 <ImageWithFallback
-                  src="/images/misc/logo.png"
+                  src={LOGO_DRIVE_URL}
                   alt={`${BRAND.name} logo`}
                   fill
                   sizes="200px"

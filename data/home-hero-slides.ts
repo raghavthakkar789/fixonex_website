@@ -1,19 +1,16 @@
 /**
- * Home hero carousel slides — backgrounds live under `public/images/hero/`.
- * Order: brand first, then each product line (tiles, epoxy, block, PU, cleaner, spacer).
- * PU FIXO-999 slide object is kept in a block comment below when paused from the carousel.
+ * Home hero carousel — background images hosted on Google Drive (see Readme_img.md).
  */
+
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
 
 export type HomeHeroSlide = {
   id: string;
   image: string;
   imageAlt: string;
   eyebrow: string;
-  /** First headline line (always shown in white). */
   titleLine1: string;
-  /** Optional second line in brand red (home hero style). */
   titleLine2?: string;
-  /** One or two short lines of supporting copy. */
   description: string;
   primaryCta: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
@@ -22,7 +19,7 @@ export type HomeHeroSlide = {
 export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
   {
     id: "brand",
-    image: "/images/hero/hero-main.jpeg",
+    image: HERO_DRIVE_IMAGES.heroMain,
     imageAlt: "FIXONEX tile adhesive on site",
     eyebrow: "High-Performance Tile Adhesives",
     titleLine1: "Built for Every Bond.",
@@ -34,59 +31,59 @@ export const HOME_HERO_SLIDES: HomeHeroSlide[] = [
   },
   {
     id: "tile-adhesives",
-    image: "/images/hero/Tiles-adhesive-heroimage.jpeg",
+    image: HERO_DRIVE_IMAGES.tilesAdhesive,
     imageAlt: "FIXONEX tile adhesive range",
     eyebrow: "Tile adhesives",
     titleLine1: "Five grades. Every exposure.",
-    description: "C1T through C2TES2 — interior ceramics, facades, stone, and immersed builds per EN 12004 and IS 15477:2019.",
+    description:
+      "C1T through C2TES2 — interior ceramics, facades, stone, and immersed builds per EN 12004 and IS 15477:2019.",
     primaryCta: { label: "View tile adhesives", href: "/products/tiles-adhesive" },
   },
   {
     id: "epoxy-grout",
-    image: "/images/hero/Epoxy grouting-heroimage.png",
+    image: HERO_DRIVE_IMAGES.epoxyGrouting,
     imageAlt: "FIXONEX epoxy grout",
     eyebrow: "Epoxy grout",
     titleLine1: "Stain-tough joints. Designer colours.",
-    description: "Three-part epoxy for premium residential, commercial wet areas, and compatible immersed finishes — ask for the colour chart.",
+    description:
+      "Three-part epoxy for premium residential, commercial wet areas, and compatible immersed finishes — ask for the colour chart.",
     primaryCta: { label: "View epoxy grout", href: "/products/epoxy-grout" },
   },
   {
     id: "block-mortar",
-    image: "/images/hero/block-joining-montar-heroimage.jpeg",
+    image: HERO_DRIVE_IMAGES.blockJoiningMontar,
     imageAlt: "FIXONEX block joining mortar",
     eyebrow: "Block joining mortar",
     titleLine1: "Thin, strong AAC and block joints.",
-    description: "Factory-mixed mortar for cellular and lightweight block walls — fast build, plumb lines, 40 kg packs.",
+    description:
+      "Factory-mixed mortar for cellular and lightweight block walls — fast build, plumb lines, 40 kg packs.",
     primaryCta: { label: "View block mortar", href: "/products/block-joining-mortar" },
   },
-  /* PU FIXO-999 — temporarily out of home hero carousel (keep object for easy restore)
+  /* PU FIXO-999 — temporarily out of home hero carousel
   {
     id: "pu-fixo-999",
-    // Same asset as product pages — full packshot reads reliably in hero with PU-only framing
-    image: "/images/products/pu-fixo-999.png",
-    imageAlt: "PU FIXO-999 two-part polyurethane adhesive",
-    eyebrow: "PU FIXO-999",
-    titleLine1: "Elastic grab for demanding bonds.",
-    description: "Two-part PU for metal, wood, approved tile-on-tile, and specialty substrates when cementitious isn’t specified — 5 kg kit.",
-    primaryCta: { label: "View PU FIXO-999", href: "/products/pu-fixo-999" },
+    image: HERO_DRIVE_IMAGES.puFixo999Hero,
+    ...
   },
   */
   {
     id: "tile-cleaner",
-    image: "/images/hero/tileCleaner-heroImage.jpeg",
+    image: HERO_DRIVE_IMAGES.tileCleanerHero,
     imageAlt: "FIXONEX tile cleaner",
     eyebrow: "Tile cleaner",
     titleLine1: "Keep finishes looking spec-grade.",
-    description: "Maintain ceramic, vitrified, granite, and sanitary ware — dilute per label for light or deeper cleans.",
+    description:
+      "Maintain ceramic, vitrified, granite, and sanitary ware — dilute per label for light or deeper cleans.",
     primaryCta: { label: "View tile cleaner", href: "/products/tile-cleaner" },
   },
   {
     id: "tile-spacer",
-    image: "/images/hero/tilesSpacer-heroImage.jpeg",
+    image: HERO_DRIVE_IMAGES.tilesSpacerHero,
     imageAlt: "FIXONEX tile spacers",
     eyebrow: "Tile spacers",
     titleLine1: "Uniform joints from 2 mm to 10 mm.",
-    description: "White and yellow spacers for predictable joint width before grout — walls, floors, interior and exterior fixing.",
+    description:
+      "White and yellow spacers for predictable joint width before grout — walls, floors, interior and exterior fixing.",
     primaryCta: { label: "View tile spacers", href: "/products/tile-spacer" },
   },
 ];
@@ -104,18 +101,17 @@ function heroSlideImageById(slideId: string): string | undefined {
   return HOME_HERO_SLIDES.find((s) => s.id === slideId)?.image;
 }
 
-/** Full-bleed image path for `PageHero` on standalone catalog product pages (not tile-adhesive SKUs). */
+/** Full-bleed image for `PageHero` on standalone catalog product pages (not tile-adhesive SKUs). */
 export function getHomeHeroImageForCatalogSlug(slug: string): string | undefined {
   const slideId = CATALOG_SLUG_TO_HERO_SLIDE_ID[slug];
   if (!slideId) return undefined;
   const fromCarousel = heroSlideImageById(slideId);
   if (fromCarousel) return fromCarousel;
-  /* Slide may be commented out of HOME_HERO_SLIDES but catalog PageHero still needs the asset */
-  if (slug === "pu-fixo-999") return "/images/products/pu-fixo-999.png";
+  if (slug === "pu-fixo-999") return HERO_DRIVE_IMAGES.puFixo999Hero;
   return undefined;
 }
 
-/** Same background as the home carousel “Tile adhesives” slide — hub + all FIX 111–555 detail routes. */
+/** Background for tiles-adhesive hub + FIX 111–555 detail routes. */
 export function getHomeHeroImageForTileAdhesiveLine(): string {
   return heroSlideImageById("tile-adhesives")!;
 }

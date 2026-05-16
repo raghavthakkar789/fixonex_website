@@ -22,7 +22,15 @@ type ImageWithFallbackProps = {
   imageTone?: "light" | "dark";
   /** "blur" = Gaussian+scale; "clip" = horizontal curtain; "none" = static */
   reveal?: "blur" | "clip" | "none";
+  /**
+   * When `eager`, the browser fetches immediately (no lazy near-viewport deferral).
+   * Default `eager` so below-the-fold imagery is ready before the user scrolls.
+   */
+  loading?: "eager" | "lazy";
 };
+
+/** Expands IO root (~one tall viewport beyond each edge) so clip reveals activate soon after paint. */
+const IN_VIEW_PREFETCH_MARGIN = "900px";
 
 export function ImageWithFallback({
   src,
@@ -37,16 +45,23 @@ export function ImageWithFallback({
   style,
   imageTone = "light",
   reveal = "blur",
+  loading = "eager",
 }: ImageWithFallbackProps) {
   const [hasError, setHasError] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px" });
+  const inView = useInView(ref, { once: true, margin: IN_VIEW_PREFETCH_MARGIN });
   const reduced = useReducedMotion();
   const ph = imageTone === "light" ? "bg-off-white" : "bg-charcoal";
   const bg = imageTone === "light" ? "#F5F5F5" : "#1E1E1E";
 
   const onDone = () => setLoaded(true);
+
+  /** Reduces Drive 403s when embedding thumbnails (hotlink policies). */
+  const driveReferrer = src.includes("drive.google.com") ? "no-referrer" : undefined;
+
+  /** When eager, decoded pixels can reveal immediately (no scroll-gated unveil). */
+  const revealUnlock = priority || loading === "eager" || inView;
 
   const inner = !hasError ? (
     <Image
@@ -57,6 +72,8 @@ export function ImageWithFallback({
       height={height}
       sizes={sizes}
       priority={priority}
+      loading={priority ? undefined : loading}
+      referrerPolicy={driveReferrer}
       className={className}
       style={style}
       onError={() => setHasError(true)}
@@ -86,7 +103,7 @@ export function ImageWithFallback({
         <motion.div
           className={cn("overflow-hidden", (fill && "absolute inset-0") || "relative h-full w-full")}
           initial={false}
-          animate={inView ? { clipPath: "inset(0 0% 0 0)" } : { clipPath: "inset(0 100% 0 0)" }}
+          animate={inView || loading === "eager" || priority ? { clipPath: "inset(0 0% 0 0)" } : { clipPath: "inset(0 100% 0 0)" }}
           transition={{ duration: 1, ease }}
         >
           {inner}
@@ -106,7 +123,7 @@ export function ImageWithFallback({
         <motion.div
           className={cn("relative h-full w-full", (fill && "absolute inset-0") || "")}
           initial={priority ? false : { scale: 1.05, opacity: 0, filter: "blur(12px)" }}
-          animate={loaded && (inView || priority) ? { scale: 1, opacity: 1, filter: "blur(0px)" } : undefined}
+          animate={loaded && revealUnlock ? { scale: 1, opacity: 1, filter: "blur(0px)" } : undefined}
           transition={{ ...transitions.medium, ease }}
         >
           <Image
@@ -117,6 +134,8 @@ export function ImageWithFallback({
             height={height}
             sizes={sizes}
             priority={priority}
+            loading={priority ? undefined : loading}
+            referrerPolicy={driveReferrer}
             className={className}
             style={style}
             onError={() => setHasError(true)}

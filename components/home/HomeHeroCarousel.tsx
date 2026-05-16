@@ -50,7 +50,6 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
     const reduced = useReducedMotion();
     const [index, setIndex] = useState(0);
     const [direction, setDirection] = useState(1);
-    const [pauseHover, setPauseHover] = useState(false);
     const slide = slides[index]!;
     const n = slides.length;
     const isBrand = slide.id === "brand";
@@ -62,13 +61,13 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
     }, [n]);
 
     useEffect(() => {
-      if (reduced || pauseHover) return;
+      if (reduced) return;
       const id = window.setInterval(() => {
         setDirection(1);
         setIndex((i) => (i + 1) % n);
       }, AUTO_MS);
       return () => window.clearInterval(id);
-    }, [reduced, pauseHover, n, index]);
+    }, [reduced, n]);
 
     const textTransition = reduced
       ? { duration: 0.2 }
@@ -88,8 +87,6 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
         )}
         aria-roledescription="carousel"
         aria-label="Featured FIXONEX solutions"
-        onMouseEnter={() => setPauseHover(true)}
-        onMouseLeave={() => setPauseHover(false)}
       >
         {/* Background images — crossfade */}
           <AnimatePresence initial={false} custom={direction}>

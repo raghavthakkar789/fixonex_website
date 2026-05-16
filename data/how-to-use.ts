@@ -1,18 +1,20 @@
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
+
 /** Section within a how-to guide article. */
 export type HowToGuideSection = {
   heading: string;
   paragraphs: string[];
 };
 
-/** Shared hero art paths for `/support/guides/[id]` (see `public/images/hero/`). */
+/** Shared hero art for `/support/guides/[id]` — Google Drive (see Readme_img.md). */
 export const guideHeroImages = {
-  main: "/images/hero/hero-main.jpeg",
-  adhesive: "/images/hero/Tiles-adhesive-heroimage.jpeg",
-  epoxy: "/images/hero/Epoxy grouting-heroimage.png",
-  block: "/images/hero/block-joining-montar-heroimage.jpeg",
-  cleaner: "/images/hero/tileCleaner-heroImage.jpeg",
-  spacer: "/images/hero/tilesSpacer-heroImage.jpeg",
-  pu: "/images/hero/pu-fixo-999-heroimage.png",
+  main: HERO_DRIVE_IMAGES.heroMain,
+  adhesive: HERO_DRIVE_IMAGES.tilesAdhesive,
+  epoxy: HERO_DRIVE_IMAGES.epoxyGrouting,
+  block: HERO_DRIVE_IMAGES.blockJoiningMontar,
+  cleaner: HERO_DRIVE_IMAGES.tileCleanerHero,
+  spacer: HERO_DRIVE_IMAGES.tilesSpacerHero,
+  pu: HERO_DRIVE_IMAGES.puFixo999Hero,
 } as const;
 
 /** Article-style how-to entries used on Support (written help; optional media can be added later per guide). */

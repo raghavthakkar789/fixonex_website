@@ -2,9 +2,10 @@ import { ChevronRight } from "lucide-react";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { cn } from "@/lib/utils";
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
 
-/** Same default as `PageHero`: home hero photography */
-export const SIMPLE_HERO_DEFAULT_IMAGE = "/images/hero/hero-main.jpeg";
+/** Same default as `PageHero`: home hero photography (Google Drive). */
+export const SIMPLE_HERO_DEFAULT_IMAGE = HERO_DRIVE_IMAGES.heroMain;
 
 type Crumb = { label: string; href?: string };
 

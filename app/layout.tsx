@@ -40,6 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} scroll-smooth antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://drive.google.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://drive.google.com" />
+        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
+      </head>
       <body>
         <a href="#main-content" className="skip-to-main">
           Skip to main content

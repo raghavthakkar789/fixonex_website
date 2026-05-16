@@ -15,12 +15,12 @@ import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal, Stagger, StaggerItem, LineReveal, SlideReveal, CountUp } from "@/components/motion/Reveal";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
+import { ABOUT_IMAGES } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-/** Hero imagery — files live under `public/images/about/` */
-const ABOUT_IMG_DRIVING_EXCELLENCE = "/images/about/DrivingExcellenceInTileInstallition.jpeg";
-const ABOUT_IMG_BETTER_TILING = "/images/about/betterTiling%20experience.jpeg";
+const ABOUT_IMG_DRIVING_EXCELLENCE = ABOUT_IMAGES.drivingExcellence;
+const ABOUT_IMG_BETTER_TILING = ABOUT_IMAGES.betterTilingExperience;
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);

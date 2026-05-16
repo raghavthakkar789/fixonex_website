@@ -4,6 +4,7 @@ import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
 import { BRAND } from "@/lib/brand";
 import { cta, sectionBand } from "@/lib/ui-constants";
 import { cn } from "@/lib/utils";
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
 
 interface HeroProps {
   introBelow?: React.ReactNode;
@@ -60,7 +61,7 @@ export function Hero({ introBelow }: HeroProps) {
               />
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.25rem] border border-border-strong/50 bg-elevated shadow-[0_20px_50px_-18px_rgba(62,55,48,0.14)] ring-1 ring-border-soft md:aspect-auto md:min-h-[16rem] lg:min-h-[20rem] xl:min-h-[22rem]">
                 <ImageWithFallback
-                  src="/images/hero/hero-main.jpeg"
+                  src={HERO_DRIVE_IMAGES.heroMain}
                   alt="FIXONEX construction-grade fixing systems"
                   fill
                   priority

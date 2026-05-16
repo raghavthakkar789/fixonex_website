@@ -12,15 +12,16 @@
  */
 
 import Image from "next/image";
+import { CERT_IMAGE_URLS } from "@/data/google-drive-media";
 
 /* ─── Cert entries ────────────────────────────────────────────────────────── */
 const certs = [
-  { id: "isi",           src: "/images/certs/ISI_logo.png",           alt: "ISI Mark — Bureau of Indian Standards",          w: 64,  h: 64  },
-  { id: "iso",           src: "/images/certs/ISO_logo.png",           alt: "ISO Certified",                                  w: 100, h: 50  },
-  { id: "make-in-india", src: "/images/certs/MakeInIndia.png", alt: "Make in India",                                  w: 120, h: 60  },
-  { id: "igbc",          src: "/images/certs/IGBC_logo.jpeg",          alt: "IGBC Member — Indian Green Building Council",    w: 96,  h: 60  },
-  { id: "ce",            src: "/images/certs/CE_logo.png",            alt: "CE Mark — Conformité Européenne",                w: 84,  h: 60  },
-  { id: "iaf",           src: "/images/certs/IAF_logo.png",           alt: "IAF Member — Multilateral Recognition Arrangement", w: 108, h: 56 },
+  { id: "isi",           src: CERT_IMAGE_URLS.ISI_logo,    alt: "ISI Mark — Bureau of Indian Standards",               w: 64,  h: 64  },
+  { id: "iso",           src: CERT_IMAGE_URLS.ISO_logo,    alt: "ISO Certified",                                       w: 100, h: 50  },
+  { id: "make-in-india", src: CERT_IMAGE_URLS.MakeInIndia, alt: "Make in India",                                       w: 120, h: 60  },
+  { id: "igbc",          src: CERT_IMAGE_URLS.IGBC_logo,   alt: "IGBC Member — Indian Green Building Council",         w: 96,  h: 60  },
+  { id: "ce",            src: CERT_IMAGE_URLS.CE_logo,     alt: "CE Mark — Conformité Européenne",                     w: 84,  h: 60  },
+  { id: "iaf",           src: CERT_IMAGE_URLS.IAF_logo,    alt: "IAF Member — Multilateral Recognition Arrangement",   w: 108, h: 56 },
 ] as const;
 
 /** One loop duration; smaller = faster (linear scroll covers same distance). */
@@ -86,6 +87,8 @@ export function CertificationsMarquee() {
                     height={cert.h}
                     className="h-24 w-auto object-contain"
                     draggable={false}
+                    loading="eager"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               ))}

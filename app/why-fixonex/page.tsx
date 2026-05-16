@@ -14,12 +14,12 @@ import { TiltCard } from "@/components/ui/TiltCard";
 import { Reveal, Stagger, StaggerItem, LineReveal, SlideReveal, CountUp } from "@/components/motion/Reveal";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Button } from "@/components/ui/button";
+import { WHY_FIXONEX_IMAGES } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-/** Hero strip imagery — files under `public/images/WhyFixonex/` */
-const WHY_IMG_DECADE = "/images/WhyFixonex/A_Decade_of_Expertise.jpeg";
-const WHY_IMG_ADHESIVE = "/images/WhyFixonex/Why_Adhesive.jpeg";
+const WHY_IMG_DECADE = WHY_FIXONEX_IMAGES.decadeOfExpertise;
+const WHY_IMG_ADHESIVE = WHY_FIXONEX_IMAGES.whyAdhesive;
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);

@@ -10,9 +10,10 @@ import { Reveal, LineReveal } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Button } from "@/components/ui/button";
 import { cta } from "@/lib/ui-constants";
+import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
 
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const productsHeroImage = "/images/hero/products-hero.png";
+const productsHeroImage = HERO_DRIVE_IMAGES.productsHero;
 
 function FadeIn({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
