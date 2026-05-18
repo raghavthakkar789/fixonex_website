@@ -5,6 +5,7 @@ import Link from "next/link";
 import { forwardRef, useCallback, type ReactNode, type ComponentProps, type MouseEvent } from "react";
 import { useAppNavigate } from "@/lib/useNavigate";
 import { cn, pathnameKeysEqual } from "@/lib/utils";
+import { toRoutePath } from "@/lib/route-path";
 
 type InternalProps = {
   children: ReactNode;
@@ -45,7 +46,8 @@ export const TransitionLink = forwardRef<HTMLAnchorElement, InternalProps>(funct
       if (isExternal) return;
 
       const here = new URL(window.location.href);
-      if (pathnameKeysEqual(u.pathname, here.pathname) && u.search === here.search) {
+      const hereRoute = toRoutePath(here.pathname);
+      if (pathnameKeysEqual(u.pathname, hereRoute) && u.search === here.search) {
         // Hash-only: just scroll, no transition
         if (u.hash) {
           e.preventDefault();

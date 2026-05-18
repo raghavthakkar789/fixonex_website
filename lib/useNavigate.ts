@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { useTransitionStore } from "@/lib/transitionStore";
 import { pathnameKeysEqual } from "@/lib/utils";
+import { toRoutePath } from "@/lib/route-path";
 
 /**
  * All internal client navigations that should use the page transition
@@ -23,8 +24,9 @@ export function useAppNavigate() {
       }
 
       const hereSearch = window.location.search || "";
+      const hereRoute = toRoutePath(window.location.pathname);
       const samePathAndSearch =
-        pathnameKeysEqual(dest.pathname, window.location.pathname) && dest.search === hereSearch;
+        pathnameKeysEqual(dest.pathname, hereRoute) && dest.search === hereSearch;
 
       if (samePathAndSearch) {
         if (dest.hash) {

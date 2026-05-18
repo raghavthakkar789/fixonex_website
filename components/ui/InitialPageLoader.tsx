@@ -8,6 +8,7 @@ import { easings } from "@/lib/animations";
 import loadingDotsBw from "@/data/lottie/loading-dots-bw.json";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
 import { pathnameKeysEqual, cn } from "@/lib/utils";
+import { toRoutePath } from "@/lib/route-path";
 
 /**
  * Module-level guard so the splash only plays ONCE per page-load lifecycle on
@@ -110,7 +111,7 @@ export function InitialPageLoader() {
     if (source !== "navigation") return;
     const exp = expectedPath.current;
     if (exp == null || exp === "") return;
-    if (!pathnameKeysEqual(pathname, exp)) return;
+    if (!pathnameKeysEqual(toRoutePath(pathname), exp)) return;
 
     useTransitionStore.setState({ phase: 2 });
 

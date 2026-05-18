@@ -8,6 +8,9 @@ const basePath = (process.env.BASE_PATH ?? "").replace(/\/$/, "");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   reactStrictMode: true,
   compiler: {
     removeConsole:
