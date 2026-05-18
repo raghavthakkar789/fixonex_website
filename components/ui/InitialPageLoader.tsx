@@ -8,7 +8,7 @@ import { easings } from "@/lib/animations";
 import loadingDotsBw from "@/data/lottie/loading-dots-bw.json";
 import { useTransitionStore, callNavigationResolve } from "@/lib/transitionStore";
 import { pathnameKeysEqual, cn } from "@/lib/utils";
-import { toRoutePath } from "@/lib/route-path";
+import { internalHrefToLocationUrl, toRoutePath } from "@/lib/route-path";
 
 /**
  * Module-level guard so the splash only plays ONCE per page-load lifecycle on
@@ -52,6 +52,10 @@ export function InitialPageLoader() {
   const router = useRouter();
   const pathname = usePathname();
 
+  /** `usePathname` can lag `window.location` with static export + basePath; poll briefly. */
+  const [locPulse, setLocPulse] = useState(0);
+  const navWatchdog = useRef<number | null>(null);
+
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
     reducedRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -69,6 +73,12 @@ export function InitialPageLoader() {
     return () => {
       if (exitTimer.current) clearTimeout(exitTimer.current);
     };
+  }, [source, phase]);
+
+  useEffect(() => {
+    if (source !== "navigation" || phase !== "active") return;
+    const id = window.setInterval(() => setLocPulse((x) => x + 1), 200);
+    return () => clearInterval(id);
   }, [source, phase]);
 
   // Navigation-trigger: when the transition store says a navigation is pending,
@@ -93,16 +103,40 @@ export function InitialPageLoader() {
 
     const delay = reducedRef.current ? 0 : NAV_PUSH_DELAY_MS;
 
+    if (navWatchdog.current) window.clearTimeout(navWatchdog.current);
+    navWatchdog.current = null;
+
     if (pushTimer.current) window.clearTimeout(pushTimer.current);
     pushTimer.current = window.setTimeout(() => {
       const state = useTransitionStore.getState();
-      if (state.phase === 1 && state.pendingHref) {
-        router.push(state.pendingHref);
-      }
+      const pending = state.pendingHref;
+      if (!pending || state.phase !== 1) return;
+
+      router.push(pending);
+
+      navWatchdog.current = window.setTimeout(() => {
+        navWatchdog.current = null;
+        const st = useTransitionStore.getState();
+        if (st.phase !== 1 || !pending) return;
+        let destPathForCompare = pending.split("?")[0]!.split("#")[0] || "/";
+        try {
+          destPathForCompare = new URL(pending, window.location.origin).pathname;
+        } catch {
+          /* keep split fallback */
+        }
+        const winRoute = toRoutePath(window.location.pathname);
+        if (!pathnameKeysEqual(winRoute, destPathForCompare)) {
+          window.location.assign(internalHrefToLocationUrl(pending));
+        }
+      }, 1200);
     }, delay);
 
     return () => {
       if (pushTimer.current) window.clearTimeout(pushTimer.current);
+      if (navWatchdog.current) {
+        window.clearTimeout(navWatchdog.current);
+        navWatchdog.current = null;
+      }
     };
   }, [storePhase, pendingHref, router]);
 
@@ -111,7 +145,16 @@ export function InitialPageLoader() {
     if (source !== "navigation") return;
     const exp = expectedPath.current;
     if (exp == null || exp === "") return;
-    if (!pathnameKeysEqual(toRoutePath(pathname), exp)) return;
+
+    const fromNext = toRoutePath(pathname);
+    const fromWindow =
+      typeof window !== "undefined" ? toRoutePath(window.location.pathname) : fromNext;
+    if (!pathnameKeysEqual(fromNext, exp) && !pathnameKeysEqual(fromWindow, exp)) return;
+
+    if (navWatchdog.current) {
+      window.clearTimeout(navWatchdog.current);
+      navWatchdog.current = null;
+    }
 
     useTransitionStore.setState({ phase: 2 });
 
@@ -125,7 +168,7 @@ export function InitialPageLoader() {
 
     if (phase !== "active") return;
     setPhase("exiting");
-  }, [pathname, source, phase]);
+  }, [pathname, source, phase, locPulse]);
 
   // Final cleanup once the fade has played.
   useEffect(() => {
