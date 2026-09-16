@@ -208,7 +208,7 @@ export function HomeView() {
               <div>
                 <p className="eyebrow-label-muted mb-4">Solutions</p>
                 <h2 className="font-display font-bold text-zinc-900" style={{ fontSize: "clamp(1.8rem, 3.8vw, 2.7rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
-                  Built for façade, podium, interior.
+                  Built for exterior, podium, interior.
                 </h2>
               </div>
             </Reveal>

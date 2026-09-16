@@ -130,9 +130,18 @@ export default function SupportPage() {
             </h2>
           </Reveal>
 
-          <Stagger className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="relative isolate grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {visibleGuides.map((g, i) => (
-              <StaggerItem key={g.id}>
+              <motion.div
+                key={g.id}
+                initial={reduced || i < GUIDE_INITIAL ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.45,
+                  ease: easeExpo,
+                  delay: Math.max(0, i - (guideVisible - GUIDE_LOAD_MORE)) * 0.06,
+                }}
+              >
                 <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.1)] transition-shadow duration-500">
                   <div className={`relative h-24 bg-gradient-to-br ${guideGradients[i % guideGradients.length]} overflow-hidden`}>
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -157,30 +166,28 @@ export default function SupportPage() {
                     </div>
                   </div>
                 </TiltCard>
-              </StaggerItem>
+              </motion.div>
             ))}
-          </Stagger>
+          </div>
 
           {(canLoadMoreGuides || expandedBeyondInitialGuides) && (
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
+            <div className="relative z-20 mt-10 flex flex-wrap justify-center gap-3">
               {canLoadMoreGuides && (
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary"
-                    onClick={() => setGuideVisible((v) => Math.min(v + GUIDE_LOAD_MORE, supportGuides.length))}
-                  >
-                    Show more guides
-                  </Button>
-                </motion.div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="rounded-full border-zinc-300 hover:border-primary/40 hover:text-primary"
+                  onClick={() => setGuideVisible((v) => Math.min(v + GUIDE_LOAD_MORE, supportGuides.length))}
+                >
+                  Show more guides
+                </Button>
               )}
               {expandedBeyondInitialGuides && (
                 <Button
                   type="button"
                   variant="ghost"
                   className="rounded-full text-zinc-500 hover:text-zinc-800"
-                  onClick={() => setGuideVisible(GUIDE_INITIAL)}
+                  onClick={() => setGuideVisible((v) => Math.max(GUIDE_INITIAL, v - GUIDE_LOAD_MORE))}
                 >
                   Show less
                 </Button>
@@ -274,7 +281,7 @@ export default function SupportPage() {
                     type="button"
                     variant="ghost"
                     className="rounded-full text-zinc-500 hover:text-zinc-800"
-                    onClick={() => setFaqVisible(FAQ_INITIAL)}
+                    onClick={() => setFaqVisible((v) => Math.max(FAQ_INITIAL, v - FAQ_LOAD_MORE))}
                   >
                     Show less
                   </Button>
