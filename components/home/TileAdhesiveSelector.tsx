@@ -10,8 +10,8 @@
  * Flow:
  *   Q1 Area → Q2 Type of Area (Dry/Wet/Submerged) → Q3 Tile or Stone Type
  *   → Q4 Tile Size (depends on tile) → Q5 Substrate
- * Every step's option list is derived from prior answers; later answers reset
- * automatically when an earlier answer changes.
+ * Every step's option list is derived from the Type-1…Type-5 application chart;
+ * later answers reset automatically when an earlier answer changes.
  */
 
 import { Fragment, useState } from "react";
@@ -26,32 +26,20 @@ import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { cn } from "@/lib/utils";
 import { panelEditorialClass } from "@/lib/ui-constants";
 import { PRODUCT_DRIVE_IMAGES } from "@/data/google-drive-media";
+import {
+  getEligibleSubstrates,
+  getEligibleTileSizes,
+  getTileOptions,
+  recommend,
+  type AreaId,
+  type ProductKey,
+  type SubstrateId,
+  type TileId,
+  type TileSizeId,
+  type TypeId,
+} from "@/lib/tile-adhesive-guidance";
 
 const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-/* ─── Types ───────────────────────────────────────────────────────────────── */
-type AreaId      = "interior-floor" | "interior-wall" | "exterior-floor" | "exterior-wall";
-type TypeId      = "dry-area" | "wet-area" | "submerged-area";
-type TileId      =
-  | "ceramic"
-  | "vitrified"
-  | "granite-marble"
-  | "engineered-stone"
-  | "glass-mosaic"
-  | "chemical-resistant";
-type TileSizeId  =
-  | "s-300"
-  | "s-600"
-  | "s-600x1200"
-  | "s-1200"
-  | "s-above-1200"
-  | "s-sheets";
-type SubstrateId =
-  | "cement-plaster"
-  | "cement-concrete"
-  | "tile-on-tile"
-  | "wood-metal"
-  | "others";
 
 interface Answers {
   area?:      AreaId;
@@ -81,69 +69,22 @@ const TYPE_OPTIONS: { id: TypeId; label: string; sub?: string }[] = [
   { id: "submerged-area", label: "Submerged Area", sub: "Pools, water tanks, fountains" },
 ];
 
-/* ─── Step 3 — Tile / Stone Type ─────────────────────────────────────────── */
-const TILE_LABEL: Record<TileId, string> = {
-  "ceramic":            "Ceramic Tile",
-  "vitrified":          "Vitrified Tile",
-  "granite-marble":     "Granite / Marble",
-  "engineered-stone":   "Engineered Stone",
-  "glass-mosaic":       "Glass Mosaic Tile",
-  "chemical-resistant": "Chemical Resistant Tile",
-};
-
-function getTileOptions(area: AreaId, type: TypeId): { id: TileId; label: string }[] {
-  const isExterior = area === "exterior-floor" || area === "exterior-wall";
-
-  if (isExterior) {
-    if (type === "dry-area") {
-      return (["vitrified", "granite-marble", "engineered-stone"] as TileId[])
-        .map((id) => ({ id, label: TILE_LABEL[id] }));
-    }
-    if (type === "wet-area") {
-      return (["vitrified", "granite-marble"] as TileId[])
-        .map((id) => ({ id, label: TILE_LABEL[id] }));
-    }
-    // submerged
-    return [{ id: "glass-mosaic", label: TILE_LABEL["glass-mosaic"] }];
-  }
-
-  // interior floor or wall
-  if (type === "dry-area") {
-    return (["ceramic", "vitrified", "granite-marble", "engineered-stone"] as TileId[])
-      .map((id) => ({ id, label: TILE_LABEL[id] }));
-  }
-  // wet or submerged — same list for interior per spec
-  return (["vitrified", "glass-mosaic", "granite-marble", "chemical-resistant"] as TileId[])
-    .map((id) => ({ id, label: TILE_LABEL[id] }));
-}
-
-/* ─── Step 4 — Tile Size (depends on tile) ───────────────────────────────── */
+/* ─── Step 4 — Tile Size (chart size refs, filtered by prior answers) ────── */
 type TileSizeOption = { id: TileSizeId; label: string; sub?: string };
 
-const SIZE_UPTO_600:        TileSizeOption = { id: "s-600",        label: "Upto 600 × 600 mm",   sub: "≈ 2 ft × 2 ft"      };
-const SIZE_UPTO_600x1200:   TileSizeOption = { id: "s-600x1200",   label: "Upto 600 × 1200 mm",  sub: "≈ 2 ft × 4 ft"      };
-const SIZE_UPTO_1200:       TileSizeOption = { id: "s-1200",       label: "Upto 1200 × 1200 mm", sub: "≈ 4 ft × 4 ft"      };
-const SIZE_ABOVE_1200:      TileSizeOption = { id: "s-above-1200", label: "Above 1200 × 1200 mm", sub: "Large / slab format" };
-const SIZE_UPTO_300:        TileSizeOption = { id: "s-300",        label: "Upto 300 × 300 mm",   sub: "≈ 1 ft × 1 ft"      };
-const SIZE_SHEETS:          TileSizeOption = { id: "s-sheets",     label: "Sheets",              sub: "Mosaic sheet format" };
+const SIZE_OPTIONS: Record<TileSizeId, TileSizeOption> = {
+  "s-300":        { id: "s-300",        label: "Upto 300 × 300 mm",    sub: "≈ 1 ft × 1 ft"      },
+  "s-600":        { id: "s-600",        label: "Upto 600 × 600 mm",    sub: "≈ 2 ft × 2 ft"      },
+  "s-600x1200":   { id: "s-600x1200",   label: "Upto 600 × 1200 mm",   sub: "≈ 2 ft × 4 ft"      },
+  "s-1200":       { id: "s-1200",       label: "Upto 1200 × 1200 mm",  sub: "≈ 4 ft × 4 ft"      },
+  "s-above-1200": { id: "s-above-1200", label: "Above 1200 × 1200 mm", sub: "Large / slab format" },
+};
 
-function getTileSizeOptions(tile: TileId): TileSizeOption[] {
-  switch (tile) {
-    case "vitrified":
-    case "granite-marble":
-      return [SIZE_UPTO_600, SIZE_UPTO_600x1200, SIZE_UPTO_1200, SIZE_ABOVE_1200];
-    case "ceramic":
-      return [SIZE_UPTO_300];
-    case "engineered-stone":
-      return [SIZE_UPTO_1200, SIZE_ABOVE_1200];
-    case "glass-mosaic":
-      return [SIZE_SHEETS];
-    case "chemical-resistant":
-      return [SIZE_UPTO_600, SIZE_UPTO_1200];
-  }
+function getTileSizeOptions(area: AreaId, type: TypeId, tile: TileId): TileSizeOption[] {
+  return getEligibleTileSizes(area, type, tile).map((id) => SIZE_OPTIONS[id]);
 }
 
-/* ─── Step 5 — Substrate (same 5 options always) ─────────────────────────── */
+/* ─── Step 5 — Substrate (chart plaster / overlay + PU for metal/ply) ────── */
 const SUBSTRATE_OPTIONS: { id: SubstrateId; label: string; sub?: string }[] = [
   { id: "cement-plaster",  label: "Cementitious — Plaster / Screed", sub: "Sand-cement plaster or screed bed" },
   { id: "cement-concrete", label: "Cementitious — Concrete",         sub: "Block work or cured concrete" },
@@ -153,22 +94,6 @@ const SUBSTRATE_OPTIONS: { id: SubstrateId; label: string; sub?: string }[] = [
 ];
 
 /* ─── Products ───────────────────────────────────────────────────────────── */
-/** Cementitious SKU keys + PU when substrate mandates two-part polyurethane (catalog alignment). */
-type ProductKey =
-  | "fix-111"
-  | "fix-222"
-  | "fix-333"
-  | "fix-444"
-  | "fix-555"
-  | "pu-fixo-999";
-const GRADE_ORDER: Exclude<ProductKey, "pu-fixo-999">[] = [
-  "fix-111",
-  "fix-222",
-  "fix-333",
-  "fix-444",
-  "fix-555",
-];
-
 const PRODUCTS: Record<ProductKey, {
   name: string; grade: string; tagline: string;
   color: string; bg: string; href: string; image: string;
@@ -181,7 +106,7 @@ const PRODUCTS: Record<ProductKey, {
   },
   "fix-222": {
     name: "FIX 222", grade: "C2T · Type-2", color: "#2563eb", bg: "#eff6ff",
-    tagline: "Improved-adhesion mortar for interior ceramic and vitrified tile systems.",
+    tagline: "Improved-adhesion mortar for interior dry floors in 600 × 1200 mm vitrified format.",
     href: "/products/tiles-adhesive/fix-222",
     image: PRODUCT_DRIVE_IMAGES["fix-222"],
   },
@@ -248,7 +173,6 @@ function epoxyLikelyFromPartial(a: Answers): boolean {
     a.type === "submerged-area" ||
     a.area === "exterior-floor" ||
     a.area === "exterior-wall" ||
-    a.tile === "chemical-resistant" ||
     a.substrate === "tile-on-tile"
   );
 }
@@ -288,75 +212,7 @@ const COMPANION_UI: {
   },
 ];
 
-/* ─── Recommendation matrix ──────────────────────────────────────────────── */
 type FullAnswers = Required<Answers>;
-
-/**
- * Map full answers to a catalog product. Uses every input in combination:
- *
- * Priority branches (substrate / exposure):
- *   - Wood / Metal → PU FIXO-999 (catalog PU backgrounds).
- *   - Tile-on-tile → FIX 555.
- *   - Submerged area → FIX 555.
- *
- * Otherwise build a cementitious index 0..4 from weighted factors — all additive before clamp:
- *   - Tile/stone category (base demand)
- *   - Exterior exposure (+1): sun/weather façade or outdoor context
- *   - Traffic / shear (+1): interior or exterior floors vs walls only
- *   - Cementitious substrate (+1 cured concrete/block vs plaster/screed — except dry interior
- *     wall + ceramic only)
- *   - Wet area (+1): frequent water, not submerged
- *   - Specialty / unsure base (+1): “Others” substrate
- *   - Format (+1 … +2): large modules (600×1200, 1200 sq, slabs)
- *
- * Constraints:
- *   - Any exterior wall or exterior floor: index ≥ FIX 444 (catalog façade / exposed floors).
- *
- * SKU alignment (applications in `lib/data/products`):
- *   - FIX 111 / 222 … through 555 stepping with demand; submerged & overlay stay at FIX 555.
- */
-function recommend(a: FullAnswers): ProductKey {
-  if (a.substrate === "wood-metal") return "pu-fixo-999";
-  if (a.substrate === "tile-on-tile") return "fix-555";
-  if (a.type === "submerged-area") return "fix-555";
-
-  let level: number;
-  switch (a.tile) {
-    case "ceramic":            level = 0; break;
-    case "vitrified":          level = 1; break;
-    case "granite-marble":     level = 2; break;
-    case "engineered-stone":   level = 2; break;
-    case "glass-mosaic":       level = 2; break;
-    case "chemical-resistant": level = 3; break;
-  }
-
-  if (a.area === "exterior-floor" || a.area === "exterior-wall") level += 1;
-
-  /** Floors carry higher in-service shear — distinct from walls for the same room & tile. */
-  if (a.area === "interior-floor" || a.area === "exterior-floor") level += 1;
-
-  /** Dense / structural cement bases — +1 vs plaster/screed unless lightest ceramic wall case. */
-  const skipConcreteBump =
-    a.substrate !== "cement-concrete"
-      ? false
-      : (a.area === "interior-wall" && a.type === "dry-area" && a.tile === "ceramic");
-  if (a.substrate === "cement-concrete" && !skipConcreteBump) level += 1;
-
-  if (a.type === "wet-area") level += 1;
-
-  if (a.substrate === "others") level += 1;
-
-  if (a.tileSize === "s-600x1200") level += 1;
-  if (a.tileSize === "s-1200") level += 1;
-  if (a.tileSize === "s-above-1200") level += 2;
-
-  if (a.area === "exterior-floor" || a.area === "exterior-wall") {
-    level = Math.max(level, 3);
-  }
-
-  level = Math.max(0, Math.min(4, level));
-  return GRADE_ORDER[level];
-}
 
 /* ─── Result panel — rendered below the steps once everything is answered ─ */
 function ResultPanel({
@@ -613,8 +469,19 @@ export function TileAdhesiveSelector() {
   // always consistent with the partial state shown on screen.
   const typeOptions      = answers.area ? TYPE_OPTIONS : [];
   const tileOptions      = answers.area && answers.type ? getTileOptions(answers.area, answers.type) : [];
-  const tileSizeOptions  = answers.tile ? getTileSizeOptions(answers.tile) : [];
-  const substrateOptions = answers.tileSize ? SUBSTRATE_OPTIONS : [];
+  const tileSizeOptions  = answers.area && answers.type && answers.tile
+    ? getTileSizeOptions(answers.area, answers.type, answers.tile)
+    : [];
+  const substrateOptions = answers.area && answers.type && answers.tile && answers.tileSize
+    ? SUBSTRATE_OPTIONS.filter((opt) =>
+        getEligibleSubstrates({
+          area: answers.area!,
+          type: answers.type!,
+          tile: answers.tile!,
+          tileSize: answers.tileSize!,
+        }).includes(opt.id),
+      )
+    : [];
 
   type StepDef = {
     key:      keyof Answers;
