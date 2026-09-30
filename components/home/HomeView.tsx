@@ -223,7 +223,7 @@ export function HomeView() {
           <Stagger className="grid gap-6 md:grid-cols-3">
             {productRange.map((c, i) => (
               <StaggerItem key={c.title}>
-                <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+                <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
                   <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", c.accent)}>
                     <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
                       {c.badge}
@@ -242,14 +242,21 @@ export function HomeView() {
                     <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.25 }}>
                       <c.icon className="h-5 w-5 text-primary" aria-hidden />
                     </motion.div>
-                    <h3 className="mt-4 font-display text-xl font-semibold text-zinc-950">{c.title}</h3>
+                    <h3 className="mt-4 font-display text-xl font-semibold text-zinc-950">
+                      <TransitionLink
+                        href={c.href}
+                        className="after:absolute after:inset-0 after:z-[1] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+                      >
+                        {c.title}
+                      </TransitionLink>
+                    </h3>
                     <p className="mt-2.5 text-[15px] leading-relaxed text-zinc-600">{c.desc}</p>
                     <div className="mt-auto pt-6 flex items-center gap-5">
-                      <TransitionLink href={c.href} className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors">
+                      <span className="pointer-events-none relative z-[2] inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors group-hover:text-primary/80">
                         Learn more
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover/link:translate-x-0.5" aria-hidden />
-                      </TransitionLink>
-                      <TransitionLink href={c.techHref} className="text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400 hover:text-zinc-700 transition-colors">
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                      </span>
+                      <TransitionLink href={c.techHref} className="relative z-[2] text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400 hover:text-zinc-700 transition-colors">
                         Spec PDF
                       </TransitionLink>
                     </div>

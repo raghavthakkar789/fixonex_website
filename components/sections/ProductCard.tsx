@@ -15,7 +15,11 @@ export function ProductCard({ product }: ProductCardProps) {
   const bestFor = product.idealUseCases[0];
 
   return (
-    <Card className="group flex h-full min-w-0 flex-col overflow-hidden">
+    <TransitionLink
+      href={hrefForProductCategorySlug(product.slug)}
+      className="group block h-full min-w-0 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
+    <Card className="flex h-full min-w-0 flex-col overflow-hidden">
       <CardHeader className="space-y-2.5 p-4 sm:p-5 md:p-6">
         {product.image ? (
           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-border/40 bg-[#F5F5F5] shadow-[0_22px_60px_-20px_rgba(17,17,17,0.14)] ring-1 ring-inset ring-foreground/[0.04]">
@@ -50,14 +54,12 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="mt-auto flex flex-1 flex-col p-4 pt-0 sm:p-5 sm:pt-0 md:p-6">
         <p className="text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>
-        <TransitionLink
-          href={hrefForProductCategorySlug(product.slug)}
-          className="mt-5 inline-flex items-center gap-2 text-sm font-bold tracking-tight text-foreground underline-offset-4 transition-colors hover:text-primary hover:underline sm:mt-6"
-        >
+        <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold tracking-tight text-foreground underline-offset-4 transition-colors group-hover:text-primary group-hover:underline sm:mt-6">
           {cta.viewRange}
           <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-industrial group-hover:translate-x-0.5" />
-        </TransitionLink>
+        </span>
       </CardContent>
     </Card>
+    </TransitionLink>
   );
 }

@@ -52,7 +52,11 @@ export function ProductsShowcaseRow() {
         <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* ── Tile Adhesives — featured aggregate card ── */}
           <StaggerItem className="sm:col-span-2 lg:col-span-1">
-            <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+            <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+              <TransitionLink
+                href="/products/tiles-adhesive"
+                className="flex h-full min-h-0 flex-col outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+              >
               {/* Image zone */}
               <div className="relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br from-rose-500/20 to-orange-400/10">
                 <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
@@ -92,21 +96,13 @@ export function ProductsShowcaseRow() {
                 </p>
                 <p className="mt-2 text-[12px] font-medium text-zinc-400">EN 12004 | IS 15477:2019</p>
                 <div className="mt-auto pt-6 flex items-center gap-5">
-                  <TransitionLink
-                    href="/products/tiles-adhesive"
-                    className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
-                  >
+                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors group-hover:text-primary/80">
                     Explore all grades
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" aria-hidden />
-                  </TransitionLink>
-                  <TransitionLink
-                    href="/products"
-                    className="text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400 hover:text-zinc-700 transition-colors"
-                  >
-                    Full range
-                  </TransitionLink>
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+                  </span>
                 </div>
               </div>
+              </TransitionLink>
             </TiltCard>
           </StaggerItem>
 

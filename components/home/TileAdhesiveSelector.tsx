@@ -241,8 +241,9 @@ function ResultPanel({
       </div>
 
       {/* Main product card — image aside the text */}
-      <div
-        className="relative overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.35)]"
+      <TransitionLink
+        href={`${p.href}?from=guidance`}
+        className="group relative block overflow-hidden rounded-2xl border border-zinc-200/70 shadow-[0_24px_60px_-32px_rgba(0,0,0,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
         style={{
           borderColor: `${p.color}40`,
           background: `linear-gradient(145deg, ${p.bg} 0%, white 52%, ${p.bg} 100%)`,
@@ -296,15 +297,14 @@ function ResultPanel({
             </div>
           </div>
 
-          <TransitionLink
-            href={`${p.href}?from=guidance`}
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg transition-[transform,box-shadow] hover:scale-[1.01] hover:shadow-xl active:scale-[0.99]"
+          <span
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold text-white shadow-lg transition-[transform,box-shadow] group-hover:scale-[1.01] group-hover:shadow-xl"
             style={{ background: p.color, boxShadow: `0 12px 28px -8px ${p.color}88` }}
           >
             View product details <ChevronRight className="h-4 w-4" aria-hidden />
-          </TransitionLink>
+          </span>
         </div>
-      </div>
+      </TransitionLink>
 
       {/* Companion products — always list all three; highlight when rule suggests */}
       <div>

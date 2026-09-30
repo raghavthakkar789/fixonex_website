@@ -7,7 +7,6 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ProductsShowcaseRow } from "@/components/products/ProductsShowcaseRow";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { Reveal, LineReveal } from "@/components/motion/Reveal";
-import { TiltCard } from "@/components/ui/TiltCard";
 import { Button } from "@/components/ui/button";
 import { cta } from "@/lib/ui-constants";
 import { HERO_DRIVE_IMAGES } from "@/data/google-drive-media";
@@ -127,7 +126,11 @@ export default function ProductsPage() {
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>
-            <TiltCard className="overflow-hidden rounded-3xl border border-zinc-100 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
+            <div className="group overflow-hidden rounded-3xl border border-zinc-100 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-shadow hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+              <TransitionLink
+                href="/products/tiles-adhesive"
+                className="block rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+              >
               <div className="flex flex-wrap items-start justify-between gap-6 p-8 md:p-10">
                 <div>
                   <span className="eyebrow-label mb-4 inline-flex">Tiles Adhesive Range</span>
@@ -154,19 +157,15 @@ export default function ProductsPage() {
                     ))}
                   </div>
                 </div>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <TransitionLink
-                    href="/products/tiles-adhesive"
-                    className="inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(211,47,47,0.3)] transition-all hover:bg-primary/90 hover:shadow-[0_6px_24px_rgba(211,47,47,0.4)]"
-                  >
+                <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-[0_4px_16px_rgba(211,47,47,0.3)] transition-all group-hover:bg-primary/90 group-hover:shadow-[0_6px_24px_rgba(211,47,47,0.4)]">
                     Explore All Grades
                     <ArrowRight className="h-4 w-4" aria-hidden />
-                  </TransitionLink>
-                </motion.div>
+                </span>
               </div>
               {/* Decorative strip */}
               <div className="h-1.5 bg-gradient-to-r from-rose-500 via-orange-500 to-amber-500" />
-            </TiltCard>
+              </TransitionLink>
+            </div>
           </FadeIn>
         </div>
       </section>

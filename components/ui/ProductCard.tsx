@@ -79,8 +79,11 @@ export function ProductCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease }}
     >
-      <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
-
+      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)]">
+        <TransitionLink
+          href={`/products/${slug}`}
+          className="flex h-full min-h-0 flex-col rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
+        >
         {/* Image zone */}
         <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", accent)}>
           {/* Badge */}
@@ -121,18 +124,16 @@ export function ProductCard({
           <p className="mt-2 text-[12px] font-medium text-zinc-400">{sizesLine}</p>
 
           <div className="mt-auto pt-6 flex items-center gap-5">
-            <TransitionLink
-              href={`/products/${slug}`}
-              className="group/link inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
-            >
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-colors group-hover:text-primary/80">
               View product
-              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover/link:translate-x-0.5" aria-hidden />
-            </TransitionLink>
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </span>
             <span className="text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400">
               {standard}
             </span>
           </div>
         </div>
+        </TransitionLink>
       </TiltCard>
     </motion.div>
   );
