@@ -57,9 +57,6 @@ export function ImageWithFallback({
 
   const onDone = () => setLoaded(true);
 
-  /** Reduces Drive 403s when embedding thumbnails (hotlink policies). */
-  const driveReferrer = src.includes("drive.google.com") ? "no-referrer" : undefined;
-
   /** When eager, decoded pixels can reveal immediately (no scroll-gated unveil). */
   const revealUnlock = priority || loading === "eager" || inView;
 
@@ -73,7 +70,6 @@ export function ImageWithFallback({
       sizes={sizes}
       priority={priority}
       loading={priority ? undefined : loading}
-      referrerPolicy={driveReferrer}
       className={className}
       style={style}
       onError={() => setHasError(true)}
@@ -135,7 +131,6 @@ export function ImageWithFallback({
             sizes={sizes}
             priority={priority}
             loading={priority ? undefined : loading}
-            referrerPolicy={driveReferrer}
             className={className}
             style={style}
             onError={() => setHasError(true)}

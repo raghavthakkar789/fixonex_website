@@ -1,3 +1,9 @@
+# Website images
+
+Images are served locally from `public/assets/images/` and referenced by `data/google-drive-media.ts`. Paths include `NEXT_PUBLIC_BASE_PATH` for GitHub Pages and use `/assets/images/` on Hostinger. The catalogue PDF remains linked to Google Drive.
+
+## Original Drive sources
+
 catalog = "https://drive.google.com/file/d/1DfbkfiGDq5zEWOcE5ogva2VyYevLf7e_/view?usp=sharing"
 
 about page : {
