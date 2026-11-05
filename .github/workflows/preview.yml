@@ -1,0 +1,42 @@
+name: Build review preview
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      BASE_PATH: ""
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check the static preview
+        run: |
+          for page in index products/index products/tiles-adhesive/fix-333/index services/index support/index contact/index partner/index; do
+            test -s "out/$page.html"
+          done
+          test -d out/_next/static
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fixonex-preview-${{ github.sha }}
+          path: out/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Preview instructions
+        run: |
+          echo 'Download and unzip the preview artifact. In the folder containing index.html, run `python3 -m http.server 8080 --bind 127.0.0.1` and open http://127.0.0.1:8080/. This review build does not include production form credentials.' >> "$GITHUB_STEP_SUMMARY"
