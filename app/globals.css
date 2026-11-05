@@ -705,10 +705,37 @@
   }
 }
 
-/* Light gallery surfaces keep the product photography and specifications in focus. */
-.collection-surface { background: #faf9f7; }
-.collection-surface:nth-of-type(even) { background: white; }
+/* Concrete grounds the page; porcelain carries copy; muted mineral shades identify families. */
+:root {
+  --concrete: #dcdcd8;
+  --concrete-light: #e5e5e1;
+  --porcelain: #fffefa;
+  --stone-edge: #c6c5bf;
+  --limestone: #beae94;
+  --sage: #9da99a;
+  --clay: #be9885;
+  --shale: #a89ba7;
+  --slate: #97a4aa;
+}
+.collection-surface { background-color: var(--concrete); }
+.collection-surface:nth-of-type(even) { background-color: var(--concrete-light); }
+.finish-limestone { --finish: var(--limestone); }
+.finish-sage { --finish: var(--sage); }
+.finish-clay { --finish: var(--clay); }
+.finish-shale { --finish: var(--shale); }
+.finish-slate { --finish: var(--slate); }
+.material-sample {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--finish) 82%, var(--porcelain)),
+    color-mix(in srgb, var(--finish) 34%, var(--porcelain)));
+}
+.material-card {
+  background-color: var(--porcelain);
+  border: 1px solid var(--stone-edge);
+  box-shadow: 0 2px 4px rgb(53 41 52 / 5%), 0 10px 24px -16px rgb(53 41 52 / 30%);
+}
 .collection-surface > [aria-hidden="true"][class*="absolute"] { display: none; }
+.collection-surface :where(p.text-zinc-500) { color: #555453; }
 .collection-surface h2 {
   font-weight: 600;
   text-transform: uppercase;

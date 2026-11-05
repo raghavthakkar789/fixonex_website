@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { TransitionLink } from "@/components/navigation/TransitionLink";
 import { useMemo, useState } from "react";
 // TiltCard imported from shared component
@@ -68,7 +69,7 @@ const productRange = [
     href: "/products/tiles-adhesive",
     techHref: "/products/tiles-adhesive",
     image: productImageUrls.fix111,
-    accent: "from-[#e6e1db] to-[#f4f1ed]",
+    slug: "tiles-adhesive",
   },
   {
     title: "Epoxy grout",
@@ -78,7 +79,7 @@ const productRange = [
     href: "/products/epoxy-grout",
     techHref: "/products/epoxy-grout",
     image: productImageUrls.epoxyGrout,
-    accent: "from-[#d9dcd5] to-[#eef0ec]",
+    slug: "epoxy-grout",
   },
   {
     title: "Specialty line",
@@ -88,7 +89,7 @@ const productRange = [
     href: "/products",
     techHref: "/products/block-joining-mortar",
     image: productImageUrls.blockMortar,
-    accent: "from-[#dbd5d9] to-[#f1eef0]",
+    slug: "block-joining-mortar",
   },
 ] as const;
 
@@ -168,8 +169,8 @@ export function HomeView() {
           <Stagger className="grid gap-6 md:grid-cols-3">
             {productRange.map((c, i) => (
               <StaggerItem key={c.title}>
-                <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm border border-zinc-200 bg-white hover:shadow-sm transition-shadow duration-500">
-                  <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", c.accent)}>
+                <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm material-card transition-shadow duration-500">
+                  <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 material-sample", productFinish(c.slug))}>
                     <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
                       {c.badge}
                     </span>
@@ -201,7 +202,7 @@ export function HomeView() {
                         Learn more
                         <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
                       </span>
-                      <TransitionLink href={c.techHref} className="relative z-[2] text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400 hover:text-zinc-700 transition-colors">
+                      <TransitionLink href={c.techHref} className="relative z-[2] text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-600 hover:text-primary transition-colors">
                         Product details
                       </TransitionLink>
                     </div>
@@ -305,10 +306,10 @@ export function HomeView() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-5%" }}
                   transition={{ duration: 0.6, ease: easeExpo, delay: 0.2 + i * 0.1 }}
-                  className="flex gap-5 rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 shadow-sm hover:shadow-md hover:border-teal-200 transition-all duration-300 group"
+                  className="flex gap-5 rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-4 shadow-sm hover:shadow-md hover:border-primary/35 transition-all duration-300 group"
                 >
-                  <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-teal-50 to-white shadow-sm border border-teal-100 group-hover:from-teal-100 transition-colors duration-300">
-                    <Icon className="h-5 w-5 text-teal-700" aria-hidden />
+                  <span className="mt-0.5 inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl material-sample finish-slate border border-zinc-200 transition-colors duration-300">
+                    <Icon className="h-5 w-5 text-primary" aria-hidden />
                   </span>
                   <div>
                     <p className="font-display text-[1rem] font-semibold text-zinc-900">{label}</p>
@@ -357,13 +358,13 @@ export function HomeView() {
                   <li key={txt as string}>
                     <TransitionLink
                       href="/support"
-                      className="group flex items-start gap-4 rounded-2xl border border-transparent px-4 py-3 transition-all duration-300 hover:border-teal-200/60 hover:bg-teal-50/50"
+                      className="group flex items-start gap-4 rounded-2xl border border-transparent px-4 py-3 transition-all duration-300 hover:border-primary/35 hover:bg-zinc-100"
                     >
-                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-50 border border-zinc-200/70 text-zinc-700 shadow-sm transition-all duration-300 group-hover:bg-teal-100 group-hover:border-teal-200 group-hover:text-teal-800">
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-50 border border-zinc-200/70 text-zinc-700 shadow-sm transition-all duration-300 group-hover:bg-zinc-100 group-hover:border-primary/35 group-hover:text-primary">
                         <Icon className="h-5 w-5" aria-hidden />
                       </span>
                       <span>
-                        <span className="block font-semibold text-zinc-950 text-[15px] group-hover:text-teal-900 transition-colors duration-300">{txt}</span>
+                        <span className="block font-semibold text-zinc-950 text-[15px] group-hover:text-primary transition-colors duration-300">{txt}</span>
                         <span className="text-[13px] text-zinc-500">{sub}</span>
                       </span>
                     </TransitionLink>
@@ -438,7 +439,7 @@ export function HomeView() {
 
           {/* Search */}
           <label
-            className="mx-auto mb-12 flex max-w-xl items-center gap-3 rounded-full border border-zinc-200/90 bg-white px-5 py-3 shadow-md ring-4 ring-transparent focus-within:border-violet-400 focus-within:ring-violet-100 transition-all duration-300 focus-within:scale-[1.01]"
+            className="mx-auto mb-12 flex max-w-xl items-center gap-3 rounded-full border border-zinc-200/90 bg-white px-5 py-3 shadow-md ring-4 ring-transparent focus-within:border-primary/35 focus-within:ring-primary/35 transition-all duration-300 focus-within:scale-[1.01]"
           >
             <Search className="h-5 w-5 text-zinc-400 shrink-0" aria-hidden />
             <input
@@ -466,9 +467,9 @@ export function HomeView() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-5%" }}
                       transition={{ duration: 0.55, ease: easeExpo, delay: qi * 0.08 }}
-                      className="group rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-5 shadow-sm hover:shadow-md hover:border-violet-200/60 transition-all duration-300 backdrop-blur-sm"
+                      className="group rounded-2xl border border-zinc-200/70 bg-white/80 px-5 py-5 shadow-sm hover:shadow-md hover:border-primary/35 transition-all duration-300 backdrop-blur-sm"
                     >
-                      <p className="font-display font-semibold text-zinc-900 group-hover:text-violet-900 transition-colors duration-300">{item.question}</p>
+                      <p className="font-display font-semibold text-zinc-900 group-hover:text-primary transition-colors duration-300">{item.question}</p>
                       <p className="mt-3 text-[15px] leading-relaxed text-zinc-600">{item.answer}</p>
                     </motion.li>
                   ))}
@@ -483,7 +484,7 @@ export function HomeView() {
                 <Button
                   variant="outline"
                   onClick={() => setFaqExpanded((v) => !v)}
-                  className="rounded-full border-zinc-300 bg-white/80 backdrop-blur-sm hover:border-violet-300 hover:text-violet-900 transition-colors"
+                  className="rounded-full border-zinc-300 bg-white/80 backdrop-blur-sm hover:border-primary/35 hover:text-primary transition-colors"
                 >
                   {faqExpanded ? "Show concise FAQs" : "Show complete FAQ groups"}
                 </Button>
@@ -499,7 +500,7 @@ export function HomeView() {
               Full FAQ corpus
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </TransitionLink>
-            <TransitionLink href="/contact" className="font-semibold text-orange-700 hover:text-orange-900 underline-grow transition-colors">
+            <TransitionLink href="/contact" className="font-semibold text-primary hover:text-primary underline-grow transition-colors">
               Still unresolved? Speak with us →
             </TransitionLink>
           </div>

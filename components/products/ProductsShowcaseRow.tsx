@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Grid3X3, Layers } from "lucide-react";
 import { ProductCard } from "@/components/ui/ProductCard";
@@ -52,13 +53,13 @@ export function ProductsShowcaseRow() {
         <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* ── Tile Adhesives — featured aggregate card ── */}
           <StaggerItem className="sm:col-span-2 lg:col-span-1">
-            <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm border border-zinc-200 bg-white hover:shadow-sm transition-shadow duration-500">
+            <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm material-card transition-shadow duration-500">
               <TransitionLink
                 href="/products/tiles-adhesive"
                 className="flex h-full min-h-0 flex-col outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
               >
               {/* Image zone */}
-              <div className="relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br from-[#e6e1db] to-[#f4f1ed]">
+              <div className={`relative aspect-[5/3] overflow-hidden border-b border-zinc-100 material-sample ${productFinish("tiles-adhesive")}`}>
                 <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
                   5 Grades
                 </span>

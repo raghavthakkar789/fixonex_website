@@ -110,7 +110,7 @@ export default function ContactPage() {
           >
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
               {/* Card header stripe */}
-              <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-500" />
+              <div className="h-1.5 bg-primary" />
               <div className="relative z-10 p-8 md:p-10">
                 <p className="eyebrow-label mb-3">Inquiry Form</p>
                 <h2 className="font-display text-2xl font-bold text-zinc-950 mb-8">Send us a message</h2>
@@ -127,7 +127,7 @@ export default function ContactPage() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-orange-500 text-white shadow-[0_8px_24px_rgba(211,47,47,0.35)]"
+                        className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-[0_8px_24px_rgba(211,47,47,0.35)]"
                       >
                         <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden />
                       </motion.span>
@@ -269,16 +269,16 @@ export default function ContactPage() {
           >
             {/* Direct contact */}
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-              <div className="h-1 bg-gradient-to-r from-teal-500 to-emerald-500" />
+              <div className="h-1 bg-primary" />
               <div className="relative z-10 p-7">
                 <p className="eyebrow-label mb-5">Reach Us Directly</p>
                 <ul className="space-y-5">
                   {[
-                    { icon: Phone, label: "Phone", value: "+91 7383838632", href: "tel:+917383838632", color: "from-primary to-orange-500" },
-                    { icon: Mail, label: "Email", value: "info@fixonex.com", href: "mailto:info@fixonex.com", color: "from-teal-500 to-emerald-500" },
-                  ].map(({ icon: Icon, label, value, href, color }) => (
+                    { icon: Phone, label: "Phone", value: "+91 7383838632", href: "tel:+917383838632" },
+                    { icon: Mail, label: "Email", value: "info@fixonex.com", href: "mailto:info@fixonex.com" },
+                  ].map(({ icon: Icon, label, value, href }) => (
                     <li key={label} className="group flex gap-4">
-                      <div className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${color} shadow-md`}>
+                      <div className={`mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary shadow-md`}>
                         <Icon className="h-4.5 w-4.5 text-white" aria-hidden />
                       </div>
                       <div>
@@ -290,7 +290,7 @@ export default function ContactPage() {
                     </li>
                   ))}
                   <li className="flex gap-4">
-                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 shadow-md">
+                    <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary shadow-md">
                       <MapPin className="h-4.5 w-4.5 text-white" aria-hidden />
                     </div>
                     <div>
@@ -409,7 +409,7 @@ export default function ContactPage() {
             </div>
 
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
-              <div className="h-1.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500" />
+              <div className="h-1.5 bg-primary" />
               <div className="relative h-[360px] w-full md:h-[440px]">
                 <iframe
                   src={companyInfo.mapsEmbedUrl}

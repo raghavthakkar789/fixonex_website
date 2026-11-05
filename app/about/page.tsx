@@ -174,7 +174,7 @@ export default function AboutPage() {
             <div className="space-y-5">
               <TiltCard className="rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_2px_16px_rgba(0,0,0,0.05)]">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-orange-500 shadow-md">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-md">
                     <Lightbulb className="h-4 w-4 text-white" aria-hidden />
                   </span>
                   <p className="font-display text-base font-bold text-zinc-950">Our Mission</p>
@@ -186,7 +186,7 @@ export default function AboutPage() {
 
               <TiltCard className="rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_2px_16px_rgba(0,0,0,0.05)]">
                 <div className="flex items-center gap-3 mb-3">
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-500 shadow-md">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-primary shadow-md">
                     <Award className="h-4 w-4 text-white" aria-hidden />
                   </span>
                   <p className="font-display text-base font-bold text-zinc-950">Our Vision</p>
@@ -279,7 +279,7 @@ export default function AboutPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             <FadeIn>
               <TiltCard className="h-full overflow-hidden rounded-3xl border border-zinc-200/70 bg-gradient-to-br from-[#fdfcfb] to-[#f8f5f2] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg mb-5">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary shadow-lg mb-5">
                   <Leaf className="h-6 w-6 text-white" aria-hidden />
                 </span>
                 <h3 className="font-display text-xl font-bold text-zinc-950 mb-3">Indian Innovation</h3>
@@ -290,7 +290,7 @@ export default function AboutPage() {
             </FadeIn>
             <FadeIn delay={0.1}>
               <TiltCard className="h-full overflow-hidden rounded-3xl border border-zinc-200/70 bg-gradient-to-br from-[#f0fdf9] to-[#f5f5f5] p-8 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-500 shadow-lg mb-5">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary shadow-lg mb-5">
                   <Leaf className="h-6 w-6 text-white" aria-hidden />
                 </span>
                 <h3 className="font-display text-xl font-bold text-zinc-950 mb-3">Sustainability Focus</h3>
@@ -310,7 +310,7 @@ export default function AboutPage() {
           <FadeIn>
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
               <div className="p-8 md:p-12 text-center">
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-orange-500 shadow-lg mb-6">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg mb-6">
                   <Phone className="h-7 w-7 text-white" aria-hidden />
                 </span>
                 <h2 className="font-display text-2xl font-bold text-zinc-950">
@@ -338,7 +338,7 @@ export default function AboutPage() {
                   </motion.div>
                 </div>
               </div>
-              <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-400" />
+              <div className="h-1.5 bg-primary" />
             </TiltCard>
           </FadeIn>
         </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { motion } from "framer-motion";
 import { ArrowRight, Grid3X3, Package, Palette, Layers, Droplets, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,16 +24,6 @@ export type ProductCardProps = {
   index?: number;
 };
 
-const accentMap: Record<string, string> = {
-  "tile-adhesive": "from-[#e6e1db] to-[#f4f1ed]",
-  "epoxy-grout":   "from-[#d9dcd5] to-[#eef0ec]",
-  "block-mortar":  "from-[#dbd5d9] to-[#f1eef0]",
-  "pu-fixo":       "from-[#dbd5d9] to-[#f1eef0]",
-  "cleaner":       "from-[#d9dcd5] to-[#eef0ec]",
-  "spacer":        "from-[#e6e1db] to-[#f4f1ed]",
-  default:         "from-zinc-200/60 to-zinc-100/40",
-};
-
 const iconMap: Record<string, React.ElementType> = {
   "tile-adhesive": Grid3X3,
   "epoxy-grout":   Palette,
@@ -42,13 +33,6 @@ const iconMap: Record<string, React.ElementType> = {
   "spacer":        Maximize2,
   default:         Package,
 };
-
-function getAccent(slug: string): string {
-  for (const key of Object.keys(accentMap)) {
-    if (slug.includes(key)) return accentMap[key]!;
-  }
-  return accentMap["default"]!;
-}
 
 function getIcon(id?: string, slug?: string): React.ElementType {
   const key = id ?? slug ?? "";
@@ -69,7 +53,6 @@ export function ProductCard({
   image,
   index = 0,
 }: ProductCardProps) {
-  const accent = getAccent(slug);
   const Icon = getIcon(id, slug);
 
   return (
@@ -79,13 +62,13 @@ export function ProductCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease }}
     >
-      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm border border-zinc-200 bg-white transition-shadow duration-500 hover:shadow-sm">
+      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm material-card transition-shadow duration-500">
         <TransitionLink
           href={`/products/${slug}`}
           className="flex h-full min-h-0 flex-col rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
         >
         {/* Image zone */}
-        <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", accent)}>
+        <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 material-sample", productFinish(slug))}>
           {/* Badge */}
           <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
             {badge}

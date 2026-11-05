@@ -20,22 +20,14 @@ const GUIDE_LOAD_MORE = 3;
 const easeExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const timelineSteps = [
-  { title: "Surface Prep", desc: "Clean, sound, and flat substrate.", gradient: "from-rose-500 to-orange-500" },
-  { title: "Mix Adhesive", desc: "Correct water ratio and slump.", gradient: "from-orange-500 to-amber-500" },
-  { title: "Apply & Set Tiles", desc: "Full contact within open time.", gradient: "from-teal-500 to-emerald-500" },
-  { title: "Allow Cure Time", desc: "Before grout and loading.", gradient: "from-blue-500 to-indigo-500" },
-  { title: "Apply Grout", desc: "Epoxy or cement as specified.", gradient: "from-violet-500 to-purple-500" },
-  { title: "Final Clean", desc: "Remove residues per TDS.", gradient: "from-cyan-500 to-sky-500" },
+  { title: "Surface Prep", desc: "Clean, sound, and flat substrate." },
+  { title: "Mix Adhesive", desc: "Correct water ratio and slump." },
+  { title: "Apply & Set Tiles", desc: "Full contact within open time." },
+  { title: "Allow Cure Time", desc: "Before grout and loading." },
+  { title: "Apply Grout", desc: "Epoxy or cement as specified." },
+  { title: "Final Clean", desc: "Remove residues per TDS." },
 ];
 
-const guideGradients = [
-  "from-rose-500/20 to-orange-400/10",
-  "from-teal-500/20 to-emerald-400/10",
-  "from-blue-500/20 to-indigo-400/10",
-  "from-violet-500/20 to-purple-400/10",
-  "from-amber-500/20 to-yellow-400/10",
-  "from-cyan-500/20 to-sky-400/10",
-];
 
 export default function SupportPage() {
   const reduced = useReducedMotion();
@@ -102,7 +94,7 @@ export default function SupportPage() {
             {timelineSteps.map((step, i) => (
               <StaggerItem key={step.title}>
                 <TiltCard className="group flex h-full flex-col rounded-3xl border border-white/90 bg-white p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.1)] transition-shadow duration-500">
-                  <span className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} font-display text-sm font-bold text-white shadow-md`}>
+                  <span className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary font-display text-sm font-bold text-white shadow-md`}>
                     {i + 1}
                   </span>
                   <h3 className="mt-4 font-display text-base font-semibold text-zinc-950 group-hover:text-primary transition-colors duration-300">{step.title}</h3>
@@ -143,9 +135,9 @@ export default function SupportPage() {
                 }}
               >
                 <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.1)] transition-shadow duration-500">
-                  <div className={`relative h-24 bg-gradient-to-br ${guideGradients[i % guideGradients.length]} overflow-hidden`}>
+                  <div className={`relative h-24 material-sample finish-slate overflow-hidden`}>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <BookOpen className="h-10 w-10 text-white/30" aria-hidden />
+                      <BookOpen className="h-10 w-10 text-primary/55" aria-hidden />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
