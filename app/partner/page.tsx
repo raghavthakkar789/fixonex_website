@@ -34,29 +34,21 @@ const benefits = [
     icon: Shield,
     title: "Strong Brand",
     text: "Certified products with EN12004 & IS 15477:2019 compliance — your customers can trust the specification.",
-    gradient: "from-primary to-orange-500",
-    bg: "from-rose-50 to-orange-50",
   },
   {
     icon: Package,
     title: "Full Product Range",
     text: "10 products covering all tile installation needs, from standard to heavy-duty formats.",
-    gradient: "from-teal-500 to-emerald-500",
-    bg: "from-teal-50 to-emerald-50",
   },
   {
     icon: Network,
     title: "Business Support",
     text: "Marketing materials, product training, and dedicated technical guidance at every stage.",
-    gradient: "from-blue-500 to-indigo-500",
-    bg: "from-blue-50 to-indigo-50",
   },
   {
     icon: TrendingUp,
     title: "Growing Market",
     text: "Tap into Gujarat's booming construction sector with a brand built for modern installation.",
-    gradient: "from-violet-500 to-purple-500",
-    bg: "from-violet-50 to-purple-50",
   },
 ];
 
@@ -139,7 +131,7 @@ export default function PartnerPage() {
       />
 
       {/* ── Intro + Benefits — split ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 h-[60%] w-[45%] rounded-full opacity-50"
@@ -179,8 +171,8 @@ export default function PartnerPage() {
               {benefits.map((item) => (
                 <StaggerItem key={item.title}>
                   <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.1)] transition-shadow duration-500">
-                    <div className={`p-5 pb-4 bg-gradient-to-br ${item.bg}`}>
-                      <span className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br ${item.gradient} shadow-md`}>
+                    <div className="material-sample finish-shale p-5 pb-4">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary">
                         <item.icon className="h-5 w-5 text-white" aria-hidden />
                       </span>
                     </div>
@@ -197,7 +189,7 @@ export default function PartnerPage() {
       </section>
 
       {/* ── Stats banner — light ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -242,7 +234,7 @@ export default function PartnerPage() {
       </section>
 
       {/* ── Dealer form — light ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-white to-[#faf7f5]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-[10%] bottom-0 h-[60%] w-[40%] rounded-full"
@@ -258,7 +250,7 @@ export default function PartnerPage() {
 
           <div className="mx-auto max-w-[680px]">
             <TiltCard className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)]">
-              <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-500" />
+              <div className="h-1.5 bg-primary" />
               <div className="p-8 md:p-10">
                 <AnimatePresence mode="wait">
                   {submitted ? (
@@ -272,7 +264,7 @@ export default function PartnerPage() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                        className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-orange-500 text-white shadow-[0_8px_24px_rgba(211,47,47,0.35)]"
+                        className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white shadow-[0_8px_24px_rgba(211,47,47,0.35)]"
                       >
                         <CheckCircle2 className="h-8 w-8" aria-hidden />
                       </motion.span>

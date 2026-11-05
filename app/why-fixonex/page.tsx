@@ -53,28 +53,28 @@ const productCategories = [
     icon: Layers,
     title: "Tile Adhesives",
     text: "Five certified grades — from standard C1T interior adhesives to high-deformability C2TES2 formulations for pools and large-format porcelain.",
-    gradient: "from-primary to-orange-500",
+    finish: "finish-limestone",
     href: "/products/tiles-adhesive",
   },
   {
     icon: Star,
     title: "Epoxy Grout",
     text: "High-strength, stain-resistant epoxy grout in 20+ colours. Designed to work seamlessly alongside every FIXONEX adhesive grade.",
-    gradient: "from-teal-500 to-emerald-500",
+    finish: "finish-sage",
     href: "/products",
   },
   {
     icon: Building2,
     title: "Commercial Projects",
     text: "Large-format tiles, exterior facades, and high-traffic floors — FIXONEX delivers the bond strength and compliance documentation commercial projects demand.",
-    gradient: "from-violet-500 to-purple-500",
+    finish: "finish-slate",
     href: "/contact",
   },
   {
     icon: Home,
     title: "Residential Interiors",
     text: "From bathroom walls to living-room vitrified floors, our system approach gives architects and contractors one trusted source for adhesive and grout.",
-    gradient: "from-blue-500 to-indigo-500",
+    finish: "finish-slate",
     href: "/products",
   },
 ];
@@ -100,7 +100,7 @@ export default function WhyFixonexPage() {
       />
 
       {/* ── Quality & Expertise Combined ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute -right-[10%] top-[-10%] h-[60%] w-[50%] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)", filter: "blur(80px)" }} />
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
@@ -180,7 +180,7 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* ── Comprehensive Product Range ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full"
@@ -204,8 +204,8 @@ export default function WhyFixonexPage() {
                 <TransitionLink href={cat.href} className="group block h-full">
                   <TiltCard className="flex h-full flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.10)] transition-shadow duration-500">
                     <div className="p-7 pb-5">
-                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${cat.gradient} shadow-lg`}>
-                        <cat.icon className="h-6 w-6 text-white" aria-hidden />
+                      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl material-sample ${cat.finish}`}>
+                        <cat.icon className="h-6 w-6 text-primary" aria-hidden />
                       </span>
                     </div>
                     <div className="flex flex-1 flex-col px-7 pb-7 pt-2">
@@ -227,7 +227,7 @@ export default function WhyFixonexPage() {
       <CertificationsMarquee />
 
       {/* ── Built on Experience ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-lg relative z-10 grid gap-14 lg:grid-cols-2 lg:items-center">
           <SlideReveal direction="left">
@@ -327,13 +327,13 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* ── CTA card (plain surface — TiltCard’s 3D transform breaks nested link hit-testing here) ── */}
-      <section className="relative isolate z-[1] overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section className="relative isolate z-[1] overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>
             <div className="overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.07)] transition-shadow duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.095)]">
               <div className="p-8 md:p-12 text-center">
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-orange-500 shadow-lg mb-6">
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-primary shadow-lg mb-6">
                   <Star className="h-7 w-7 text-white" aria-hidden />
                 </span>
                 <h2 className="font-display text-2xl font-bold text-zinc-950">
@@ -353,7 +353,7 @@ export default function WhyFixonexPage() {
                   </Button>
                 </div>
               </div>
-              <div className="h-1.5 bg-gradient-to-r from-primary via-orange-500 to-amber-400" />
+              <div className="h-1.5 bg-primary" />
             </div>
           </FadeIn>
         </div>

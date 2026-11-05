@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppFrame } from "@/components/layout/AppFrame";
 import { BRAND } from "@/lib/brand";
-
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-display",
-  display: "swap",
-});
 
 const sans = Inter({
   subsets: ["latin"],
@@ -39,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} scroll-smooth antialiased`}>
+    <html lang="en" className={`${sans.variable} scroll-smooth antialiased`}>
       <body>
         <a href="#main-content" className="skip-to-main">
           Skip to main content

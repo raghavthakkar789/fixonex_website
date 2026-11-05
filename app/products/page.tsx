@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
@@ -31,12 +32,12 @@ function FadeIn({ children, delay = 0, className = "" }: { children: React.React
 }
 
 const guidanceRows: [string, string, string][] = [
-  ["Interior Ceramic Wall", "FIX 111 (C1T)", "from-rose-500/15 to-orange-400/10"],
-  ["Large Vitrified Floor", "FIX 333 (C2TE)", "from-blue-500/15 to-indigo-400/10"],
-  ["Exterior Facade", "FIX 444 or 555", "from-teal-500/15 to-emerald-400/10"],
-  ["Swimming Pool", "FIX 555 (C2TES2)", "from-cyan-500/15 to-sky-400/10"],
-  ["Metal / Plywood Substrate", "PU FIXO-999", "from-violet-500/15 to-purple-400/10"],
-  ["AAC Block Joints", "Block Joining Mortar", "from-amber-500/15 to-yellow-400/10"],
+  ["Interior Ceramic Wall", "FIX 111 (C1T)", "tiles-adhesive"],
+  ["Large Vitrified Floor", "FIX 333 (C2TE)", "tiles-adhesive"],
+  ["Exterior Facade", "FIX 444 or 555", "tiles-adhesive"],
+  ["Swimming Pool", "FIX 555 (C2TES2)", "tiles-adhesive"],
+  ["Metal / Plywood Substrate", "PU FIXO-999", "pu-fixo-999"],
+  ["AAC Block Joints", "Block Joining Mortar", "block-joining-mortar"],
 ];
 
 const overviewBullets = [
@@ -58,7 +59,7 @@ export default function ProductsPage() {
       />
 
       {/* ── Product Overview ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf8f6] to-[#f3f1ee]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[12%] top-[-15%] h-[75%] w-[55%] rounded-full"
@@ -122,7 +123,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ── Grades banner — white card ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-white to-[#f4f7fb]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>
@@ -139,16 +140,10 @@ export default function ProductsPage() {
                     From interior ceramics to swimming pools — one family covers every application.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-2">
-                    {[
-                      { code: "C1T", color: "bg-rose-50 text-rose-700 border-rose-200" },
-                      { code: "C2T", color: "bg-orange-50 text-orange-700 border-orange-200" },
-                      { code: "C2TE", color: "bg-teal-50 text-teal-700 border-teal-200" },
-                      { code: "C2TES1", color: "bg-blue-50 text-blue-700 border-blue-200" },
-                      { code: "C2TES2", color: "bg-violet-50 text-violet-700 border-violet-200" },
-                    ].map(({ code, color }) => (
+                    {["C1T", "C2T", "C2TE", "C2TES1", "C2TES2"].map((code) => (
                       <motion.span
                         key={code}
-                        className={`rounded-full border px-3 py-1 text-[11px] font-bold ${color}`}
+                        className="material-sample finish-limestone rounded-full border border-zinc-300 px-3 py-1 text-[11px] font-bold text-primary"
                         whileHover={{ scale: 1.08 }}
                         transition={{ duration: 0.2 }}
                       >
@@ -163,7 +158,7 @@ export default function ProductsPage() {
                 </span>
               </div>
               {/* Decorative strip */}
-              <div className="h-1.5 bg-gradient-to-r from-rose-500 via-orange-500 to-amber-500" />
+              <div className="h-1.5 bg-primary" />
               </TransitionLink>
             </div>
           </FadeIn>
@@ -174,7 +169,7 @@ export default function ProductsPage() {
       <ProductsShowcaseRow />
 
       {/* ── Selection Guide — light version ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#faf7f5] to-white">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 bottom-0 h-[60%] w-[45%] rounded-full"
@@ -197,7 +192,7 @@ export default function ProductsPage() {
             </p>
           </FadeIn>
           <div className="mt-10 overflow-hidden rounded-3xl border border-zinc-200/70 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
-            {guidanceRows.map(([surface, prod, gradient], i) => (
+            {guidanceRows.map(([surface, prod, slug], i) => (
               <motion.div
                 key={surface}
                 initial={{ opacity: 0, x: -16 }}
@@ -207,7 +202,7 @@ export default function ProductsPage() {
                 className="group grid gap-2 border-b border-zinc-100 px-6 py-4 text-sm sm:grid-cols-2 sm:items-center sm:gap-8 last:border-b-0 transition-colors duration-200 hover:bg-zinc-50/80"
               >
                 <div className="flex items-center gap-3">
-                  <div className={`h-7 w-7 shrink-0 rounded-lg bg-gradient-to-br ${gradient}`} />
+                  <div className={`h-7 w-7 shrink-0 rounded-lg material-sample ${productFinish(slug)}`} />
                   <span className="font-medium text-zinc-800">{surface}</span>
                 </div>
                 <div className="flex items-center gap-2 sm:border-l sm:border-zinc-100 sm:pl-6">

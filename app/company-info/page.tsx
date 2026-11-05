@@ -90,7 +90,7 @@ export default function CompanyLegalPage() {
         </div>
       </section>
 
-      <section id="legal-disclaimers" className="relative scroll-mt-24 border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section id="legal-disclaimers" className="relative scroll-mt-24 border-b border-zinc-200/40 collection-surface">
         <div className="site-container section-pad-lg">
           <div className="mx-auto max-w-3xl">
             <div className="mb-10 flex items-center gap-3">
@@ -169,7 +169,7 @@ export default function CompanyLegalPage() {
         </div>
       </section>
 
-      <section id="terms" className="relative scroll-mt-24 border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section id="terms" className="relative scroll-mt-24 border-b border-zinc-200/40 collection-surface">
         <div className="site-container section-pad-lg">
           <div className="mx-auto max-w-3xl">
             <div className="mb-10 flex items-center gap-3">

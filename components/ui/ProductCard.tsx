@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { motion } from "framer-motion";
 import { ArrowRight, Grid3X3, Package, Palette, Layers, Droplets, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -23,16 +24,6 @@ export type ProductCardProps = {
   index?: number;
 };
 
-const accentMap: Record<string, string> = {
-  "tile-adhesive": "from-rose-500/20 to-orange-400/10",
-  "epoxy-grout":   "from-teal-500/20 to-emerald-400/10",
-  "block-mortar":  "from-blue-500/20 to-indigo-400/10",
-  "pu-fixo":       "from-violet-500/20 to-purple-400/10",
-  "cleaner":       "from-cyan-500/20 to-sky-400/10",
-  "spacer":        "from-amber-500/20 to-yellow-400/10",
-  default:         "from-zinc-200/60 to-zinc-100/40",
-};
-
 const iconMap: Record<string, React.ElementType> = {
   "tile-adhesive": Grid3X3,
   "epoxy-grout":   Palette,
@@ -42,13 +33,6 @@ const iconMap: Record<string, React.ElementType> = {
   "spacer":        Maximize2,
   default:         Package,
 };
-
-function getAccent(slug: string): string {
-  for (const key of Object.keys(accentMap)) {
-    if (slug.includes(key)) return accentMap[key]!;
-  }
-  return accentMap["default"]!;
-}
 
 function getIcon(id?: string, slug?: string): React.ElementType {
   const key = id ?? slug ?? "";
@@ -69,7 +53,6 @@ export function ProductCard({
   image,
   index = 0,
 }: ProductCardProps) {
-  const accent = getAccent(slug);
   const Icon = getIcon(id, slug);
 
   return (
@@ -79,15 +62,15 @@ export function ProductCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease }}
     >
-      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)]">
+      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm material-card transition-shadow duration-500">
         <TransitionLink
           href={`/products/${slug}`}
           className="flex h-full min-h-0 flex-col rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
         >
         {/* Image zone */}
-        <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", accent)}>
+        <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 material-sample", productFinish(slug))}>
           {/* Badge */}
-          <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+          <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
             {badge}
           </span>
 

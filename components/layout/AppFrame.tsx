@@ -98,7 +98,7 @@ export function AppFrame({ children }: { children: React.ReactNode }) {
       <ScrollProgressIndicator />
       <Navbar />
       {/* Reserves the fixed navbar row (h-14) — hero starts below, never under the bar */}
-      <div className="h-14 shrink-0" aria-hidden />
+      <div className="h-[5.25rem] shrink-0" aria-hidden />
       <main
         id="main-content"
         tabIndex={-1}

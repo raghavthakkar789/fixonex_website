@@ -1,5 +1,6 @@
 "use client";
 
+import { productFinish } from "@/lib/product-finish";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Grid3X3, Layers } from "lucide-react";
 import { ProductCard } from "@/components/ui/ProductCard";
@@ -16,7 +17,7 @@ const specialty = products.filter((p) => p.familySlug !== "tiles-adhesive");
 
 export function ProductsShowcaseRow() {
   return (
-    <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+    <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
       {/* Ambient glows */}
       <div
         aria-hidden
@@ -52,14 +53,14 @@ export function ProductsShowcaseRow() {
         <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {/* ── Tile Adhesives — featured aggregate card ── */}
           <StaggerItem className="sm:col-span-2 lg:col-span-1">
-            <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+            <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm material-card transition-shadow duration-500">
               <TransitionLink
                 href="/products/tiles-adhesive"
                 className="flex h-full min-h-0 flex-col outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
               >
               {/* Image zone */}
-              <div className="relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br from-rose-500/20 to-orange-400/10">
-                <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+              <div className={`relative aspect-[5/3] overflow-hidden border-b border-zinc-100 material-sample ${productFinish("tiles-adhesive")}`}>
+                <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
                   5 Grades
                 </span>
                 <ImageWithFallback
