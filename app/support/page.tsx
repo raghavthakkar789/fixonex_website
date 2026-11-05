@@ -82,7 +82,7 @@ export default function SupportPage() {
       />
 
       {/* ── Installation Timeline ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 h-[60%] w-[40%] rounded-full"
@@ -115,7 +115,7 @@ export default function SupportPage() {
       </section>
 
       {/* ── How-to Guides ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full"
@@ -198,7 +198,7 @@ export default function SupportPage() {
       </section>
 
       {/* ── Safety ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#faf7f5] to-white">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div className="site-container section-pad-md relative z-10">
           <Reveal>
             <TiltCard className="overflow-hidden rounded-3xl border border-amber-200/70 bg-gradient-to-br from-amber-50 to-orange-50 shadow-[0_4px_24px_rgba(0,0,0,0.06)]">
@@ -228,7 +228,7 @@ export default function SupportPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section id="faq" className="scroll-mt-28 relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f8f5ff] to-[#f3f0ff] lg:scroll-mt-24">
+      <section id="faq" className="scroll-mt-28 relative overflow-hidden border-b border-zinc-200/40 collection-surface lg:scroll-mt-24">
         <div
           aria-hidden
           className="pointer-events-none absolute right-[-8%] top-[-10%] h-[50%] w-[45%]"
@@ -293,7 +293,7 @@ export default function SupportPage() {
       </section>
 
       {/* ── Still need help ── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#fdfcfb] to-white section-pad-md text-center">
+      <section className="relative overflow-hidden collection-surface section-pad-md text-center">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container relative z-10 mx-auto max-w-[560px]">
           <Reveal>

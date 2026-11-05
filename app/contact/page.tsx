@@ -86,7 +86,7 @@ export default function ContactPage() {
       />
 
       {/* Main form + info */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-white">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 h-[60%] w-[40%] rounded-full opacity-50"
@@ -374,7 +374,7 @@ export default function ContactPage() {
       </section>
 
       {/* ── Map — find us ──────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-white to-[#faf7f5]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <motion.div

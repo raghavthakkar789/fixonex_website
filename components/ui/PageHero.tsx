@@ -130,7 +130,7 @@ export function PageHero({
 
           <div className="overflow-hidden">
             <motion.h1
-              className="max-w-3xl font-display font-bold leading-[1.06] tracking-[-0.04em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+              className="max-w-3xl font-display font-semibold uppercase leading-[1.06] tracking-[-0.04em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
               style={{ fontSize: "clamp(2.2rem, 5vw, 3.75rem)" }}
               initial={reduced ? false : { y: "100%", opacity: 0 }}
               animate={{ y: "0%", opacity: 1 }}
@@ -150,7 +150,7 @@ export function PageHero({
           </motion.p>
 
           <motion.div
-            className="mt-8 h-[3px] w-16 rounded-full bg-gradient-to-r from-primary to-orange-500"
+            className="mt-8 h-px w-20 bg-white/80"
             initial={reduced ? false : { scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
             style={{ transformOrigin: "left" }}

@@ -82,7 +82,7 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
         ref={ref}
         className={cn(
           /* Same footprint as pre-carousel home hero (commit 7e9b23f); navbar uses spacer in AppFrame */
-          "relative h-[100svh] min-h-[100svh] w-full overflow-hidden text-white",
+          "relative h-[calc(100svh-5.25rem)] min-h-[34rem] w-full overflow-hidden text-white",
           className,
         )}
         aria-roledescription="carousel"
@@ -215,7 +215,7 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
             className={cn(
               "absolute inset-0 z-10 flex flex-col",
               isBrand
-                ? "items-center justify-center px-4 text-center"
+                ? "items-center justify-end px-5 pb-20 text-center sm:pb-16"
                 : "justify-end pb-24 text-left sm:pb-28 md:pb-32 lg:pb-36 xl:pb-44",
             )}
           >
@@ -234,7 +234,7 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
                   transition={{ duration: 0.35, ease: easeExpo }}
                 >
                     <motion.p
-                      className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-primary drop-shadow-md"
+                      className="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-white/90 drop-shadow-md"
                       initial={reduced ? false : { opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, ease: easeExpo, delay: 0.2 }}
@@ -243,8 +243,8 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
                     </motion.p>
 
                     <h1
-                      className="font-display font-black tracking-[-0.03em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
-                      style={{ fontSize: "clamp(3rem, 8vw, 6.5rem)", lineHeight: 1.05 }}
+                      className="font-display font-semibold uppercase tracking-[-0.03em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+                      style={{ fontSize: "clamp(2rem, 5.4vw, 5rem)", lineHeight: 1.05 }}
                     >
                       <div className="overflow-hidden">
                         <motion.span
@@ -259,7 +259,7 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
                       {slide.titleLine2 ? (
                         <div className="overflow-hidden">
                           <motion.span
-                            className="block text-primary"
+                            className="block text-white"
                             initial={reduced ? false : { y: "100%" }}
                             animate={{ y: "0%" }}
                             transition={{ duration: 0.75, ease: easeExpo, delay: 0.42 }}
@@ -287,7 +287,7 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
                     >
                       <TransitionLink
                         href={slide.primaryCta.href}
-                        className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-white shadow-[0_8px_28px_rgba(211,47,47,0.5)] transition-all hover:bg-primary/90"
+                        className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-white border border-white/50 transition-all hover:bg-primary/90"
                       >
                         {slide.primaryCta.label}{" "}
                         <ArrowRight className="h-4 w-4" aria-hidden />
@@ -316,28 +316,28 @@ export const HomeHeroCarousel = forwardRef<HTMLElement, HomeHeroCarouselProps>(
                     transition={textTransition}
                     className="flex w-full max-w-none flex-col items-start"
                   >
-                    <p className="mb-3 font-bold uppercase tracking-[0.22em] text-primary drop-shadow-md text-[10px] sm:text-[11px]">
+                    <p className="mb-3 font-bold uppercase tracking-[0.22em] text-white/90 drop-shadow-md text-[10px] sm:text-[11px]">
                       {slide.eyebrow}
                     </p>
 
                     <h1
-                      className="font-display font-bold tracking-[-0.03em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
-                      style={{ fontSize: "clamp(1.25rem, 3.8vw, 2.35rem)", lineHeight: 1.12 }}
+                      className="font-display font-semibold uppercase tracking-[-0.03em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+                      style={{ fontSize: "clamp(1.55rem, 3.8vw, 3.5rem)", lineHeight: 1.12 }}
                     >
                       <span className="block text-white">{slide.titleLine1}</span>
                       {slide.titleLine2 ? (
-                        <span className="mt-1 block text-primary">{slide.titleLine2}</span>
+                        <span className="mt-1 block text-white">{slide.titleLine2}</span>
                       ) : null}
                     </h1>
 
-                    <p className="mt-3 w-full max-w-none text-left text-pretty text-sm leading-relaxed text-zinc-200 drop-shadow-md sm:mt-4 sm:text-[15px] sm:leading-[1.65]">
+                    <p className="mt-3 w-full max-w-2xl text-left text-pretty text-sm leading-relaxed text-zinc-200 drop-shadow-md sm:mt-4 sm:text-[15px] sm:leading-[1.65]">
                       {slide.description}
                     </p>
 
                     <div className="mt-5 flex flex-wrap justify-start gap-3 sm:mt-6">
                       <TransitionLink
                         href={slide.primaryCta.href}
-                        className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white shadow-[0_8px_28px_rgba(211,47,47,0.5)] transition-all hover:bg-primary/90 sm:px-6 sm:py-3 sm:text-sm"
+                        className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-xs font-bold text-white border border-white/50 transition-all hover:bg-primary/90 sm:px-6 sm:py-3 sm:text-sm"
                       >
                         {slide.primaryCta.label} <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
                       </TransitionLink>

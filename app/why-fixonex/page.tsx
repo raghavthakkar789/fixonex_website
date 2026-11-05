@@ -100,7 +100,7 @@ export default function WhyFixonexPage() {
       />
 
       {/* ── Quality & Expertise Combined ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute -right-[10%] top-[-10%] h-[60%] w-[50%] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)", filter: "blur(80px)" }} />
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
@@ -180,7 +180,7 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* ── Comprehensive Product Range ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full"
@@ -227,7 +227,7 @@ export default function WhyFixonexPage() {
       <CertificationsMarquee />
 
       {/* ── Built on Experience ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-lg relative z-10 grid gap-14 lg:grid-cols-2 lg:items-center">
           <SlideReveal direction="left">
@@ -327,7 +327,7 @@ export default function WhyFixonexPage() {
       </section>
 
       {/* ── CTA card (plain surface — TiltCard’s 3D transform breaks nested link hit-testing here) ── */}
-      <section className="relative isolate z-[1] overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section className="relative isolate z-[1] overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>

@@ -54,15 +54,7 @@ export function SimplePageHero({
           className={cn("object-cover object-center", imageClassName)}
         />
       </div>
-      {/* Dark translucent blur between image and copy — improves contrast without killing the photo */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute inset-0 z-[1]",
-          "bg-black/30 backdrop-blur-md sm:backdrop-blur-lg",
-          "supports-[backdrop-filter]:bg-black/25",
-        )}
-      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black/75 via-black/45 to-black/20" />
       {/* Light edge falloff for readability on busy imagery */}
       <div
         aria-hidden
@@ -99,7 +91,7 @@ export function SimplePageHero({
           <p className="eyebrow-label mb-5 text-white/95 drop-shadow-md">{label}</p>
 
           <h1
-            className="max-w-3xl font-display font-bold leading-[1.06] tracking-[-0.04em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
+            className="max-w-3xl font-display font-semibold uppercase leading-[1.06] tracking-[-0.04em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]"
             style={{ fontSize: "clamp(2.2rem, 5vw, 3.75rem)" }}
           >
             {titleLine1}
@@ -109,7 +101,7 @@ export function SimplePageHero({
 
           <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-zinc-200 drop-shadow-md">{subtitle}</p>
 
-          <div className="mt-8 h-[3px] w-16 rounded-full bg-gradient-to-r from-primary to-orange-500" />
+          <div className="mt-8 h-px w-20 bg-white/80" />
         </div>
       </div>
 

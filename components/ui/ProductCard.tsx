@@ -24,12 +24,12 @@ export type ProductCardProps = {
 };
 
 const accentMap: Record<string, string> = {
-  "tile-adhesive": "from-rose-500/20 to-orange-400/10",
-  "epoxy-grout":   "from-teal-500/20 to-emerald-400/10",
-  "block-mortar":  "from-blue-500/20 to-indigo-400/10",
-  "pu-fixo":       "from-violet-500/20 to-purple-400/10",
-  "cleaner":       "from-cyan-500/20 to-sky-400/10",
-  "spacer":        "from-amber-500/20 to-yellow-400/10",
+  "tile-adhesive": "from-[#e6e1db] to-[#f4f1ed]",
+  "epoxy-grout":   "from-[#d9dcd5] to-[#eef0ec]",
+  "block-mortar":  "from-[#dbd5d9] to-[#f1eef0]",
+  "pu-fixo":       "from-[#dbd5d9] to-[#f1eef0]",
+  "cleaner":       "from-[#d9dcd5] to-[#eef0ec]",
+  "spacer":        "from-[#e6e1db] to-[#f4f1ed]",
   default:         "from-zinc-200/60 to-zinc-100/40",
 };
 
@@ -79,7 +79,7 @@ export function ProductCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.55, delay: index * 0.08, ease }}
     >
-      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-shadow duration-500 hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)]">
+      <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm border border-zinc-200 bg-white transition-shadow duration-500 hover:shadow-sm">
         <TransitionLink
           href={`/products/${slug}`}
           className="flex h-full min-h-0 flex-col rounded-[inherit] outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2"
@@ -87,7 +87,7 @@ export function ProductCard({
         {/* Image zone */}
         <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", accent)}>
           {/* Badge */}
-          <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+          <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
             {badge}
           </span>
 

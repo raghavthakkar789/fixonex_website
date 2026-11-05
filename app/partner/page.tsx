@@ -139,7 +139,7 @@ export default function PartnerPage() {
       />
 
       {/* ── Intro + Benefits — split ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 h-[60%] w-[45%] rounded-full opacity-50"
@@ -197,7 +197,7 @@ export default function PartnerPage() {
       </section>
 
       {/* ── Stats banner — light ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -242,7 +242,7 @@ export default function PartnerPage() {
       </section>
 
       {/* ── Dealer form — light ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-white to-[#faf7f5]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -right-[10%] bottom-0 h-[60%] w-[40%] rounded-full"

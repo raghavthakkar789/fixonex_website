@@ -3,14 +3,15 @@
 @tailwind utilities;
 
 :root {
+  --font-display: var(--font-body);
   --fx-bg: #faf7f5;
   --fx-bg-cool: #f4f7fb;
   --fx-fg: #18181b;
-  --fx-brand: #d32f2f;
-  --fx-brand-strong: #b71c1c;
+  --fx-brand: #352934;
+  --fx-brand-strong: #251d24;
   --fx-accent-warm: #ea580c;
   --fx-accent-cool: #0d9488;
-  --fx-focus: #ea580c;
+  --fx-focus: #796779;
   --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-circ: cubic-bezier(0.0, 0.0, 0.2, 1);
@@ -469,9 +470,9 @@
 
 @layer components {
   .site-container {
-    width: min(100%, 1200px);
+    width: min(100%, 1600px);
     margin-inline: auto;
-    padding-inline: clamp(1rem, 3.8vw, 1.85rem);
+    padding-inline: clamp(1.25rem, 4vw, 4rem);
   }
 
   .section-pad-lg {
@@ -702,4 +703,14 @@
   .text-shimmer-white {
     animation: none;
   }
+}
+
+/* Light gallery surfaces keep the product photography and specifications in focus. */
+.collection-surface { background: #faf9f7; }
+.collection-surface:nth-of-type(even) { background: white; }
+.collection-surface > [aria-hidden="true"][class*="absolute"] { display: none; }
+.collection-surface h2 {
+  font-weight: 600;
+  text-transform: uppercase;
+  text-wrap: balance;
 }

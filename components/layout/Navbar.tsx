@@ -29,15 +29,8 @@ const pillLinks = [
 export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const reduced = useReducedMotion();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -48,43 +41,11 @@ export function Navbar() {
 
   return (
     <>
-      {/* ── Wrapper: transitions padding from 0 (top) → px-4 pt-3 (scrolled) ── */}
-      <motion.div
-        className="fixed left-0 right-0 top-0 z-[100] flex justify-center"
-        animate={
-          scrolled
-            ? { paddingLeft: 16, paddingRight: 16, paddingTop: 12 }
-            : { paddingLeft: 0, paddingRight: 0, paddingTop: 0 }
-        }
-        transition={{ duration: 0.45, ease: easeExpo }}
-      >
-        <motion.header
-          className={cn(
-            "relative w-full overflow-visible",
-            // CSS transitions handle appearance; Framer Motion handles geometry
-            "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300",
-            scrolled
-              ? "border border-zinc-200/80 bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.10)] backdrop-blur-xl"
-              : "border-b border-zinc-200/60 bg-white/85 backdrop-blur-md shadow-none",
-          )}
-          animate={
-            scrolled
-              ? { borderRadius: 16, maxWidth: 1024 }
-              : { borderRadius: 0, maxWidth: 9999 }
-          }
-          transition={{ duration: 0.45, ease: easeExpo }}
-        >
-          {/* Top red accent line — fades in on scroll */}
-          <motion.div
-            className="absolute left-4 right-4 top-0 h-[2px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, #D32F2F 40%, #ea580c 60%, transparent)",
-            }}
-            animate={{ opacity: scrolled ? 1 : 0 }}
-            transition={{ duration: 0.35, ease: easeExpo }}
-          />
-
+      <div className="fixed inset-x-0 top-0 z-[100]">
+        <header className="relative border-b border-zinc-200 bg-white">
+          <div className="flex h-7 items-center justify-center bg-primary text-xs italic tracking-wide text-white">
+            {BRAND.tagline}
+          </div>
           <div className="flex h-14 items-center gap-3 px-4 md:px-6">
 
             {/* ── Logo ── */}
@@ -107,12 +68,7 @@ export function Navbar() {
 
             {/* ── Center pill nav — desktop ── */}
             <nav className="mx-auto hidden lg:flex" aria-label="Primary">
-              <div
-                className={cn(
-                  "flex items-center gap-0.5 rounded-xl px-1 py-1 transition-colors duration-300",
-                  scrolled ? "bg-zinc-100/80" : "bg-zinc-100/50",
-                )}
-              >
+              <div className="flex items-center gap-1">
                 {pillLinks.map((item) => {
                   const on = activeFor(pathname, item.href);
                   return (
@@ -127,7 +83,7 @@ export function Navbar() {
                       {on && (
                         <motion.span
                           layoutId="nav-pill"
-                          className="absolute inset-0 -z-[1] rounded-lg bg-white shadow-sm ring-1 ring-zinc-200/80"
+                          className="absolute inset-x-3 bottom-0 h-px bg-primary"
                           transition={{ type: "spring", stiffness: 420, damping: 38 }}
                         />
                       )}
@@ -307,8 +263,8 @@ export function Navbar() {
               </motion.nav>
             )}
           </AnimatePresence>
-        </motion.header>
-      </motion.div>
+        </header>
+      </div>
     </>
   );
 }

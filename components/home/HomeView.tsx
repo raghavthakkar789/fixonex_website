@@ -65,20 +65,20 @@ const productRange = [
     icon: Grid3X3,
     badge: "Pro Grade",
     desc: "Five certified grades — interior to heavy industrial.",
-    href: "/products",
+    href: "/products/tiles-adhesive",
     techHref: "/products/tiles-adhesive",
     image: productImageUrls.fix111,
-    accent: "from-rose-500/20 to-orange-400/10",
+    accent: "from-[#e6e1db] to-[#f4f1ed]",
   },
   {
     title: "Epoxy grout",
     icon: Palette,
     badge: "Designer range",
     desc: "Stain-resistant, broad colour palette, pool to kitchen.",
-    href: "/products",
+    href: "/products/epoxy-grout",
     techHref: "/products/epoxy-grout",
     image: productImageUrls.epoxyGrout,
-    accent: "from-teal-500/20 to-emerald-400/10",
+    accent: "from-[#d9dcd5] to-[#eef0ec]",
   },
   {
     title: "Specialty line",
@@ -86,9 +86,9 @@ const productRange = [
     badge: "Full system",
     desc: "Block mortar, ancillary lines & cleaners — coordinated.",
     href: "/products",
-    techHref: "/products/tiles-adhesive/fix-555",
+    techHref: "/products/block-joining-mortar",
     image: productImageUrls.blockMortar,
-    accent: "from-blue-500/20 to-indigo-400/10",
+    accent: "from-[#dbd5d9] to-[#f1eef0]",
   },
 ] as const;
 
@@ -99,12 +99,6 @@ const pillars = [
   { icon: Headset, title: "People who answer", text: "Spec-to-site continuity — one accountable team." },
 ] as const;
 
-const pillarIconShell = [
-  "bg-gradient-to-br from-[#b91c1c] to-[#ea580c] text-white",
-  "bg-gradient-to-br from-teal-600 to-emerald-400 text-white",
-  "bg-gradient-to-br from-[#075985] to-[#0369a1] text-white",
-  "bg-gradient-to-br from-[#7c3aed] to-[#4338ca] text-white",
-] as const;
 
 const processSteps = [
   { step: "01", title: "Brief your site", body: "Substrate, tile size, circulation, exposure — captured like a checklist.", Icon: ClipboardList },
@@ -146,57 +140,8 @@ export function HomeView() {
     <>
       <HomeHeroCarousel />
 
-      {/* ─── Value Pillars ──────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/50 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
-        {/* Background pattern */}
-        <div aria-hidden className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-          backgroundImage: "radial-gradient(rgba(0,0,0,0.8) 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }} />
-        <div aria-hidden className="absolute -right-[15%] top-[-20%] h-[60%] w-[50%] rounded-full pointer-events-none" style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }} />
-
-        <div className="site-container section-pad-lg">
-          <Reveal>
-            <div className="max-w-xl">
-              <p className="eyebrow-label mb-5">Differentiator</p>
-              <h2 className="font-display font-bold text-zinc-950" style={{ fontSize: "clamp(1.9rem, 4vw, 3rem)", lineHeight: 1.1, letterSpacing: "-0.04em" }}>
-                Why teams anchor projects to FIXONEX.
-              </h2>
-              <LineReveal className="mt-6 mb-0 bg-zinc-200" delay={0.3} />
-            </div>
-          </Reveal>
-
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {pillars.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-8%" }}
-                transition={{ duration: 0.7, ease: easeExpo, delay: i * 0.1 }}
-              >
-                <TiltCard className="group flex h-full flex-col overflow-hidden rounded-3xl border border-zinc-200/70 bg-white p-6 shadow-[0_2px_16px_rgba(0,0,0,0.05)] transition-shadow hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] md:p-7">
-                  <motion.span
-                    className={cn("inline-flex rounded-2xl p-4 shadow-lg", pillarIconShell[i])}
-                    whileHover={{ scale: 1.1, rotate: 3 }}
-                    transition={{ duration: 0.3, ease: easeExpo }}
-                  >
-                    <item.icon className="h-7 w-7" strokeWidth={1.75} aria-hidden />
-                  </motion.span>
-                  <h3 className="mt-6 font-display text-lg font-semibold text-zinc-900 group-hover:text-primary transition-colors duration-300">{item.title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-zinc-600">{item.text}</p>
-                </TiltCard>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── Catalogue ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f0f7ff] via-[#f4f7fb] to-[#eef2f8]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="absolute -left-[10%] top-[-10%] h-[50%] w-[40%] pointer-events-none" style={{
           background: "radial-gradient(circle, rgba(13,148,136,0.08) 0%, transparent 70%)",
           filter: "blur(80px)",
@@ -208,7 +153,7 @@ export function HomeView() {
               <div>
                 <p className="eyebrow-label-muted mb-4">Solutions</p>
                 <h2 className="font-display font-bold text-zinc-900" style={{ fontSize: "clamp(1.8rem, 3.8vw, 2.7rem)", letterSpacing: "-0.04em", lineHeight: 1.12 }}>
-                  Built for exterior, podium, interior.
+                  Explore the product range.
                 </h2>
               </div>
             </Reveal>
@@ -223,9 +168,9 @@ export function HomeView() {
           <Stagger className="grid gap-6 md:grid-cols-3">
             {productRange.map((c, i) => (
               <StaggerItem key={c.title}>
-                <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-white/90 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.12)] transition-shadow duration-500">
+                <TiltCard className="group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-sm border border-zinc-200 bg-white hover:shadow-sm transition-shadow duration-500">
                   <div className={cn("relative aspect-[5/3] overflow-hidden border-b border-zinc-100 bg-gradient-to-br", c.accent)}>
-                    <span className="absolute left-4 top-4 z-[1] rounded-full bg-gradient-to-br from-orange-600 to-orange-700 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
+                    <span className="absolute left-4 top-4 z-[1] rounded-sm bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow-md">
                       {c.badge}
                     </span>
                     <ImageWithFallback
@@ -257,7 +202,7 @@ export function HomeView() {
                         <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
                       </span>
                       <TransitionLink href={c.techHref} className="relative z-[2] text-[12px] font-semibold uppercase tracking-[0.12em] text-zinc-400 hover:text-zinc-700 transition-colors">
-                        Spec PDF
+                        Product details
                       </TransitionLink>
                     </div>
                   </div>
@@ -268,8 +213,24 @@ export function HomeView() {
         </div>
       </section>
 
+      <section className="border-y border-zinc-200 bg-white">
+        <div className="site-container section-pad-md">
+          <p className="eyebrow-label mb-4">On site</p>
+          <h2 className="font-display text-3xl font-semibold uppercase text-primary">Why specify FIXONEX?</h2>
+          <div className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {pillars.map((item, i) => (
+              <article key={item.title} className="border-t border-zinc-300 pt-4">
+                <span className="text-xs tracking-widest text-mid">0{i + 1}</span>
+                <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm">{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── Process ────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fafafa] to-[#f5f5f5]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="absolute right-0 top-0 h-full w-1/2 pointer-events-none" style={{
           background: "linear-gradient(135deg, transparent 0%, rgba(211,47,47,0.04) 100%)",
         }} />
@@ -292,13 +253,6 @@ export function HomeView() {
             {/* Steps grid */}
             <div className="grid max-w-2xl flex-1 gap-5 sm:grid-cols-2">
               {processSteps.map((s, i) => {
-                const accents = [
-                  { border: "border-l-teal-500", step: "bg-teal-800", icon: "text-teal-700" },
-                  { border: "border-l-orange-500", step: "bg-gradient-to-br from-orange-600 to-orange-800", icon: "text-orange-700" },
-                  { border: "border-l-blue-500", step: "bg-[#0369a1]", icon: "text-blue-800" },
-                  { border: "border-l-violet-500", step: "bg-gradient-to-br from-violet-700 to-indigo-700", icon: "text-violet-800" },
-                ];
-                const a = accents[i]!;
                 return (
                   <motion.div
                     key={s.step}
@@ -307,16 +261,13 @@ export function HomeView() {
                     viewport={{ once: true, margin: "-8%" }}
                     transition={{ duration: 0.7, ease: easeExpo, delay: i * 0.1 }}
                     whileHover={{ y: -3 }}
-                    className={cn(
-                      "group rounded-3xl border border-l-[4px] bg-white p-5 shadow-[0_2px_16px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_36px_rgba(0,0,0,0.09)] transition-shadow duration-400",
-                      a.border,
-                    )}
+                    className="group border-t border-zinc-300 py-5"
                   >
                     <div className="flex items-start justify-between gap-3 border-b border-zinc-100 pb-3">
-                      <span className={cn("rounded-full px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white", a.step)}>
+                      <span className="font-display text-sm tracking-widest text-primary">
                         {s.step}
                       </span>
-                      <s.Icon className={cn("h-5 w-5 shrink-0 transition-transform group-hover:scale-110 duration-300", a.icon)} aria-hidden />
+                      <s.Icon className="h-5 w-5 shrink-0 text-primary" aria-hidden />
                     </div>
                     <h3 className="mt-4 font-display text-lg font-semibold text-zinc-950">{s.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-zinc-600">{s.body}</p>
@@ -329,7 +280,7 @@ export function HomeView() {
       </section>
 
       {/* ─── Specification assist ───────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-br from-[#f0fdf9] via-[#f5f5f5] to-[#eef8ff]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute left-0 top-0 h-full w-1/2" style={{
           background: "radial-gradient(ellipse 80% 60% at 0% 50%, rgba(13,148,136,0.06) 0%, transparent 70%)",
         }} />
@@ -428,7 +379,7 @@ export function HomeView() {
       <CertificationsMarquee />
 
       {/* ─── Testimonials ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdf9ff] via-[#f8f5ff] to-[#f4f0ff]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute -left-[10%] top-0 h-[60%] w-[40%] rounded-full" style={{
           background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)",
           filter: "blur(80px)",
@@ -468,7 +419,7 @@ export function HomeView() {
       </section>
 
       {/* ─── FAQ ────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#f8f5ff] to-[#f3f0ff]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute right-[-8%] top-[-10%] h-[50%] w-[45%]" style={{
           background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)",
           filter: "blur(80px)",
@@ -556,7 +507,7 @@ export function HomeView() {
       </section>
 
       {/* ─── CTA ────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#fdfcfb] via-[#fff7f7] to-[#faf0f0]">
+      <section className="relative overflow-hidden collection-surface">
         {/* Animated orbs — light mode */}
         <div aria-hidden className="pointer-events-none absolute -right-[20%] top-[-20%] h-[80%] w-[60%] orb-drift-2" style={{
           background: "radial-gradient(circle, rgba(211,47,47,0.1) 0%, transparent 65%)",

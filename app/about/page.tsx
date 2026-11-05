@@ -75,7 +75,7 @@ export default function AboutPage() {
       />
 
       {/* ── Who We Are ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute -right-[10%] top-[-10%] h-[60%] w-[50%] rounded-full"
           style={{ background: "radial-gradient(circle, rgba(211,47,47,0.06) 0%, transparent 70%)", filter: "blur(80px)" }} />
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
@@ -149,7 +149,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Building a Better Tiling Experience ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-lg relative z-10 grid gap-14 lg:grid-cols-2 lg:items-center">
           <SlideReveal direction="left">
@@ -245,7 +245,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Certifications ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <Reveal className="mb-10 text-center">
@@ -304,7 +304,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Always Ready to Help ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>

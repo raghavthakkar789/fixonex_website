@@ -61,38 +61,8 @@ export function Footer() {
   return (
     <footer
       ref={ref}
-      className="relative overflow-hidden border-t border-zinc-200/60 bg-gradient-to-b from-[#fdfcfb] to-[#f8f5f2] text-zinc-700"
+      className="relative overflow-hidden border-t border-zinc-200/60 bg-[#f1efed] text-zinc-700"
     >
-      {/* Top glow line */}
-      <div
-        aria-hidden
-        className="absolute left-[6%] right-[6%] top-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent, rgba(211,47,47,0.4) 50%, transparent)",
-        }}
-      />
-
-      {/* Background orbs */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-[15%] top-[-10%] h-[60%] w-[50%] rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(211,47,47,0.05) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-[10%] bottom-[-10%] h-[50%] w-[45%] rounded-full"
-        style={{
-          background: "radial-gradient(circle, rgba(234,88,12,0.04) 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
-      />
-
-      {/* Dot grid */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-30" />
-
       <div className="site-container pb-14 pt-16 relative z-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
 

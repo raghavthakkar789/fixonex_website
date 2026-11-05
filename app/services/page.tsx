@@ -72,7 +72,7 @@ export default function ServicePage() {
       {/* ── Product guidance (tile adhesive selector) ───────────────────── */}
       <section
         id="product-guidance"
-        className="scroll-mt-20 relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-br from-[#f8f9ff] via-white to-[#f0fdf9]"
+        className="scroll-mt-20 relative overflow-hidden border-b border-zinc-200/40 collection-surface"
       >
         {/* Background glow */}
         <div

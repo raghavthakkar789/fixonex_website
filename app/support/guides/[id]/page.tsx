@@ -59,7 +59,7 @@ export default async function SupportGuideArticlePage({ params }: Props) {
         ]}
       />
 
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf7f5] to-[#f8f5f2]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 top-0 h-[55%] w-[42%] rounded-full"

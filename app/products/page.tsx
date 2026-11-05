@@ -58,7 +58,7 @@ export default function ProductsPage() {
       />
 
       {/* ── Product Overview ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#fdfcfb] via-[#faf8f6] to-[#f3f1ee]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute -left-[12%] top-[-15%] h-[75%] w-[55%] rounded-full"
@@ -122,7 +122,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ── Grades banner — white card ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-white to-[#f4f7fb]">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div aria-hidden className="pointer-events-none absolute inset-0 dot-grid-subtle opacity-40" />
         <div className="site-container section-pad-md relative z-10">
           <FadeIn>
@@ -174,7 +174,7 @@ export default function ProductsPage() {
       <ProductsShowcaseRow />
 
       {/* ── Selection Guide — light version ── */}
-      <section className="relative overflow-hidden border-b border-zinc-200/40 bg-gradient-to-b from-[#faf7f5] to-white">
+      <section className="relative overflow-hidden border-b border-zinc-200/40 collection-surface">
         <div
           aria-hidden
           className="pointer-events-none absolute right-0 bottom-0 h-[60%] w-[45%] rounded-full"
